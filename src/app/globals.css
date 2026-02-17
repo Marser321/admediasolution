@@ -1,0 +1,408 @@
+@import url('https://fonts.cdnfonts.com/css/nexa-bold');
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-inter);
+  --font-display: 'Nexa Bold', 'Nexa', var(--font-inter), sans-serif;
+  --font-display-light: 'Nexa Light', 'Nexa', var(--font-inter), sans-serif;
+  --font-mono: var(--font-geist-mono);
+
+  /* === Brand Identity: Neon & Charcoal === */
+  /* Strict 3-Tone Palette */
+  --color-bg-charcoal: #0a0a0a;
+  /* Deepest Charcoal */
+  --color-accent-neon: #00d4e6;
+  /* Refined Cyan (atenuado para evitar quemado) */
+  --color-text-white: #ffffff;
+  /* Pure White */
+
+  /* Compatibility aliases */
+  --color-bg-deep: var(--color-bg-charcoal);
+  --color-bg-surface: #121212;
+  --color-bg-card: #18181b;
+  --color-accent-blue: var(--color-accent-neon);
+  --color-accent-light: #38bdf8;
+  /* Sky Blue for accents */
+  --color-accent-warm: #f59e0b;
+  /* Amber for highlights */
+  --color-text-primary: #ffffff;
+  --color-text-muted: #a1a1aa;
+  /* Zinc-400 for secondary text */
+
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+}
+
+/* ===================================================================
+   BRAND MODE — Solution Agency (Recalibrated)
+   Palette: Charcoal #0a0a0a + Neon Blue #00f3ff + White
+   =================================================================== */
+
+:root {
+  --radius: 0.5rem;
+  --background: #050505;
+  --foreground: #ffffff;
+  --card: #18181b;
+  /* Solid dark for maximum contrast */
+  --card-foreground: #ffffff;
+  --popover: #121212;
+  --popover-foreground: #ffffff;
+  --primary: #00d4e6;
+  --primary-foreground: #000000;
+  --secondary: #18181b;
+  --secondary-foreground: #ffffff;
+  --muted: #27272a;
+  --muted-foreground: #a1a1aa;
+  --accent: #27272a;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --border: rgba(0, 243, 255, 0.2);
+  --input: rgba(0, 243, 255, 0.1);
+  --ring: #00d4e6;
+  --chart-1: #00d4e6;
+  --chart-2: #38bdf8;
+  --chart-3: #e2e8f0;
+  --chart-4: #94a3b8;
+  --chart-5: #1e293b;
+  --sidebar: #050505;
+  --sidebar-foreground: #ffffff;
+  --sidebar-primary: #00d4e6;
+  --sidebar-primary-foreground: #000000;
+  --sidebar-accent: #121212;
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: rgba(0, 243, 255, 0.2);
+  --sidebar-ring: #00d4e6;
+}
+
+.dark {
+  --background: #050505;
+  --foreground: #ffffff;
+  --card: #18181b;
+  /* Solid dark */
+  --card-foreground: #ffffff;
+  --popover: #121212;
+  --popover-foreground: #ffffff;
+  --primary: #00d4e6;
+  --primary-foreground: #000000;
+  --secondary: #18181b;
+  --secondary-foreground: #ffffff;
+  --muted: #27272a;
+  --muted-foreground: #a1a1aa;
+  --accent: #27272a;
+  --accent-foreground: #ffffff;
+  --destructive: #ef4444;
+  --border: rgba(0, 243, 255, 0.2);
+  --input: rgba(0, 243, 255, 0.1);
+  --ring: #00d4e6;
+}
+
+@layer utilities {
+  .animate-pulse-slow {
+    animation: pulse-slow 10s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .animate-grain {
+    animation: grain-flow 8s steps(10) infinite;
+  }
+
+  .orb-glow {
+    position: absolute;
+    width: 600px;
+    height: 600px;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.15;
+    z-index: 0;
+    pointer-events: none;
+    mix-blend-mode: screen;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+}
+
+@keyframes pulse-slow {
+
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+
+  50% {
+    opacity: 0.4;
+    transform: scale(1.1);
+  }
+}
+
+@keyframes grain-flow {
+
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+
+  10% {
+    transform: translate(-5%, -5%);
+  }
+
+  20% {
+    transform: translate(-10%, 5%);
+  }
+
+  30% {
+    transform: translate(5%, -10%);
+  }
+
+  40% {
+    transform: translate(-5%, 15%);
+  }
+
+  50% {
+    transform: translate(-10%, 5%);
+  }
+
+  60% {
+    transform: translate(15%, 0);
+  }
+
+  70% {
+    transform: translate(0, 10%);
+  }
+
+  80% {
+    transform: translate(3%, 35%);
+  }
+
+  90% {
+    transform: translate(-10%, 10%);
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html,
+  body {
+    background-color: #050505 !important;
+    /* FORCE DARK MODE */
+    color: #ffffff !important;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    overflow-x: hidden;
+  }
+
+  /* Scrollbar Quiet Luxury */
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #0a0a0a;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #27272a;
+    border-radius: 3px;
+    border: 1px solid #0a0a0a;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #00f3ff;
+  }
+
+  /* Smooth scroll global */
+  html {
+    scroll-behavior: smooth;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display tracking-tight text-foreground;
+  }
+}
+
+/* === FONT DISPLAY HEAVY — Synthetic Extra Bold ===
+   CDNFonts Nexa solo tiene 300/700; esto simula 900 */
+.font-display-heavy {
+  font-family: var(--font-display);
+  font-weight: 700;
+  -webkit-text-stroke: 0.6px currentColor;
+  letter-spacing: -0.025em;
+  text-rendering: geometricPrecision;
+}
+
+/* ===================================================================
+   TEXTURES & MATERIALS — "Stitch" Inspired
+   =================================================================== */
+
+/* Digital Grid Pattern */
+.texture-travertine {
+  position: relative;
+  background-size: 50px 50px;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+}
+
+.texture-travertine::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, transparent 0%, #0a0a0a 100%);
+  pointer-events: none;
+}
+
+/* Animated Grain Overlay */
+.bg-noise {
+  position: fixed;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  pointer-events: none;
+  z-index: 50;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  animation: grain-flow 8s steps(10) infinite;
+  mix-blend-mode: overlay;
+}
+
+/* Glass Tech (Cold Frost) */
+/* Glass Tech (Cold Frost) */
+/* .glass-warm removed as unused */
+
+/* Glass Tech Premium (Updated) */
+/* Glass Tech Premium (Updated) */
+.glass-premium {
+  background: rgba(10, 10, 10, 0.5);
+  /* Much darker for legibility */
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  /* Border with linear gradient simulation */
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+  border-right: 1px solid rgba(255, 255, 255, 0.02);
+
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+}
+
+/* Iluminación Cyber (Cyan/Blue Glow) */
+.light-rembrandt {
+  background: radial-gradient(circle at 50% 0%,
+      rgba(14, 165, 233, 0.15) 0%,
+      transparent 70%);
+}
+
+/* Aurora Glows */
+.aurora-glow {
+  position: absolute;
+  filter: blur(100px);
+  opacity: 0.4;
+  border-radius: 50%;
+  z-index: 0;
+}
+
+/* Neon Text Glow */
+.text-glow-neon {
+  text-shadow: 0 0 10px rgba(0, 212, 230, 0.3);
+}
+
+/* Sombra profunda para tarjetas */
+.card-shadow {
+  box-shadow:
+    0 10px 40px -10px rgba(2, 6, 23, 0.5),
+    0 0 20px -10px rgba(14, 165, 233, 0.1);
+}
+
+/* Animation utilities */
+.fade-in {
+  opacity: 0;
+  animation: fadeIn 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Custom cursor hide default */
+@media (hover: hover) and (pointer: fine) {
+  body.custom-cursor-active {
+    cursor: none;
+  }
+
+  body.custom-cursor-active a,
+  body.custom-cursor-active button,
+  body.custom-cursor-active input {
+    cursor: none;
+  }
+}
+
+/* Typography refinements */
+@media (max-width: 640px) {
+  h1 {
+    letter-spacing: -0.02em;
+  }
+}

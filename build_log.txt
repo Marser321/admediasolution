@@ -1,0 +1,35 @@
+
+> solution-agency-web@0.1.0 build
+> next build
+
+▲ Next.js 16.1.6 (Turbopack)
+
+  Creating an optimized production build ...
+✓ Compiled successfully in 6.2s
+  Running TypeScript ...
+Failed to compile.
+
+./src/components/sections/ProblemSection.tsx:209:33
+Type error: Type '{ hidden: { opacity: number; y: number; }; visible: { opacity: number; y: number; transition: { duration: number; ease: number[]; }; }; }' is not assignable to type 'Variants'.
+  Property 'visible' is incompatible with index signature.
+    Type '{ opacity: number; y: number; transition: { duration: number; ease: number[]; }; }' is not assignable to type 'Variant'.
+      Type '{ opacity: number; y: number; transition: { duration: number; ease: number[]; }; }' is not assignable to type 'TargetAndTransition'.
+        Type '{ opacity: number; y: number; transition: { duration: number; ease: number[]; }; }' is not assignable to type '{ transition?: Transition<any> | undefined; transitionEnd?: ResolvedValues$1 | undefined; }'.
+          Types of property 'transition' are incompatible.
+            Type '{ duration: number; ease: number[]; }' is not assignable to type 'Transition<any> | undefined'.
+              Type '{ duration: number; ease: number[]; }' is not assignable to type 'TransitionWithValueOverrides<any>'.
+                Type '{ duration: number; ease: number[]; }' is not assignable to type 'ValueAnimationTransition<any>'.
+                  Types of property 'ease' are incompatible.
+                    Type 'number[]' is not assignable to type 'Easing | Easing[] | undefined'.
+                      Type 'number[]' is not assignable to type 'EasingFunction | Easing[]'.
+                        Type 'number[]' is not assignable to type 'Easing[]'.
+                          Type 'number' is not assignable to type 'Easing'.
+
+[0m [90m 207 |[39m                     className[33m=[39m[32m"order-2 lg:order-1"[39m
+ [90m 208 |[39m                 [33m>[39m
+[31m[1m>[22m[39m[90m 209 |[39m                     [33m<[39m[33mmotion[39m[33m.[39mdiv variants[33m=[39m{itemVariants} className[33m=[39m[32m"inline-flex items-center gap-2 mb-6 p-2 pr-4 rounded-full bg-red-500/5 border border-red-500/10 w-fit"[39m[33m>[39m
+ [90m     |[39m                                 [31m[1m^[22m[39m
+ [90m 210 |[39m                         [33m<[39m[33mdiv[39m className[33m=[39m[32m"bg-red-500/10 p-1 rounded-full"[39m[33m>[39m
+ [90m 211 |[39m                             [33m<[39m[33mAlertCircle[39m className[33m=[39m[32m"size-4 text-red-400"[39m [33m/[39m[33m>[39m
+ [90m 212 |[39m                         [33m<[39m[33m/[39m[33mdiv[39m[33m>[39m[0m
+Next.js build worker exited with code: 1 and signal: null
