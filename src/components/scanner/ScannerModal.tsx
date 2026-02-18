@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, CheckCircle2, Loader2, Server, Globe, Database, Cpu } from "lucide-react";
 import ScannerDashboard from "./ScannerDashboard";
+import { useLocalStorage } from "@/hooks/use-local-storage";
 
 const STEPS = [
     {
@@ -48,10 +49,11 @@ export default function ScannerModal({
     const [step, setStep] = useState(0);
     const [showDashboard, setShowDashboard] = useState(false);
     const [completedSteps, setCompletedSteps] = useState<number[]>([]);
+    const [, setScannerComplete] = useLocalStorage("scannerComplete", false);
 
     const startScanning = useCallback(async () => {
         // Resetear flag local al iniciar nuevo scan
-        localStorage.removeItem("scannerComplete");
+        setScannerComplete(false);
 
         // Pausa inicial
         await new Promise((resolve) => setTimeout(resolve, 500));
@@ -67,8 +69,8 @@ export default function ScannerModal({
         await new Promise((resolve) => setTimeout(resolve, 800));
 
         setShowDashboard(true);
-        localStorage.setItem("scannerComplete", "true");
-    }, [isOpen]);
+        setScannerComplete(true);
+    }, [isOpen, setScannerComplete]);
 
     useEffect(() => {
         if (isOpen) {
