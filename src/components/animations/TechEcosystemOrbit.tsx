@@ -2,27 +2,8 @@
 
 import { useRef, useState } from "react";
 import { motion, useInView } from "framer-motion";
-import {
-    Target,
-    Bot,
-    BarChart3,
-    Zap,
-    RefreshCw,
-    TrendingUp,
-} from "lucide-react";
 import { cn } from "@/lib/utils";
-
-// ============================================================
-// Datos de los nodos orbitales
-// ============================================================
-const TECH_NODES = [
-    { icon: Target, label: "Targeting IA", color: "#00f3ff" },
-    { icon: Bot, label: "Automatización", color: "#38bdf8" },
-    { icon: BarChart3, label: "Analytics", color: "#00f3ff" },
-    { icon: Zap, label: "Ads Engine", color: "#38bdf8" },
-    { icon: RefreshCw, label: "Retención", color: "#00f3ff" },
-    { icon: TrendingUp, label: "Escalado", color: "#38bdf8" },
-];
+import { TECH_NODES } from "@/constants/tech-ecosystem";
 
 // ============================================================
 // Componente de Líneas de Conexión SVG
