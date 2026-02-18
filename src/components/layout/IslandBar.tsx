@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import Image from "next/image";
 import { Home, Briefcase, Sparkles, MessageCircle } from "lucide-react";
@@ -22,12 +22,12 @@ export default function IslandBar() {
     const [expanded, setExpanded] = useState(true);
     const [activeSection, setActiveSection] = useState("hero");
     const { scrollY } = useScroll();
-    const [lastScrollY, setLastScrollY] = useState(0);
+    const lastScrollY = useRef(0);
 
     // Detectar dirección de scroll
     useMotionValueEvent(scrollY, "change", (latest) => {
-        const direction = latest > lastScrollY ? "down" : "up";
-        setLastScrollY(latest);
+        const direction = latest > lastScrollY.current ? "down" : "up";
+        lastScrollY.current = latest;
 
         if (direction === "down" && latest > 100) {
             setExpanded(false);
