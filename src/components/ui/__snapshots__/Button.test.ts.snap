@@ -1,0 +1,23 @@
+// Bun Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Button Class Generation Variants returns correct classes for primary variant 1`] = `"relative inline-flex items-center justify-center rounded-full font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 overflow-hidden bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2"`;
+
+exports[`Button Class Generation Variants returns correct classes for secondary variant 1`] = `"relative inline-flex items-center justify-center rounded-full font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 overflow-hidden bg-secondary text-secondary-foreground hover:bg-secondary/80 h-9 px-4 py-2"`;
+
+exports[`Button Class Generation Variants returns correct classes for ghost variant 1`] = `"relative inline-flex items-center justify-center rounded-full font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 overflow-hidden hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"`;
+
+exports[`Button Class Generation Variants returns correct classes for outline variant 1`] = `"relative inline-flex items-center justify-center rounded-full font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 overflow-hidden border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"`;
+
+exports[`Button Class Generation Sizes returns correct classes for sm size 1`] = `"relative inline-flex items-center justify-center rounded-full font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 overflow-hidden bg-primary text-primary-foreground shadow hover:bg-primary/90 h-8 px-3 text-xs"`;
+
+exports[`Button Class Generation Sizes returns correct classes for md size 1`] = `"relative inline-flex items-center justify-center rounded-full font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 overflow-hidden bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2"`;
+
+exports[`Button Class Generation Sizes returns correct classes for lg size 1`] = `"relative inline-flex items-center justify-center rounded-full font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 overflow-hidden bg-primary text-primary-foreground shadow hover:bg-primary/90 h-10 px-8 text-lg"`;
+
+exports[`Button Class Generation Sizes returns correct classes for icon size 1`] = `"relative inline-flex items-center justify-center rounded-full font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 overflow-hidden bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 w-9"`;
+
+exports[`Button Class Generation returns correct default classes 1`] = `"relative inline-flex items-center justify-center rounded-full font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 overflow-hidden bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2"`;
+
+exports[`Button Class Generation merges custom className correctly 1`] = `"relative inline-flex items-center justify-center rounded-full font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 overflow-hidden bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2 custom-class-test"`;
+
+exports[`Button Class Generation handles undefined inputs gracefully 1`] = `"relative inline-flex items-center justify-center rounded-full font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 overflow-hidden bg-primary text-primary-foreground shadow hover:bg-primary/90 h-9 px-4 py-2"`;
