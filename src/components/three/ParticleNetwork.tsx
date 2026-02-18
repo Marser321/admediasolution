@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo, useState } from "react";
+import { useRef, useMemo } from "react";
 import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
@@ -23,16 +23,23 @@ function Particles() {
     const linesRef = useRef<THREE.LineSegments>(null!);
     const mouseCurrent = useRef({ x: 0, y: 0 });
 
-    // Generar posiciones aleatorias una sola vez
-    const [positions] = useState(() => {
+    // Generar posiciones deterministas para render puro
+    const positions = useMemo(() => {
         const pos = new Float32Array(PARTICLE_COUNT * 3);
+
+        // Generador pseudo-aleatorio determinista
+        const seededRandom = (index: number) => {
+            const x = Math.sin(index * 12.9898 + 78.233) * 43758.5453;
+            return x - Math.floor(x);
+        };
+
         for (let i = 0; i < PARTICLE_COUNT; i++) {
-            pos[i * 3] = (Math.random() - 0.5) * SPREAD;
-            pos[i * 3 + 1] = (Math.random() - 0.5) * SPREAD;
-            pos[i * 3 + 2] = (Math.random() - 0.5) * SPREAD;
+            pos[i * 3] = (seededRandom(i * 3) - 0.5) * SPREAD;
+            pos[i * 3 + 1] = (seededRandom(i * 3 + 1) - 0.5) * SPREAD;
+            pos[i * 3 + 2] = (seededRandom(i * 3 + 2) - 0.5) * SPREAD;
         }
         return pos;
-    });
+    }, []);
 
     // Buffer para las líneas de conexión (máx posible)
     const maxLines = (PARTICLE_COUNT * (PARTICLE_COUNT - 1)) / 2;
