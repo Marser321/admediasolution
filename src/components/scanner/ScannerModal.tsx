@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, CheckCircle2, Loader2, Server, Globe, Database, Cpu } from "lucide-react";
 import ScannerDashboard from "./ScannerDashboard";
+import { setScanStatus } from "@/actions/scanner";
 
 const STEPS = [
     {
@@ -51,7 +52,7 @@ export default function ScannerModal({
 
     const startScanning = useCallback(async () => {
         // Resetear flag local al iniciar nuevo scan
-        localStorage.removeItem("scannerComplete");
+        await setScanStatus(false);
 
         // Pausa inicial
         await new Promise((resolve) => setTimeout(resolve, 500));
@@ -67,7 +68,7 @@ export default function ScannerModal({
         await new Promise((resolve) => setTimeout(resolve, 800));
 
         setShowDashboard(true);
-        localStorage.setItem("scannerComplete", "true");
+        await setScanStatus(true);
     }, [isOpen]);
 
     useEffect(() => {
