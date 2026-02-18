@@ -92,12 +92,6 @@ function Particles() {
             }
         }
 
-        // Ocultar líneas no usadas
-        for (let i = lineIndex; i < maxLines; i++) {
-            opacityAttr.array[i * 2] = 0;
-            opacityAttr.array[i * 2 + 1] = 0;
-        }
-
         geo.setDrawRange(0, lineIndex * 2);
         posAttr.needsUpdate = true;
         opacityAttr.needsUpdate = true;
