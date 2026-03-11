@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useMemo } from "react";
 import { motion, useInView } from "framer-motion";
 import {
     Target,
@@ -28,27 +28,30 @@ const TECH_NODES = [
 // Componente de Líneas de Conexión SVG
 // ============================================================
 function ConnectionLines({ radius, centerX, centerY }: { radius: number; centerX: number; centerY: number }) {
-    const nodes = TECH_NODES.length;
-    const lines: { x1: number; y1: number; x2: number; y2: number; delay: number }[] = [];
+    const lines = useMemo(() => {
+        const nodes = TECH_NODES.length;
+        const lines: { x1: number; y1: number; x2: number; y2: number; delay: number }[] = [];
 
-    // Crear líneas entre nodos opuestos y adyacentes
-    for (let i = 0; i < nodes; i++) {
-        const angle1 = (i * 360) / nodes - 90;
-        const rad1 = (angle1 * Math.PI) / 180;
-        const x1 = centerX + radius * Math.cos(rad1);
-        const y1 = centerY + radius * Math.sin(rad1);
+        // Crear líneas entre nodos opuestos y adyacentes
+        for (let i = 0; i < nodes; i++) {
+            const angle1 = (i * 360) / nodes - 90;
+            const rad1 = (angle1 * Math.PI) / 180;
+            const x1 = centerX + radius * Math.cos(rad1);
+            const y1 = centerY + radius * Math.sin(rad1);
 
-        // Conectar con el nodo opuesto
-        const opposite = (i + nodes / 2) % nodes;
-        const angle2 = (opposite * 360) / nodes - 90;
-        const rad2 = (angle2 * Math.PI) / 180;
-        const x2 = centerX + radius * Math.cos(rad2);
-        const y2 = centerY + radius * Math.sin(rad2);
+            // Conectar con el nodo opuesto
+            const opposite = (i + nodes / 2) % nodes;
+            const angle2 = (opposite * 360) / nodes - 90;
+            const rad2 = (angle2 * Math.PI) / 180;
+            const x2 = centerX + radius * Math.cos(rad2);
+            const y2 = centerY + radius * Math.sin(rad2);
 
-        if (i < nodes / 2) {
-            lines.push({ x1, y1, x2, y2, delay: i * 0.3 });
+            if (i < nodes / 2) {
+                lines.push({ x1, y1, x2, y2, delay: i * 0.3 });
+            }
         }
-    }
+        return lines;
+    }, [radius, centerX, centerY]);
 
     return (
         <svg className="absolute inset-0 w-full h-full" viewBox={`0 0 ${centerX * 2} ${centerY * 2}`}>
