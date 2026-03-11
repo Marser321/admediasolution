@@ -1,0 +1,19 @@
+
+> solution-agency-web@0.1.0 dev
+> next dev
+
+▲ Next.js 16.1.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.0.2:3000
+
+✓ Starting...
+✓ Ready in 1052ms
+○ Compiling / ...
+ GET / 200 in 10.4s (compile: 9.2s, render: 1150ms)
+ POST / 200 in 99ms (compile: 13ms, render: 86ms)
+ GET / 200 in 225ms (compile: 7ms, render: 218ms)
+ POST / 200 in 37ms (compile: 12ms, render: 25ms)
+ POST / 200 in 49ms (compile: 5ms, render: 44ms)
+ POST / 200 in 38ms (compile: 4ms, render: 34ms)
+ GET / 200 in 213ms (compile: 10ms, render: 203ms)
+ POST / 200 in 21ms (compile: 6ms, render: 15ms)

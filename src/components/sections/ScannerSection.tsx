@@ -5,6 +5,7 @@ import { motion } from "framer-motion";
 import { BarChart3, Binary } from "lucide-react";
 import ScannerModal from "@/components/scanner/ScannerModal";
 import FloatingIcons from "../ui/FloatingIcons";
+import { getScanStatus } from "@/actions/scanner";
 
 export default function ScannerSection() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -12,14 +13,13 @@ export default function ScannerSection() {
     const [hasScanned, setHasScanned] = useState(false);
 
     useEffect(() => {
-        // Verificar si ya escaneó anteriormente (Client-side only)
-        if (typeof window !== "undefined") {
-            const scanned = localStorage.getItem("scannerComplete");
-            if (scanned === "true") {
-                // eslint-disable-next-line
+        const checkStatus = async () => {
+            const scanned = await getScanStatus();
+            if (scanned) {
                 setHasScanned(true);
             }
-        }
+        };
+        checkStatus();
     }, []);
 
     const handleScanClick = () => {
