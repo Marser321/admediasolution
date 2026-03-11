@@ -1,26 +1,16 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { motion } from "framer-motion";
 import { BarChart3, Binary } from "lucide-react";
 import ScannerModal from "@/components/scanner/ScannerModal";
 import FloatingIcons from "../ui/FloatingIcons";
+import { useLocalStorage } from "@/hooks/use-local-storage";
 
 export default function ScannerSection() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [url, setUrl] = useState("");
-    const [hasScanned, setHasScanned] = useState(false);
-
-    useEffect(() => {
-        // Verificar si ya escaneó anteriormente (Client-side only)
-        if (typeof window !== "undefined") {
-            const scanned = localStorage.getItem("scannerComplete");
-            if (scanned === "true") {
-                // eslint-disable-next-line
-                setHasScanned(true);
-            }
-        }
-    }, []);
+    const [hasScanned] = useLocalStorage("scannerComplete", false);
 
     const handleScanClick = () => {
         if (url || hasScanned) {
