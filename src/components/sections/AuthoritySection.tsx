@@ -2,15 +2,7 @@
 
 import { motion } from "framer-motion";
 import FloatingIcons from "../ui/FloatingIcons";
-import {
-    Target,
-    Search,
-    Workflow,
-    Globe,
-    Camera,
-    Code2,
-    MessageSquare,
-} from "lucide-react";
+import { AUTHORITY_TOOLS } from "@/lib/constants";
 
 // ============================================================
 // Variants
@@ -35,19 +27,6 @@ const itemVariants = {
         },
     },
 };
-
-// ============================================================
-// Herramientas que domina Danger
-// ============================================================
-const TOOLS = [
-    { icon: Target, label: "Meta Ads" },
-    { icon: Search, label: "Google Ads" },
-    { icon: Workflow, label: "GoHighLevel" },
-    { icon: MessageSquare, label: "WhatsApp Business" },
-    { icon: Globe, label: "Desarrollo Web" },
-    { icon: Camera, label: "Foto & Video" },
-    { icon: Code2, label: "CRM & Automatización" },
-];
 
 // ============================================================
 // Authority Section — Danger Fernandez, Revenue Systems Engineer
@@ -182,7 +161,7 @@ export default function AuthoritySection() {
                             Stack Operativo
                         </p>
                         <div className="flex flex-wrap gap-2">
-                            {TOOLS.map((tool, i) => (
+                            {AUTHORITY_TOOLS.map((tool, i) => (
                                 <motion.div
                                     key={i}
                                     initial={{ opacity: 0, y: 10 }}
