@@ -5,11 +5,13 @@ import { motion } from "framer-motion";
 import { BarChart3, Binary } from "lucide-react";
 import ScannerModal from "@/components/scanner/ScannerModal";
 import FloatingIcons from "../ui/FloatingIcons";
+import { validateUrl } from "@/lib/validation";
 
 export default function ScannerSection() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [url, setUrl] = useState("");
     const [hasScanned, setHasScanned] = useState(false);
+    const [error, setError] = useState<string | null>(null);
 
     useEffect(() => {
         // Verificar si ya escaneó anteriormente (Client-side only)
@@ -23,9 +25,19 @@ export default function ScannerSection() {
     }, []);
 
     const handleScanClick = () => {
-        if (url || hasScanned) {
+        if (hasScanned) {
             setIsModalOpen(true);
+            return;
         }
+
+        const { isValid, error: validationError } = validateUrl(url);
+        if (!isValid) {
+            setError(validationError || "URL inválida");
+            return;
+        }
+
+        setError(null);
+        setIsModalOpen(true);
     };
 
     return (
@@ -81,21 +93,37 @@ export default function ScannerSection() {
                     className="flex flex-col sm:flex-row gap-4 justify-center items-center max-w-lg mx-auto"
                 >
                     {!hasScanned && (
-                        <div className="relative w-full">
-                            <input
-                                type="text"
-                                placeholder="solution.agency"
-                                value={url}
-                                onChange={(e) => setUrl(e.target.value)}
-                                className="w-full bg-bg-card border border-white/5 rounded-xl px-5 py-4 text-text-primary placeholder:text-text-muted/50 focus:outline-none focus:border-accent-blue/50 transition-colors backdrop-blur-sm"
-                            />
-                            <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2 pointer-events-none">
-                                <span className="flex size-2">
-                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
-                                </span>
-                                <span className="text-xs text-emerald-500 font-mono">ONLINE</span>
+                        <div className="relative w-full flex flex-col gap-2">
+                            <div className="relative w-full">
+                                <input
+                                    type="text"
+                                    placeholder="solution.agency"
+                                    value={url}
+                                    onChange={(e) => {
+                                        setUrl(e.target.value);
+                                        if (error) setError(null);
+                                    }}
+                                    className={`w-full bg-bg-card border rounded-xl px-5 py-4 text-text-primary placeholder:text-text-muted/50 focus:outline-none focus:border-accent-blue/50 transition-colors backdrop-blur-sm ${
+                                        error ? "border-red-500/50" : "border-white/5"
+                                    }`}
+                                />
+                                <div className="absolute right-4 top-1/2 -translate-y-1/2 flex items-center gap-2 pointer-events-none">
+                                    <span className="flex size-2">
+                                        <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                                        <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                                    </span>
+                                    <span className="text-xs text-emerald-500 font-mono">ONLINE</span>
+                                </div>
                             </div>
+                            {error && (
+                                <motion.p
+                                    initial={{ opacity: 0, height: 0 }}
+                                    animate={{ opacity: 1, height: "auto" }}
+                                    className="text-xs text-red-400 pl-2 text-left"
+                                >
+                                    {error}
+                                </motion.p>
+                            )}
                         </div>
                     )}
 
