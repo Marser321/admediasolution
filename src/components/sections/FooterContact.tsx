@@ -41,7 +41,6 @@ export default function FooterContact() {
         // Simulación de envío
         await new Promise((resolve) => setTimeout(resolve, 2000));
 
-        // console.log("Form Data:", data);
         toast.success("Solicitud recibida. Analizaremos tu caso.");
         setIsSuccess(true);
         reset();
