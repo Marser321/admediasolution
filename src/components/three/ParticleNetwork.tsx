@@ -27,9 +27,14 @@ function Particles() {
     const [positions] = useState(() => {
         const pos = new Float32Array(PARTICLE_COUNT * 3);
         for (let i = 0; i < PARTICLE_COUNT; i++) {
-            pos[i * 3] = (Math.random() - 0.5) * SPREAD;
-            pos[i * 3 + 1] = (Math.random() - 0.5) * SPREAD;
-            pos[i * 3 + 2] = (Math.random() - 0.5) * SPREAD;
+            // Deterministic pseudo-randomness for React 19 purity
+            const seedX = i * 12.9898;
+            const seedY = i * 78.233;
+            const seedZ = i * 43.123;
+            
+            pos[i * 3] = ((Math.sin(seedX) * 43758.5453) % 1) * SPREAD - SPREAD / 2;
+            pos[i * 3 + 1] = ((Math.sin(seedY) * 43758.5453) % 1) * SPREAD - SPREAD / 2;
+            pos[i * 3 + 2] = ((Math.sin(seedZ) * 43758.5453) % 1) * SPREAD - SPREAD / 2;
         }
         return pos;
     });

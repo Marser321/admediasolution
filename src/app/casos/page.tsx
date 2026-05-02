@@ -44,7 +44,7 @@ const CASES = [
         metric: "+200",
         label: "Demos Agendadas / Mes",
         description: "Sistema de cualificación de leads con agentes de IA.",
-        color: "bg-cyan-500",
+        color: "bg-blue-500",
         icon: ArrowUpRight,
         colSpan: "md:col-span-2",
     },

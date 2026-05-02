@@ -93,35 +93,45 @@ const PROJECTS = [
     },
 ];
 
+// Diagonal cascade order for bento grid reveal (top-left to bottom-right)
+const BENTO_REVEAL_ORDER = [0, 1, 3, 2, 4, 5];
+
 // ============================================================
-// Tarjeta de Proyecto Individual
+// Tarjeta de Proyecto Individual — Cinematic Slot Reveal
 // ============================================================
 function ProjectCard({
     project,
     index,
+    revealIndex,
+    sectionProgress,
 }: {
     project: (typeof PROJECTS)[0];
     index: number;
+    revealIndex: number;
+    sectionProgress: ReturnType<typeof useScroll>["scrollYProgress"];
 }) {
     const ref = useRef<HTMLDivElement>(null);
     const isInView = useInView(ref, { once: true, margin: "-60px" });
     const Icon = project.icon;
 
+    // Scroll-linked slot machine reveal — staggered by diagonal position
+    const threshold = 0.12 + revealIndex * 0.05;
+    const cardY = useTransform(sectionProgress, [threshold, threshold + 0.12], [70, 0]);
+    const cardOpacity = useTransform(sectionProgress, [threshold, threshold + 0.1], [0, 1]);
+    const cardScale = useTransform(sectionProgress, [threshold, threshold + 0.12], [0.9, 1]);
+
+    // Internal gradient parallax
+    const gradientScale = useTransform(sectionProgress, [threshold, threshold + 0.3], [1, 1.15]);
+
     return (
         <motion.div
             ref={ref}
-            initial={{ opacity: 0, y: 50, scale: 0.95 }}
-            animate={
-                isInView
-                    ? { opacity: 1, y: 0, scale: 1 }
-                    : { opacity: 0, y: 50, scale: 0.95 }
-            }
-            transition={{
-                duration: 0.7,
-                delay: index * 0.1,
-                ease: [0.22, 1, 0.36, 1],
+            style={{
+                y: cardY,
+                opacity: cardOpacity,
+                scale: cardScale,
             }}
-            className={`group relative overflow-hidden rounded-2xl cursor-pointer
+            className={`group relative overflow-hidden rounded-2xl cursor-pointer will-change-transform
                 ${project.size === "large"
                     ? "md:col-span-2 md:row-span-2 min-h-[320px] md:min-h-[420px]"
                     : "min-h-[280px] md:min-h-[320px]"
@@ -129,10 +139,10 @@ function ProjectCard({
                 min-w-[300px] md:min-w-0 snap-center
             `}
         >
-            {/* Fondo con gradiente dinámico */}
-            <div
+            {/* Fondo con gradiente dinámico — Internal parallax */}
+            <motion.div
                 className="absolute inset-0 transition-transform duration-700 group-hover:scale-110"
-                style={{ background: project.bgGradient }}
+                style={{ background: project.bgGradient, scale: gradientScale }}
             />
 
             {/* Capa de contraste para legibilidad */}
@@ -238,7 +248,7 @@ function ProjectCard({
 }
 
 // ============================================================
-// Galería de Proyectos — Sección Principal
+// Galería de Proyectos — Cinematic Bento Reveal
 // ============================================================
 export default function ProjectsGallery() {
     const sectionRef = useRef<HTMLElement>(null);
@@ -247,20 +257,30 @@ export default function ProjectsGallery() {
         offset: ["start end", "end start"],
     });
 
+    // Multi-direction background parallax for 3D depth
     const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
+    const bgX = useTransform(scrollYProgress, [0, 1], ["0%", "-3%"]);
+
+    // CTA glow pulse
+    const ctaGlow = useTransform(scrollYProgress, [0.7, 0.85, 1], [0, 0.3, 0.15]);
+
+    // Header parallax
+    const headerY = useTransform(scrollYProgress, [0, 0.3], [50, 0]);
+    const headerOpacity = useTransform(scrollYProgress, [0, 0.15], [0, 1]);
 
     return (
         <section
             ref={sectionRef}
             id="portfolio"
-            className="relative py-28 sm:py-36 px-5 sm:px-6 overflow-hidden bg-[#050505]"
+            className="relative py-20 sm:py-36 px-5 sm:px-6 overflow-hidden bg-[#050505]"
         >
             {/* Iconos flotantes — Creativos */}
             <FloatingIcons type="creative" className="z-0 opacity-30" />
-            {/* Fondo parallax con mesh gradients */}
+
+            {/* Fondo parallax con mesh gradients — X + Y parallax */}
             <motion.div
-                style={{ y: bgY }}
-                className="absolute inset-0 pointer-events-none"
+                style={{ y: bgY, x: bgX }}
+                className="absolute inset-0 pointer-events-none will-change-transform"
             >
                 <div
                     className="absolute inset-0"
@@ -275,8 +295,11 @@ export default function ProjectsGallery() {
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />
 
             <div className="relative z-10 max-w-7xl mx-auto">
-                {/* Header de la sección */}
-                <div className="text-center mb-16 sm:mb-20">
+                {/* Header de la sección — Parallax slide-up */}
+                <motion.div
+                    style={{ y: headerY, opacity: headerOpacity }}
+                    className="text-center mb-16 sm:mb-20"
+                >
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -323,44 +346,49 @@ export default function ProjectsGallery() {
                         digital con nuestra combinación de IA y estrategia
                         humana.
                     </motion.p>
-                </div>
+                </motion.div>
 
-                {/* Bento Grid Desktop */}
+                {/* Bento Grid Desktop — Diagonal cascade reveal */}
                 <div className="hidden md:grid md:grid-cols-4 md:grid-rows-3 gap-4 lg:gap-5">
-                    {/* Card 0 — Grande (2x2) */}
+                    {/* Card 0 — Grande (2x2) — Enters first */}
                     <div className="col-span-2 row-span-2">
-                        <ProjectCard project={PROJECTS[0]} index={0} />
+                        <ProjectCard project={PROJECTS[0]} index={0} revealIndex={0} sectionProgress={scrollYProgress} />
                     </div>
                     {/* Card 1 — Normal */}
                     <div className="col-span-1 row-span-1">
-                        <ProjectCard project={PROJECTS[1]} index={1} />
+                        <ProjectCard project={PROJECTS[1]} index={1} revealIndex={1} sectionProgress={scrollYProgress} />
                     </div>
                     {/* Card 2 — Normal */}
                     <div className="col-span-1 row-span-1">
-                        <ProjectCard project={PROJECTS[2]} index={2} />
+                        <ProjectCard project={PROJECTS[2]} index={2} revealIndex={3} sectionProgress={scrollYProgress} />
                     </div>
                     {/* Card 3 — Normal */}
                     <div className="col-span-1 row-span-1">
-                        <ProjectCard project={PROJECTS[3]} index={3} />
+                        <ProjectCard project={PROJECTS[3]} index={3} revealIndex={2} sectionProgress={scrollYProgress} />
                     </div>
                     {/* Card 4 — Normal */}
                     <div className="col-span-1 row-span-1">
-                        <ProjectCard project={PROJECTS[4]} index={4} />
+                        <ProjectCard project={PROJECTS[4]} index={4} revealIndex={4} sectionProgress={scrollYProgress} />
                     </div>
                     {/* Card 5 — Grande (2x1 ancho) */}
                     <div className="col-span-2 row-span-1">
-                        <ProjectCard project={PROJECTS[5]} index={5} />
+                        <ProjectCard project={PROJECTS[5]} index={5} revealIndex={5} sectionProgress={scrollYProgress} />
                     </div>
-                    {/* Card extra visual — CTA */}
+                    {/* Card extra visual — CTA with pulsating glow */}
                     <div className="col-span-2 row-span-1 flex items-center justify-center">
                         <motion.div
                             initial={{ opacity: 0, scale: 0.9 }}
                             whileInView={{ opacity: 1, scale: 1 }}
                             viewport={{ once: true }}
                             transition={{ delay: 0.6 }}
-                            className="text-center p-8"
+                            className="text-center p-8 relative"
                         >
-                            <p className="text-sm text-text-muted mb-4 tracking-wide uppercase">
+                            {/* Pulsating glow behind CTA */}
+                            <motion.div
+                                style={{ opacity: ctaGlow }}
+                                className="absolute inset-0 rounded-3xl bg-accent-blue/10 blur-2xl pointer-events-none"
+                            />
+                            <p className="text-sm text-text-muted mb-4 tracking-wide uppercase relative z-10">
                                 ¿Tu marca es la siguiente?
                             </p>
                             <motion.button
@@ -368,12 +396,12 @@ export default function ProjectsGallery() {
                                 whileHover={{ scale: 1.03 }}
                                 onClick={() => {
                                     document
-                                        .getElementById("scanner")
+                                        .getElementById("contacto")
                                         ?.scrollIntoView({
                                             behavior: "smooth",
                                         });
                                 }}
-                                className="group relative inline-flex items-center gap-2.5 px-8 py-4 rounded-full text-base font-semibold text-white bg-gradient-to-r from-accent-blue to-accent-light hover:opacity-90 transition-all duration-300 cursor-pointer shadow-md shadow-accent-blue/10"
+                                className="group relative inline-flex items-center gap-2.5 px-8 py-4 rounded-full text-base font-semibold text-white bg-gradient-to-r from-accent-blue to-accent-light hover:opacity-90 transition-all duration-300 cursor-pointer shadow-md shadow-accent-blue/10 z-10"
                             >
                                 <span className="absolute inset-0 rounded-full bg-accent-blue/10 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                                 <span className="relative flex items-center gap-2.5">
@@ -387,12 +415,14 @@ export default function ProjectsGallery() {
 
                 {/* Carrusel Mobile (snap-scroll horizontal) */}
                 <div className="md:hidden">
-                    <div className="flex snap-scroll-x gap-4 -mx-5 px-5 pb-4">
+                    <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-4 -mx-5 px-5 scroll-px-5 pb-4">
                         {PROJECTS.map((project, index) => (
                             <ProjectCard
                                 key={project.title}
                                 project={project}
                                 index={index}
+                                revealIndex={index}
+                                sectionProgress={scrollYProgress}
                             />
                         ))}
                     </div>
@@ -419,7 +449,7 @@ export default function ProjectsGallery() {
                             whileTap={{ scale: 0.95 }}
                             onClick={() => {
                                 document
-                                    .getElementById("scanner")
+                                    .getElementById("contacto")
                                     ?.scrollIntoView({ behavior: "smooth" });
                             }}
                             className="group relative inline-flex items-center gap-2.5 px-8 py-4 rounded-full text-base font-semibold text-white bg-gradient-to-r from-accent-blue to-accent-light transition-all duration-300 shadow-md shadow-accent-blue/10"

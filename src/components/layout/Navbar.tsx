@@ -23,10 +23,10 @@ export default function Navbar() {
             animate={{ y: 0, opacity: 1 }}
             transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
             className={`
-        hidden md:flex fixed top-0 left-0 right-0 z-50
+        flex fixed top-0 left-0 right-0 z-50
         transition-all duration-500 ease-out
         ${scrolled
-                    ? "py-3 glass-premium backdrop-blur-xl bg-background/60 border-b border-white/5 shadow-2xl"
+                    ? "py-3 glass-premium backdrop-blur-md bg-background/70 border-b border-[#488EFF]/15 shadow-2xl shadow-[#0B327F]/20"
                     : "py-5 bg-transparent border-transparent"
                 }
       `}
@@ -36,18 +36,25 @@ export default function Navbar() {
                 <Link href="/" className="flex items-center group relative">
                     <motion.div
                         animate={scrolled
-                            ? { filter: "drop-shadow(0 0 8px rgba(0,212,230,0.25))" }
-                            : { filter: "drop-shadow(0 0 0px rgba(0,212,230,0))" }
+                            ? { 
+                                filter: "drop-shadow(0 0 12px rgba(72,142,255,0.35))",
+                                scale: 1.05 
+                              }
+                            : { 
+                                filter: "drop-shadow(0 0 8px rgba(72,142,255,0.2))",
+                                scale: 1.1
+                              }
                         }
+                        whileHover={{ scale: 1.15, filter: "drop-shadow(0 0 20px rgba(72,142,255,0.5))" }}
                         transition={{ duration: 0.6 }}
                     >
-                        <div className="absolute -inset-2 bg-[#00d4e6]/10 rounded-xl blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <div className="absolute -inset-4 bg-[#488EFF]/5 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                         <Image
-                            src="/brand/logo-full.png"
+                            src="/brand/logo-full-white.png"
                             alt="Ad Media Solution"
-                            width={140}
-                            height={40}
-                            className={`relative h-auto object-contain transition-all duration-500 ${scrolled ? "w-28 sm:w-32" : "w-32 sm:w-36"}`}
+                            width={180}
+                            height={50}
+                            className={`relative h-auto object-contain transition-all duration-500 ${scrolled ? "w-28 sm:w-36" : "w-32 sm:w-44"}`}
                             priority
                         />
                     </motion.div>
@@ -71,13 +78,14 @@ export default function Navbar() {
                 <motion.button
                     whileTap={{ scale: 0.96 }}
                     whileHover={{ scale: 1.05 }}
-                    className="relative group flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-white bg-[#00d4e6] hover:bg-[#00d4e6]/90 transition-all duration-300 cursor-pointer shadow-md shadow-[#00d4e6]/10"
+                    className="relative group flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-white bg-[#488EFF] hover:bg-[#488EFF]/90 transition-all duration-300 cursor-pointer shadow-md shadow-[#488EFF]/10"
                 >
                     {/* Glow pulsante */}
-                    <span className="absolute inset-0 rounded-full bg-[#00d4e6]/10 animate-pulse" />
+                    <span className="absolute inset-0 rounded-full bg-[#488EFF]/10 animate-pulse" />
                     <span className="relative flex items-center gap-2">
                         <Sparkles className="size-4 text-white" />
-                        Auditoría IA
+                        <span className="hidden sm:inline">Auditoría IA</span>
+                        <span className="inline sm:hidden">Auditoría</span>
                     </span>
                 </motion.button>
             </div>

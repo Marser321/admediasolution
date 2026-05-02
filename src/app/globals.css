@@ -13,12 +13,12 @@
   --font-display-light: 'Nexa Light', 'Nexa', var(--font-inter), sans-serif;
   --font-mono: var(--font-geist-mono);
 
-  /* === Brand Identity: Neon & Charcoal === */
-  /* Strict 3-Tone Palette */
+  /* === Brand Identity: AD Media Solution Blues === */
+  /* Official 6-Tone Palette from Brand Manual */
   --color-bg-charcoal: #0a0a0a;
   /* Deepest Charcoal */
-  --color-accent-neon: #00d4e6;
-  /* Refined Cyan (atenuado para evitar quemado) */
+  --color-accent-neon: #488EFF;
+  /* Brand Blue Primary */
   --color-text-white: #ffffff;
   /* Pure White */
 
@@ -27,8 +27,8 @@
   --color-bg-surface: #121212;
   --color-bg-card: #18181b;
   --color-accent-blue: var(--color-accent-neon);
-  --color-accent-light: #38bdf8;
-  /* Sky Blue for accents */
+  --color-accent-light: #81E7FF;
+  /* Brand Celeste — light accent */
   --color-accent-warm: #f59e0b;
   /* Amber for highlights */
   --color-text-primary: #ffffff;
@@ -74,8 +74,8 @@
 }
 
 /* ===================================================================
-   BRAND MODE — Solution Agency (Recalibrated)
-   Palette: Charcoal #0a0a0a + Neon Blue #00f3ff + White
+   BRAND MODE — AD Media Solution (Official Brand Blues)
+   Palette: Charcoal #0a0a0a + Brand Blue #488EFF + Celeste #81E7FF + White
    =================================================================== */
 
 :root {
@@ -87,8 +87,8 @@
   --card-foreground: #ffffff;
   --popover: #121212;
   --popover-foreground: #ffffff;
-  --primary: #00d4e6;
-  --primary-foreground: #000000;
+  --primary: #488EFF;
+  --primary-foreground: #ffffff;
   --secondary: #18181b;
   --secondary-foreground: #ffffff;
   --muted: #27272a;
@@ -96,22 +96,22 @@
   --accent: #27272a;
   --accent-foreground: #ffffff;
   --destructive: #ef4444;
-  --border: rgba(0, 243, 255, 0.2);
-  --input: rgba(0, 243, 255, 0.1);
-  --ring: #00d4e6;
-  --chart-1: #00d4e6;
-  --chart-2: #38bdf8;
+  --border: rgba(72, 142, 255, 0.2);
+  --input: rgba(72, 142, 255, 0.1);
+  --ring: #488EFF;
+  --chart-1: #488EFF;
+  --chart-2: #81E7FF;
   --chart-3: #e2e8f0;
   --chart-4: #94a3b8;
   --chart-5: #1e293b;
   --sidebar: #050505;
   --sidebar-foreground: #ffffff;
-  --sidebar-primary: #00d4e6;
-  --sidebar-primary-foreground: #000000;
+  --sidebar-primary: #488EFF;
+  --sidebar-primary-foreground: #ffffff;
   --sidebar-accent: #121212;
   --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: rgba(0, 243, 255, 0.2);
-  --sidebar-ring: #00d4e6;
+  --sidebar-border: rgba(72, 142, 255, 0.2);
+  --sidebar-ring: #488EFF;
 }
 
 .dark {
@@ -122,7 +122,7 @@
   --card-foreground: #ffffff;
   --popover: #121212;
   --popover-foreground: #ffffff;
-  --primary: #00d4e6;
+  --primary: #488EFF;
   --primary-foreground: #000000;
   --secondary: #18181b;
   --secondary-foreground: #ffffff;
@@ -131,9 +131,9 @@
   --accent: #27272a;
   --accent-foreground: #ffffff;
   --destructive: #ef4444;
-  --border: rgba(0, 243, 255, 0.2);
-  --input: rgba(0, 243, 255, 0.1);
-  --ring: #00d4e6;
+  --border: rgba(72, 142, 255, 0.2);
+  --input: rgba(72, 142, 255, 0.1);
+  --ring: #488EFF;
 }
 
 @layer utilities {
@@ -150,11 +150,10 @@
     width: 600px;
     height: 600px;
     border-radius: 50%;
-    filter: blur(120px);
-    opacity: 0.15;
+    /* Gradient handled directly in Tailwind utilities for brand color flexibility */
+    opacity: 0.4;
     z-index: 0;
     pointer-events: none;
-    mix-blend-mode: screen;
   }
 
   .scrollbar-hide::-webkit-scrollbar {
@@ -258,7 +257,7 @@
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    background: #00f3ff;
+    background: #488EFF;
   }
 
   /* Smooth scroll global */
@@ -307,18 +306,17 @@
   pointer-events: none;
 }
 
-/* Animated Grain Overlay */
+/* Animated Grain Overlay - Optimized */
 .bg-noise {
   position: fixed;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   pointer-events: none;
   z-index: 50;
-  opacity: 0.04;
+  opacity: 0.06;
   background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
-  animation: grain-flow 8s steps(10) infinite;
   mix-blend-mode: overlay;
 }
 
@@ -329,22 +327,21 @@
 /* Glass Tech Premium (Updated) */
 /* Glass Tech Premium (Updated) */
 .glass-premium {
-  background: rgba(10, 10, 10, 0.5);
-  /* Much darker for legibility */
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  /* Border with linear gradient simulation */
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.02);
-  border-right: 1px solid rgba(255, 255, 255, 0.02);
-
-  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5);
+  background: rgba(10, 10, 10, 0.65);
+  backdrop-filter: blur(12px) saturate(150%);
+  -webkit-backdrop-filter: blur(12px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  box-shadow:
+    0 8px 32px 0 rgba(0, 0, 0, 0.8),
+    inset 0 0 32px 0 rgba(255, 255, 255, 0.02);
 }
 
-/* Iluminación Cyber (Cyan/Blue Glow) */
+/* Iluminación Brand (Blue Glow) */
 .light-rembrandt {
   background: radial-gradient(circle at 50% 0%,
-      rgba(14, 165, 233, 0.15) 0%,
+      rgba(72, 142, 255, 0.15) 0%,
       transparent 70%);
 }
 
@@ -357,16 +354,16 @@
   z-index: 0;
 }
 
-/* Neon Text Glow */
+/* Brand Text Glow */
 .text-glow-neon {
-  text-shadow: 0 0 10px rgba(0, 212, 230, 0.3);
+  text-shadow: 0 0 10px rgba(72, 142, 255, 0.3);
 }
 
 /* Sombra profunda para tarjetas */
 .card-shadow {
   box-shadow:
     0 10px 40px -10px rgba(2, 6, 23, 0.5),
-    0 0 20px -10px rgba(14, 165, 233, 0.1);
+    0 0 20px -10px rgba(72, 142, 255, 0.1);
 }
 
 /* Animation utilities */

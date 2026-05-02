@@ -1,6 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
+import Image from "next/image";
 import { motion, useInView } from "framer-motion";
 import {
     Target,
@@ -16,12 +17,12 @@ import { cn } from "@/lib/utils";
 // Datos de los nodos orbitales
 // ============================================================
 const TECH_NODES = [
-    { icon: Target, label: "Targeting IA", color: "#00f3ff" },
-    { icon: Bot, label: "Automatización", color: "#38bdf8" },
-    { icon: BarChart3, label: "Analytics", color: "#00f3ff" },
-    { icon: Zap, label: "Ads Engine", color: "#38bdf8" },
-    { icon: RefreshCw, label: "Retención", color: "#00f3ff" },
-    { icon: TrendingUp, label: "Escalado", color: "#38bdf8" },
+    { icon: Target, label: "Targeting IA", color: "#488EFF" },
+    { icon: Bot, label: "Automatización", color: "#81E7FF" },
+    { icon: BarChart3, label: "Analytics", color: "#488EFF" },
+    { icon: Zap, label: "Ads Engine", color: "#81E7FF" },
+    { icon: RefreshCw, label: "Retención", color: "#488EFF" },
+    { icon: TrendingUp, label: "Escalado", color: "#81E7FF" },
 ];
 
 // ============================================================
@@ -54,9 +55,9 @@ function ConnectionLines({ radius, centerX, centerY }: { radius: number; centerX
         <svg className="absolute inset-0 w-full h-full" viewBox={`0 0 ${centerX * 2} ${centerY * 2}`}>
             <defs>
                 <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#00f3ff" stopOpacity="0.4" />
-                    <stop offset="50%" stopColor="#38bdf8" stopOpacity="0.6" />
-                    <stop offset="100%" stopColor="#00f3ff" stopOpacity="0.4" />
+                    <stop offset="0%" stopColor="#488EFF" stopOpacity="0.4" />
+                    <stop offset="50%" stopColor="#81E7FF" stopOpacity="0.6" />
+                    <stop offset="100%" stopColor="#488EFF" stopOpacity="0.4" />
                 </linearGradient>
                 <filter id="lineGlow">
                     <feGaussianBlur stdDeviation="2" result="blur" />
@@ -94,7 +95,7 @@ function ConnectionLines({ radius, centerX, centerY }: { radius: number; centerX
                 cy={centerY}
                 r={radius * 0.6}
                 fill="none"
-                stroke="#00f3ff"
+                stroke="#488EFF"
                 strokeWidth="0.5"
                 strokeDasharray="4 8"
                 opacity="0.1"
@@ -129,7 +130,7 @@ function ConnectionLines({ radius, centerX, centerY }: { radius: number; centerX
                         y1={line.y1}
                         x2={line.x2}
                         y2={line.y2}
-                        stroke="#00f3ff"
+                        stroke="#488EFF"
                         strokeWidth="2"
                         strokeDasharray="8 100"
                         opacity="0.6"
@@ -303,16 +304,17 @@ function CoreNode({
                 <div className="absolute inset-0 rounded-full bg-gradient-to-b from-accent-blue/10 to-transparent" />
 
                 <motion.div
-                    className="relative z-10"
+                    className="relative z-10 flex items-center justify-center"
                     animate={{ scale: [1, 1.05, 1] }}
                     transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                 >
-                    <span className="text-[10px] font-mono font-bold text-accent-blue uppercase tracking-[0.15em]">
-                        AI
-                    </span>
-                    <span className="block text-[8px] font-mono text-accent-blue/60 uppercase tracking-widest">
-                        Core
-                    </span>
+                    <Image
+                        src="/brand/logo-icon.png"
+                        alt="AD Media Solution Icon"
+                        width={32}
+                        height={32}
+                        className="object-contain drop-shadow-[0_0_10px_rgba(72,142,255,0.5)]"
+                    />
                 </motion.div>
             </div>
         </motion.div>

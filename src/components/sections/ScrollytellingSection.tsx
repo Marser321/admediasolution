@@ -99,30 +99,45 @@ function AnimatedCounter({
 }
 
 // ============================================================
-// Card KPI Individual
+// Card KPI Individual — Dashboard Loading Effect
 // ============================================================
 function KPICard({
     kpi,
     index,
     isInView,
+    sectionProgress,
 }: {
     kpi: KPIData;
     index: number;
     isInView: boolean;
+    sectionProgress: ReturnType<typeof useScroll>["scrollYProgress"];
 }) {
+    // Scroll-linked dashboard loading effect
+    const threshold = 0.4 + index * 0.06;
+    const cardOpacity = useTransform(sectionProgress, [threshold, threshold + 0.1], [0, 1]);
+    const cardY = useTransform(sectionProgress, [threshold, threshold + 0.12], [40, 0]);
+    const cardScale = useTransform(sectionProgress, [threshold, threshold + 0.1], [0.92, 1]);
+
+    // Progress bar fill animation
+    const barFill = useTransform(sectionProgress, [threshold + 0.05, threshold + 0.18], [0, 1]);
+
     return (
         <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 30 }}
-            transition={{
-                duration: 0.7,
-                delay: 0.4 + index * 0.15,
-                ease: [0.22, 1, 0.36, 1],
+            style={{
+                opacity: cardOpacity,
+                y: cardY,
+                scale: cardScale,
             }}
-            className="group relative p-6 rounded-2xl bg-bg-card/50 border border-white/5 backdrop-blur-sm hover:border-accent-blue/20 transition-all duration-500 overflow-hidden"
+            className="group relative p-6 rounded-2xl bg-bg-card/50 border border-white/5 backdrop-blur-sm hover:border-accent-blue/20 transition-all duration-500 overflow-hidden will-change-transform"
         >
             {/* Glow hover */}
             <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
+
+            {/* Loading progress bar */}
+            <motion.div
+                style={{ scaleX: barFill, transformOrigin: "left" }}
+                className="absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-accent-blue to-accent-light"
+            />
 
             <div className="relative z-10">
                 {/* Contador */}
@@ -158,36 +173,62 @@ function KPICard({
 }
 
 // ============================================================
-// Scrollytelling Section — "Tecnología en Acción"
+// Scrollytelling Section — "Immersive Data Theater"
 // ============================================================
 export default function ScrollytellingSection() {
     const sectionRef = useRef<HTMLElement>(null);
     const contentRef = useRef<HTMLDivElement>(null);
     const isInView = useInView(contentRef, { once: true, margin: "-100px" });
+    const stepsRef = useRef<HTMLDivElement>(null);
+    const isStepsInView = useInView(stepsRef, { once: true, margin: "-40px" });
 
     const { scrollYProgress } = useScroll({
         target: sectionRef,
         offset: ["start end", "end start"],
     });
 
-    // Parallax suave para el fondo
+    // Parallax layers
     const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
+
+    // Background orbs — opposite directions for depth
+    const orbTopY = useTransform(scrollYProgress, [0, 1], [0, -80]);
+    const orbTopX = useTransform(scrollYProgress, [0, 1], [0, 40]);
+    const orbBottomY = useTransform(scrollYProgress, [0, 1], [0, 60]);
+    const orbBottomX = useTransform(scrollYProgress, [0, 1], [0, -30]);
+
+    // TechEcosystem scale on scroll
+    const orbitScale = useTransform(scrollYProgress, [0.1, 0.4], [0.85, 1.05]);
+    const orbitOpacity = useTransform(scrollYProgress, [0.05, 0.2], [0, 1]);
+
+    // Underline draw for "ingresos reales"
+    const underlineDraw = useTransform(scrollYProgress, [0.15, 0.3], [0, 1]);
+
+    // Timeline connector line between steps
+    const timelineHeight = useTransform(scrollYProgress, [0.25, 0.5], ["0%", "100%"]);
+
+    // CTA gravity drop
+    const ctaY = useTransform(scrollYProgress, [0.7, 0.85], [-30, 0]);
+    const ctaOpacity = useTransform(scrollYProgress, [0.7, 0.82], [0, 1]);
 
     return (
         <section
             ref={sectionRef}
             id="estrategia"
-            className="relative py-28 sm:py-36 px-5 sm:px-6 bg-bg-deep overflow-hidden"
+            className="relative py-20 sm:py-36 px-5 sm:px-6 bg-bg-deep overflow-hidden"
         >
             {/* Background grid con parallax */}
             <motion.div
                 className="absolute inset-0 pointer-events-none opacity-[0.03]"
-                style={{
-                    backgroundImage: "linear-gradient(#38BDF8 1px, transparent 1px), linear-gradient(90deg, #38BDF8 1px, transparent 1px)",
-                    backgroundSize: "40px 40px",
-                    y: bgY,
-                }}
-            />
+                style={{ y: bgY }}
+            >
+                <div
+                    className="absolute inset-0"
+                    style={{
+                        backgroundImage: "linear-gradient(#488EFF 1px, transparent 1px), linear-gradient(90deg, #488EFF 1px, transparent 1px)",
+                        backgroundSize: "40px 40px",
+                    }}
+                />
+            </motion.div>
 
             {/* Iconos flotantes */}
             <FloatingIcons type="crm" className="z-0 opacity-35" />
@@ -195,9 +236,15 @@ export default function ScrollytellingSection() {
             {/* Divisor superior */}
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent-blue/10 to-transparent" />
 
-            {/* Orbs de fondo */}
-            <div className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-accent-blue/5 rounded-full blur-[120px] pointer-events-none" />
-            <div className="absolute bottom-1/4 left-0 w-[400px] h-[400px] bg-accent-light/3 rounded-full blur-[100px] pointer-events-none" />
+            {/* Orbs de fondo — Multi-directional parallax */}
+            <motion.div
+                style={{ y: orbTopY, x: orbTopX }}
+                className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-accent-blue/5 rounded-full blur-[120px] pointer-events-none will-change-transform"
+            />
+            <motion.div
+                style={{ y: orbBottomY, x: orbBottomX }}
+                className="absolute bottom-1/4 left-0 w-[400px] h-[400px] bg-accent-light/3 rounded-full blur-[100px] pointer-events-none will-change-transform"
+            />
 
             <div ref={contentRef} className="relative z-10 max-w-7xl mx-auto">
                 {/* Header */}
@@ -220,15 +267,12 @@ export default function ScrollytellingSection() {
                         className="font-display-heavy text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 text-text-primary"
                     >
                         Tecnología que genera{" "}
-                        <span className="text-accent-blue relative">
+                        <span className="text-accent-blue relative inline-block">
                             ingresos reales
+                            {/* Scroll-drawn underline */}
                             <motion.div
                                 className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-accent-blue to-accent-light"
-                                initial={{ scaleX: 0 }}
-                                whileInView={{ scaleX: 1 }}
-                                viewport={{ once: true }}
-                                transition={{ duration: 0.8, delay: 0.5 }}
-                                style={{ transformOrigin: "left" }}
+                                style={{ scaleX: underlineDraw, transformOrigin: "left" }}
                             />
                         </span>
                     </motion.h2>
@@ -248,13 +292,10 @@ export default function ScrollytellingSection() {
                 {/* === Layout principal: 2 columnas === */}
                 <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-20">
 
-                    {/* Columna izquierda: Animación orbital */}
+                    {/* Columna izquierda: Animación orbital — Scale up on scroll */}
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1, delay: 0.2, ease: [0.22, 1, 0.36, 1] }}
-                        className="order-2 lg:order-1 flex justify-center"
+                        style={{ scale: orbitScale, opacity: orbitOpacity }}
+                        className="order-2 lg:order-1 flex justify-center will-change-transform"
                     >
                         <TechEcosystemOrbit />
                     </motion.div>
@@ -280,8 +321,13 @@ export default function ScrollytellingSection() {
                             </p>
                         </div>
 
-                        {/* Mini indicadores de proceso */}
-                        <div className="space-y-4">
+                        {/* Mini indicadores de proceso — Timeline connector */}
+                        <div ref={stepsRef} className="space-y-4 relative">
+                            {/* Vertical timeline connector */}
+                            <motion.div
+                                style={{ height: timelineHeight }}
+                                className="absolute left-[18px] top-[12px] w-[1px] bg-gradient-to-b from-accent-blue/30 to-accent-blue/5"
+                            />
                             {[
                                 { step: "01", text: "Diagnóstico y auditoría del negocio digital" },
                                 { step: "02", text: "Despliegue de sistemas de adquisición multi-canal" },
@@ -290,9 +336,9 @@ export default function ScrollytellingSection() {
                                 <motion.div
                                     key={item.step}
                                     initial={{ opacity: 0, x: 20 }}
-                                    animate={isInView ? { opacity: 1, x: 0 } : {}}
-                                    transition={{ duration: 0.6, delay: 0.5 + i * 0.1 }}
-                                    className="flex items-center gap-4 group"
+                                    animate={isStepsInView ? { opacity: 1, x: 0 } : {}}
+                                    transition={{ duration: 0.6, delay: 0.5 + i * 0.15 }}
+                                    className="flex items-center gap-4 group relative z-10"
                                 >
                                     <span className="text-xs font-bold text-accent-blue font-mono bg-accent-blue/5 border border-accent-blue/10 rounded-lg px-2.5 py-1.5 group-hover:bg-accent-blue/10 transition-colors">
                                         {item.step}
@@ -306,7 +352,7 @@ export default function ScrollytellingSection() {
                     </motion.div>
                 </div>
 
-                {/* === KPI Cards Grid === */}
+                {/* === KPI Cards Grid — Dashboard loading effect === */}
                 <div className="grid sm:grid-cols-3 gap-5 mb-20">
                     {KPIS.map((kpi, index) => (
                         <KPICard
@@ -314,16 +360,14 @@ export default function ScrollytellingSection() {
                             kpi={kpi}
                             index={index}
                             isInView={isInView}
+                            sectionProgress={scrollYProgress}
                         />
                     ))}
                 </div>
 
-                {/* CTA inferior */}
+                {/* CTA inferior — Gravity drop */}
                 <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.8, delay: 0.2 }}
+                    style={{ y: ctaY, opacity: ctaOpacity }}
                     className="text-center"
                 >
                     <p className="text-sm text-text-muted mb-6 tracking-wide uppercase">
@@ -333,7 +377,7 @@ export default function ScrollytellingSection() {
                         whileTap={{ scale: 0.96 }}
                         whileHover={{ scale: 1.02 }}
                         onClick={() => {
-                            document.getElementById("scanner")?.scrollIntoView({ behavior: "smooth" });
+                            document.getElementById("contacto")?.scrollIntoView({ behavior: "smooth" });
                         }}
                         className="group relative inline-flex items-center gap-2.5 px-8 py-4 rounded-full text-base font-semibold text-bg-deep bg-text-primary hover:bg-white transition-all duration-300 cursor-pointer"
                     >

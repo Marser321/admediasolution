@@ -11,7 +11,7 @@ import { Home, Briefcase, Sparkles, MessageCircle } from "lucide-react";
 const NAV_ITEMS = [
     { id: "hero", icon: Home, label: "Inicio" },
     { id: "servicios", icon: Briefcase, label: "Servicios" },
-    { id: "scanner", icon: Sparkles, label: "Auditoría" },
+    { id: "portfolio", icon: Sparkles, label: "Portfolio" },
     { id: "contacto", icon: MessageCircle, label: "Contacto" },
 ];
 
@@ -50,7 +50,7 @@ export default function IslandBar() {
                     }
                 });
             },
-            { threshold: 0.3, rootMargin: "-10% 0px -60% 0px" }
+            { threshold: 0, rootMargin: "-30% 0px -30% 0px" }
         );
 
         sections.forEach((section) => observer.observe(section));

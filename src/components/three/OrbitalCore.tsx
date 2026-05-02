@@ -9,8 +9,8 @@ import * as THREE from "three";
 // ============================================================
 const POINT_COUNT = 600; // Optimizado para rendimiento
 const SPHERE_RADIUS = 2.5;
-const BASE_COLOR = new THREE.Color("#00A3FF"); // Cyan/Blue
-const HOVER_COLOR = new THREE.Color("#00D4E6"); // Refined Cyan
+const BASE_COLOR = new THREE.Color("#488EFF"); // Brand Blue Primary
+const HOVER_COLOR = new THREE.Color("#81E7FF"); // Brand Celeste
 const BASE_SPEED = 0.05; // Cinematic slow
 const HOVER_SPEED = 0.2; // Gentle acceleration
 
@@ -22,7 +22,7 @@ function OrbitalSphere() {
     const materialRef = useRef<THREE.PointsMaterial>(null!);
     const isHovered = useRef(false);
     const currentSpeed = useRef(BASE_SPEED);
-    const currentColor = useRef(new THREE.Color("#00A3FF"));
+    const currentColor = useRef(new THREE.Color("#488EFF"));
 
     // Generar puntos en la superficie de una esfera (distribución Fibonacci)
     const [positions] = useState(() => {
@@ -33,8 +33,10 @@ function OrbitalSphere() {
             const theta = (2 * Math.PI * i) / goldenRatio;
             const phi = Math.acos(1 - (2 * (i + 0.5)) / POINT_COUNT);
 
-            // Agregar variación de radio para efecto orgánico
-            const r = SPHERE_RADIUS * (0.85 + Math.random() * 0.3);
+            // Deterministic random for organic effect (avoids Math.random impurity)
+            const seed = i * 1.5;
+            const rand = (Math.sin(seed) * 10000) % 1;
+            const r = SPHERE_RADIUS * (0.85 + Math.abs(rand) * 0.3);
 
             pos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
             pos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
@@ -124,7 +126,7 @@ function OrbitalRings() {
             <mesh ref={ring1Ref} rotation={[Math.PI / 3, 0, 0]}>
                 <ringGeometry args={[3.2, 3.22, 128]} />
                 <meshBasicMaterial
-                    color="#00A3FF"
+                    color="#488EFF"
                     transparent
                     opacity={0.15}
                     side={THREE.DoubleSide}
@@ -134,7 +136,7 @@ function OrbitalRings() {
             <mesh ref={ring2Ref} rotation={[Math.PI / 2.5, Math.PI / 4, 0]}>
                 <ringGeometry args={[3.6, 3.62, 128]} />
                 <meshBasicMaterial
-                    color="#00F3FF"
+                    color="#81E7FF"
                     transparent
                     opacity={0.1}
                     side={THREE.DoubleSide}
@@ -151,14 +153,14 @@ function OrbitalRings() {
 export default function OrbitalCore() {
     return (
         <div
-            className="absolute inset-0 z-0"
+            className="absolute inset-0 z-0 pointer-events-none"
             aria-hidden="true"
         >
             <Canvas
                 camera={{ position: [0, 0, 7], fov: 55 }}
-                dpr={[1, 1.5]}
-                gl={{ antialias: false, alpha: true }}
-                style={{ background: "transparent" }}
+                dpr={[1, 1.2]}
+                gl={{ antialias: false, alpha: true, powerPreference: "high-performance" }}
+                style={{ background: "transparent", pointerEvents: "none" }}
             >
                 <OrbitalSphere />
                 <OrbitalRings />
