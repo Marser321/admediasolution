@@ -94,7 +94,7 @@ function AnimatedCounter({
     }, [springValue, value]);
 
     return (
-        <span className="font-display-heavy text-4xl sm:text-5xl lg:text-6xl text-accent-blue tabular-nums">
+        <span className="font-display-heavy text-4xl sm:text-5xl lg:text-6xl text-primary tabular-nums">
             {prefix}{displayValue}{suffix}
         </span>
     );
@@ -130,7 +130,7 @@ function KPICard({
                 y: cardY,
                 scale: cardScale,
             }}
-            className="group relative p-6 rounded-2xl bg-bg-card/50 border border-white/5 backdrop-blur-sm hover:border-accent-blue/20 transition-all duration-500 overflow-hidden will-change-transform"
+            className="group relative p-6 rounded-2xl bg-card border border-primary/10 backdrop-blur-sm hover:border-primary/30 transition-all duration-500 overflow-hidden will-change-transform"
         >
             {/* Glow hover */}
             <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
@@ -243,7 +243,7 @@ export default function ScrollytellingSection() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8 }}
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent-blue/5 border border-accent-blue/10 text-[11px] font-semibold tracking-[0.2em] uppercase text-accent-blue mb-6 backdrop-blur-md"
+                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 border border-primary/20 text-[11px] font-semibold tracking-[0.2em] uppercase text-primary mb-6 backdrop-blur-md"
                     >
                         Ecosistema de Crecimiento
                     </motion.div>
@@ -256,11 +256,11 @@ export default function ScrollytellingSection() {
                         className="font-display-heavy text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 text-text-primary"
                     >
                         Tecnología que genera{" "}
-                        <span className="text-accent-blue relative inline-block">
+                        <span className="text-primary relative inline-block">
                             ingresos reales
                             {/* Scroll-drawn underline */}
                             <motion.div
-                                className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-accent-blue to-accent-light"
+                                className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-primary to-accent-light"
                                 style={{ scaleX: underlineDraw, transformOrigin: "left" }}
                             />
                         </span>
@@ -329,7 +329,7 @@ export default function ScrollytellingSection() {
                                     transition={{ duration: 0.6, delay: 0.5 + i * 0.15 }}
                                     className="flex items-center gap-4 group relative z-10"
                                 >
-                                    <span className="text-xs font-bold text-accent-blue font-mono bg-accent-blue/5 border border-accent-blue/10 rounded-lg px-2.5 py-1.5 group-hover:bg-accent-blue/10 transition-colors">
+                                    <span className="text-xs font-bold text-primary font-mono bg-primary/5 border border-primary/20 rounded-lg px-2.5 py-1.5 group-hover:bg-primary/10 transition-colors">
                                         {item.step}
                                     </span>
                                     <span className="text-sm text-text-muted group-hover:text-text-primary transition-colors">
