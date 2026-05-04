@@ -5,6 +5,7 @@ import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { GitBranch, MessageSquareDashed, BrainCircuit, ArrowRight } from "lucide-react";
 import { AuroraBackground } from "../ui/AuroraBackground";
 import FloatingIcons from "../ui/FloatingIcons";
+import Link from "next/link";
 
 
 // ============================================================
@@ -13,7 +14,8 @@ import FloatingIcons from "../ui/FloatingIcons";
 const SERVICES = [
     {
         icon: GitBranch,
-        title: "Pipeline de Conversión",
+        title: "Embudos Neurales",
+        slug: "embudos-neurales",
         description:
             "En 37 días, tu equipo comercial opera con 5 etapas automatizadas. Una acción dominante por etapa. Sin caos, sin micromanagement. El 84% de nuestros clientes duplican su tasa de cierre en el primer trimestre.",
         microdata: "84% tasa de duplicación",
@@ -21,7 +23,8 @@ const SERVICES = [
     },
     {
         icon: MessageSquareDashed,
-        title: "Sistema Anti-Ghosting",
+        title: "Ads Autopilot",
+        slug: "ads-autopilot",
         description:
             "¿Cuántas propuestas enviaste esta semana que nunca recibieron respuesta? Nuestro sistema ejecuta 5 toques estratégicos por cada lead silencioso. Resultado promedio: recuperamos el 31% de propuestas dadas por perdidas.",
         microdata: "31% recuperación promedio",
@@ -29,7 +32,8 @@ const SERVICES = [
     },
     {
         icon: BrainCircuit,
-        title: "IA Supervisada",
+        title: "Contenido Generativo",
+        slug: "contenido-generativo",
         description:
             "La IA redacta, analiza y prioriza. Tú decides. Cada modelo está entrenado con tus datos y opera bajo supervisión humana. Automatización sin riesgo reputacional — tu marca siempre tiene la última palabra.",
         microdata: "0% riesgo reputacional",
@@ -156,61 +160,66 @@ function ServiceCard({
     const isInView = useInView(cardRef, { once: true, margin: "-60px" });
 
     return (
-        <motion.div
-            ref={cardRef}
-            initial={{ opacity: 0, y: 40, scale: 0.98 }}
-            whileInView={{ opacity: 1, y: 0, scale: 1 }}
-            viewport={{ once: true, margin: "-60px" }}
-            transition={{ duration: 0.7, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="group flex flex-col h-full relative p-10 rounded-3xl glass-premium border border-primary/10 hover:border-primary/40 transition-all duration-700 min-w-[85vw] md:min-w-0 snap-center will-change-transform shadow-2xl shadow-primary/10"
+        <Link 
+            href={`/servicios/${service.slug}`}
+            className="block h-full min-w-[85vw] md:min-w-0 snap-center no-underline"
         >
-            {/* Hover glow */}
-            <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
+            <motion.div
+                ref={cardRef}
+                initial={{ opacity: 0, y: 40, scale: 0.98 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: "-60px" }}
+                transition={{ duration: 0.7, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
+                className="group flex flex-col h-full relative p-10 rounded-3xl glass-premium border border-primary/10 hover:border-primary/40 transition-all duration-700 will-change-transform shadow-2xl shadow-primary/10 cursor-pointer"
+            >
+                {/* Hover glow */}
+                <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
 
-            {/* Icon Wrapper */}
-            <div className={`mb-8 p-5 rounded-2xl bg-gradient-to-br ${service.gradient} w-fit relative z-10 border border-primary/20 shadow-inner`}>
-                <service.icon className="size-7 text-primary" />
-            </div>
-
-            {/* Content */}
-            <h3 className="text-2xl font-display font-bold text-foreground mb-4 relative z-10">
-                {service.title}
-            </h3>
-            <p className="text-base text-muted-foreground leading-relaxed mb-10 relative z-10 flex-grow">
-                {service.description}
-            </p>
-
-            {/* Bottom Row: Badge & Arrow */}
-            <div className="flex justify-between items-end relative z-10 mt-auto">
-                {/* Micro-dato de autoridad */}
-                {'microdata' in service && (
-                    <motion.div
-                        initial={{ opacity: 0, x: -10 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        viewport={{ once: true, margin: "-60px" }}
-                        transition={{ duration: 0.5, delay: index * 0.1 + 0.4 }}
-                        className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/5 border border-primary/10"
-                    >
-                        <motion.div
-                            animate={isInView ? {
-                                boxShadow: [
-                                    "0 0 0px rgba(72,142,255,0)",
-                                    "0 0 10px rgba(72,142,255,0.5)",
-                                    "0 0 0px rgba(72,142,255,0)",
-                                ],
-                            } : {}}
-                            transition={{ duration: 3, repeat: Infinity, delay: index * 0.5 }}
-                            className="h-2 w-2 rounded-full bg-primary"
-                        />
-                        <span className="text-[11px] font-bold font-mono text-primary/80 uppercase tracking-widest">{service.microdata}</span>
-                    </motion.div>
-                )}
-
-                {/* Micro-interaction */}
-                <div className="opacity-0 transform translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 ml-auto p-2 rounded-full bg-primary/10 border border-primary/20">
-                    <ArrowRight className="size-5 text-primary" />
+                {/* Icon Wrapper */}
+                <div className={`mb-8 p-5 rounded-2xl bg-gradient-to-br ${service.gradient} w-fit relative z-10 border border-primary/20 shadow-inner`}>
+                    <service.icon className="size-7 text-primary" />
                 </div>
-            </div>
-        </motion.div>
+
+                {/* Content */}
+                <h3 className="text-2xl font-display font-bold text-foreground mb-4 relative z-10">
+                    {service.title}
+                </h3>
+                <p className="text-base text-muted-foreground leading-relaxed mb-10 relative z-10 flex-grow">
+                    {service.description}
+                </p>
+
+                {/* Bottom Row: Badge & Arrow */}
+                <div className="flex justify-between items-end relative z-10 mt-auto">
+                    {/* Micro-dato de autoridad */}
+                    {'microdata' in service && (
+                        <motion.div
+                            initial={{ opacity: 0, x: -10 }}
+                            whileInView={{ opacity: 1, x: 0 }}
+                            viewport={{ once: true, margin: "-60px" }}
+                            transition={{ duration: 0.5, delay: index * 0.1 + 0.4 }}
+                            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/5 border border-primary/10"
+                        >
+                            <motion.div
+                                animate={isInView ? {
+                                    boxShadow: [
+                                        "0 0 0px rgba(72,142,255,0)",
+                                        "0 0 10px rgba(72,142,255,0.5)",
+                                        "0 0 0px rgba(72,142,255,0)",
+                                    ],
+                                } : {}}
+                                transition={{ duration: 3, repeat: Infinity, delay: index * 0.5 }}
+                                className="h-2 w-2 rounded-full bg-primary"
+                            />
+                            <span className="text-[11px] font-bold font-mono text-primary/80 uppercase tracking-widest">{service.microdata}</span>
+                        </motion.div>
+                    )}
+
+                    {/* Micro-interaction */}
+                    <div className="opacity-0 transform translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-500 ml-auto p-2 rounded-full bg-primary/10 border border-primary/20">
+                        <ArrowRight className="size-5 text-primary" />
+                    </div>
+                </div>
+            </motion.div>
+        </Link>
     );
 }

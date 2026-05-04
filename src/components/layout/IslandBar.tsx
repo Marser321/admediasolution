@@ -3,7 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { Home, Briefcase, Sparkles, MessageCircle, Moon, Sun } from "lucide-react";
+import { Home, Briefcase, Sparkles, MessageCircle, Moon, Sun, Target, Cpu, Users } from "lucide-react";
 
 // ============================================================
 // Ítems de navegación
@@ -11,7 +11,10 @@ import { Home, Briefcase, Sparkles, MessageCircle, Moon, Sun } from "lucide-reac
 const NAV_ITEMS = [
     { id: "hero", icon: Home, label: "Inicio" },
     { id: "servicios", icon: Briefcase, label: "Servicios" },
-    { id: "portafolio", icon: Sparkles, label: "Portafolio" },
+    { id: "crm", icon: Target, label: "CRM" },
+    { id: "infraestructura", icon: Cpu, label: "Infra" },
+    { id: "portafolio", icon: Sparkles, label: "Portfolio" },
+    { id: "nosotros", icon: Users, label: "Nosotros" },
     { id: "contacto", icon: MessageCircle, label: "Contacto" },
 ];
 

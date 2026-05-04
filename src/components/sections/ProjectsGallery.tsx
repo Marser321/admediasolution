@@ -333,8 +333,7 @@ export default function ProjectsGallery() {
                         className="text-base sm:text-lg text-text-muted max-w-2xl mx-auto leading-relaxed"
                         style={{ fontFamily: "var(--font-display-light)" }}
                     >
-                        digital con nuestra combinación de estrategia experta y
-                        humanismo tecnológico.
+                        Elevamos tu presencia digital con nuestra combinación de estrategia experta y humanismo tecnológico.
                     </motion.p>
                 </motion.div>
 
