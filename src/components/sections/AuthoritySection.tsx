@@ -107,7 +107,7 @@ export default function AuthoritySection() {
             className="relative py-20 sm:py-32 px-5 sm:px-6 bg-background overflow-hidden"
         >
             {/* Global Aurora Background */}
-            <AuroraBackground intensity="medium" className="opacity-50" />
+            <AuroraBackground intensity="medium" className="opacity-15" />
 
             {/* Interactive Mouse Glow - Brand Blue Spotlight */}
             <motion.div
@@ -158,8 +158,7 @@ export default function AuthoritySection() {
                         />
 
                         {/* Blue Lighting Overlay & Glass Fusion — Refined for White Mode */}
-                        <div className="absolute inset-0 bg-gradient-to-tr from-accent-blue/5 via-transparent to-primary/10 pointer-events-none" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent pointer-events-none" />
+                        <div className="absolute inset-0 bg-gradient-to-tr from-accent-blue/5 via-transparent to-primary/5 pointer-events-none mix-blend-overlay" />
                         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 bg-[radial-gradient(circle_at_center,_rgba(129,231,255,0.15)_0%,_transparent_70%)] pointer-events-none" />
 
                         {/* Floating Badge — Glow intensifies at viewport center */}

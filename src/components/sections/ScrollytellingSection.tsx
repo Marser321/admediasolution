@@ -231,7 +231,7 @@ export default function ScrollytellingSection() {
             <FloatingIcons type="crm" className="z-0 opacity-[var(--floating-icon-opacity)]" />
 
             {/* Global Aurora Background */}
-            <AuroraBackground intensity="medium" className="opacity-40" />
+            <AuroraBackground intensity="medium" className="opacity-15" />
             
             {/* Divisor superior */}
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent-blue/10 to-transparent" />

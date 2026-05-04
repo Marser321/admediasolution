@@ -17,12 +17,12 @@ import { cn } from "@/lib/utils";
 // Datos de los nodos orbitales
 // ============================================================
 const TECH_NODES = [
-    { icon: Target, label: "Targeting IA", color: "#488EFF" },
-    { icon: Bot, label: "Automatización", color: "#81E7FF" },
-    { icon: BarChart3, label: "Analytics", color: "#488EFF" },
-    { icon: Zap, label: "Ads Engine", color: "#81E7FF" },
-    { icon: RefreshCw, label: "Retención", color: "#488EFF" },
-    { icon: TrendingUp, label: "Escalado", color: "#81E7FF" },
+    { icon: Target, label: "Targeting IA", color: "var(--primary)" },
+    { icon: Bot, label: "Automatización", color: "var(--primary)" },
+    { icon: BarChart3, label: "Analytics", color: "var(--primary)" },
+    { icon: Zap, label: "Ads Engine", color: "var(--primary)" },
+    { icon: RefreshCw, label: "Retención", color: "var(--primary)" },
+    { icon: TrendingUp, label: "Escalado", color: "var(--primary)" },
 ];
 
 // ============================================================
@@ -55,8 +55,8 @@ function ConnectionLines({ radius, centerX, centerY }: { radius: number; centerX
         <svg className="absolute inset-0 w-full h-full transform-gpu" viewBox={`0 0 ${centerX * 2} ${centerY * 2}`}>
             <defs>
                 <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#488EFF" stopOpacity="0.5" />
-                    <stop offset="100%" stopColor="#81E7FF" stopOpacity="0.5" />
+                    <stop offset="0%" stopColor="var(--primary)" stopOpacity="0.8" />
+                    <stop offset="100%" stopColor="var(--primary)" stopOpacity="0.8" />
                 </linearGradient>
             </defs>
 
@@ -69,7 +69,7 @@ function ConnectionLines({ radius, centerX, centerY }: { radius: number; centerX
                 stroke="url(#lineGradient)"
                 strokeWidth="1.5"
                 strokeDasharray="8 6"
-                opacity="0.3"
+                opacity="0.6"
                 className="will-change-transform"
             >
                 <animateTransform
@@ -183,8 +183,8 @@ function OrbitalNode({
             <motion.div
                 className={cn(
                     "relative w-full h-full rounded-full flex items-center justify-center",
-                    "bg-background border-2 border-primary/40 backdrop-blur-md",
-                    "shadow-[0_0_20px_rgba(0,102,255,0.2)] cursor-pointer transition-colors duration-300 transform-gpu"
+                    "bg-card border-2 border-primary/60 backdrop-blur-xl",
+                    "shadow-[0_4px_25px_rgba(0,102,255,0.25)] cursor-pointer transition-colors duration-300 transform-gpu"
                 )}
                 style={{
                     borderColor: isHovered ? node.color : `${node.color}88`,
@@ -231,8 +231,8 @@ function CoreNode({
             transition={{ duration: 0.8, ease: "easeOut" }}
         >
             {/* Core sólido */}
-            <div className="relative w-full h-full rounded-full bg-background border-2 border-primary flex flex-col items-center justify-center shadow-[0_0_30px_rgba(0,102,255,0.3)] backdrop-blur-xl overflow-hidden">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-b from-primary/30 to-transparent" />
+            <div className="relative w-full h-full rounded-full bg-card border-2 border-primary flex flex-col items-center justify-center shadow-[0_10px_40px_rgba(0,102,255,0.4)] backdrop-blur-2xl overflow-hidden">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-b from-primary/20 to-transparent" />
                 <Image
                     src="/brand/logo-icon.png"
                     alt="AD Media Solution Icon"
