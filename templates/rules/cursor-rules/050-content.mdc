@@ -1,0 +1,44 @@
+---
+description: Reglas para content y MDX/blog en sitios corporativos.
+globs: ["src/content/**/*", "**/*.mdx", "sanity/**/*", "payload/**/*"]
+alwaysApply: false
+---
+
+# Content / CMS
+
+## Astro Content / Velite
+- Schema definido en `src/content/config.ts` (Astro) o `velite.config.ts`.
+- Frontmatter mínimo:
+  ```yaml
+  title: string (required, ≤ 70 chars)
+  description: string (required, ≤ 160 chars)
+  publishedAt: date (required)
+  updatedAt: date (optional)
+  author: string (required)
+  tags: string[]
+  cover: ImageField (required)
+  draft: boolean (default false)
+  ```
+- Validar en build: `pnpm build` falla si frontmatter no cumple.
+
+## Sanity / Payload
+- Block-based schema. Cada bloque tipado.
+- Campos con `validation` explícita (required, min/max length, regex slug).
+- Preview component por cada bloque.
+- Internationalization opcional pero declarada en schema desde el inicio.
+
+## SEO obligatorio por página
+- `<title>` único, ≤ 60 chars.
+- `meta description` ≤ 160 chars.
+- OG tags.
+- JSON-LD según tipo (`Article`, `BreadcrumbList`, `Organization`, `Product`).
+
+## Imágenes
+- Subir solo originales optimizados (≤ 2MB).
+- `alt` descriptivo obligatorio.
+- `astro:assets` o `next/image` para servir.
+
+## Anti-patrones
+- ❌ Markdown libre sin schema (rich text raw mata el design system).
+- ❌ Hardcodear strings traducidos en componentes; ir a archivos `i18n/`.
+- ❌ Olvidar `noindex` en staging.

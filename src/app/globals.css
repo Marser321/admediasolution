@@ -145,6 +145,10 @@
     animation: grain-flow 8s steps(10) infinite;
   }
 
+  .animate-shimmer {
+    animation: shimmer 2s linear infinite;
+  }
+
   .orb-glow {
     position: absolute;
     width: 600px;
@@ -167,16 +171,22 @@
 }
 
 @keyframes pulse-slow {
-
-  0%,
-  100% {
-    opacity: 0.2;
+  0%, 100% {
+    opacity: 0.15;
     transform: scale(1);
   }
-
   50% {
-    opacity: 0.4;
-    transform: scale(1.1);
+    opacity: 0.3;
+    transform: scale(1.05);
+  }
+}
+
+@keyframes shimmer {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
   }
 }
 
@@ -290,6 +300,18 @@
    =================================================================== */
 
 /* Digital Grid Pattern */
+.texture-grid {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image: 
+    linear-gradient(var(--color-accent-blue) 1px, transparent 1px), 
+    linear-gradient(90deg, var(--color-accent-blue) 1px, transparent 1px);
+  background-size: 30px 30px;
+  opacity: 0.012; /* High-fidelity subtle grid */
+  z-index: 0;
+}
+
 .texture-travertine {
   position: relative;
   background-size: 50px 50px;

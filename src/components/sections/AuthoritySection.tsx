@@ -92,63 +92,54 @@ export default function AuthoritySection() {
     );
 
     // Split parallax — columns enter from opposite sides
-    const photoX = useTransform(scrollYProgress, [0, 0.35], [-80, 0]);
+    const photoX = useTransform(scrollYProgress, [0, 0.35], [-60, 0]);
     const photoOpacity = useTransform(scrollYProgress, [0.05, 0.25], [0, 1]);
-    const photoScale = useTransform(scrollYProgress, [0, 0.35], [0.9, 1]);
+    const photoScale = useTransform(scrollYProgress, [0, 0.35], [0.95, 1]);
 
-    const copyX = useTransform(scrollYProgress, [0, 0.35], [80, 0]);
+    const copyX = useTransform(scrollYProgress, [0, 0.35], [60, 0]);
     const copyOpacity = useTransform(scrollYProgress, [0.05, 0.25], [0, 1]);
 
     // Background grid parallax
-    const gridY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
-
-    // Blockquote bar extension
-    const quoteBarHeight = useTransform(scrollYProgress, [0.3, 0.5], [0, 100]);
+    const gridY = useTransform(scrollYProgress, [0, 1], ["0%", "10%"]);
 
     return (
         <section 
             ref={sectionRef} 
+            id="nosotros"
             onMouseMove={handleMouseMove}
-            className="relative py-20 sm:py-32 px-5 sm:px-6 bg-[#050505] overflow-hidden"
+            className="relative py-16 sm:py-24 px-5 sm:px-6 bg-background overflow-hidden"
         >
 
             {/* Static Aggressive Auroras for Density */}
-            <div className="absolute top-[-20%] left-[-10%] w-[800px] h-[800px] rounded-full bg-[radial-gradient(circle,_rgba(11,50,127,0.5)_0%,_transparent_70%)] mix-blend-screen pointer-events-none z-0 animate-pulse-slow" />
-            <div className="absolute bottom-[-20%] right-[-10%] w-[1000px] h-[1000px] rounded-full bg-[radial-gradient(circle,_rgba(72,142,255,0.3)_0%,_transparent_70%)] mix-blend-screen pointer-events-none z-0 animate-pulse-slow" style={{ animationDelay: '1.5s' }} />
-            <div className="absolute top-[20%] left-[30%] w-[800px] h-[800px] rounded-full bg-[radial-gradient(circle,_rgba(129,231,255,0.15)_0%,_transparent_70%)] mix-blend-screen pointer-events-none z-0 animate-pulse-slow" style={{ animationDelay: '3s' }} />
+            <div className="absolute top-[-20%] left-[-10%] w-[800px] h-[800px] rounded-full bg-[radial-gradient(circle,_rgba(72,142,255,0.15)_0%,_transparent_70%)] mix-blend-screen pointer-events-none z-0 animate-pulse-slow" />
+            <div className="absolute bottom-[-20%] right-[-10%] w-[1000px] h-[1000px] rounded-full bg-[radial-gradient(circle,_rgba(129,231,255,0.1)_0%,_transparent_70%)] mix-blend-screen pointer-events-none z-0 animate-pulse-slow" style={{ animationDelay: '1.5s' }} />
 
             {/* Interactive Mouse Glow - Brand Blue Spotlight */}
             <motion.div
-                className="absolute pointer-events-none z-0 mix-blend-screen"
+                className="absolute pointer-events-none z-0 mix-blend-screen hidden lg:block"
                 style={{
-                    width: "1200px",
-                    height: "1200px",
+                    width: "1000px",
+                    height: "1000px",
                     left: smoothX,
                     top: smoothY,
                     translateX: "-50%",
                     translateY: "-50%",
-                    background: "radial-gradient(circle, rgba(129,231,255,0.1) 0%, rgba(72,142,255,0.15) 20%, rgba(11,50,127,0.1) 50%, transparent 70%)",
+                    background: "radial-gradient(circle, rgba(72,142,255,0.08) 0%, transparent 60%)",
                 }}
             />
 
             {/* Iconos flotantes — Analytics */}
-            <FloatingIcons type="analytics" className="z-0 opacity-40" />
+            <FloatingIcons type="analytics" className="z-0 opacity-20" />
 
             {/* Background Texture - Grid with parallax */}
             <motion.div
                 style={{ y: gridY }}
-                className="absolute inset-0 pointer-events-none opacity-[0.03]"
+                className="absolute inset-0 pointer-events-none"
             >
-                <div
-                    className="absolute inset-0"
-                    style={{
-                        backgroundImage: "linear-gradient(#488EFF 1px, transparent 1px), linear-gradient(90deg, #488EFF 1px, transparent 1px)",
-                        backgroundSize: "40px 40px"
-                    }}
-                />
+                <div className="texture-grid" />
             </motion.div>
 
-            <div className="max-w-6xl mx-auto relative z-10 grid lg:grid-cols-2 gap-16 items-center">
+            <div className="max-w-6xl mx-auto relative z-10 grid lg:grid-cols-2 gap-20 items-center">
 
                 {/* Column 1: Visual + Badge — Slides from LEFT */}
                 <motion.div
@@ -159,36 +150,36 @@ export default function AuthoritySection() {
                     }}
                     className="relative order-2 lg:order-1 will-change-transform"
                 >
-                    <div className="aspect-[3/4] rounded-2xl overflow-hidden relative bg-[#050505] border border-white/10 shadow-[0_0_40px_rgba(72,142,255,0.1)] group">
+                    <div className="aspect-[4/5] rounded-3xl overflow-hidden relative bg-card border border-white/10 shadow-2xl shadow-primary/5 group">
                         {/* Foto CEO */}
                         <Image
                             src="/team/ceo.png"
                             alt="Danger Fernandez - CEO"
                             fill
-                            className="object-cover object-top transition-transform duration-[1.5s] ease-out group-hover:scale-105"
-                            quality={100}
+                            className="object-cover object-top transition-transform duration-[2s] ease-out group-hover:scale-105"
+                            quality={95}
                             priority
                         />
 
                         {/* Blue Lighting Overlay & Glass Fusion */}
-                        <div className="absolute inset-0 bg-gradient-to-tr from-[#050505] via-[#050505]/40 to-[#488EFF]/40 mix-blend-overlay pointer-events-none" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-[#050505] via-[#050505]/40 to-transparent pointer-events-none" />
-                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-700 bg-[radial-gradient(circle_at_center,_rgba(129,231,255,0.3)_0%,_rgba(72,142,255,0.2)_30%,_transparent_70%)] mix-blend-screen pointer-events-none" />
+                        <div className="absolute inset-0 bg-gradient-to-tr from-background via-transparent to-primary/20 mix-blend-overlay pointer-events-none" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent pointer-events-none" />
+                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 bg-[radial-gradient(circle_at_center,_rgba(129,231,255,0.2)_0%,_transparent_70%)] mix-blend-screen pointer-events-none" />
 
                         {/* Floating Badge — Glow intensifies at viewport center */}
-                        <div className="absolute bottom-6 left-6 right-6 p-4 rounded-xl bg-bg-card/60 border border-white/10 backdrop-blur-md">
-                            <div className="flex items-center gap-3">
+                        <div className="absolute bottom-8 left-8 right-8 p-5 rounded-2xl bg-background/60 border border-white/10 backdrop-blur-xl">
+                            <div className="flex items-center gap-4">
                                 <motion.div
                                     style={{
                                         boxShadow: badgeBoxShadow,
                                     }}
-                                    className="size-10 rounded-full bg-accent-blue flex items-center justify-center text-black font-bold font-display text-sm"
+                                    className="size-12 rounded-full bg-primary flex items-center justify-center text-white font-bold font-display text-base"
                                 >
                                     DF
                                 </motion.div>
                                 <div>
-                                    <p className="text-sm font-bold text-text-primary">Danger Fernandez</p>
-                                    <p className="text-xs text-accent-blue">Revenue Systems Engineer</p>
+                                    <p className="text-base font-bold text-foreground">Danger Fernandez</p>
+                                    <p className="text-xs text-primary font-mono tracking-tighter uppercase font-medium">Chief Revenue Architect</p>
                                 </div>
                             </div>
                         </div>
@@ -209,22 +200,22 @@ export default function AuthoritySection() {
                         whileInView="visible"
                         viewport={{ once: true }}
                     >
-                        <motion.p variants={itemVariants} className="text-[11px] font-semibold tracking-[0.2em] uppercase text-accent-blue mb-4">
+                        <motion.p variants={itemVariants} className="text-[12px] font-bold tracking-[0.25em] uppercase text-primary mb-6">
                             CEO & Fundador
                         </motion.p>
 
-                        <motion.h2 variants={itemVariants} className="font-display-heavy text-3xl sm:text-4xl lg:text-5xl font-bold mb-6 text-text-primary">
+                        <motion.h2 variants={itemVariants} className="font-display-heavy text-4xl sm:text-5xl lg:text-6xl font-bold mb-8 text-foreground">
                             Danger Fernandez.
-                            <span className="block text-text-muted font-light mt-2 text-xl sm:text-2xl">Revenue Systems Engineer</span>
+                            <span className="block text-primary font-mono mt-3 text-sm sm:text-base tracking-[0.35em] uppercase opacity-90">Chief Revenue Architect</span>
                         </motion.h2>
 
-                        {/* Bio extendida */}
-                        <motion.div variants={itemVariants} className="space-y-4 text-base sm:text-lg text-text-muted leading-relaxed mb-8">
+                        {/* Bio extendida — Neutral Spanish Pass */}
+                        <motion.div variants={itemVariants} className="space-y-5 text-lg sm:text-xl text-muted-foreground leading-relaxed mb-10">
                             <p>
-                                No soy una agencia. Soy un <strong className="text-text-primary">ingeniero de sistemas de ingresos</strong>.
+                                No soy un consultor de marketing convencional. Soy el <strong className="text-foreground">arquitecto jefe</strong> de tu infraestructura comercial y operativa.
                             </p>
                             <p>
-                                Diseñé y escalé +150 campañas de Meta Ads y Google Ads. Construí funnels completos en GoHighLevel. Automaticé CRMs de empresas que facturan 7 cifras. Y filmé el contenido yo mismo.
+                                Diseño sistemas para compañías que facturan entre 7 y 8 cifras, integrando Meta Ads de alta precisión, ecosistemas CRM a medida y flujos de IA que optimizan la rentabilidad sin depender de equipos humanos masivos.
                             </p>
                         </motion.div>
 
@@ -232,29 +223,29 @@ export default function AuthoritySection() {
                         <motion.blockquote
                             ref={quoteRef}
                             variants={itemVariants}
-                            className="relative pl-5 mb-10 italic text-text-muted/80 overflow-hidden"
+                            className="relative pl-6 mb-12 italic text-muted-foreground/80 overflow-hidden text-lg"
                         >
                             {/* Animated bar */}
                             <motion.div
                                 initial={{ height: 0 }}
                                 animate={isQuoteInView ? { height: "100%" } : { height: 0 }}
-                                transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-                                className="absolute left-0 top-0 w-[2px] bg-accent-blue/40"
+                                transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
+                                className="absolute left-0 top-0 w-[3px] bg-primary/40"
                             />
                             <motion.span
                                 initial={{ opacity: 0 }}
                                 animate={isQuoteInView ? { opacity: 1 } : { opacity: 0 }}
-                                transition={{ duration: 0.8, delay: 0.4 }}
+                                transition={{ duration: 1, delay: 0.5 }}
                             >
-                                &ldquo;Si tu agencia actual no puede hacer eso con una sola persona, tenés un equipo — no tenés un sistema.&rdquo;
+                                &ldquo;Si tu agencia actual requiere un ejército de personas para operar un sistema que debería ser automático, no tienes una solución; tienes un costo oculto.&rdquo;
                             </motion.span>
                         </motion.blockquote>
 
                         {/* Stats Grid — Sequential reveal left to right */}
-                        <motion.div variants={itemVariants} className="grid grid-cols-2 sm:grid-cols-4 gap-4 border-t border-white/5 pt-8 mb-8">
+                        <motion.div variants={itemVariants} className="grid grid-cols-2 sm:grid-cols-4 gap-6 border-t border-white/5 pt-10 mb-10">
                             {[
                                 { value: "+$10M", label: "Revenue Generado" },
-                                { value: "150+", label: "Campañas" },
+                                { value: "150+", label: "Estructuras" },
                                 { value: "0%", label: "Churn 2025" },
                                 { value: "4+", label: "Años de Exp." },
                             ].map((stat, i) => (
@@ -264,10 +255,10 @@ export default function AuthoritySection() {
 
                         {/* Fila de herramientas — Cascade entry */}
                         <motion.div variants={itemVariants}>
-                            <p className="text-[10px] sm:text-xs uppercase tracking-[0.2em] text-text-muted/60 mb-4">
-                                Stack Operativo & Maestría
+                            <p className="text-[11px] sm:text-xs uppercase tracking-[0.25em] text-muted-foreground/50 mb-6">
+                                Stack Operativo & Maestría Técnica
                             </p>
-                            <div className="flex flex-wrap gap-2.5">
+                            <div className="flex flex-wrap gap-3">
                                 {TOOLS.map((tool, i) => (
                                     <ToolBadge key={i} tool={tool} index={i} />
                                 ))}

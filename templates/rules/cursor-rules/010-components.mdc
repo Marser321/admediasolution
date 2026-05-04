@@ -1,0 +1,42 @@
+---
+description: Reglas para componentes React. Se activa solo al editar componentes y páginas.
+globs: ["src/components/**/*.tsx", "src/sections/**/*.tsx", "app/**/*.tsx", "src/app/**/*.tsx"]
+alwaysApply: false
+---
+
+# Componentes
+
+## Server vs Client
+- Default: Server Component. Solo `"use client"` si necesita interacción/estado.
+- Server Components no pueden importar archivos con `"use client"` directamente; pasar como prop si es necesario.
+
+## Estructura recomendada
+```tsx
+// 1. imports (organizados por: built-ins, externals, internals)
+// 2. types/schemas
+// 3. constants
+// 4. component principal (default export)
+// 5. subcomponentes locales (si los hay y son < 30 líneas)
+```
+
+## A11y obligatorio en cada componente interactivo
+- `:focus-visible` con outline o ring del UI-SPEC.
+- `aria-label` solo cuando el texto visible no alcanza.
+- Estados: default, hover, focus, active, disabled, loading, error.
+
+## Motion
+- Una sola lib (Framer Motion). Si hay GSAP en el componente, justificar en comentario.
+- Respetar `prefers-reduced-motion`.
+- Animar solo `transform` y `opacity`.
+
+## Forms
+- `zod schema` → `useForm({ resolver: zodResolver(schema) })`.
+- `aria-describedby` para errores.
+- Submit button con loading state visible.
+
+## Anti-patrones a evitar
+- ❌ Estilos inline (`style={{...}}`).
+- ❌ `useState` anidados que deberían ser un Zustand store.
+- ❌ Lógica de fetching dentro de presentational components.
+- ❌ Componentes > 200 líneas.
+- ❌ Magic numbers (`mt-[13px]`, `text-[14.5px]`).

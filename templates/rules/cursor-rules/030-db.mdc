@@ -1,0 +1,41 @@
+---
+description: Reglas para schema, migrations y queries de DB.
+globs: ["**/db/**/*.ts", "**/schema.ts", "**/migrations/**/*.sql", "drizzle.config.*"]
+alwaysApply: false
+---
+
+# Database
+
+## Schema
+- UUIDs como PK por defecto (`uuid`, `defaultRandom()`).
+- `created_at` / `updated_at` en toda tabla con dato útil.
+- `deleted_at` para soft-deletes si la tabla lo necesita.
+- Índices explícitos en columnas de filtrado frecuente (`email`, `slug`, `organization_id`).
+- Foreign keys con `onDelete` declarado (`cascade` / `set null` / `restrict`).
+
+## Migrations
+- **Prohibido editar** una migration ya aplicada.
+- Cada cambio = nueva migration. Nombre descriptivo: `0042_add_billing_columns.sql`.
+- Roll-forward only. Si se necesita revert, generar migration nueva que invierte.
+- Antes de mergear: verificar que `drizzle-kit migrate` corre limpio en DB vacía Y en DB con data.
+
+## Queries
+- Multi-tenant: **siempre** `where(eq(table.organizationId, ctx.orgId))`.
+- Cero `select *` implícito en code reviews; explicitar columnas.
+- Joins via Drizzle relational queries cuando se puede.
+- N+1 detectado → batch con `inArray` o relation query.
+
+## RLS
+- Habilitada en todas las tablas multi-tenant.
+- Política de aislamiento por `app.org_id` setteable por request.
+- Tests de cross-tenant access en CI (intentar leer datos de otro tenant → must fail).
+
+## Seeds
+- `db/seed.ts` para data de desarrollo. **Nunca** correr en prod.
+- Datos sintéticos (`@faker-js/faker`).
+
+## Anti-patrones
+- ❌ Columnas sin tipo explícito (todos varchar).
+- ❌ JSON columns para reemplazar tablas relacionales.
+- ❌ Nombres de columna en CamelCase (Postgres es case-insensitive sin quotes).
+- ❌ Hardcodear valores de enums en código; usar `pgEnum`.

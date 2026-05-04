@@ -214,20 +214,14 @@ export default function ScrollytellingSection() {
         <section
             ref={sectionRef}
             id="estrategia"
-            className="relative py-20 sm:py-36 px-5 sm:px-6 bg-bg-deep overflow-hidden"
+            className="relative py-16 sm:py-24 px-5 sm:px-6 bg-bg-deep overflow-hidden"
         >
             {/* Background grid con parallax */}
             <motion.div
-                className="absolute inset-0 pointer-events-none opacity-[0.03]"
+                className="absolute inset-0 pointer-events-none"
                 style={{ y: bgY }}
             >
-                <div
-                    className="absolute inset-0"
-                    style={{
-                        backgroundImage: "linear-gradient(#488EFF 1px, transparent 1px), linear-gradient(90deg, #488EFF 1px, transparent 1px)",
-                        backgroundSize: "40px 40px",
-                    }}
-                />
+                <div className="texture-grid" />
             </motion.div>
 
             {/* Iconos flotantes */}

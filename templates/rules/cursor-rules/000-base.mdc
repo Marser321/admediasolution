@@ -1,0 +1,33 @@
+---
+description: Reglas globales del proyecto. Activar en cualquier archivo del repositorio.
+globs: ["**/*"]
+alwaysApply: true
+---
+
+# Reglas globales
+
+- TypeScript estricto. Cero `any`. Cero `@ts-ignore`.
+- Sin `console.log` en main; usar `lib/log.ts` y Sentry.
+- Imports absolutos vía `@/...`. Sin `../../../`.
+- Componentes < 200 líneas; refactor si excede.
+- Conventional commits.
+- Cero credenciales hardcoded; todo via env vars.
+- Antes de instalar dependencia nueva, **pedir aprobación**.
+
+## Estado y data
+
+- Estado UI compartido → Zustand. URL state → nuqs. Validación → zod.
+- Data → TanStack Query o RSC. **No** `useEffect` para fetching salvo edge case.
+
+## A11y / UI
+
+- HTML semántico antes que ARIA.
+- Tailwind v4 + tokens del UI-SPEC. Cero hex/rgb hardcoded ni `text-[14.5px]`.
+- Una sola lib de motion por componente (Framer Motion default).
+
+## Stack autorizado
+
+- Next.js 15 / Astro 5 / Vite+React (según proyecto).
+- shadcn/ui copiado a `components/ui/`. Material UI / Chakra / Bootstrap **prohibidos**.
+- Drizzle ORM. Prisma **prohibido** salvo legacy.
+- Better Auth. NextAuth solo si Better Auth no encaja.

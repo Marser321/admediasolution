@@ -1,0 +1,44 @@
+---
+description: Reglas para handlers de API y server actions.
+globs: ["app/api/**/*.ts", "src/app/api/**/*.ts", "**/server-actions/**/*.ts", "**/*.action.ts"]
+alwaysApply: false
+---
+
+# API / Server Actions
+
+## Validación de entrada
+- Zod schema obligatorio en cada endpoint que recibe body o params.
+- Reject 400 con mensaje accionable si falla parse.
+
+```ts
+const Body = z.object({ email: z.string().email(), name: z.string().min(2) });
+export async function POST(req: Request) {
+  const parse = Body.safeParse(await req.json());
+  if (!parse.success) return Response.json({ error: parse.error.flatten() }, { status: 400 });
+  // …
+}
+```
+
+## Auth
+- Verificar sesión en cada endpoint protegido. No confiar en middleware solo.
+- Si multi-tenant, **siempre** filtrar por `organization_id` del usuario actual.
+
+## Errores
+- Cero filtración de stack traces en producción.
+- Capturar a Sentry con contexto (user, org, request id).
+- Responder 5xx con mensaje genérico al cliente.
+
+## Webhooks
+- Verificar firma criptográfica (Stripe, GHL, etc.).
+- Idempotency: persistir `event.id` antes de procesar; skip si ya visto.
+- Responder 200 rápido; encolar trabajo pesado a background.
+
+## Rate limit
+- Endpoints públicos (form contacto, leads) → rate limit por IP.
+- Usar Upstash Ratelimit o equivalente.
+
+## Anti-patrones
+- ❌ Queries Drizzle sin filtro de tenant en multi-tenant.
+- ❌ Devolver objetos completos del DB con campos sensibles.
+- ❌ `try/catch` que tapa el error sin loguear.
+- ❌ Side effects no idempotentes en webhook handlers.

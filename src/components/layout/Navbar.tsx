@@ -26,7 +26,7 @@ export default function Navbar() {
         flex fixed top-0 left-0 right-0 z-50
         transition-all duration-500 ease-out
         ${scrolled
-                    ? "py-3 glass-premium backdrop-blur-md bg-background/70 border-b border-[#488EFF]/15 shadow-2xl shadow-[#0B327F]/20"
+                    ? "py-3 glass-premium backdrop-blur-md bg-background/80 border-b border-primary/20 shadow-2xl shadow-primary/10"
                     : "py-5 bg-transparent border-transparent"
                 }
       `}
@@ -37,18 +37,18 @@ export default function Navbar() {
                     <motion.div
                         animate={scrolled
                             ? { 
-                                filter: "drop-shadow(0 0 12px rgba(72,142,255,0.35))",
-                                scale: 1.05 
+                                filter: "drop-shadow(0 0 15px rgba(72,142,255,0.4))",
+                                scale: 1.02 
                               }
                             : { 
-                                filter: "drop-shadow(0 0 8px rgba(72,142,255,0.2))",
-                                scale: 1.1
+                                filter: "drop-shadow(0 0 10px rgba(72,142,255,0.25))",
+                                scale: 1.05
                               }
                         }
-                        whileHover={{ scale: 1.15, filter: "drop-shadow(0 0 20px rgba(72,142,255,0.5))" }}
-                        transition={{ duration: 0.6 }}
+                        whileHover={{ scale: 1.08, filter: "drop-shadow(0 0 25px rgba(72,142,255,0.6))" }}
+                        transition={{ duration: 0.5, ease: "circOut" }}
                     >
-                        <div className="absolute -inset-4 bg-[#488EFF]/5 rounded-xl blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                        <div className="absolute -inset-4 bg-primary/10 rounded-xl blur-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
                         <Image
                             src="/brand/logo-full-white.png"
                             alt="Ad Media Solution"
@@ -62,29 +62,33 @@ export default function Navbar() {
 
                 {/* Navegación central (oculta en mobile) */}
                 <div className="hidden md:flex items-center gap-8">
-                    {["Servicios", "Portfolio", "Nosotros"].map((item) => (
+                    {["Servicios", "CRM", "Infraestructura", "Portafolio", "Nosotros"].map((item) => (
                         <a
                             key={item}
                             href={`#${item.toLowerCase()}`}
-                            className="text-sm text-muted-foreground hover:text-foreground transition-colors duration-300 relative group"
+                            className="text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-300 relative group tracking-wide"
                         >
                             {item}
-                            <span className="absolute -bottom-1 left-0 w-0 h-px bg-accent-blue group-hover:w-full transition-all duration-300" />
+                            <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-primary group-hover:w-full group-hover:left-0 transition-all duration-500 ease-out" />
                         </a>
                     ))}
                 </div>
 
-                {/* CTA — Auditoría IA */}
+                {/* CTA — Auditoría Experta */}
                 <motion.button
-                    whileTap={{ scale: 0.96 }}
-                    whileHover={{ scale: 1.05 }}
-                    className="relative group flex items-center gap-2 px-5 py-2.5 rounded-full text-sm font-semibold text-white bg-[#488EFF] hover:bg-[#488EFF]/90 transition-all duration-300 cursor-pointer shadow-md shadow-[#488EFF]/10"
+                    whileTap={{ scale: 0.97 }}
+                    whileHover={{ scale: 1.04 }}
+                    className="relative group flex items-center gap-2 px-6 py-2.5 rounded-full text-sm font-bold text-white bg-primary hover:bg-primary/90 transition-all duration-500 cursor-pointer shadow-lg shadow-primary/20 overflow-hidden"
                 >
+                    {/* Brillo dinámico al hover */}
+                    <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer" />
+                    
                     {/* Glow pulsante */}
-                    <span className="absolute inset-0 rounded-full bg-[#488EFF]/10 animate-pulse" />
+                    <span className="absolute inset-0 rounded-full bg-primary/20 animate-pulse-slow" />
+                    
                     <span className="relative flex items-center gap-2">
-                        <Sparkles className="size-4 text-white" />
-                        <span className="hidden sm:inline">Auditoría IA</span>
+                        <Sparkles className="size-4 text-white fill-white/20" />
+                        <span className="hidden sm:inline">Auditoría Experta</span>
                         <span className="inline sm:hidden">Auditoría</span>
                     </span>
                 </motion.button>

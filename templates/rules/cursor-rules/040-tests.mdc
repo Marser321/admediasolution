@@ -1,0 +1,43 @@
+---
+description: Reglas para tests unitarios, integración y E2E.
+globs: ["**/*.test.ts", "**/*.test.tsx", "**/*.spec.ts", "e2e/**/*"]
+alwaysApply: false
+---
+
+# Tests
+
+## Unit (Vitest)
+- Cada service/util crítico tiene su `*.test.ts`.
+- Sin lógica de mock global compleja; mejor inyectar deps por argumento.
+- AAA: Arrange / Act / Assert visible.
+
+## Integration
+- Endpoints de API con DB de test (Postgres temporal).
+- Setup/teardown limpia entre tests.
+- Cubrir webhooks idempotentes con doble disparo.
+
+## E2E (Playwright)
+- Cubrir **flows críticos** completos:
+  - Signup + email verify + login.
+  - Checkout completo (Stripe + MP test cards).
+  - Form de contacto → email recibido + GHL contact creado.
+- Snapshots visuales en breakpoints clave.
+- Cero test que dependa de timing fijo (`page.waitForTimeout(2000)` prohibido); usar `waitFor` con condición.
+
+## Estructura
+```
+tests/
+├── unit/
+├── integration/
+└── e2e/   # = playwright
+```
+
+## Coverage target
+- E2E flows MUST: 100%.
+- Unit lógica de billing/auth: ≥ 85%.
+- Total: ≥ 70%.
+
+## Anti-patrones
+- ❌ `it.skip` permanente sin issue tracking.
+- ❌ Tests acoplados al orden de ejecución.
+- ❌ Mocks tan complejos que ocultan el bug real.

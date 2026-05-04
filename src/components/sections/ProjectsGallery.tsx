@@ -69,9 +69,9 @@ const PROJECTS = [
     },
     {
         title: "Sabor Artesanal",
-        category: "Contenido IA",
+        category: "Content Engine",
         description:
-            "Producción masiva de contenido generativo para restaurante gourmet: fotografía, copy y reels optimizados por IA.",
+            "Producción masiva de contenido estratégico para restaurante gourmet: fotografía, copy y reels de alto impacto.",
         metrics: { label: "Contenido/Mes", value: "200+" },
         icon: Wand2,
         gradient: "from-[#EC4899] via-[#F472B6] to-[#FB7185]",
@@ -271,8 +271,8 @@ export default function ProjectsGallery() {
     return (
         <section
             ref={sectionRef}
-            id="portfolio"
-            className="relative py-20 sm:py-36 px-5 sm:px-6 overflow-hidden bg-[#050505]"
+            id="portafolio"
+            className="relative py-16 sm:py-24 px-5 sm:px-6 overflow-hidden bg-background"
         >
             {/* Iconos flotantes — Creativos */}
             <FloatingIcons type="creative" className="z-0 opacity-30" />
@@ -342,9 +342,8 @@ export default function ProjectsGallery() {
                         className="text-base sm:text-lg text-text-muted max-w-2xl mx-auto leading-relaxed"
                         style={{ fontFamily: "var(--font-display-light)" }}
                     >
-                        Casos reales de marcas que transformaron su presencia
-                        digital con nuestra combinación de IA y estrategia
-                        humana.
+                        digital con nuestra combinación de estrategia experta y
+                        humanismo tecnológico.
                     </motion.p>
                 </motion.div>
 

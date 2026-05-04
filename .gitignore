@@ -39,3 +39,14 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# build & temp
+build_log_*.txt
+*.zip
+V3/
+check_logos.py
+checklists/
+*.jpg
+*.png
+!src/app/icon.png
+!public/
