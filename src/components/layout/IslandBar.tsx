@@ -42,7 +42,7 @@ export default function IslandBar() {
     const lastScrollYRef = useRef(0);
     const lastToggleAtRef = useRef(0);
     const navLockRef = useRef(false);
-    const navUnlockTimerRef = useRef<ReturnType<typeof window.setTimeout> | null>(null);
+    const navUnlockTimerRef = useRef<number | null>(null);
 
     useEffect(() => {
         const savedTheme = localStorage.getItem("vibe-theme") ?? localStorage.getItem("theme");
