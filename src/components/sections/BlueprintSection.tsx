@@ -14,6 +14,7 @@ import {
     ShieldCheck
 } from "lucide-react";
 import { AuroraBackground } from "../ui/AuroraBackground";
+import Image from "next/image";
 
 // ============================================================
 // Blueprint Node Data
@@ -23,8 +24,8 @@ import { AuroraBackground } from "../ui/AuroraBackground";
 // ============================================================
 const SOURCE_NODE = {
     id: "ads",
-    title: "Media Core",
-    desc: "Ingeniería de Tráfico de Alta Precisión",
+    title: "Ads Autopilot",
+    desc: "Donde nacen las ganancias. Pauta automatizada que alimenta el sistema 24/7.",
     icon: Zap,
     color: "text-primary"
 };
@@ -32,15 +33,15 @@ const SOURCE_NODE = {
 const DESTINATION_NODES = [
     {
         id: "crm",
-        title: "CRM Nexus",
-        desc: "Sincronización de Leads 1:1",
+        title: "Marketing Hub",
+        desc: "Concentra todo tu marketing en un solo sitio. Visibilidad total y control absoluto.",
         icon: Database,
         color: "text-accent-light"
     },
     {
         id: "ia",
-        title: "AI Engine",
-        desc: "Automatización de Cierre Predictivo",
+        title: "Escalamiento IA",
+        desc: "Potencia el cierre con IA. Ahorra en sueldos masivos con flujos inteligentes y escalables.",
         icon: Bot,
         color: "text-primary"
     }
@@ -95,8 +96,8 @@ export default function BlueprintSection() {
                         transition={{ delay: 0.1 }}
                         className="text-4xl sm:text-6xl font-display-heavy mb-8 leading-tight"
                     >
-                        Arquitectura de <br />
-                        <span className="text-primary italic">Escalamiento</span> Masivo.
+                        Infraestructura de <br />
+                        <span className="text-primary italic">Ingresos AD Media</span>
                     </motion.h2>
                     
                     <motion.p
@@ -106,7 +107,7 @@ export default function BlueprintSection() {
                         transition={{ delay: 0.2 }}
                         className="text-lg sm:text-xl text-muted-foreground font-light leading-relaxed"
                     >
-                        No lanzamos campañas. Diseñamos <span className="text-foreground font-bold underline decoration-primary/30">infraestructuras comerciales</span> integradas donde cada nodo alimenta al siguiente de forma predictiva.
+                        No solo captamos leads; construimos el motor donde se <span className="text-foreground font-bold underline decoration-primary/30">concentran todas tus ganancias</span>. Un ecosistema AD Media CRM diseñado para escalar eliminando costos operativos innecesarios.
                     </motion.p>
                 </div>
 
@@ -200,8 +201,14 @@ export default function BlueprintSection() {
                         >
                             <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors" />
                             <div className="relative z-10 flex flex-col items-center">
-                                <Cpu className="size-16 sm:size-24 text-primary mb-4" />
-                                <span className="text-[12px] font-mono font-bold text-primary tracking-[0.4em] uppercase text-center">Revenue<br/>Nexus</span>
+                                <Image 
+                                    src="/brand/logo-icon.png" 
+                                    alt="AD Media Isotype" 
+                                    width={48} 
+                                    height={48} 
+                                    className="mb-4 opacity-80 group-hover:opacity-100 transition-opacity"
+                                />
+                                <span className="text-[12px] font-mono font-bold text-primary tracking-[0.4em] uppercase text-center">AD Media<br/>CRM</span>
                             </div>
                             
                             <motion.div 
@@ -240,10 +247,10 @@ export default function BlueprintSection() {
                     className="mt-32 sm:mt-48 grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 text-center border-t border-primary/10 pt-16"
                 >
                     {[
-                        { label: "Latencia Operativa", val: "< 50ms", icon: Activity },
-                        { label: "Sincronización API", val: "Real-Time", icon: Share2 },
-                        { label: "Seguridad de Datos", val: "AES-256", icon: ShieldCheck },
-                        { label: "Uptime de Sistemas", val: "99.99%", icon: Zap }
+                        { label: "Ahorro Operativo", val: "Hasta 40%", icon: Activity },
+                        { label: "Conversión IA", val: "+25%", icon: Share2 },
+                        { label: "Integración CRM", val: "Total", icon: ShieldCheck },
+                        { label: "Escalamiento", val: "Infinito", icon: Zap }
                     ].map((stat, i) => (
                         <div key={i} className="group cursor-default">
                             <p className="text-[11px] font-bold font-mono text-muted-foreground/60 uppercase tracking-[0.25em] mb-3 group-hover:text-primary transition-colors">{stat.label}</p>
