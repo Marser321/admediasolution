@@ -40,7 +40,7 @@ function applyThemeClass(next: Theme) {
 export default function IslandBar() {
     const [expanded, setExpanded] = useState(true);
     const [activeSection, setActiveSection] = useState("hero");
-    const [theme, setTheme] = useState<Theme>("luxury");
+    const [theme, setTheme] = useState<Theme>("classic");
     const expandedRef = useRef(expanded);
     const lastScrollYRef = useRef(0);
     const lastToggleAtRef = useRef(0);
@@ -52,6 +52,9 @@ export default function IslandBar() {
         if (isTheme(savedTheme)) {
             applyThemeClass(savedTheme);
             queueMicrotask(() => setTheme(savedTheme));
+        } else {
+            applyThemeClass("classic");
+            queueMicrotask(() => setTheme("classic"));
         }
     }, []);
     const { scrollY } = useScroll();

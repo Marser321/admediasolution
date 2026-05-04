@@ -69,7 +69,7 @@ function ConnectionLines({ radius, centerX, centerY }: { radius: number; centerX
                 stroke="url(#lineGradient)"
                 strokeWidth="1.5"
                 strokeDasharray="8 6"
-                opacity="0.6"
+                opacity="0.4"
                 className="will-change-transform"
             >
                 <animateTransform
@@ -93,7 +93,7 @@ function ConnectionLines({ radius, centerX, centerY }: { radius: number; centerX
                         stroke="url(#lineGradient)"
                         strokeWidth="1.2"
                         initial={{ pathLength: 0, opacity: 0 }}
-                        animate={{ pathLength: 1, opacity: 0.7 }}
+                        animate={{ pathLength: 1, opacity: 0.4 }}
                         transition={{ duration: 2, delay: 0.5 + line.delay }}
                     />
                     {/* Simplified pulse */}
@@ -105,7 +105,7 @@ function ConnectionLines({ radius, centerX, centerY }: { radius: number; centerX
                         stroke="#488EFF"
                         strokeWidth="2"
                         strokeDasharray="4 60"
-                        opacity="0.8"
+                        opacity="0.5"
                     >
                         <animate
                             attributeName="stroke-dashoffset"

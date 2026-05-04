@@ -130,7 +130,7 @@ function KPICard({
                 y: cardY,
                 scale: cardScale,
             }}
-            className="group relative p-6 rounded-2xl bg-background/60 border border-primary/25 backdrop-blur-2xl hover:border-primary/50 transition-all duration-500 overflow-hidden shadow-2xl will-change-transform"
+            className="group relative p-6 rounded-2xl bg-background border border-primary/25 hover:border-primary/50 transition-all duration-500 overflow-hidden sm:shadow-2xl will-change-transform"
         >
             {/* Glow hover */}
             <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />

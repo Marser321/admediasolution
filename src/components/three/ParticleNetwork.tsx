@@ -89,8 +89,8 @@ function Particles() {
                     posAttr.array[lineIndex * 6 + 4] = positions[j * 3 + 1];
                     posAttr.array[lineIndex * 6 + 5] = positions[j * 3 + 2];
 
-                    opacityAttr.array[lineIndex * 2] = opacity * 0.15;
-                    opacityAttr.array[lineIndex * 2 + 1] = opacity * 0.15;
+                    opacityAttr.array[lineIndex * 2] = opacity * 0.08;
+                    opacityAttr.array[lineIndex * 2 + 1] = opacity * 0.08;
 
                     lineIndex++;
                 }
@@ -123,7 +123,7 @@ function Particles() {
                     color={PARTICLE_COLOR}
                     size={0.04}
                     transparent
-                    opacity={0.6}
+                    opacity={0.3}
                     sizeAttenuation
                     depthWrite={false}
                     blending={THREE.AdditiveBlending}

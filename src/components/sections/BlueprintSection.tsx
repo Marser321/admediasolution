@@ -68,7 +68,7 @@ export default function BlueprintSection() {
             id="infraestructura"
         >
             {/* Global Aurora Background */}
-            <AuroraBackground intensity="medium" className="opacity-40" />
+            <AuroraBackground intensity="medium" className="opacity-15" />
 
             {/* 1. Background Schematic Grid */}
             <div className="absolute inset-0 z-0">
@@ -276,7 +276,7 @@ export default function BlueprintSection() {
 // ============================================================
 function NodeCard({ node }: { node: BlueprintNode }) {
     return (
-        <div className="glass-premium p-10 rounded-[2.5rem] border-primary/20 hover:border-primary/50 transition-all duration-700 w-full sm:w-80 shadow-2xl relative group-hover:scale-[1.05] bg-background/60 backdrop-blur-2xl">
+        <div className="glass-premium p-10 rounded-[2.5rem] border-primary/20 hover:border-primary/50 transition-all duration-700 w-full sm:w-80 sm:shadow-2xl relative group-hover:scale-[1.05] bg-background">
             <div className="absolute top-6 left-6 size-4 border-t-2 border-l-2 border-primary/60" />
             <div className="absolute bottom-6 right-6 size-4 border-b-2 border-r-2 border-primary/60" />
             

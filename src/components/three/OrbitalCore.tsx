@@ -94,7 +94,7 @@ function OrbitalSphere() {
                 color={BASE_COLOR}
                 size={0.035}
                 transparent
-                opacity={0.8}
+                opacity={0.4}
                 sizeAttenuation
                 depthWrite={false}
                 blending={THREE.AdditiveBlending}
@@ -128,7 +128,7 @@ function OrbitalRings() {
                 <meshBasicMaterial
                     color="#488EFF"
                     transparent
-                    opacity={0.15}
+                    opacity={0.08}
                     side={THREE.DoubleSide}
                     blending={THREE.AdditiveBlending}
                 />
@@ -138,7 +138,7 @@ function OrbitalRings() {
                 <meshBasicMaterial
                     color="#81E7FF"
                     transparent
-                    opacity={0.1}
+                    opacity={0.05}
                     side={THREE.DoubleSide}
                     blending={THREE.AdditiveBlending}
                 />

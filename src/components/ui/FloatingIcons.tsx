@@ -63,6 +63,7 @@ export default function FloatingIcons({ type, className }: FloatingIconsProps) {
             {icons.map((item, i) => (
                 <FloatingIcon
                     key={i}
+                    index={i}
                     icon={item.icon}
                     initialX={item.x}
                     initialY={item.y}
@@ -167,6 +168,7 @@ interface FloatingIconProps {
     scrollYProgress: MotionValue<number>;
     parallaxSpeed: number;
     color: string;
+    index: number;
 }
 
 function FloatingIcon({
@@ -178,7 +180,8 @@ function FloatingIcon({
     duration,
     scrollYProgress,
     parallaxSpeed,
-    color
+    color,
+    index
 }: FloatingIconProps) {
     const yRange = useTransform(scrollYProgress, [0, 1], [0, -100 * parallaxSpeed]);
     const shouldReduceMotion = useReducedMotion();
@@ -197,7 +200,7 @@ function FloatingIcon({
             transition={{
                 opacity: { duration: 1, delay: delay }
             }}
-            className={cn("absolute floating-icon", color)}
+            className={cn("absolute floating-icon will-change-transform", color, index > 1 ? "hidden sm:block" : "")}
         >
             <motion.div
                 initial={{ scale: 0 }}

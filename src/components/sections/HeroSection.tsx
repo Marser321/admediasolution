@@ -80,9 +80,9 @@ export default function HeroSection() {
     const auroraScale = useTransform(scrollYProgress, [0, 0.5], [1, 1.3]);
     const auroraOpacity = useTransform(scrollYProgress, [0.2, 0.6], [0.15, 0]);
 
-    // 3D layer compresses
+    // 3D layer compresses - Lowered initial opacity to keep in background
     const orbitalScale = useTransform(scrollYProgress, [0, 0.6], [1, 0.75]);
-    const orbitalOpacity = useTransform(scrollYProgress, [0.1, 0.5], [0.8, 0]);
+    const orbitalOpacity = useTransform(scrollYProgress, [0.1, 0.5], [0.3, 0]);
 
     // Logo marquee has a "sticky" feel — moves slower
     const marqueeY = useTransform(scrollYProgress, [0, 0.6], [0, -30]);
@@ -98,7 +98,7 @@ export default function HeroSection() {
             className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden bg-background"
         >
             {/* 1. Global Aurora Background — Flowy & Dynamic */}
-            <AuroraBackground intensity="strong" className="opacity-60" />
+            <AuroraBackground intensity="strong" className="opacity-20 md:opacity-30" />
 
             {/* 2. Background Texture Overlay */}
             <div className="absolute inset-0 z-[1] texture-travertine opacity-20 mix-blend-soft-light transform-gpu pointer-events-none" />

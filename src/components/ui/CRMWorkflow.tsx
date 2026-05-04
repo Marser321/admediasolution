@@ -22,7 +22,7 @@ export default function CRMWorkflow() {
         <div className="relative w-full h-full bg-background rounded-3xl border border-primary/10 overflow-hidden group">
             
             {/* Background Grid */}
-            <div className="texture-grid opacity-[0.15]" />
+            <div className="texture-grid opacity-[0.05]" />
 
             {/* Central Engine — Core */}
             <div className="absolute inset-0 flex items-center justify-center">
@@ -105,10 +105,10 @@ export default function CRMWorkflow() {
                 </defs>
 
                 {/* Connection paths landing on ports */}
-                <path id="path-meta" d="M50 50 Q 100 50 178 178" fill="none" stroke="url(#blue-grad)" strokeWidth="1" strokeDasharray="4 4" className="opacity-20" />
-                <path id="path-google" d="M50 350 Q 100 350 178 222" fill="none" stroke="url(#blue-grad)" strokeWidth="1" strokeDasharray="4 4" className="opacity-20" />
-                <path id="path-referrals" d="M350 50 Q 300 50 222 178" fill="none" stroke="url(#blue-grad)" strokeWidth="1" strokeDasharray="4 4" className="opacity-20" />
-                <path id="path-whatsapp" d="M350 350 Q 300 350 222 222" fill="none" stroke="#25D366" strokeWidth="1" strokeDasharray="4 4" className="opacity-15" />
+                <path id="path-meta" d="M50 50 Q 100 50 178 178" fill="none" stroke="url(#blue-grad)" strokeWidth="1" strokeDasharray="4 4" className="opacity-10" />
+                <path id="path-google" d="M50 350 Q 100 350 178 222" fill="none" stroke="url(#blue-grad)" strokeWidth="1" strokeDasharray="4 4" className="opacity-10" />
+                <path id="path-referrals" d="M350 50 Q 300 50 222 178" fill="none" stroke="url(#blue-grad)" strokeWidth="1" strokeDasharray="4 4" className="opacity-10" />
+                <path id="path-whatsapp" d="M350 350 Q 300 350 222 222" fill="none" stroke="#25D366" strokeWidth="1" strokeDasharray="4 4" className="opacity-[0.08]" />
 
                 {/* Animated Particles — Synchronized Flow using Native SVG animateMotion */}
                 <circle r="3.5" fill="#488EFF" filter="url(#neon-glow)">
