@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring } from "framer-motion";
 import Image from "next/image";
 import FloatingIcons from "../ui/FloatingIcons";
+import { AuroraBackground } from "../ui/AuroraBackground";
 import {
     Target,
     Search,
@@ -107,12 +108,10 @@ export default function AuthoritySection() {
             ref={sectionRef} 
             id="nosotros"
             onMouseMove={handleMouseMove}
-            className="relative py-16 sm:py-24 px-5 sm:px-6 bg-background overflow-hidden"
+            className="relative py-20 sm:py-32 px-5 sm:px-6 bg-background overflow-hidden"
         >
-
-            {/* Static Aggressive Auroras for Density */}
-            <div className="absolute top-[-20%] left-[-10%] w-[800px] h-[800px] rounded-full bg-[radial-gradient(circle,_rgba(72,142,255,0.15)_0%,_transparent_70%)] mix-blend-screen pointer-events-none z-0 animate-pulse-slow" />
-            <div className="absolute bottom-[-20%] right-[-10%] w-[1000px] h-[1000px] rounded-full bg-[radial-gradient(circle,_rgba(129,231,255,0.1)_0%,_transparent_70%)] mix-blend-screen pointer-events-none z-0 animate-pulse-slow" style={{ animationDelay: '1.5s' }} />
+            {/* Global Aurora Background */}
+            <AuroraBackground intensity="medium" className="opacity-50" />
 
             {/* Interactive Mouse Glow - Brand Blue Spotlight */}
             <motion.div
@@ -129,7 +128,7 @@ export default function AuthoritySection() {
             />
 
             {/* Iconos flotantes — Analytics */}
-            <FloatingIcons type="analytics" className="z-0 opacity-20" />
+            <FloatingIcons type="analytics" className="z-0 opacity-[var(--floating-icon-opacity)]" />
 
             {/* Background Texture - Grid with parallax */}
             <motion.div
@@ -150,7 +149,7 @@ export default function AuthoritySection() {
                     }}
                     className="relative order-2 lg:order-1 will-change-transform"
                 >
-                    <div className="aspect-[4/5] rounded-3xl overflow-hidden relative bg-card border border-white/10 shadow-2xl shadow-primary/5 group">
+                    <div className="aspect-[4/5] rounded-3xl overflow-hidden relative bg-card border border-primary/10 shadow-2xl shadow-primary/5 group">
                         {/* Foto CEO */}
                         <Image
                             src="/team/ceo.png"
@@ -161,13 +160,13 @@ export default function AuthoritySection() {
                             priority
                         />
 
-                        {/* Blue Lighting Overlay & Glass Fusion */}
-                        <div className="absolute inset-0 bg-gradient-to-tr from-background via-transparent to-primary/20 mix-blend-overlay pointer-events-none" />
-                        <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-transparent to-transparent pointer-events-none" />
-                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 bg-[radial-gradient(circle_at_center,_rgba(129,231,255,0.2)_0%,_transparent_70%)] mix-blend-screen pointer-events-none" />
+                        {/* Blue Lighting Overlay & Glass Fusion — Refined for White Mode */}
+                        <div className="absolute inset-0 bg-gradient-to-tr from-accent-blue/5 via-transparent to-primary/10 pointer-events-none" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-background/40 via-transparent to-transparent pointer-events-none" />
+                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 bg-[radial-gradient(circle_at_center,_rgba(129,231,255,0.15)_0%,_transparent_70%)] pointer-events-none" />
 
                         {/* Floating Badge — Glow intensifies at viewport center */}
-                        <div className="absolute bottom-8 left-8 right-8 p-5 rounded-2xl bg-background/60 border border-white/10 backdrop-blur-xl">
+                        <div className="absolute bottom-8 left-8 right-8 p-5 rounded-2xl bg-background/80 border border-primary/10 backdrop-blur-xl">
                             <div className="flex items-center gap-4">
                                 <motion.div
                                     style={{
@@ -204,7 +203,7 @@ export default function AuthoritySection() {
                             CEO & Fundador
                         </motion.p>
 
-                        <motion.h2 variants={itemVariants} className="font-display-heavy text-4xl sm:text-5xl lg:text-6xl font-bold mb-8 text-foreground">
+                        <motion.h2 variants={itemVariants} className="font-display-heavy text-3xl sm:text-5xl lg:text-6xl font-bold mb-8 text-foreground">
                             Danger Fernandez.
                             <span className="block text-primary font-mono mt-3 text-sm sm:text-base tracking-[0.35em] uppercase opacity-90">Chief Revenue Architect</span>
                         </motion.h2>
@@ -242,7 +241,7 @@ export default function AuthoritySection() {
                         </motion.blockquote>
 
                         {/* Stats Grid — Sequential reveal left to right */}
-                        <motion.div variants={itemVariants} className="grid grid-cols-2 sm:grid-cols-4 gap-6 border-t border-white/5 pt-10 mb-10">
+                        <motion.div variants={itemVariants} className="grid grid-cols-2 sm:grid-cols-4 gap-6 border-t border-primary/10 pt-10 mb-10">
                             {[
                                 { value: "+$10M", label: "Revenue Generado" },
                                 { value: "150+", label: "Estructuras" },

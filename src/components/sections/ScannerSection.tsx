@@ -5,6 +5,13 @@ import { motion } from "framer-motion";
 import { BarChart3, Binary } from "lucide-react";
 import ScannerModal from "@/components/scanner/ScannerModal";
 import FloatingIcons from "../ui/FloatingIcons";
+import { Button } from "../ui/Button";
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+function cn(...inputs: ClassValue[]) {
+    return twMerge(clsx(inputs));
+}
 
 export default function ScannerSection() {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,7 +33,7 @@ export default function ScannerSection() {
     return (
         <section id="scanner" className="relative py-24 sm:py-32 px-6 overflow-hidden bg-bg-deep">
             {/* Iconos flotantes — Automation */}
-            <FloatingIcons type="automation" className="z-0 opacity-35" />
+            <FloatingIcons type="automation" className="z-0 opacity-[var(--floating-icon-opacity)]" />
             {/* Background Elements */}
             <div className="absolute inset-0 texture-travertine opacity-30 pointer-events-none" />
             <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent-blue/[0.05] blur-[100px] rounded-full pointer-events-none" />
@@ -94,10 +101,16 @@ export default function ScannerSection() {
                         </div>
                     )}
 
-                    <button
+                    <Button
+                        variant="primary"
+                        size="md"
+                        glow
+                        aurora
                         onClick={handleScanClick}
-                        className={`group relative flex items-center justify-center gap-2 px-8 py-4 rounded-xl text-white font-bold transition-all duration-300 w-full sm:w-auto whitespace-nowrap shadow-md ${hasScanned ? 'bg-emerald-600 hover:bg-emerald-500 shadow-emerald-500/10' : 'bg-accent-blue hover:bg-accent-light shadow-accent-blue/10 transition-colors'
-                            }`}
+                        className={cn(
+                            "group w-full sm:w-auto h-12",
+                            hasScanned && "bg-emerald-600 hover:bg-emerald-500 shadow-emerald-500/20"
+                        )}
                     >
                         {hasScanned ? (
                             <>
@@ -110,7 +123,7 @@ export default function ScannerSection() {
                                 Escanear Ahora
                             </>
                         )}
-                    </button>
+                    </Button>
                 </motion.div>
 
                 {/* Trust Badges */}

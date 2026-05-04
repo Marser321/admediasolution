@@ -29,19 +29,19 @@ const PARTNERS = [
 export default function LogoMarquee() {
     return (
         <div className="relative w-full py-12 overflow-hidden">
-            {/* Fade gradients sides */}
-            <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-bg-deep to-transparent z-10" />
-            <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-bg-deep to-transparent z-10" />
+            {/* Fade gradients sides — Softer to blend with Aurora */}
+            <div className="absolute inset-y-0 left-0 w-32 bg-gradient-to-r from-bg-deep/80 via-bg-deep/40 to-transparent z-10" />
+            <div className="absolute inset-y-0 right-0 w-32 bg-gradient-to-l from-bg-deep/80 via-bg-deep/40 to-transparent z-10" />
 
             <div className="flex flex-col items-center mb-8">
-                <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-accent-blue/60 mb-2">
+                <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-primary/70 mb-2">
                     Mastering the Ecosystem
                 </span>
-                <div className="h-px w-12 bg-accent-blue/20" />
+                <div className="h-px w-12 bg-primary/30" />
             </div>
 
             <motion.div 
-                className="flex gap-6 items-center"
+                className="flex gap-6 items-center transform-gpu"
                 animate={{ 
                     x: ["0%", "-50%"] 
                 }}
@@ -60,7 +60,7 @@ export default function LogoMarquee() {
                             className="size-7 transition-transform duration-500 group-hover:scale-110" 
                             style={{ color: partner.color }} 
                         />
-                        <span className="text-xl sm:text-2xl font-bold tracking-tight text-white transition-colors">
+                        <span className="text-xl sm:text-2xl font-bold tracking-tight text-foreground transition-colors">
                             {partner.name}
                         </span>
                     </div>

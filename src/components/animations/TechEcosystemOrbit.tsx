@@ -52,67 +52,39 @@ function ConnectionLines({ radius, centerX, centerY }: { radius: number; centerX
     }
 
     return (
-        <svg className="absolute inset-0 w-full h-full" viewBox={`0 0 ${centerX * 2} ${centerY * 2}`}>
+        <svg className="absolute inset-0 w-full h-full transform-gpu" viewBox={`0 0 ${centerX * 2} ${centerY * 2}`}>
             <defs>
                 <linearGradient id="lineGradient" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#488EFF" stopOpacity="0.4" />
-                    <stop offset="50%" stopColor="#81E7FF" stopOpacity="0.6" />
-                    <stop offset="100%" stopColor="#488EFF" stopOpacity="0.4" />
+                    <stop offset="0%" stopColor="#488EFF" stopOpacity="0.5" />
+                    <stop offset="100%" stopColor="#81E7FF" stopOpacity="0.5" />
                 </linearGradient>
-                <filter id="lineGlow">
-                    <feGaussianBlur stdDeviation="2" result="blur" />
-                    <feMerge>
-                        <feMergeNode in="blur" />
-                        <feMergeNode in="SourceGraphic" />
-                    </feMerge>
-                </filter>
             </defs>
 
-            {/* Anillo orbital */}
+            {/* Anillo orbital — Simplified */}
             <circle
                 cx={centerX}
                 cy={centerY}
                 r={radius}
                 fill="none"
                 stroke="url(#lineGradient)"
-                strokeWidth="1"
+                strokeWidth="1.5"
                 strokeDasharray="8 6"
-                opacity="0.2"
+                opacity="0.3"
+                className="will-change-transform"
             >
                 <animateTransform
                     attributeName="transform"
                     type="rotate"
                     from={`0 ${centerX} ${centerY}`}
                     to={`360 ${centerX} ${centerY}`}
-                    dur="30s"
+                    dur="40s"
                     repeatCount="indefinite"
                 />
             </circle>
 
-            {/* Segundo anillo fantasma */}
-            <circle
-                cx={centerX}
-                cy={centerY}
-                r={radius * 0.6}
-                fill="none"
-                stroke="#488EFF"
-                strokeWidth="0.5"
-                strokeDasharray="4 8"
-                opacity="0.1"
-            >
-                <animateTransform
-                    attributeName="transform"
-                    type="rotate"
-                    from={`360 ${centerX} ${centerY}`}
-                    to={`0 ${centerX} ${centerY}`}
-                    dur="20s"
-                    repeatCount="indefinite"
-                />
-            </circle>
-
-            {/* Líneas de conexión entre nodos */}
+            {/* Líneas de conexión entre nodos — Optimized */}
             {lines.map((line, i) => (
-                <g key={i} filter="url(#lineGlow)">
+                <g key={i}>
                     <motion.line
                         x1={line.x1}
                         y1={line.y1}
@@ -121,25 +93,25 @@ function ConnectionLines({ radius, centerX, centerY }: { radius: number; centerX
                         stroke="url(#lineGradient)"
                         strokeWidth="1"
                         initial={{ pathLength: 0, opacity: 0 }}
-                        animate={{ pathLength: 1, opacity: 0.3 }}
-                        transition={{ duration: 1.5, delay: 0.5 + line.delay, ease: "easeOut" }}
+                        animate={{ pathLength: 1, opacity: 0.4 }}
+                        transition={{ duration: 2, delay: 0.5 + line.delay }}
                     />
-                    {/* Pulso que recorre la línea */}
+                    {/* Simplified pulse */}
                     <line
                         x1={line.x1}
                         y1={line.y1}
                         x2={line.x2}
                         y2={line.y2}
                         stroke="#488EFF"
-                        strokeWidth="2"
-                        strokeDasharray="8 100"
-                        opacity="0.6"
+                        strokeWidth="1.5"
+                        strokeDasharray="4 60"
+                        opacity="0.4"
                     >
                         <animate
                             attributeName="stroke-dashoffset"
-                            from="108"
+                            from="64"
                             to="0"
-                            dur={`${2 + i * 0.5}s`}
+                            dur="4s"
                             repeatCount="indefinite"
                         />
                     </line>
@@ -180,7 +152,7 @@ function OrbitalNode({
 
     return (
         <motion.div
-            className="absolute z-20 group"
+            className="absolute z-20 group transform-gpu will-change-transform"
             style={{
                 left: x - halfNode,
                 top: y - halfNode,
@@ -191,61 +163,40 @@ function OrbitalNode({
             animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
             transition={{
                 duration: 0.6,
-                delay: 0.3 + index * 0.12,
-                ease: [0.22, 1, 0.36, 1],
+                delay: 0.3 + index * 0.1,
+                ease: "easeOut",
             }}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
         >
-            {/* Glow detrás del nodo */}
+            {/* Glow detrás del nodo — Simplified */}
             <motion.div
-                className="absolute inset-0 rounded-full"
-                style={{ backgroundColor: node.color, filter: "blur(15px)" }}
+                className="absolute inset-0 rounded-full opacity-10"
+                style={{ backgroundColor: node.color, filter: "blur(10px)" }}
                 animate={{
-                    opacity: isHovered ? 0.4 : 0.15,
-                    scale: isHovered ? 1.5 : 1,
+                    opacity: isHovered ? 0.3 : 0.1,
+                    scale: isHovered ? 1.3 : 1,
                 }}
-                transition={{ duration: 0.3 }}
             />
 
             {/* Nodo principal */}
             <motion.div
                 className={cn(
                     "relative w-full h-full rounded-full flex items-center justify-center",
-                    "bg-bg-deep/80 border backdrop-blur-sm",
-                    "shadow-lg cursor-pointer transition-colors duration-300"
+                    "bg-background border border-primary/20 backdrop-blur-[4px]",
+                    "shadow-lg cursor-pointer transition-colors duration-300 transform-gpu"
                 )}
                 style={{
-                    borderColor: isHovered ? node.color : `${node.color}33`,
-                    boxShadow: isHovered
-                        ? `0 0 20px ${node.color}40, inset 0 0 10px ${node.color}10`
-                        : `0 0 10px ${node.color}15`,
+                    borderColor: isHovered ? node.color : `${node.color}44`,
                 }}
                 animate={{
-                    scale: isHovered ? 1.2 : 1,
-                    y: [0, -4, 0],
-                }}
-                transition={{
-                    scale: { duration: 0.2 },
-                    y: { duration: 3 + index * 0.5, repeat: Infinity, ease: "easeInOut" },
+                    scale: isHovered ? 1.15 : 1,
                 }}
             >
                 <Icon
                     className="size-5 sm:size-6 transition-colors duration-300"
-                    style={{ color: isHovered ? node.color : `${node.color}aa` }}
+                    style={{ color: isHovered ? node.color : `${node.color}` }}
                 />
-            </motion.div>
-
-            {/* Tooltip */}
-            <motion.div
-                className="absolute -bottom-8 left-1/2 -translate-x-1/2 whitespace-nowrap pointer-events-none"
-                initial={{ opacity: 0, y: -5 }}
-                animate={{ opacity: isHovered ? 1 : 0, y: isHovered ? 0 : -5 }}
-                transition={{ duration: 0.2 }}
-            >
-                <span className="text-[10px] font-mono uppercase tracking-wider text-accent-blue/80 bg-bg-deep/90 px-2 py-1 rounded-md border border-accent-blue/10">
-                    {node.label}
-                </span>
             </motion.div>
         </motion.div>
     );
@@ -263,12 +214,12 @@ function CoreNode({
     centerY: number;
     isInView: boolean;
 }) {
-    const coreSize = 80;
+    const coreSize = 70; // Slightly smaller
     const halfCore = coreSize / 2;
 
     return (
         <motion.div
-            className="absolute z-30"
+            className="absolute z-30 transform-gpu"
             style={{
                 left: centerX - halfCore,
                 top: centerY - halfCore,
@@ -277,45 +228,18 @@ function CoreNode({
             }}
             initial={{ opacity: 0, scale: 0 }}
             animate={isInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0 }}
-            transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.8, ease: "easeOut" }}
         >
-            {/* Glow pulsante exterior */}
-            <motion.div
-                className="absolute inset-0 rounded-full bg-accent-blue/20"
-                style={{ filter: "blur(20px)" }}
-                animate={{
-                    scale: [1, 1.4, 1],
-                    opacity: [0.3, 0.5, 0.3],
-                }}
-                transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-            />
-
-            {/* Anillo intermedio */}
-            <motion.div
-                className="absolute inset-[-8px] rounded-full border border-accent-blue/15"
-                animate={{ rotate: 360 }}
-                transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-                style={{ borderStyle: "dashed" }}
-            />
-
             {/* Core sólido */}
-            <div className="relative w-full h-full rounded-full bg-bg-deep border border-accent-blue/30 flex flex-col items-center justify-center shadow-2xl backdrop-blur-md overflow-hidden">
-                {/* Brillo interno */}
-                <div className="absolute inset-0 rounded-full bg-gradient-to-b from-accent-blue/10 to-transparent" />
-
-                <motion.div
-                    className="relative z-10 flex items-center justify-center"
-                    animate={{ scale: [1, 1.05, 1] }}
-                    transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
-                >
-                    <Image
-                        src="/brand/logo-icon.png"
-                        alt="AD Media Solution Icon"
-                        width={32}
-                        height={32}
-                        className="object-contain drop-shadow-[0_0_10px_rgba(72,142,255,0.5)]"
-                    />
-                </motion.div>
+            <div className="relative w-full h-full rounded-full bg-background border border-accent-blue/50 flex flex-col items-center justify-center shadow-xl backdrop-blur-md overflow-hidden">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-b from-accent-blue/20 to-transparent" />
+                <Image
+                    src="/brand/logo-icon.png"
+                    alt="AD Media Solution Icon"
+                    width={28}
+                    height={28}
+                    className="object-contain drop-shadow-[0_0_8px_rgba(72,142,255,0.4)]"
+                />
             </div>
         </motion.div>
     );

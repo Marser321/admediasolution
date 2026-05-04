@@ -4,6 +4,8 @@ import { useRef, useEffect, useState } from "react";
 import { motion, useScroll, useTransform, useInView, useSpring, useMotionValue } from "framer-motion";
 import { Rocket, ArrowRight } from "lucide-react";
 import FloatingIcons from "../ui/FloatingIcons";
+import { AuroraBackground } from "../ui/AuroraBackground";
+import { Button } from "../ui/Button";
 import dynamic from "next/dynamic";
 
 // Lazy load del ecosistema orbital para mejor performance
@@ -214,7 +216,7 @@ export default function ScrollytellingSection() {
         <section
             ref={sectionRef}
             id="estrategia"
-            className="relative py-12 sm:py-24 px-5 sm:px-6 bg-bg-deep overflow-hidden"
+            className="relative py-20 sm:py-32 px-5 sm:px-6 bg-background overflow-hidden"
         >
             {/* Background grid con parallax */}
             <motion.div
@@ -225,20 +227,13 @@ export default function ScrollytellingSection() {
             </motion.div>
 
             {/* Iconos flotantes */}
-            <FloatingIcons type="crm" className="z-0 opacity-35" />
+            <FloatingIcons type="crm" className="z-0 opacity-[var(--floating-icon-opacity)]" />
 
+            {/* Global Aurora Background */}
+            <AuroraBackground intensity="medium" className="opacity-40" />
+            
             {/* Divisor superior */}
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent-blue/10 to-transparent" />
-
-            {/* Orbs de fondo — Multi-directional parallax */}
-            <motion.div
-                style={{ y: orbTopY, x: orbTopX }}
-                className="absolute top-1/4 right-0 w-[500px] h-[500px] bg-accent-blue/5 rounded-full blur-[120px] pointer-events-none will-change-transform"
-            />
-            <motion.div
-                style={{ y: orbBottomY, x: orbBottomX }}
-                className="absolute bottom-1/4 left-0 w-[400px] h-[400px] bg-accent-light/3 rounded-full blur-[100px] pointer-events-none will-change-transform"
-            />
 
             <div ref={contentRef} className="relative z-10 max-w-7xl mx-auto">
                 {/* Header */}
@@ -367,20 +362,20 @@ export default function ScrollytellingSection() {
                     <p className="text-sm text-text-muted mb-6 tracking-wide uppercase">
                         ¿Listo para activar este sistema?
                     </p>
-                    <motion.button
-                        whileTap={{ scale: 0.96 }}
-                        whileHover={{ scale: 1.02 }}
+                    <Button
+                        variant="primary"
+                        size="lg"
+                        glow
+                        aurora
                         onClick={() => {
                             document.getElementById("contacto")?.scrollIntoView({ behavior: "smooth" });
                         }}
-                        className="group relative inline-flex items-center gap-2.5 px-8 py-4 rounded-full text-base font-semibold text-bg-deep bg-text-primary hover:bg-white transition-all duration-300 cursor-pointer"
+                        className="group h-14 px-10"
                     >
-                        <span className="relative flex items-center gap-2.5">
-                            <Rocket className="size-5" />
-                            Escanear mi Negocio
-                            <ArrowRight className="size-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
-                        </span>
-                    </motion.button>
+                        <Rocket className="size-5" />
+                        Escanear mi Negocio
+                        <ArrowRight className="size-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
+                    </Button>
                 </motion.div>
             </div>
         </section>

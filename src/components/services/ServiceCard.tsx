@@ -100,14 +100,14 @@ export default function ServiceCard({
                 <div
                     className={`w-12 h-12 rounded-xl bg-gradient-to-br ${gradient} flex items-center justify-center mb-5`}
                 >
-                    <Icon className="size-6 text-white" />
+                    <Icon className="size-6 text-primary" />
                 </div>
 
                 {/* Texto */}
-                <h3 className="font-display text-xl font-bold text-white mb-3 tracking-tight">
+                <h3 className="font-display text-xl font-bold text-foreground mb-3 tracking-tight">
                     {title}
                 </h3>
-                <p className="text-sm text-slate-400 leading-relaxed">
+                <p className="text-sm text-muted-foreground leading-relaxed">
                     {description}
                 </p>
 

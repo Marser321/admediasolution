@@ -14,6 +14,8 @@ import {
     TrendingUp,
 } from "lucide-react";
 import Image from "next/image";
+import { AuroraBackground } from "../ui/AuroraBackground";
+import { Button } from "../ui/Button";
 
 // ============================================================
 // Datos de proyectos ficticios
@@ -145,11 +147,11 @@ function ProjectCard({
                 style={{ background: project.bgGradient, scale: gradientScale }}
             />
 
-            {/* Capa de contraste para legibilidad */}
-            <div className="absolute inset-0 bg-bg-deep/60 backdrop-blur-[2px]" />
+            {/* Capa de contraste para legibilidad — Minimal for white mode */}
+            <div className="absolute inset-0 bg-primary/[0.02] backdrop-blur-[2px]" />
 
             {/* Borde glass */}
-            <div className="absolute inset-0 rounded-2xl border border-white/[0.06] group-hover:border-white/[0.12] transition-colors duration-500" />
+            <div className="absolute inset-0 rounded-2xl border border-primary/20 group-hover:border-primary/30 transition-colors duration-500" />
 
             {/* Mesh pattern overlay */}
             <div
@@ -167,7 +169,7 @@ function ProjectCard({
                 <div className="flex items-start justify-between">
                     <div>
                         <span
-                            className={`inline-block px-3 py-1 rounded-full text-[10px] font-semibold tracking-[0.15em] uppercase bg-black/30 border border-white/[0.08] backdrop-blur-sm bg-gradient-to-r ${project.gradient} bg-clip-text text-transparent`}
+                            className={`inline-block px-3 py-1 rounded-full text-[10px] font-semibold tracking-[0.15em] uppercase bg-primary/5 border border-primary/10 backdrop-blur-sm bg-gradient-to-r ${project.gradient} bg-clip-text text-transparent`}
                         >
                             {project.category}
                         </span>
@@ -175,9 +177,9 @@ function ProjectCard({
 
                     <motion.div
                         whileHover={{ rotate: 45 }}
-                        className="p-2 rounded-full bg-white/[0.04] border border-white/[0.06] opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-2 group-hover:translate-y-0"
+                        className="p-2 rounded-full bg-primary/5 border border-primary/10 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-2 group-hover:translate-y-0"
                     >
-                        <ArrowUpRight className="size-4 text-white" />
+                        <ArrowUpRight className="size-4 text-foreground" />
                     </motion.div>
                 </div>
 
@@ -193,18 +195,18 @@ function ProjectCard({
                             }}
                             className={`p-6 rounded-3xl bg-gradient-to-br ${project.gradient} shadow-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-700`}
                         >
-                            <Icon className="size-16 text-white" />
+                            <Icon className="size-16 text-primary" />
                         </motion.div>
                     </div>
                 )}
 
                 {/* Footer: título + descripción + métrica */}
                 <div className="mt-auto">
-                    <h3 className="font-display text-xl sm:text-2xl font-bold text-white tracking-tight mb-2 group-hover:text-glow transition-all duration-500">
+                    <h3 className="font-display text-xl sm:text-2xl font-bold text-foreground tracking-tight mb-2 group-hover:text-glow transition-all duration-500">
                         {project.title}
                     </h3>
 
-                    <p className="text-sm text-slate-400 leading-relaxed mb-4 line-clamp-2 group-hover:line-clamp-none transition-all duration-300">
+                    <p className="text-sm text-muted-foreground leading-relaxed mb-4 line-clamp-2 group-hover:line-clamp-none transition-all duration-300">
                         {project.description}
                     </p>
 
@@ -220,7 +222,7 @@ function ProjectCard({
                         className="flex items-center gap-3"
                     >
                         <div
-                            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/[0.06]`}
+                            className={`flex items-center gap-2 px-3 py-1.5 rounded-lg bg-primary/5 border border-primary/10`}
                         >
                             <TrendingUp
                                 className={`size-3.5 bg-gradient-to-r ${project.gradient} bg-clip-text`}
@@ -232,7 +234,7 @@ function ProjectCard({
                                 {project.metrics.value}
                             </span>
                         </div>
-                        <span className="text-xs text-slate-500 uppercase tracking-wider">
+                        <span className="text-xs text-muted-foreground/60 uppercase tracking-wider">
                             {project.metrics.label}
                         </span>
                     </motion.div>
@@ -272,27 +274,16 @@ export default function ProjectsGallery() {
         <section
             ref={sectionRef}
             id="portafolio"
-            className="relative py-10 sm:py-24 px-5 sm:px-6 overflow-hidden bg-background"
+            className="relative py-20 sm:py-32 px-5 sm:px-6 overflow-hidden bg-background"
         >
             {/* Iconos flotantes — Creativos */}
-            <FloatingIcons type="creative" className="z-0 opacity-30" />
+            <FloatingIcons type="creative" className="z-0 opacity-[var(--floating-icon-opacity)]" />
 
-            {/* Fondo parallax con mesh gradients — X + Y parallax */}
-            <motion.div
-                style={{ y: bgY, x: bgX }}
-                className="absolute inset-0 pointer-events-none will-change-transform"
-            >
-                <div
-                    className="absolute inset-0"
-                    style={{
-                        background:
-                            "radial-gradient(ellipse 50% 50% at 20% 20%, rgba(0,122,255,0.06) 0%, transparent 60%), radial-gradient(ellipse 40% 40% at 80% 80%, rgba(139,92,246,0.05) 0%, transparent 60%), radial-gradient(ellipse 30% 30% at 60% 40%, rgba(6,182,212,0.03) 0%, transparent 50%)",
-                    }}
-                />
-            </motion.div>
-
+            {/* Global Aurora Background */}
+            <AuroraBackground intensity="soft" className="opacity-30" />
+            
             {/* Divisor superior */}
-            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />
+            <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
 
             <div className="relative z-10 max-w-7xl mx-auto">
                 {/* Header de la sección — Parallax slide-up */}
@@ -329,7 +320,7 @@ export default function ProjectsGallery() {
                         className="font-display-heavy text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6"
                     >
                         <span className="text-text-primary">Proyectos que </span>
-                        <span className="bg-gradient-to-r from-accent-blue via-accent-light to-white bg-clip-text text-transparent italic">
+                        <span className="bg-gradient-to-r from-accent-blue via-accent-light to-foreground bg-clip-text text-transparent italic">
                             generan impacto
                         </span>
                     </motion.h2>
@@ -390,9 +381,11 @@ export default function ProjectsGallery() {
                             <p className="text-sm text-text-muted mb-4 tracking-wide uppercase relative z-10">
                                 ¿Tu marca es la siguiente?
                             </p>
-                            <motion.button
-                                whileTap={{ scale: 0.95 }}
-                                whileHover={{ scale: 1.03 }}
+                            <Button
+                                variant="primary"
+                                size="lg"
+                                glow
+                                aurora
                                 onClick={() => {
                                     document
                                         .getElementById("contacto")
@@ -400,14 +393,11 @@ export default function ProjectsGallery() {
                                             behavior: "smooth",
                                         });
                                 }}
-                                className="group relative inline-flex items-center gap-2.5 px-8 py-4 rounded-full text-base font-semibold text-white bg-gradient-to-r from-accent-blue to-accent-light hover:opacity-90 transition-all duration-300 cursor-pointer shadow-md shadow-accent-blue/10 z-10"
+                                className="group h-14 px-10"
                             >
-                                <span className="absolute inset-0 rounded-full bg-accent-blue/10 blur-md opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-                                <span className="relative flex items-center gap-2.5">
-                                    <Zap className="size-5 text-white" />
-                                    Empezar Ahora
-                                </span>
-                            </motion.button>
+                                <Zap className="size-5 text-white" />
+                                Empezar Ahora
+                            </Button>
                         </motion.div>
                     </div>
                 </div>
@@ -444,20 +434,19 @@ export default function ProjectsGallery() {
                         viewport={{ once: true }}
                         className="text-center mt-10"
                     >
-                        <motion.button
-                            whileTap={{ scale: 0.95 }}
+                        <Button
+                            variant="primary"
+                            size="lg"
+                            glow
+                            aurora
                             onClick={() => {
-                                document
-                                    .getElementById("contacto")
-                                    ?.scrollIntoView({ behavior: "smooth" });
+                                document.getElementById("contacto")?.scrollIntoView({ behavior: "smooth" });
                             }}
-                            className="group relative inline-flex items-center gap-2.5 px-8 py-4 rounded-full text-base font-semibold text-white bg-gradient-to-r from-accent-blue to-accent-light transition-all duration-300 shadow-md shadow-accent-blue/10"
+                            className="group h-14 px-10"
                         >
-                            <span className="relative flex items-center gap-2.5">
-                                <Zap className="size-5 text-white" />
-                                Empezar Ahora
-                            </span>
-                        </motion.button>
+                            <Zap className="size-5 text-white" />
+                            Empezar Ahora
+                        </Button>
                     </motion.div>
                 </div>
             </div>

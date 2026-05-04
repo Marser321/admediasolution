@@ -3,6 +3,7 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { GitBranch, MessageSquareDashed, BrainCircuit, ArrowRight } from "lucide-react";
+import { AuroraBackground } from "../ui/AuroraBackground";
 import FloatingIcons from "../ui/FloatingIcons";
 
 
@@ -61,7 +62,10 @@ export default function ServicesSection() {
     const divisorScale = useTransform(scrollYProgress, [0.8, 1], [0, 1]);
 
     return (
-        <section ref={sectionRef} id="servicios" className="relative py-10 sm:py-24 px-5 sm:px-6 bg-background overflow-hidden">
+        <section ref={sectionRef} id="servicios" className="relative py-20 sm:py-32 px-5 sm:px-6 bg-background overflow-hidden">
+            {/* Global Aurora Background */}
+            <AuroraBackground intensity="medium" className="opacity-40" />
+
             {/* Background Texture - Grid with parallax */}
             <motion.div
                 style={{ y: gridY }}
@@ -70,7 +74,7 @@ export default function ServicesSection() {
                 <div className="texture-grid" />
             </motion.div>
 
-            <FloatingIcons type="services" className="z-0 opacity-20" />
+            <FloatingIcons type="services" className="z-0 opacity-[var(--floating-icon-opacity)]" />
 
             {/* Divisor superior — draws from center */}
             <motion.div
@@ -158,13 +162,13 @@ function ServiceCard({
             whileInView={{ opacity: 1, y: 0, scale: 1 }}
             viewport={{ once: true, margin: "-60px" }}
             transition={{ duration: 0.7, delay: index * 0.1, ease: [0.22, 1, 0.36, 1] }}
-            className="group flex flex-col h-full relative p-10 rounded-3xl glass-premium border border-white/5 hover:border-primary/40 transition-all duration-700 min-w-[85vw] md:min-w-0 snap-center will-change-transform shadow-2xl shadow-black/50"
+            className="group flex flex-col h-full relative p-10 rounded-3xl glass-premium border border-primary/10 hover:border-primary/40 transition-all duration-700 min-w-[85vw] md:min-w-0 snap-center will-change-transform shadow-2xl shadow-primary/10"
         >
             {/* Hover glow */}
             <div className="absolute inset-0 rounded-3xl bg-gradient-to-br from-primary/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-1000 pointer-events-none" />
 
             {/* Icon Wrapper */}
-            <div className={`mb-8 p-5 rounded-2xl bg-gradient-to-br ${service.gradient} w-fit relative z-10 border border-white/5 shadow-inner`}>
+            <div className={`mb-8 p-5 rounded-2xl bg-gradient-to-br ${service.gradient} w-fit relative z-10 border border-primary/20 shadow-inner`}>
                 <service.icon className="size-7 text-primary" />
             </div>
 

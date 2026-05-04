@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import Image from "next/image";
 import FloatingIcons from "../ui/FloatingIcons";
+import { AuroraBackground } from "../ui/AuroraBackground";
 import AuditQuiz from "../ui/AuditQuiz";
 
 export default function FooterContact() {
@@ -17,8 +18,6 @@ export default function FooterContact() {
         target: footerRef,
         offset: ["start end", "end end"],
     });
-
-    // Content reveals like landing — moves up while scrolling down
 
     // Logo sharpens
     const logoBlur = useTransform(scrollYProgress, [0.5, 0.8], [8, 0]);
@@ -35,9 +34,11 @@ export default function FooterContact() {
 
     return (
         <footer ref={footerRef} id="contacto" className="relative bg-background pt-10 sm:pt-16 pb-10 px-5 sm:px-6 overflow-hidden">
+            {/* Global Aurora Background */}
+            <AuroraBackground intensity="medium" className="opacity-40" />
 
             {/* Iconos flotantes — Social */}
-            <FloatingIcons type="social" className="z-0 opacity-20" />
+            <FloatingIcons type="social" className="z-0 opacity-[var(--floating-icon-opacity)]" />
 
             {/* Background Texture - Grid with Parallax */}
             <motion.div

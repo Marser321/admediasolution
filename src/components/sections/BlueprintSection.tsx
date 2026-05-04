@@ -13,6 +13,7 @@ import {
     Box,
     ShieldCheck
 } from "lucide-react";
+import { AuroraBackground } from "../ui/AuroraBackground";
 
 // ============================================================
 // Blueprint Node Data
@@ -60,9 +61,12 @@ export default function BlueprintSection() {
     return (
         <section 
             ref={containerRef}
-            className="relative py-10 sm:py-28 px-5 sm:px-6 bg-background overflow-hidden"
+            className="relative py-20 sm:py-32 px-5 sm:px-6 bg-background overflow-hidden"
             id="infraestructura"
         >
+            {/* Global Aurora Background */}
+            <AuroraBackground intensity="medium" className="opacity-40" />
+
             {/* 1. Background Schematic Grid */}
             <div className="absolute inset-0 z-0">
                 <div className="texture-grid opacity-[0.03]" />
@@ -116,7 +120,7 @@ export default function BlueprintSection() {
                             {/* Source to Nexus */}
                             <motion.path 
                                 d="M 500 100 L 500 350" 
-                                stroke="rgba(72,142,255,0.2)" 
+                                stroke="rgba(72,142,255,0.4)" 
                                 strokeWidth="2" 
                                 strokeDasharray="8 8"
                                 initial={{ pathLength: 0 }}
@@ -125,7 +129,7 @@ export default function BlueprintSection() {
                             {/* Nexus to Destinations */}
                             <motion.path 
                                 d="M 420 550 L 200 850" 
-                                stroke="rgba(72,142,255,0.2)" 
+                                stroke="rgba(72,142,255,0.4)" 
                                 strokeWidth="2" 
                                 strokeDasharray="8 8"
                                 initial={{ pathLength: 0 }}
@@ -133,7 +137,7 @@ export default function BlueprintSection() {
                             />
                             <motion.path 
                                 d="M 580 550 L 800 850" 
-                                stroke="rgba(72,142,255,0.2)" 
+                                stroke="rgba(72,142,255,0.4)" 
                                 strokeWidth="2" 
                                 strokeDasharray="8 8"
                                 initial={{ pathLength: 0 }}
@@ -231,7 +235,7 @@ export default function BlueprintSection() {
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="mt-32 sm:mt-48 grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 text-center border-t border-white/5 pt-16"
+                    className="mt-32 sm:mt-48 grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 text-center border-t border-primary/10 pt-16"
                 >
                     {[
                         { label: "Latencia Operativa", val: "< 50ms", icon: Activity },
@@ -268,7 +272,7 @@ function NodeCard({ node }: { node: any }) {
                     <node.icon className="size-8" />
                 </div>
                 <div>
-                    <h4 className="text-xl font-bold text-white tracking-tight mb-2">{node.title}</h4>
+                    <h4 className="text-xl font-bold text-foreground tracking-tight mb-2">{node.title}</h4>
                     <div className="flex items-center gap-2">
                         <div className="size-2 rounded-full bg-primary animate-pulse" />
                         <span className="text-[11px] font-mono text-primary/70 uppercase tracking-widest font-bold">Node_Sync_Active</span>

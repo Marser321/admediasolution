@@ -185,7 +185,7 @@ export default function ProblemSection() {
     return (
         <section className="relative py-24 sm:py-32 px-5 sm:px-6 bg-bg-surface overflow-hidden">
             {/* Iconos flotantes — Marketing */}
-            <FloatingIcons type="marketing" className="z-0 opacity-40" />
+            <FloatingIcons type="marketing" className="z-0 opacity-[var(--floating-icon-opacity)]" />
             {/* Background Texture Line/Grid - Fixed pattern */}
             <div
                 className="absolute inset-0 pointer-events-none opacity-[0.03]"

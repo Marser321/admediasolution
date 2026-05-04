@@ -128,9 +128,11 @@ export default function CRMSection() {
                         </div>
 
                         <div className="flex flex-col sm:flex-row items-center gap-8">
-                            <Button variant="primary" size="lg" glow className="rounded-full px-10 py-7 text-lg font-bold shadow-2xl shadow-primary/20 border border-primary/40">
-                                SOLICITAR DEMO CRM
-                                <ArrowRight className="ml-2 size-5 transition-transform group-hover:translate-x-1" />
+                            <Button variant="primary" size="lg" glow className="group w-full sm:w-auto">
+                                <span className="flex items-center gap-2 font-bold tracking-tight">
+                                    SOLICITAR DEMO CRM
+                                    <ArrowRight className="size-5 transition-transform group-hover:translate-x-1" />
+                                </span>
                             </Button>
                             <div className="flex items-center gap-4">
                                 <div className="flex -space-x-3">

@@ -8,31 +8,26 @@
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-inter);
+  --font-sans: "Inter", var(--font-inter), system-ui, sans-serif;
   --font-display: 'Nexa Bold', 'Nexa', var(--font-inter), sans-serif;
   --font-display-light: 'Nexa Light', 'Nexa', var(--font-inter), sans-serif;
   --font-mono: var(--font-geist-mono);
 
-  /* === Brand Identity: AD Media Solution Blues === */
+  /* === Brand Identity: AD Media Solution Blues (V2 Blue Luxury) === */
   /* Official 6-Tone Palette from Brand Manual */
-  --color-bg-charcoal: #0a0a0a;
-  /* Deepest Charcoal */
-  --color-accent-neon: #488EFF;
-  /* Brand Blue Primary */
+  --color-bg-charcoal: #020617; /* Deeper Navy instead of pure Charcoal */
+  --color-accent-neon: #0066FF; /* More vibrant Primary Blue */
   --color-text-white: #ffffff;
-  /* Pure White */
-
-  /* Compatibility aliases */
-  --color-bg-deep: var(--color-bg-charcoal);
-  --color-bg-surface: #121212;
-  --color-bg-card: #18181b;
-  --color-accent-blue: var(--color-accent-neon);
-  --color-accent-light: #81E7FF;
-  /* Brand Celeste — light accent */
-  --color-accent-warm: #f59e0b;
-  /* Amber for highlights */
-  --color-text-primary: #ffffff;
-  --color-text-muted: #a1a1aa;
+  
+  /* Blue Luxury Tokens */
+  --color-bg-deep: #020617;
+  --color-bg-surface: #0f172a;
+  --color-bg-card: rgba(15, 23, 42, 0.5);
+  --color-accent-blue: #0066FF;
+  --color-accent-light: #7DD3FC; /* Clearer Sky Blue */
+  --color-accent-white: #f8fafc;
+  --color-text-primary: #f8fafc;
+  --color-text-muted: #94a3b8;
   /* Zinc-400 for secondary text */
 
   --color-sidebar-ring: var(--sidebar-ring);
@@ -80,60 +75,58 @@
 
 :root {
   --radius: 0.5rem;
-  --background: #050505;
-  --foreground: #ffffff;
-  --card: #18181b;
-  /* Solid dark for maximum contrast */
+  --background: #020617;
+  --foreground: #f8fafc;
+  --card: rgba(15, 23, 42, 0.4);
   --card-foreground: #ffffff;
-  --popover: #121212;
+  --popover: #020617;
   --popover-foreground: #ffffff;
-  --primary: #488EFF;
+  --primary: #0066FF;
   --primary-foreground: #ffffff;
-  --secondary: #18181b;
+  --secondary: #0f172a;
   --secondary-foreground: #ffffff;
-  --muted: #27272a;
-  --muted-foreground: #a1a1aa;
-  --accent: #27272a;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+  --accent: #1e293b;
   --accent-foreground: #ffffff;
   --destructive: #ef4444;
-  --border: rgba(72, 142, 255, 0.2);
-  --input: rgba(72, 142, 255, 0.1);
-  --ring: #488EFF;
-  --chart-1: #488EFF;
-  --chart-2: #81E7FF;
+  --border: rgba(0, 102, 255, 0.2);
+  --input: rgba(0, 102, 255, 0.1);
+  --ring: #0066FF;
+  --chart-1: #0066FF;
+  --chart-2: #7DD3FC;
   --chart-3: #e2e8f0;
   --chart-4: #94a3b8;
   --chart-5: #1e293b;
-  --sidebar: #050505;
+  --sidebar: #020617;
   --sidebar-foreground: #ffffff;
-  --sidebar-primary: #488EFF;
+  --sidebar-primary: #0066FF;
   --sidebar-primary-foreground: #ffffff;
-  --sidebar-accent: #121212;
+  --sidebar-accent: #0f172a;
   --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: rgba(72, 142, 255, 0.2);
-  --sidebar-ring: #488EFF;
+  --sidebar-border: rgba(0, 102, 255, 0.2);
+  --sidebar-ring: #0066FF;
 }
 
 .dark {
-  --background: #050505;
-  --foreground: #ffffff;
-  --card: #18181b;
-  /* Solid dark */
+  --background: #020617;
+  --foreground: #f8fafc;
+  --card: rgba(15, 23, 42, 0.4);
   --card-foreground: #ffffff;
-  --popover: #121212;
+  --popover: #020617;
   --popover-foreground: #ffffff;
-  --primary: #488EFF;
-  --primary-foreground: #000000;
-  --secondary: #18181b;
+  --primary: #0066FF;
+  --primary-foreground: #ffffff;
+  --secondary: #0f172a;
   --secondary-foreground: #ffffff;
-  --muted: #27272a;
-  --muted-foreground: #a1a1aa;
-  --accent: #27272a;
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+  --accent: #1e293b;
   --accent-foreground: #ffffff;
   --destructive: #ef4444;
-  --border: rgba(72, 142, 255, 0.2);
-  --input: rgba(72, 142, 255, 0.1);
-  --ring: #488EFF;
+  --border: rgba(0, 102, 255, 0.2);
+  --input: rgba(0, 102, 255, 0.1);
+  --ring: #0066FF;
 }
 
 @layer utilities {
@@ -151,13 +144,26 @@
 
   .orb-glow {
     position: absolute;
-    width: 600px;
-    height: 600px;
+    width: 800px;
+    height: 800px;
     border-radius: 50%;
-    /* Gradient handled directly in Tailwind utilities for brand color flexibility */
-    opacity: 0.4;
+    opacity: 0.35;
     z-index: 0;
     pointer-events: none;
+    /* Use multi-stop for 'pop' centers */
+    background: radial-gradient(circle at center, #ffffff 0%, #7DD3FC 20%, #0066FF 50%, transparent 80%);
+    filter: blur(120px);
+  }
+
+  .fusion-light {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle at center, #ffffff 0%, rgba(125, 211, 252, 0.4) 40%, transparent 80%);
+    filter: blur(60px);
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 1;
   }
 
   .scrollbar-hide::-webkit-scrollbar {
@@ -172,12 +178,12 @@
 
 @keyframes pulse-slow {
   0%, 100% {
-    opacity: 0.15;
-    transform: scale(1);
+    opacity: 0.2;
+    transform: scale(1) translateZ(0);
   }
   50% {
-    opacity: 0.3;
-    transform: scale(1.05);
+    opacity: 0.4;
+    transform: scale(1.1) translateZ(0);
   }
 }
 
@@ -241,14 +247,18 @@
 
   html,
   body {
-    background-color: #050505 !important;
+    background-color: var(--background);
     /* FORCE DARK MODE */
-    color: #ffffff !important;
+    color: var(--foreground);
   }
 
   body {
     @apply bg-background text-foreground;
     overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11", "ss01";
+    text-rendering: optimizeLegibility;
   }
 
   /* Scrollbar Quiet Luxury */
@@ -281,18 +291,19 @@
   h4,
   h5,
   h6 {
-    @apply font-display tracking-tight text-foreground;
+    @apply font-display tracking-[-0.03em] text-foreground;
+    text-wrap: balance;
   }
 }
 
-/* === FONT DISPLAY HEAVY — Synthetic Extra Bold ===
-   CDNFonts Nexa solo tiene 300/700; esto simula 900 */
+/* === FONT DISPLAY HEAVY — Refined Extra Bold === */
 .font-display-heavy {
   font-family: var(--font-display);
   font-weight: 700;
-  -webkit-text-stroke: 0.6px currentColor;
-  letter-spacing: -0.025em;
+  -webkit-text-stroke: 0.4px currentColor;
+  letter-spacing: -0.04em;
   text-rendering: geometricPrecision;
+  line-height: 0.95;
 }
 
 /* ===================================================================
@@ -324,7 +335,7 @@
   content: "";
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, transparent 0%, #0a0a0a 100%);
+  background: radial-gradient(circle at center, transparent 30%, var(--vignette-color) 100%);
   pointer-events: none;
 }
 
@@ -341,6 +352,7 @@
   @media (max-width: 768px) {
     opacity: 0.03; /* Even subtler on mobile */
   }
+}
 
 /* Glass Tech (Cold Frost) */
 /* Glass Tech (Cold Frost) */
@@ -349,14 +361,12 @@
 /* Glass Tech Premium (Updated) */
 /* Glass Tech Premium (Updated) */
 .glass-premium {
-  background: rgba(10, 10, 10, 0.65);
+  background: var(--color-glass-bg, rgba(10, 10, 10, 0.65));
   backdrop-filter: blur(12px) saturate(150%);
   -webkit-backdrop-filter: blur(12px) saturate(150%);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
-  border-left: 1px solid rgba(255, 255, 255, 0.15);
+  border: 1px solid var(--border-glass, rgba(255, 255, 255, 0.1));
   box-shadow:
-    0 8px 32px 0 rgba(0, 0, 0, 0.8),
+    0 8px 32px 0 var(--color-shadow, rgba(0, 0, 0, 0.8)),
     inset 0 0 32px 0 rgba(255, 255, 255, 0.02);
 }
 
@@ -434,4 +444,86 @@
   .orb-glow {
     opacity: 0.6; /* Brighter on mobile */
   }
+}
+/* === Classic Dark Theme Overrides === */
+.theme-classic {
+  --background: #050505;
+  --color-bg-deep: #050505;
+  --color-bg-charcoal: #050505;
+  --color-accent-blue: #3b82f6;
+  --color-accent-light: #94a3b8;
+  --color-bg-surface: #0a0a0a;
+  --color-accent-neon: #3b82f6;
+  --border: rgba(255, 255, 255, 0.1);
+  --primary: #3b82f6;
+  --card: rgba(0, 0, 0, 0.8);
+}
+
+/* === Pure White Luxury Theme Overrides === */
+.theme-white {
+  --background: #ffffff;
+  --foreground: #020617;
+  --color-bg-deep: #f1f5f9; /* Subtle off-white for depth */
+  --color-bg-charcoal: #e2e8f0;
+  --color-bg-surface: #f8fafc;
+  --border: rgba(0, 102, 255, 0.15);
+  --primary: #0066FF;
+  --card: rgba(255, 255, 255, 0.9);
+  --muted-foreground: #475569;
+  --color-text-white: #020617;
+  
+  /* Text Overrides */
+  --color-text-primary: #020617;
+  --color-text-muted: #334155;
+  
+  /* Glass & Shadows Overrides — High-Ticket Definition */
+  --color-glass-bg: rgba(255, 255, 255, 0.98); /* Near-solid glass for maximum definition */
+  --border-glass: rgba(0, 102, 255, 0.45);
+  --color-shadow: rgba(0, 102, 255, 0.25);
+  --aurora-opacity: 0.75;
+  --icon-opacity: 0.9; /* Near solid individual icons */
+  --floating-icon-opacity: 0.6; /* Vibrant container in white mode */
+  
+  /* White Mode Aurora (Vivid & Volumetric) */
+  --color-aurora-center: #bae6fd; /* Light blue center instead of white for visibility */
+  --color-aurora-mid: #7DD3FC;
+  --color-aurora-edge: #0066FF;
+  --aurora-blend-mode: multiply; /* Crucial for visibility on white */
+  --hero-blend-mode: plus-darker; /* Vivid colors on white */
+  --vignette-color: rgba(0, 102, 255, 0.15);
+}
+
+/* Specific contrast overrides for White Mode */
+.theme-white .texture-grid {
+  opacity: 0.12; /* Significantly increased */
+}
+
+.theme-white .texture-travertine {
+  opacity: 0.6; /* Significantly increased */
+}
+
+.theme-white .bg-noise {
+  opacity: 0.1; /* Very distinct texture */
+}
+
+.theme-white .floating-icon {
+  filter: drop-shadow(0 0 8px rgba(0, 102, 255, 0.2));
+  opacity: 0.8 !important; /* Force visibility */
+}
+
+.theme-white .texture-travertine::before {
+  background: radial-gradient(circle at center, transparent 0%, #f1f5f9 100%);
+}
+
+/* Default / Classic Aurora Overrides */
+.theme-classic {
+  --color-aurora-center: #0a0a0a;
+  --color-aurora-mid: #1e293b;
+  --color-aurora-edge: #0f172a;
+  --color-glass-bg: rgba(5, 5, 5, 0.8);
+  --color-shadow: rgba(0, 0, 0, 0.9);
+  --icon-opacity: 0.25; /* Subtle individual icons */
+  --floating-icon-opacity: 0.3; /* Subtle container in dark modes */
+  --hero-blend-mode: screen;
+  --vignette-color: rgba(2, 6, 23, 0.4);
 }

@@ -60,7 +60,7 @@ const DiagnosticScan = memo(({ logIndex }: { logIndex: number }) => (
         animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
         exit={{ opacity: 0, scale: 1.02, filter: "blur(10px)" }}
         transition={{ duration: 0.8 }}
-        className="w-full glass-premium p-12 rounded-3xl border-primary/30 text-center shadow-2xl shadow-primary/5"
+        className="w-full bg-white/[0.02] backdrop-blur-xl border border-white/10 p-12 rounded-[2.5rem] text-center"
     >
         <div className="relative size-28 mx-auto mb-10">
             <motion.div 
@@ -104,7 +104,7 @@ const SuccessState = memo(({ onSubmit }: { onSubmit: () => void }) => (
         key="finished"
         initial={{ opacity: 0, y: 40 }}
         animate={{ opacity: 1, y: 0 }}
-        className="w-full glass-premium p-10 sm:p-14 rounded-3xl border-primary/20 relative overflow-hidden shadow-2xl"
+        className="w-full glass-premium p-10 sm:p-14 rounded-[2.5rem] border border-primary/10 relative overflow-hidden"
     >
         <div className="absolute -top-24 -right-24 size-64 bg-primary/10 blur-[100px] rounded-full" />
         
@@ -123,19 +123,25 @@ const SuccessState = memo(({ onSubmit }: { onSubmit: () => void }) => (
             <div className="grid sm:grid-cols-2 gap-6">
                 <div className="space-y-2">
                     <label className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/60 ml-1">Nombre Completo</label>
-                    <input placeholder="Ej: Mario Morera" className="w-full bg-background/50 border border-white/5 rounded-xl px-5 py-4 text-sm focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none transition-all placeholder:text-muted-foreground/30" required />
+                    <input placeholder="Ej: Mario Morera" className="w-full bg-background border border-primary/10 rounded-xl px-5 py-4 text-sm focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none transition-all placeholder:text-muted-foreground/30" required />
                 </div>
                 <div className="space-y-2">
                     <label className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/60 ml-1">Empresa / Sitio Web</label>
-                    <input placeholder="Ej: admediasolution.com" className="w-full bg-background/50 border border-white/5 rounded-xl px-5 py-4 text-sm focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none transition-all placeholder:text-muted-foreground/30" required />
+                    <input placeholder="Ej: admediasolution.com" className="w-full bg-background border border-primary/10 rounded-xl px-5 py-4 text-sm focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none transition-all placeholder:text-muted-foreground/30" required />
                 </div>
             </div>
             <div className="space-y-2">
                 <label className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/60 ml-1">Email Corporativo</label>
-                <input type="email" placeholder="mario@empresa.com" className="w-full bg-background/50 border border-white/5 rounded-xl px-5 py-4 text-sm focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none transition-all placeholder:text-muted-foreground/30" required />
+                <input type="email" placeholder="mario@empresa.com" className="w-full bg-background border border-primary/10 rounded-xl px-5 py-4 text-sm focus:border-primary/50 focus:ring-1 focus:ring-primary/20 outline-none transition-all placeholder:text-muted-foreground/30" required />
             </div>
             
-            <Button className="w-full py-10 rounded-2xl text-xl font-display-heavy tracking-[0.05em] shadow-2xl shadow-primary/20 hover:shadow-primary/40 transition-all border border-primary/40">
+            <Button 
+                variant="primary"
+                size="lg"
+                glow 
+                aurora
+                className="w-full h-16 sm:h-20 rounded-2xl text-xl font-display-heavy tracking-[0.05em]"
+            >
                 SOLICITAR REVISIÓN DE INGENIERÍA
             </Button>
             
@@ -217,7 +223,7 @@ export default function AuditQuiz() {
                         key="submitted"
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="text-center p-16 glass-premium rounded-3xl border-primary/20 shadow-2xl"
+                        className="text-center p-16 bg-white/[0.02] backdrop-blur-2xl rounded-[2.5rem] border border-white/10"
                     >
                         <div className="size-24 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary mx-auto mb-10 shadow-2xl shadow-primary/20">
                             <Check className="size-12" />
@@ -239,17 +245,13 @@ export default function AuditQuiz() {
                         transition={{ duration: 0.5, ease: "easeOut" }}
                         className="w-full"
                     >
-                        <div className="flex justify-between items-center mb-12">
+                        <div className="flex justify-start items-center mb-12">
                             <button 
                                 onClick={prevStep}
                                 className={`flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.25em] transition-all ${currentStep === 0 ? "opacity-0 pointer-events-none" : "opacity-40 hover:opacity-100 hover:text-primary"}`}
                             >
                                 <ChevronLeft className="size-4" /> Atrás
                             </button>
-                            <div className="flex flex-col items-end">
-                                <span className="text-[11px] font-bold font-mono text-primary/40 uppercase tracking-[0.2em] mb-1">Métrica de Auditoría</span>
-                                <span className="text-sm font-bold font-mono text-primary tracking-tight">Step_0{currentStep + 1}.Diagnostic</span>
-                            </div>
                         </div>
 
                         <div className="text-center mb-14">
@@ -265,10 +267,10 @@ export default function AuditQuiz() {
                                     key={option.value}
                                     disabled={lastInsight !== null}
                                     onClick={() => handleOptionSelect(STEPS[currentStep].id, option.value, option.insight)}
-                                    className={`group relative w-full text-left p-8 rounded-3xl glass-premium transition-all duration-700 overflow-hidden ${
+                                    className={`group relative w-full text-left p-8 rounded-[2rem] transition-all duration-700 overflow-hidden border ${
                                         answers[STEPS[currentStep].id] === option.value 
-                                        ? "border-primary bg-primary/10 shadow-2xl shadow-primary/5" 
-                                        : "border-white/5 hover:border-primary/40 hover:shadow-2xl hover:shadow-primary/5"
+                                        ? "border-primary bg-primary/10" 
+                                        : "border-white/10 bg-white/[0.02] hover:border-primary/30 hover:bg-white/[0.04]"
                                     }`}
                                 >
                                     <div className="flex justify-between items-center relative z-10">

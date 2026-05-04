@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { Home, Briefcase, Sparkles, MessageCircle } from "lucide-react";
+import { Home, Briefcase, Sparkles, MessageCircle, Moon, Sun } from "lucide-react";
 
 // ============================================================
 // Ítems de navegación
@@ -21,8 +21,46 @@ const NAV_ITEMS = [
 export default function IslandBar() {
     const [expanded, setExpanded] = useState(true);
     const [activeSection, setActiveSection] = useState("hero");
+    const [theme, setTheme] = useState<"luxury" | "classic" | "white">("luxury");
+
+    useEffect(() => {
+        const savedTheme = localStorage.getItem("theme") as "luxury" | "classic" | "white";
+        if (savedTheme) {
+            setTheme(savedTheme);
+            document.documentElement.className = `theme-${savedTheme}`;
+        }
+    }, []);
     const { scrollY } = useScroll();
     const [lastScrollY, setLastScrollY] = useState(0);
+
+    // Initialize theme from localStorage
+    useEffect(() => {
+        const savedTheme = localStorage.getItem("vibe-theme") as any;
+        if (["luxury", "classic", "white"].includes(savedTheme)) {
+            setTheme(savedTheme);
+            if (savedTheme === "classic") document.documentElement.classList.add("theme-classic");
+            if (savedTheme === "white") document.documentElement.classList.add("theme-white");
+        }
+    }, []);
+
+    const toggleTheme = () => {
+        setTheme(prev => {
+            let next: "luxury" | "classic" | "white";
+            if (prev === "luxury") next = "classic";
+            else if (prev === "classic") next = "white";
+            else next = "luxury";
+
+            // Clean up old classes
+            document.documentElement.classList.remove("theme-classic", "theme-white");
+            
+            // Add new class if needed
+            if (next === "classic") document.documentElement.classList.add("theme-classic");
+            if (next === "white") document.documentElement.classList.add("theme-white");
+
+            localStorage.setItem("vibe-theme", next);
+            return next;
+        });
+    };
 
     // Detectar dirección de scroll
     useMotionValueEvent(scrollY, "change", (latest) => {
@@ -75,10 +113,11 @@ export default function IslandBar() {
                 layout
                 transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
                 className={`
-          flex items-center justify-center gap-1
+          flex items-center justify-center gap-0.5 sm:gap-1
           glass-premium rounded-full
+          max-w-[calc(100vw-1.5rem)] sm:max-w-none
           ${expanded
-                        ? "px-3 py-2.5 rounded-[1.75rem] sm:px-6 sm:py-3"
+                        ? "px-2 py-2 rounded-[1.75rem] sm:px-6 sm:py-3"
                         : "px-2 py-2 rounded-full"
                     }
         `}
@@ -90,7 +129,7 @@ export default function IslandBar() {
                     whileTap={{ scale: 0.9 }}
                     className={`
                     relative flex items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
-                    ${expanded ? "w-10 opacity-100 mr-1" : "w-0 opacity-0 mr-0 overflow-hidden"}
+                    ${expanded ? "w-8 sm:w-10 opacity-100 mr-0.5 sm:mr-1" : "w-0 opacity-0 mr-0 overflow-hidden"}
                 `}>
                     <Image
                         src="/brand/logo-icon.png"
@@ -103,7 +142,7 @@ export default function IslandBar() {
 
                 {/* Separator */}
                 <div className={`
-                     h-4 w-px bg-white/10 transition-all duration-500 delay-100
+                     h-4 w-px bg-primary/20 transition-all duration-500 delay-100
                      ${expanded ? "opacity-100 mr-1" : "opacity-0 mr-0 w-0"}
                 `} />
 
@@ -118,11 +157,11 @@ export default function IslandBar() {
                             onClick={() => handleNavClick(item.id)}
                             whileTap={{ scale: 0.9 }}
                             className={`
-                relative flex items-center gap-2 px-3 py-2 rounded-full
+                relative flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-2 rounded-full
                 transition-colors duration-300 cursor-pointer
                 ${isActive
-                                    ? "text-white"
-                                    : "text-slate-500 hover:text-slate-300"
+                                    ? "text-primary"
+                                    : "text-muted-foreground hover:text-foreground"
                                 }
               `}
                         >
@@ -145,7 +184,21 @@ export default function IslandBar() {
                                         animate={{ opacity: 1, width: "auto" }}
                                         exit={{ opacity: 0, width: 0 }}
                                         transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                                        className="relative z-10 text-xs sm:text-sm font-medium whitespace-nowrap overflow-hidden"
+                                        className="relative z-10 text-xs sm:text-sm font-medium whitespace-nowrap overflow-hidden hidden sm:block"
+                                    >
+                                        {item.label}
+                                    </motion.span>
+                                )}
+                            </AnimatePresence>
+                            
+                            {/* Mobile Label — Solo el activo para ahorrar espacio */}
+                            <AnimatePresence>
+                                {isActive && (
+                                    <motion.span
+                                        initial={{ opacity: 0, width: 0 }}
+                                        animate={{ opacity: 1, width: "auto" }}
+                                        exit={{ opacity: 0, width: 0 }}
+                                        className="relative z-10 text-[10px] font-medium whitespace-nowrap overflow-hidden sm:hidden ml-1"
                                     >
                                         {item.label}
                                     </motion.span>
@@ -154,6 +207,46 @@ export default function IslandBar() {
                         </motion.button>
                     );
                 })}
+
+                {/* Vertical Divider */}
+                {expanded && <div className="w-px h-4 bg-white/10 mx-1" />}
+
+                {/* Vibe Toggle Button */}
+                <motion.button
+                    whileHover={{ scale: 1.1, backgroundColor: "rgba(255,255,255,0.05)" }}
+                    whileTap={{ scale: 0.9 }}
+                    onClick={toggleTheme}
+                    className={`
+                        relative flex items-center justify-center rounded-full transition-all duration-300
+                        ${expanded ? "size-8 sm:size-9" : "size-8"}
+                        ${theme === "luxury" ? "text-primary" : "text-muted-foreground"}
+                    `}
+                    title={`Switch Vibe (Current: ${theme})`}
+                >
+                    <AnimatePresence mode="wait">
+                        <motion.div
+                            key={theme}
+                            initial={{ opacity: 0, rotate: -90 }}
+                            animate={{ opacity: 1, rotate: 0 }}
+                            exit={{ opacity: 0, rotate: 90 }}
+                            transition={{ duration: 0.2 }}
+                            className="flex items-center justify-center"
+                        >
+                            {theme === "luxury" && <Sparkles className="size-4 sm:size-5" />}
+                            {theme === "classic" && <Moon className="size-4 sm:size-5" />}
+                            {theme === "white" && <Sun className="size-4 sm:size-5" />}
+                        </motion.div>
+                    </AnimatePresence>
+                    
+                    {/* Pulsing indicator for Luxury mode */}
+                    {theme === "luxury" && (
+                        <motion.span 
+                            animate={{ scale: [1, 1.4, 1], opacity: [0.6, 1, 0.6] }}
+                            transition={{ duration: 2, repeat: Infinity }}
+                            className="absolute top-0 right-0 size-2 bg-primary rounded-full shadow-[0_0_8px_rgba(0,102,255,0.8)]" 
+                        />
+                    )}
+                </motion.button>
             </motion.div>
         </motion.nav>
     );
