@@ -292,7 +292,7 @@ function NodeCard({ node }: { node: BlueprintNode }) {
                     </div>
                 </div>
             </div>
-            <p className="text-[14px] text-muted-foreground leading-relaxed font-light">
+            <p className="text-[14px] text-foreground font-medium leading-relaxed">
                 {node.desc}
             </p>
         </div>

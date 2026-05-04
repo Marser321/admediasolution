@@ -183,19 +183,15 @@ function OrbitalNode({
             <motion.div
                 className={cn(
                     "relative w-full h-full rounded-full flex items-center justify-center",
-                    "bg-card border-2 border-primary/60 backdrop-blur-xl",
+                    "bg-card border-2 border-primary backdrop-blur-xl",
                     "shadow-[0_4px_25px_rgba(0,102,255,0.25)] cursor-pointer transition-colors duration-300 transform-gpu"
                 )}
-                style={{
-                    borderColor: isHovered ? node.color : `${node.color}88`,
-                }}
                 animate={{
                     scale: isHovered ? 1.2 : 1,
                 }}
             >
                 <Icon
-                    className="size-5 sm:size-6 transition-colors duration-300"
-                    style={{ color: isHovered ? node.color : `${node.color}` }}
+                    className="size-5 sm:size-6 text-primary transition-colors duration-300"
                 />
             </motion.div>
         </motion.div>

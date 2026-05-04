@@ -162,7 +162,7 @@ export default function AuthoritySection() {
                         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 bg-[radial-gradient(circle_at_center,_rgba(129,231,255,0.15)_0%,_transparent_70%)] pointer-events-none" />
 
                         {/* Floating Badge — Glow intensifies at viewport center */}
-                        <div className="absolute bottom-8 left-8 right-8 p-5 rounded-2xl bg-background/80 border border-primary/10 backdrop-blur-xl">
+                        <div className="absolute bottom-8 left-8 right-8 p-5 rounded-2xl bg-card border border-primary/20 shadow-xl backdrop-blur-md">
                             <div className="flex items-center gap-4">
                                 <motion.div
                                     style={{
@@ -205,7 +205,7 @@ export default function AuthoritySection() {
                         </motion.h2>
 
                         {/* Bio extendida — Neutral Spanish Pass */}
-                        <motion.div variants={itemVariants} className="space-y-6 text-lg sm:text-xl text-text-muted leading-relaxed mb-10 font-medium">
+                        <motion.div variants={itemVariants} className="space-y-6 text-lg sm:text-xl text-foreground leading-relaxed mb-10 font-medium">
                             <p>
                                 No soy un consultor de marketing convencional. Soy el <strong className="text-text-primary font-bold">arquitecto jefe</strong> de tu infraestructura comercial y operativa.
                             </p>
@@ -218,7 +218,7 @@ export default function AuthoritySection() {
                         <motion.blockquote
                             ref={quoteRef}
                             variants={itemVariants}
-                            className="relative pl-6 mb-12 italic text-muted-foreground/80 overflow-hidden text-lg"
+                            className="relative pl-6 mb-12 italic text-foreground overflow-hidden text-lg font-semibold"
                         >
                             {/* Animated bar */}
                             <motion.div
@@ -315,10 +315,10 @@ function ToolBadge({
                 borderColor: `${tool.color}40`,
                 color: tool.color
             }}
-            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-white/[0.04] border border-white/[0.08] text-xs font-semibold text-text-muted transition-all duration-300 cursor-default group"
+            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-card border border-primary/20 text-xs font-bold text-foreground shadow-sm transition-all duration-300 cursor-default group"
         >
-            <tool.icon className="size-4 transition-colors" style={{ color: tool.color }} />
-            <span className="group-hover:text-text-primary transition-colors">{tool.label}</span>
+            <tool.icon className="size-4 text-primary transition-colors" />
+            <span className="group-hover:text-primary transition-colors">{tool.label}</span>
         </motion.div>
     );
 }
