@@ -88,11 +88,12 @@ export default function AuthoritySection() {
     );
 
     // Split parallax — columns enter from opposite sides
-    const photoX = useTransform(scrollYProgress, [0, 0.35], [-60, 0]);
+    const photoX = useTransform(scrollYProgress, [0, 0.35], [-120, 0]);
+    const photoY = useTransform(scrollYProgress, [0, 1], [0, -40]); // Subtle vertical parallax
     const photoOpacity = useTransform(scrollYProgress, [0.05, 0.25], [0, 1]);
-    const photoScale = useTransform(scrollYProgress, [0, 0.35], [0.95, 1]);
+    const photoScale = useTransform(scrollYProgress, [0, 0.35], [0.92, 1]);
 
-    const copyX = useTransform(scrollYProgress, [0, 0.35], [60, 0]);
+    const copyX = useTransform(scrollYProgress, [0, 0.35], [120, 0]);
     const copyOpacity = useTransform(scrollYProgress, [0.05, 0.25], [0, 1]);
 
     // Background grid parallax
@@ -139,6 +140,7 @@ export default function AuthoritySection() {
                 <motion.div
                     style={{
                         x: photoX,
+                        y: photoY,
                         opacity: photoOpacity,
                         scale: photoScale,
                     }}
@@ -148,10 +150,10 @@ export default function AuthoritySection() {
                         {/* Foto CEO */}
                         <Image
                             src="/team/ceo.png"
-                            alt="Danger Fernandez - CEO"
+                            alt="Deyner Fernandez - CEO"
                             fill
-                            className="object-cover object-top transition-transform duration-[2s] ease-out group-hover:scale-105"
-                            quality={95}
+                            className="object-cover object-top transition-transform duration-[2s] ease-out group-hover:scale-110 contrast-[1.05] brightness-[1.02]"
+                            quality={100}
                             priority
                         />
 
@@ -172,8 +174,8 @@ export default function AuthoritySection() {
                                     DF
                                 </motion.div>
                                 <div>
-                                    <p className="text-base font-bold text-foreground">Danger Fernandez</p>
-                                    <p className="text-xs text-primary font-mono tracking-tighter uppercase font-medium">Chief Revenue Architect</p>
+                                    <p className="text-base font-bold text-foreground">Deyner Fernandez</p>
+                                    <p className="text-xs text-primary font-mono tracking-tighter uppercase font-bold">Chief Revenue Architect</p>
                                 </div>
                             </div>
                         </div>
@@ -198,15 +200,15 @@ export default function AuthoritySection() {
                             CEO & Fundador
                         </motion.p>
 
-                        <motion.h2 variants={itemVariants} className="font-display-heavy text-3xl sm:text-5xl lg:text-6xl font-bold mb-8 text-foreground">
-                            Danger Fernandez.
-                            <span className="block text-primary font-mono mt-3 text-sm sm:text-base tracking-[0.35em] uppercase opacity-90">Chief Revenue Architect</span>
+                        <motion.h2 variants={itemVariants} className="font-display-heavy text-3xl sm:text-5xl lg:text-6xl font-bold mb-8 text-text-primary">
+                            Deyner Fernandez.
+                            <span className="block text-primary font-mono mt-4 text-sm sm:text-base tracking-[0.4em] uppercase font-bold">Chief Revenue Architect</span>
                         </motion.h2>
 
                         {/* Bio extendida — Neutral Spanish Pass */}
-                        <motion.div variants={itemVariants} className="space-y-5 text-lg sm:text-xl text-muted-foreground leading-relaxed mb-10">
+                        <motion.div variants={itemVariants} className="space-y-6 text-lg sm:text-xl text-text-muted leading-relaxed mb-10 font-medium">
                             <p>
-                                No soy un consultor de marketing convencional. Soy el <strong className="text-foreground">arquitecto jefe</strong> de tu infraestructura comercial y operativa.
+                                No soy un consultor de marketing convencional. Soy el <strong className="text-text-primary font-bold">arquitecto jefe</strong> de tu infraestructura comercial y operativa.
                             </p>
                             <p>
                                 Diseño sistemas para compañías que facturan entre 7 y 8 cifras, integrando Meta Ads de alta precisión, ecosistemas CRM a medida y flujos de IA que optimizan la rentabilidad sin depender de equipos humanos masivos.

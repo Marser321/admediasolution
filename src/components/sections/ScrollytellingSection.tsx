@@ -117,8 +117,8 @@ function KPICard({
     // Scroll-linked dashboard loading effect
     const threshold = 0.4 + index * 0.06;
     const cardOpacity = useTransform(sectionProgress, [threshold, threshold + 0.1], [0, 1]);
-    const cardY = useTransform(sectionProgress, [threshold, threshold + 0.12], [40, 0]);
-    const cardScale = useTransform(sectionProgress, [threshold, threshold + 0.1], [0.92, 1]);
+    const cardY = useTransform(sectionProgress, [threshold, threshold + 0.12], [100, 0]); // Increased parallax
+    const cardScale = useTransform(sectionProgress, [threshold, threshold + 0.1], [0.9, 1]);
 
     // Progress bar fill animation
     const barFill = useTransform(sectionProgress, [threshold + 0.05, threshold + 0.18], [0, 1]);
@@ -130,7 +130,7 @@ function KPICard({
                 y: cardY,
                 scale: cardScale,
             }}
-            className="group relative p-6 rounded-2xl bg-card border border-primary/10 backdrop-blur-sm hover:border-primary/30 transition-all duration-500 overflow-hidden will-change-transform"
+            className="group relative p-6 rounded-2xl bg-background/60 border border-primary/25 backdrop-blur-2xl hover:border-primary/50 transition-all duration-500 overflow-hidden shadow-2xl will-change-transform"
         >
             {/* Glow hover */}
             <div className="absolute inset-0 bg-gradient-to-br from-accent-blue/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-2xl" />
@@ -199,8 +199,9 @@ export default function ScrollytellingSection() {
     const orbBottomX = useTransform(scrollYProgress, [0, 1], [0, -30]);
 
     // TechEcosystem scale on scroll
-    const orbitScale = useTransform(scrollYProgress, [0.1, 0.4], [0.85, 1.05]);
+    const orbitScale = useTransform(scrollYProgress, [0.1, 0.4], [0.8, 1.2]); // More scale range
     const orbitOpacity = useTransform(scrollYProgress, [0.05, 0.2], [0, 1]);
+    const orbitY = useTransform(scrollYProgress, [0, 1], [40, -40]); // Vertical parallax
 
     // Underline draw for "ingresos reales"
     const underlineDraw = useTransform(scrollYProgress, [0.15, 0.3], [0, 1]);
@@ -252,15 +253,15 @@ export default function ScrollytellingSection() {
                         initial={{ opacity: 0, y: 30 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-                        className="font-display-heavy text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6 text-text-primary"
+                        transition={{ duration: 1, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
+                        className="font-display-heavy text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-8 text-text-primary"
                     >
                         Tecnología que genera{" "}
-                        <span className="text-primary relative inline-block">
+                        <span className="text-primary relative inline-block drop-shadow-[0_0_15px_rgba(0,102,255,0.3)]">
                             ingresos reales
                             {/* Scroll-drawn underline */}
                             <motion.div
-                                className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-primary to-accent-light"
+                                className="absolute bottom-1 left-0 w-full h-[3px] bg-gradient-to-r from-primary to-accent-light shadow-[0_2px_10px_rgba(0,102,255,0.4)]"
                                 style={{ scaleX: underlineDraw, transformOrigin: "left" }}
                             />
                         </span>
@@ -283,8 +284,8 @@ export default function ScrollytellingSection() {
 
                     {/* Columna izquierda: Animación orbital — Scale up on scroll */}
                     <motion.div
-                        style={{ scale: orbitScale, opacity: orbitOpacity }}
-                        className="order-2 lg:order-1 flex justify-center will-change-transform"
+                        style={{ scale: orbitScale, opacity: orbitOpacity, y: orbitY }}
+                        className="order-2 lg:order-1 flex justify-center will-change-transform drop-shadow-[0_0_50px_rgba(0,102,255,0.15)]"
                     >
                         <TechEcosystemOrbit />
                     </motion.div>

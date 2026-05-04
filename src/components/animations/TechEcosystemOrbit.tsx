@@ -91,9 +91,9 @@ function ConnectionLines({ radius, centerX, centerY }: { radius: number; centerX
                         x2={line.x2}
                         y2={line.y2}
                         stroke="url(#lineGradient)"
-                        strokeWidth="1"
+                        strokeWidth="1.2"
                         initial={{ pathLength: 0, opacity: 0 }}
-                        animate={{ pathLength: 1, opacity: 0.4 }}
+                        animate={{ pathLength: 1, opacity: 0.7 }}
                         transition={{ duration: 2, delay: 0.5 + line.delay }}
                     />
                     {/* Simplified pulse */}
@@ -103,9 +103,9 @@ function ConnectionLines({ radius, centerX, centerY }: { radius: number; centerX
                         x2={line.x2}
                         y2={line.y2}
                         stroke="#488EFF"
-                        strokeWidth="1.5"
+                        strokeWidth="2"
                         strokeDasharray="4 60"
-                        opacity="0.4"
+                        opacity="0.8"
                     >
                         <animate
                             attributeName="stroke-dashoffset"
@@ -183,14 +183,14 @@ function OrbitalNode({
             <motion.div
                 className={cn(
                     "relative w-full h-full rounded-full flex items-center justify-center",
-                    "bg-background border border-primary/20 backdrop-blur-[4px]",
-                    "shadow-lg cursor-pointer transition-colors duration-300 transform-gpu"
+                    "bg-background border-2 border-primary/40 backdrop-blur-md",
+                    "shadow-[0_0_20px_rgba(0,102,255,0.2)] cursor-pointer transition-colors duration-300 transform-gpu"
                 )}
                 style={{
-                    borderColor: isHovered ? node.color : `${node.color}44`,
+                    borderColor: isHovered ? node.color : `${node.color}88`,
                 }}
                 animate={{
-                    scale: isHovered ? 1.15 : 1,
+                    scale: isHovered ? 1.2 : 1,
                 }}
             >
                 <Icon
@@ -231,14 +231,14 @@ function CoreNode({
             transition={{ duration: 0.8, ease: "easeOut" }}
         >
             {/* Core sólido */}
-            <div className="relative w-full h-full rounded-full bg-background border border-accent-blue/50 flex flex-col items-center justify-center shadow-xl backdrop-blur-md overflow-hidden">
-                <div className="absolute inset-0 rounded-full bg-gradient-to-b from-accent-blue/20 to-transparent" />
+            <div className="relative w-full h-full rounded-full bg-background border-2 border-primary flex flex-col items-center justify-center shadow-[0_0_30px_rgba(0,102,255,0.3)] backdrop-blur-xl overflow-hidden">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-b from-primary/30 to-transparent" />
                 <Image
                     src="/brand/logo-icon.png"
                     alt="AD Media Solution Icon"
-                    width={28}
-                    height={28}
-                    className="object-contain drop-shadow-[0_0_8px_rgba(72,142,255,0.4)]"
+                    width={32}
+                    height={32}
+                    className="object-contain drop-shadow-[0_0_15px_rgba(0,102,255,0.6)] contrast-125"
                 />
             </div>
         </motion.div>

@@ -72,7 +72,7 @@ export default function BlueprintSection() {
 
             {/* 1. Background Schematic Grid */}
             <div className="absolute inset-0 z-0">
-                <div className="texture-grid opacity-[0.03]" />
+                <div className="texture-grid opacity-[0.015]" />
                 <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
             </div>
 
@@ -184,6 +184,7 @@ export default function BlueprintSection() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.3 }}
+                        style={{ y: useTransform(scrollYProgress, [0, 1], [40, -40]) }}
                         className="sm:absolute sm:top-0 sm:left-1/2 sm:-translate-x-1/2 z-40 group order-1"
                     >
                         <NodeCard node={SOURCE_NODE} />
@@ -192,23 +193,25 @@ export default function BlueprintSection() {
                     {/* B. CENTRAL NEXUS */}
                     <div className="sm:absolute sm:top-[45%] sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 z-30 order-2">
                         <motion.div 
+                            style={{ 
+                                scale: useTransform(scrollYProgress, [0.3, 0.5, 0.7], [0.9, 1.1, 0.9])
+                            }}
                             animate={isInView ? { 
-                                scale: [1, 1.05, 1],
-                                boxShadow: ["0 0 30px rgba(72,142,255,0.15)", "0 0 70px rgba(72,142,255,0.35)", "0 0 30px rgba(72,142,255,0.15)"]
+                                boxShadow: ["0 0 30px rgba(72,142,255,0.25)", "0 0 80px rgba(72,142,255,0.55)", "0 0 30px rgba(72,142,255,0.25)"]
                             } : {}}
                             transition={{ duration: 4, repeat: Infinity }}
-                            className="size-48 sm:size-64 rounded-[3rem] bg-background border-2 border-primary/40 flex items-center justify-center relative overflow-hidden group shadow-2xl mx-auto"
+                            className="size-56 sm:size-72 rounded-[3.5rem] bg-background border-2 border-primary/60 flex items-center justify-center relative overflow-hidden group shadow-[0_0_50px_rgba(0,102,255,0.2)] mx-auto"
                         >
-                            <div className="absolute inset-0 bg-primary/5 group-hover:bg-primary/10 transition-colors" />
+                            <div className="absolute inset-0 bg-primary/10 group-hover:bg-primary/20 transition-colors" />
                             <div className="relative z-10 flex flex-col items-center">
                                 <Image 
                                     src="/brand/logo-icon.png" 
                                     alt="AD Media Isotype" 
-                                    width={48} 
-                                    height={48} 
-                                    className="mb-4 opacity-80 group-hover:opacity-100 transition-opacity"
+                                    width={64} 
+                                    height={64} 
+                                    className="mb-5 opacity-90 group-hover:opacity-100 transition-opacity drop-shadow-[0_0_12px_rgba(0,102,255,0.4)]"
                                 />
-                                <span className="text-[12px] font-mono font-bold text-primary tracking-[0.4em] uppercase text-center">AD Media<br/>CRM</span>
+                                <span className="text-[13px] font-mono font-bold text-primary tracking-[0.5em] uppercase text-center leading-relaxed">AD Media<br/>CRM</span>
                             </div>
                             
                             <motion.div 
@@ -228,6 +231,7 @@ export default function BlueprintSection() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: 0.5 + (i * 0.2) }}
+                                style={{ y: useTransform(scrollYProgress, [0, 1], [i === 0 ? -20 : -40, i === 0 ? 60 : 80]) }}
                                 className={`
                                     sm:absolute sm:top-[85%] z-40 group
                                     ${i === 0 ? "sm:left-0" : "sm:right-0"}
@@ -272,9 +276,9 @@ export default function BlueprintSection() {
 // ============================================================
 function NodeCard({ node }: { node: BlueprintNode }) {
     return (
-        <div className="glass-premium p-10 rounded-[2.5rem] border-white/5 hover:border-primary/40 transition-all duration-700 w-full sm:w-80 shadow-2xl relative group-hover:scale-[1.02]">
-            <div className="absolute top-6 left-6 size-3 border-t border-l border-primary/40" />
-            <div className="absolute bottom-6 right-6 size-3 border-b border-r border-primary/40" />
+        <div className="glass-premium p-10 rounded-[2.5rem] border-primary/20 hover:border-primary/50 transition-all duration-700 w-full sm:w-80 shadow-2xl relative group-hover:scale-[1.05] bg-background/60 backdrop-blur-2xl">
+            <div className="absolute top-6 left-6 size-4 border-t-2 border-l-2 border-primary/60" />
+            <div className="absolute bottom-6 right-6 size-4 border-b-2 border-r-2 border-primary/60" />
             
             <div className="flex items-start gap-6 mb-6">
                 <div className={`p-4 rounded-2xl bg-primary/10 border border-primary/30 ${node.color} group-hover:scale-110 transition-transform duration-500 shadow-inner`}>
