@@ -203,13 +203,13 @@ export default function BlueprintSection() {
                             className="size-56 sm:size-72 rounded-[3.5rem] bg-background border-2 border-primary/60 flex items-center justify-center relative overflow-hidden group shadow-[0_0_50px_rgba(0,102,255,0.2)] mx-auto"
                         >
                             <div className="absolute inset-0 bg-primary/10 group-hover:bg-primary/20 transition-colors" />
-                            <div className="relative z-30 flex w-full max-w-[11.5rem] sm:max-w-[14.5rem] items-center justify-center rounded-3xl border border-primary/15 bg-white/80 px-5 py-6 shadow-[0_18px_45px_rgba(0,102,255,0.16)] backdrop-blur-md">
+                            <div className="relative z-30 flex w-full max-w-[12.5rem] sm:max-w-[15.5rem] items-center justify-center px-3 py-4">
                                 <Image 
                                     src="/brand/logo-crm.png" 
                                     alt="AD Media CRM logo" 
                                     width={908} 
                                     height={416} 
-                                    className="h-auto w-full object-contain opacity-95 transition-opacity group-hover:opacity-100"
+                                    className="pointer-events-none h-auto w-full object-contain opacity-95 transition-opacity group-hover:opacity-100"
                                 />
                             </div>
                             
