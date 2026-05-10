@@ -150,7 +150,7 @@ export default function AuthoritySection() {
                         {/* Foto CEO */}
                         <Image
                             src="/team/ceo.png"
-                            alt="Deyner Fernandez - CEO"
+                            alt="Danger Fernández - CEO"
                             fill
                             className="object-cover object-top transition-transform duration-[2s] ease-out group-hover:scale-110 contrast-[1.05] brightness-[1.02]"
                             quality={100}
@@ -173,7 +173,7 @@ export default function AuthoritySection() {
                                     DF
                                 </motion.div>
                                 <div>
-                                    <p className="text-base font-bold text-foreground">Deyner Fernandez</p>
+                                    <p className="text-base font-bold text-foreground">Danger Fernández</p>
                                     <p className="text-xs text-primary font-mono tracking-tighter uppercase font-bold">Chief Revenue Architect</p>
                                 </div>
                             </div>
@@ -200,7 +200,7 @@ export default function AuthoritySection() {
                         </motion.p>
 
                         <motion.h2 variants={itemVariants} className="font-display-heavy text-3xl sm:text-5xl lg:text-6xl font-bold mb-8 text-text-primary">
-                            Deyner Fernandez.
+                            Danger Fernández.
                             <span className="block text-primary font-mono mt-4 text-sm sm:text-base tracking-[0.4em] uppercase font-bold">Chief Revenue Architect</span>
                         </motion.h2>
 
