@@ -3,14 +3,11 @@
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { 
-    Cpu, 
     Share2, 
-    Layers, 
     Activity, 
     Database, 
     Bot, 
     Zap,
-    Box,
     ShieldCheck
 } from "lucide-react";
 import { AuroraBackground } from "../ui/AuroraBackground";
@@ -60,6 +57,9 @@ export default function BlueprintSection() {
 
     const rotate = useTransform(scrollYProgress, [0, 1], [0, 20]);
     const opacity = useTransform(scrollYProgress, [0, 0.2, 0.8, 1], [0, 1, 1, 0]);
+    const marketingHubY = useTransform(scrollYProgress, [0, 1], [-20, 60]);
+    const aiScaleY = useTransform(scrollYProgress, [0, 1], [-40, 80]);
+    const destinationNodeY = [marketingHubY, aiScaleY];
 
     return (
         <section 
@@ -203,21 +203,20 @@ export default function BlueprintSection() {
                             className="size-56 sm:size-72 rounded-[3.5rem] bg-background border-2 border-primary/60 flex items-center justify-center relative overflow-hidden group shadow-[0_0_50px_rgba(0,102,255,0.2)] mx-auto"
                         >
                             <div className="absolute inset-0 bg-primary/10 group-hover:bg-primary/20 transition-colors" />
-                            <div className="relative z-10 flex flex-col items-center">
+                            <div className="relative z-30 flex w-full max-w-[12.5rem] sm:max-w-[15.5rem] items-center justify-center px-3 py-4">
                                 <Image 
-                                    src="/brand/logo-icon.png" 
-                                    alt="AD Media Isotype" 
-                                    width={64} 
-                                    height={64} 
-                                    className="mb-5 opacity-90 group-hover:opacity-100 transition-opacity drop-shadow-[0_0_12px_rgba(0,102,255,0.4)]"
+                                    src="/brand/logo-crm.png" 
+                                    alt="AD Media CRM logo" 
+                                    width={908} 
+                                    height={416} 
+                                    className="pointer-events-none h-auto w-full object-contain opacity-95 transition-opacity group-hover:opacity-100"
                                 />
-                                <span className="text-[13px] font-mono font-bold text-primary tracking-[0.5em] uppercase text-center leading-relaxed">AD Media<br/>CRM</span>
                             </div>
                             
                             <motion.div 
                                 animate={{ top: ["-10%", "110%"] }}
                                 transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                                className="absolute left-0 right-0 h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent z-20"
+                                className="absolute left-0 right-0 z-10 h-1 bg-gradient-to-r from-transparent via-primary/50 to-transparent"
                             />
                         </motion.div>
                     </div>
@@ -231,7 +230,7 @@ export default function BlueprintSection() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: 0.5 + (i * 0.2) }}
-                                style={{ y: useTransform(scrollYProgress, [0, 1], [i === 0 ? -20 : -40, i === 0 ? 60 : 80]) }}
+                                style={{ y: destinationNodeY[i] }}
                                 className={`
                                     sm:absolute sm:top-[85%] z-40 group
                                     ${i === 0 ? "sm:left-0" : "sm:right-0"}
