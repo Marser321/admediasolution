@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { AlertCircle, CheckCircle2, MousePointer2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import FloatingIcons from "../ui/FloatingIcons";
+import { STAGES, StageData } from "@/data/funnel-stages";
 
 // ============================================================
 // Variants
@@ -25,26 +26,6 @@ const itemVariants = {
         transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] as const }
     },
 };
-
-// ============================================================
-// Types & Data
-// ============================================================
-interface StageData {
-    id: string;
-    label: string;
-    widthPercent: number;
-    hasLeak: boolean;
-    leakAmount?: string;
-    leakLabel?: string;
-}
-
-const STAGES: StageData[] = [
-    { id: "s1", label: "Tráfico / Ads", widthPercent: 100, hasLeak: false },
-    { id: "s2", label: "Interés", widthPercent: 80, hasLeak: false },
-    { id: "s3", label: "Citas Agendadas", widthPercent: 60, hasLeak: true, leakAmount: "-30%", leakLabel: "Fuga de Ingresos" },
-    { id: "s4", label: "Seguimiento", widthPercent: 40, hasLeak: true, leakAmount: "-30%", leakLabel: "Fuga de Ingresos" },
-    { id: "s5", label: "Cierre", widthPercent: 20, hasLeak: false },
-];
 
 // ============================================================
 // Connector Line Component (SVG)
