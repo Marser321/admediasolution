@@ -2,35 +2,9 @@
 
 import { useEffect, useState, useCallback } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, CheckCircle2, Loader2, Server, Globe, Database, Cpu } from "lucide-react";
+import { X, CheckCircle2, Loader2 } from "lucide-react";
 import ScannerDashboard from "./ScannerDashboard";
-
-const STEPS = [
-    {
-        icon: Globe,
-        label: "Analizando Huella Digital",
-        sublabel: "Rastreando infraestructura y autoridad...",
-        duration: 2000,
-    },
-    {
-        icon: Database,
-        label: "Auditando Estructura de Datos",
-        sublabel: "Verificando integridad de esquemas...",
-        duration: 2500,
-    },
-    {
-        icon: Server,
-        label: "Midiendo Latencia Global",
-        sublabel: "Ping a servidores edge (TTFB)...",
-        duration: 1800,
-    },
-    {
-        icon: Cpu,
-        label: "Calculando Potencial de Ingresos",
-        sublabel: "Simulando escenarios de optimización...",
-        duration: 3000,
-    },
-];
+import { STEPS } from "./constants";
 
 interface ScannerModalProps {
     isOpen: boolean;
