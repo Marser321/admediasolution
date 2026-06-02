@@ -14,7 +14,7 @@ export default function FloatingConsultWidget() {
   const [open, setOpen] = useState(false);
 
   return (
-    <div className="hidden sm:flex fixed bottom-6 right-6 z-50 flex-col items-end gap-3 print:hidden">
+    <div className="hidden sm:flex fixed bottom-28 right-6 z-50 flex-col items-end gap-3 print:hidden">
       <AnimatePresence>
         {open && (
           <motion.div
