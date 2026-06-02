@@ -2,41 +2,43 @@
 
 import { useRef } from "react";
 import { motion, useScroll, useTransform, useInView } from "framer-motion";
-import { GitBranch, MessageSquareDashed, BrainCircuit, ArrowRight } from "lucide-react";
+import { Database, LifeBuoy, Megaphone, ArrowRight } from "lucide-react";
 import { AuroraBackground } from "../ui/AuroraBackground";
 import FloatingIcons from "../ui/FloatingIcons";
 import Link from "next/link";
 
 
 // ============================================================
-// Servicios — Pillars of Revenue OS
+// Servicios — Los 3 pilares de AD Media
+// NOTA: los `slug` se mantienen (heredados) para no romper las rutas de
+// /servicios/[slug]. Renombrarlos exige actualizar también esa página.
 // ============================================================
 const SERVICES = [
     {
-        icon: GitBranch,
-        title: "Embudos Neurales",
+        icon: Database,
+        title: "AD Media CRM",
         slug: "embudos-neurales",
         description:
-            "En 37 días, tu equipo comercial opera con 5 etapas automatizadas. Una acción dominante por etapa. Sin caos, sin micromanagement. El 84% de nuestros clientes duplican su tasa de cierre en el primer trimestre.",
-        microdata: "84% tasa de duplicación",
+            "Un CRM personalizado para tu negocio: centraliza a tus clientes, automatiza el seguimiento y agenda citas sin que se te escape ni uno. Tú vendes, el sistema organiza.",
+        microdata: "CRM a tu medida",
         gradient: "from-primary/20 to-accent-light/10",
     },
     {
-        icon: MessageSquareDashed,
-        title: "Ads Autopilot",
+        icon: LifeBuoy,
+        title: "Soporte y mantenimiento",
         slug: "ads-autopilot",
         description:
-            "¿Cuántas propuestas enviaste esta semana que nunca recibieron respuesta? Nuestro sistema ejecuta 5 toques estratégicos por cada lead silencioso. Resultado promedio: recuperamos el 31% de propuestas dadas por perdidas.",
-        microdata: "31% recuperación promedio",
+            "No te dejamos solo. Soporte real y mantenimiento continuo de tu sistema, tu web y tus campañas para que todo siga funcionando y vendiendo, mes a mes.",
+        microdata: "Soporte real, no bots",
         gradient: "from-accent-light/20 to-white/10",
     },
     {
-        icon: BrainCircuit,
-        title: "Contenido Generativo",
+        icon: Megaphone,
+        title: "Dirección de marketing",
         slug: "contenido-generativo",
         description:
-            "La IA redacta, analiza y prioriza. Tú decides. Cada modelo está entrenado con tus datos y opera bajo supervisión humana. Automatización sin riesgo reputacional — tu marca siempre tiene la última palabra.",
-        microdata: "0% riesgo reputacional",
+            "Te decimos qué hacer y lo ejecutamos: Meta Ads, Google Ads, redes y contenido con una estrategia clara y orientada a resultados. Marketing con dirección, no a ciegas.",
+        microdata: "Estrategia + ROI",
         gradient: "from-primary/20 to-primary/10",
     },
 ];
@@ -99,7 +101,7 @@ export default function ServicesSection() {
                         transition={{ duration: 0.6 }}
                         className="text-[12px] font-bold tracking-[0.25em] uppercase text-primary mb-5"
                     >
-                        El Sistema
+                        Lo que hacemos
                     </motion.p>
 
                     <motion.h2
@@ -108,9 +110,9 @@ export default function ServicesSection() {
                         transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
                         className="font-display-heavy text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-8 relative inline-block"
                     >
-                        <span className="text-foreground">No es software, es un </span>
+                        <span className="text-foreground">No vendemos humo, damos </span>
                         <span className="text-primary italic relative">
-                            Sistema Operativo
+                            dirección
                             {/* Animated underline that draws on scroll */}
                             <motion.span
                                 className="absolute -bottom-2 left-0 w-full h-[3px] bg-gradient-to-r from-primary to-accent-light"
@@ -125,7 +127,7 @@ export default function ServicesSection() {
                         transition={{ duration: 0.6, delay: 0.2 }}
                         className="text-muted-foreground max-w-2xl mx-auto text-lg sm:text-xl font-light leading-relaxed"
                     >
-                        ¿Cuánta facturación estás perdiendo por fricción en tu proceso comercial? Estos tres pilares eliminan el cuello de botella. Sin consultores. Sin reuniones interminables.
+                        Tres pilares para que tu negocio facture más: un CRM hecho a tu medida, soporte que responde de verdad y dirección de marketing con resultados medibles.
                     </motion.p>
                 </motion.div>
 

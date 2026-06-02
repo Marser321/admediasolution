@@ -2,28 +2,26 @@
 
 import { motion } from "framer-motion";
 import { 
-    Target, 
-    Search, 
-    MessageCircle, 
-    Bot, 
-    Share2, 
-    Workflow 
+    Bot,
+    CalendarCheck,
+    CreditCard,
+    MessageCircle,
+    PlugZap,
+    Target,
+    Workflow,
 } from "lucide-react";
 
-const PARTNERS = [
+const CONNECTED_TECH = [
+    { name: "WhatsApp API", icon: MessageCircle, color: "#25D366" },
+    { name: "GoHighLevel", icon: Workflow, color: "#81E7FF" },
     { name: "Meta Ads", icon: Target, color: "#0668E1" },
-    { name: "Google Ads", icon: Search, color: "#4285F4" },
-    { name: "GoHighLevel", icon: Workflow, color: "#2A333D" },
-    { name: "TikTok Ads", icon: Share2, color: "#000000" },
-    { name: "WhatsApp Biz", icon: MessageCircle, color: "#25D366" },
     { name: "OpenAI", icon: Bot, color: "#74AA9C" },
-    { name: "Meta Ads", icon: Target, color: "#0668E1" },
-    { name: "Google Ads", icon: Search, color: "#4285F4" },
-    { name: "GoHighLevel", icon: Workflow, color: "#2A333D" },
-    { name: "TikTok Ads", icon: Share2, color: "#000000" },
-    { name: "WhatsApp Biz", icon: MessageCircle, color: "#25D366" },
-    { name: "OpenAI", icon: Bot, color: "#74AA9C" },
+    { name: "Make", icon: PlugZap, color: "#8B5CF6" },
+    { name: "Calendly", icon: CalendarCheck, color: "#00A2FF" },
+    { name: "Stripe", icon: CreditCard, color: "#635BFF" },
 ];
+
+const PARTNERS = [...CONNECTED_TECH, ...CONNECTED_TECH];
 
 export default function LogoMarquee() {
     return (

@@ -1,0 +1,286 @@
+{
+  "services": [
+    {
+      "id": "crm",
+      "title": "AD Media CRM y Soporte",
+      "description": "Diseño, implementación y soporte de un CRM personalizado para captar, organizar y cerrar más ventas.",
+      "plans": [
+        {
+          "id": "crm-premium",
+          "name": "Plan Premium CRM (Implementación)",
+          "price": "$1,500 USD (pago único) + $97/mes",
+          "description": "Diseño e implementación personalizada con embudos de ventas y flujos automatizados.",
+          "features": [
+            { "text": "Diseño, configuración e implementación de CRM a medida", "included": true },
+            { "text": "Integración con canales nativos (WhatsApp, email, formularios)", "included": true },
+            { "text": "Capacitación inicial del equipo (2 sesiones de 1h)", "included": true },
+            { "text": "Soporte técnico y ajustes por 15 días post-entrega", "included": true },
+            { "text": "Integración avanzada con APIs externas", "included": false }
+          ],
+          "isPopular": true
+        },
+        {
+          "id": "crm-estandar-soporte",
+          "name": "Soporte CRM Estándar",
+          "price": "$500 USD/mes",
+          "description": "Soporte funcional y acompañamiento mensual para sistemas CRM existentes.",
+          "features": [
+            { "text": "Soporte por WhatsApp en horario laboral", "included": true },
+            { "text": "Hasta 2 reuniones Zoom al mes (1h c/u)", "included": true },
+            { "text": "Ajustes menores de automatizaciones", "included": true },
+            { "text": "Acceso a base de conocimiento Notion", "included": true },
+            { "text": "Capacitaciones ilimitadas de equipo", "included": false }
+          ]
+        },
+        {
+          "id": "crm-full-soporte",
+          "name": "Soporte CRM Full",
+          "price": "$750 USD/mes",
+          "description": "Seguimiento proactivo y personalización constante de flujos de trabajo.",
+          "features": [
+            { "text": "Todo lo del plan Estándar", "included": true },
+            { "text": "Hasta 4 reuniones Zoom al mes", "included": true },
+            { "text": "Capacitación al equipo (hasta 3 sesiones)", "included": true },
+            { "text": "Personalizaciones e integraciones ilimitadas", "included": true },
+            { "text": "Reportes quincenales de rendimiento", "included": true }
+          ],
+          "highlightText": "Más Popular"
+        },
+        {
+          "id": "crm-vip-danger",
+          "name": "Consultoría VIP con Danger",
+          "price": "Desde $1,000 USD/mes",
+          "description": "Dirección estratégica directa con Danger Fernández para tu marketing y ventas.",
+          "features": [
+            { "text": "Sesiones estratégicas 1:1 con Danger Fernández", "included": true },
+            { "text": "Plan de marketing y ventas a medida", "included": true },
+            { "text": "Revisión de tu CRM, tu pauta y tu embudo", "included": true },
+            { "text": "Acompañamiento y seguimiento mensual", "included": true }
+          ],
+          "highlightText": "Con Danger Fernández"
+        }
+      ]
+    },
+    {
+      "id": "social-media",
+      "title": "Redes Sociales y Contenido",
+      "description": "Gestión estratégica de marca, planificación y diseño de contenido orgánico de alto impacto.",
+      "plans": [
+        {
+          "id": "sm-basic",
+          "name": "Plan Redes Básico",
+          "price": "$500 USD/mes",
+          "description": "Ideal para mantener una presencia activa y profesional en las principales plataformas.",
+          "features": [
+            { "text": "Gestión de Instagram y Facebook", "included": true },
+            { "text": "10 posts mensuales en feed", "included": true },
+            { "text": "15 historias mensuales", "included": true },
+            { "text": "Edición básica de video (cortes/subtítulos)", "included": true },
+            { "text": "Hasta 2 revisiones por publicación", "included": true }
+          ]
+        },
+        {
+          "id": "sm-premium",
+          "name": "Plan Redes Premium",
+          "price": "$800 USD/mes",
+          "description": "Producción premium y revisiones ilimitadas para maximizar el engagement.",
+          "features": [
+            { "text": "Gestión de Instagram y Facebook", "included": true },
+            { "text": "15 posts mensuales en feed (incluye videos)", "included": true },
+            { "text": "30 historias mensuales animadas", "included": true },
+            { "text": "Edición de video profesional premium (transiciones y subtítulos)", "included": true },
+            { "text": "Revisiones ilimitadas del contenido", "included": true },
+            { "text": "Soporte prioritario", "included": true }
+          ],
+          "isPopular": true,
+          "highlightText": "Recomendado"
+        },
+        {
+          "id": "sm-custom",
+          "name": "Plan Redes Personalizado",
+          "price": "A cotizar",
+          "description": "Para marcas que necesitan más plataformas, más contenido o producción a medida.",
+          "features": [
+            { "text": "Plataformas a elección (Instagram, Facebook, TikTok, LinkedIn, YouTube)", "included": true },
+            { "text": "Volumen de contenido a medida", "included": true },
+            { "text": "Estrategia de contenido por nicho", "included": true },
+            { "text": "Producción y edición premium", "included": true }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "marketing-ads",
+      "title": "Meta & Google Ads",
+      "description": "Campañas publicitarias profesionales y embudos de ventas enfocados al ROI de escala. Somos Business Partner de Meta.",
+      "plans": [
+        {
+          "id": "mkt-ads",
+          "name": "Tráfico y Conversión Pro",
+          "price": "Desde $1,000 USD/mes",
+          "description": "Gestión completa de pauta en Facebook, Instagram y Google Ads para escalar ventas.",
+          "features": [
+            { "text": "Campañas en Instagram, Facebook y Google", "included": true },
+            { "text": "Análisis de mercado y competencia", "included": true },
+            { "text": "Edición de hasta 4 videos mensuales para anuncios", "included": true },
+            { "text": "Diseño de hasta 6 piezas gráficas mensuales", "included": true },
+            { "text": "A/B Testing y configuración de conversiones API", "included": true },
+            { "text": "Presupuesto publicitario incluido", "included": false }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "web-development",
+      "title": "Desarrollo Web y E-commerce",
+      "description": "Diseño y programación de sitios web de alta velocidad y optimizados para SEO y captación.",
+      "plans": [
+        {
+          "id": "web-landing",
+          "name": "Landing Page VSL",
+          "price": "$250 a $500 USD",
+          "description": "Página única enfocada en un solo producto con video de ventas de alta conversión.",
+          "features": [
+            { "text": "Diseño adaptado a móviles", "included": true },
+            { "text": "Estructura de Video Sales Letter", "included": true },
+            { "text": "Optimización de velocidad de carga", "included": true }
+          ]
+        },
+        {
+          "id": "web-premium",
+          "name": "Sitio Web Premium",
+          "price": "$2,000 USD",
+          "description": "Desarrollo completo responsivo para empresas y profesionales autónomos.",
+          "features": [
+            { "text": "Desarrollo responsivo de hasta 10 páginas", "included": true },
+            { "text": "Optimización SEO básica integrada", "included": true },
+            { "text": "Capacitación técnica de administración", "included": true },
+            { "text": "Soporte de hosting y dominio por 1 año", "included": true }
+          ],
+          "isPopular": true
+        },
+        {
+          "id": "web-corporate",
+          "name": "Sitio Web Corporativo",
+          "price": "$1,200 a $2,000 USD",
+          "description": "Sitio institucional para empresas que necesitan presencia profesional y escalable.",
+          "features": [
+            { "text": "Diseño corporativo responsivo", "included": true },
+            { "text": "Secciones y páginas según necesidad", "included": true },
+            { "text": "Optimización SEO básica", "included": true },
+            { "text": "Integración con tu CRM y formularios", "included": true }
+          ]
+        },
+        {
+          "id": "web-ecommerce",
+          "name": "Tienda en Línea (E-commerce)",
+          "price": "$2,000 a $3,500 USD",
+          "description": "Tienda online lista para vender, con catálogo, pagos y envíos.",
+          "features": [
+            { "text": "Catálogo de productos y carrito de compras", "included": true },
+            { "text": "Pasarela de pagos y configuración de envíos", "included": true },
+            { "text": "Diseño responsivo optimizado para conversión", "included": true },
+            { "text": "Capacitación para administrar tu tienda", "included": true }
+          ]
+        },
+        {
+          "id": "web-custom",
+          "name": "Desarrollo Personalizado",
+          "price": "Desde $5,000 USD",
+          "description": "Plataformas y desarrollos a medida para necesidades específicas de tu empresa.",
+          "features": [
+            { "text": "Análisis y arquitectura a medida", "included": true },
+            { "text": "Desarrollo de funcionalidades específicas", "included": true },
+            { "text": "Integraciones avanzadas con APIs", "included": true },
+            { "text": "Soporte y mantenimiento continuo", "included": true }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "maintenance",
+      "title": "Soporte y Mantenimiento",
+      "description": "Mantenemos tu web, tu CRM y tus sistemas funcionando y actualizados para que nunca pierdas ventas.",
+      "plans": [
+        {
+          "id": "maint-server",
+          "name": "Plan Servidor",
+          "price": "$24.99 USD/mes",
+          "description": "Hosting y mantenimiento básico para mantener tu sitio en línea y seguro.",
+          "features": [
+            { "text": "Hosting administrado", "included": true },
+            { "text": "Copias de seguridad periódicas", "included": true },
+            { "text": "Monitoreo de disponibilidad", "included": true },
+            { "text": "Actualizaciones de contenido", "included": false }
+          ]
+        },
+        {
+          "id": "maint-premium",
+          "name": "Plan Premium",
+          "price": "$500 USD/mes",
+          "description": "Mantenimiento integral de tu web y sistemas con cambios y soporte prioritario.",
+          "features": [
+            { "text": "Todo lo del Plan Servidor", "included": true },
+            { "text": "Actualizaciones y cambios de contenido", "included": true },
+            { "text": "Soporte prioritario", "included": true },
+            { "text": "Reportes de rendimiento", "included": true }
+          ],
+          "isPopular": true
+        },
+        {
+          "id": "maint-custom",
+          "name": "Plan Personalizado",
+          "price": "A cotizar",
+          "description": "Mantenimiento a medida para empresas con varios sistemas o necesidades específicas.",
+          "features": [
+            { "text": "Alcance a medida de tu operación", "included": true },
+            { "text": "Tiempos de respuesta definidos", "included": true },
+            { "text": "Mantenimiento de múltiples plataformas", "included": true }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "production",
+      "title": "Producción Audiovisual",
+      "description": "Grabamos, editamos y diseñamos tu contenido. Fotógrafos y camarógrafos propios para que tu marca se vea profesional.",
+      "plans": [
+        {
+          "id": "prod-grabacion",
+          "name": "Grabación de Contenido",
+          "price": "A cotizar",
+          "description": "Sesiones de foto y video con nuestro equipo (Cadete y camarógrafos).",
+          "features": [
+            { "text": "Dirección de arte y guion", "included": true },
+            { "text": "Grabación con equipo profesional", "included": true },
+            { "text": "Fotografía de producto y marca", "included": true },
+            { "text": "Grabación en locación o estudio", "included": true }
+          ],
+          "isPopular": true
+        },
+        {
+          "id": "prod-edicion",
+          "name": "Edición y Postproducción",
+          "price": "A cotizar",
+          "description": "Convertimos tu material en contenido listo para vender.",
+          "features": [
+            { "text": "Edición de video para redes y anuncios", "included": true },
+            { "text": "Subtítulos y motion graphics", "included": true },
+            { "text": "Corrección de color y audio", "included": true }
+          ]
+        },
+        {
+          "id": "prod-diseno",
+          "name": "Diseño Gráfico",
+          "price": "A cotizar",
+          "description": "Piezas gráficas con la identidad de tu marca.",
+          "features": [
+            { "text": "Piezas para redes sociales y anuncios", "included": true },
+            { "text": "Identidad visual y branding", "included": true },
+            { "text": "Presentaciones y material comercial", "included": true }
+          ]
+        }
+      ]
+    }
+  ]
+}

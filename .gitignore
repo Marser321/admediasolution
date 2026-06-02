@@ -50,3 +50,17 @@ checklists/
 *.png
 !src/app/icon.png
 !public/
+
+# custom binaries and temp
+*.dmg
+*.opus
+test-results/
+.claude/
+
+# scratch files and drafts
+test_audio_openrouter.py
+transcribe_all.py
+guion_original*.txt
+prompt_base_marca.json
+
+

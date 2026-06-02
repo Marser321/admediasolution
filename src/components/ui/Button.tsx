@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { motion, HTMLMotionProps, AnimatePresence } from "framer-motion";
+import { motion, HTMLMotionProps } from "framer-motion";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -75,11 +75,12 @@ interface ButtonProps extends Omit<HTMLMotionProps<"button">, "children"> {
     glow?: boolean;
     shimmer?: boolean;
     aurora?: boolean;
+    pulse?: boolean;
     children: React.ReactNode;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
-    ({ className, variant = "primary", size = "md", glow = false, shimmer = true, aurora = true, children, ...props }, ref) => {
+    ({ className, variant = "primary", size = "md", glow = false, shimmer = true, aurora = true, pulse = true, children, ...props }, ref) => {
 
         // Base styles — High-density typography
         const baseStyles = cn(
@@ -125,10 +126,10 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 {...props}
             >
                 {/* Visual Layers — Aurora for Primary and Glass */}
-                <AnimatePresence mode="wait">
+                <>
                     {aurora && (variant === "primary" || variant === "glass") && <AuroraEffect key="aurora" />}
                     {shimmer && variant !== "ghost" && <Shimmer key="shimmer" />}
-                </AnimatePresence>
+                </>
                 
                 {glow && <ButtonGlow key="glow" color={variant === "primary" ? "rgba(0, 102, 255, 0.4)" : "rgba(125, 211, 252, 0.2)"} />}
 
@@ -141,7 +142,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
                 <div className="absolute inset-x-0 top-0 h-[1.5px] bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none" />
                 
                 {/* Internal Glow Pulse — Light Fused */}
-                {(variant === "primary" || variant === "glass") && (
+                {pulse && (variant === "primary" || variant === "glass") && (
                     <motion.div 
                         className="absolute inset-0 z-10 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none"
                         animate={{ opacity: [0, 0.12, 0] }}

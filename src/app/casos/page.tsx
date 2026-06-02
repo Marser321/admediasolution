@@ -7,43 +7,45 @@ import Navbar from "@/components/layout/Navbar";
 import IslandBar from "@/components/layout/IslandBar";
 import FooterContact from "@/components/sections/FooterContact";
 
+// PLACEHOLDER: casos de ejemplo on-brand. Reemplazar con casos reales
+// (empresa con permiso, métrica verificada). Mantener la estructura.
 const CASES = [
     {
-        client: "NeoBank",
-        industry: "Fintech",
-        metric: "+450%",
-        label: "Adquisición de Usuarios",
-        description: "Implementación de funnels predictivos para onboarding de tarjetas de crédito.",
+        client: "Tienda en línea",
+        industry: "E-commerce",
+        metric: "$80K",
+        label: "Facturación al mes",
+        description: "Ayudamos a esta empresa con su CRM personalizado y su seguimiento automático. Pasó de $25K a más de $80K al mes.",
         color: "bg-blue-500",
-        icon: Users,
+        icon: TrendingUp,
         colSpan: "md:col-span-2",
     },
     {
-        client: "StyleNova",
-        industry: "E-commerce Moda",
-        metric: "12.5x",
-        label: "ROAS en TikTok Ads",
-        description: "Campaña de contenido generativo a escala para Black Friday.",
-        color: "bg-purple-500",
-        icon: TrendingUp,
+        client: "Negocio de salud",
+        industry: "Salud y bienestar",
+        metric: "Agenda",
+        label: "Citas que llegan solas",
+        description: "Ayudamos a esta empresa con su dirección de marketing y campañas en Meta Ads para llenar su agenda.",
+        color: "bg-sky-500",
+        icon: Users,
         colSpan: "md:col-span-1",
     },
     {
-        client: "UrbanEat",
-        industry: "Food Delivery",
-        metric: "-40%",
-        label: "CPA (Costo por Adquisición)",
-        description: "Optimización algorítmica de pujas en tiempo real.",
+        client: "Empresa de servicios",
+        industry: "Servicios",
+        metric: "ROI",
+        label: "Inversión con retorno",
+        description: "Ayudamos a esta empresa con su pauta en Google y Meta, midiendo cada dólar invertido.",
         color: "bg-orange-500",
         icon: DollarSign,
         colSpan: "md:col-span-1",
     },
     {
-        client: "TechFlow",
-        industry: "SaaS B2B",
-        metric: "+200",
-        label: "Demos Agendadas / Mes",
-        description: "Sistema de cualificación de leads con agentes de IA.",
+        client: "Inmobiliaria",
+        industry: "Inmobiliaria",
+        metric: "x2",
+        label: "Cierres",
+        description: "Ayudamos a esta empresa con un CRM a medida y soporte continuo que duplicó sus cierres.",
         color: "bg-blue-500",
         icon: ArrowUpRight,
         colSpan: "md:col-span-2",
@@ -71,7 +73,7 @@ export default function CasesPage() {
                     transition={{ delay: 0.1 }}
                     className="text-xl text-slate-400"
                 >
-                    No vendemos humo. Vendemos crecimiento medible y escalable.
+                    No vendemos humo. Ayudamos a empresas reales a vender más.
                 </motion.p>
             </section>
 

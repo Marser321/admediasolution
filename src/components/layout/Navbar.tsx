@@ -4,7 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
-import { Sparkles, Menu, X } from "lucide-react";
+import { Calendar, Menu, X } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Button } from "../ui/Button";
 
 // ============================================================
@@ -14,6 +15,7 @@ export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
     const { scrollY } = useScroll();
+    const router = useRouter();
 
     useMotionValueEvent(scrollY, "change", (latest) => {
         const nextScrolled = latest > 50;
@@ -21,7 +23,15 @@ export default function Navbar() {
         if (nextScrolled) setIsOpen(false);
     });
 
-    const navLinks = ["Servicios", "CRM", "Infraestructura", "Portafolio", "Nosotros"];
+    const navLinks = [
+        { name: "Inicio", href: "/" },
+        { name: "Sobre Nosotros", href: "/about-us" },
+        { name: "Servicios", href: "/servicios" },
+        { name: "Comunidad", href: "/comunidad" },
+        { name: "Casos", href: "/casos" },
+        { name: "Equipo", href: "/equipo" },
+        { name: "Planificación", href: "/planificacion" },
+    ];
 
     return (
         <>
@@ -62,16 +72,16 @@ export default function Navbar() {
                     </Link>
 
                     {/* Navegación central (oculta en mobile) */}
-                    <div className="hidden md:flex items-center gap-8">
+                    <div className="hidden lg:flex items-center gap-2 xl:gap-4 flex-wrap justify-center max-w-[55%]">
                         {navLinks.map((item) => (
-                            <a
-                                key={item}
-                                href={`#${item.toLowerCase()}`}
-                                className="text-sm font-medium text-muted-foreground hover:text-foreground transition-all duration-300 relative group tracking-wide"
+                            <Link
+                                key={item.name}
+                                href={item.href}
+                                className="text-[10px] xl:text-[11px] font-semibold text-muted-foreground hover:text-foreground transition-all duration-300 relative group tracking-wider uppercase whitespace-nowrap"
                             >
-                                {item}
+                                {item.name}
                                 <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-primary group-hover:w-full group-hover:left-0 transition-all duration-500 ease-out" />
-                            </a>
+                            </Link>
                         ))}
                     </div>
 
@@ -82,21 +92,18 @@ export default function Navbar() {
                             size="sm"
                             glow
                             aurora
-                            onClick={() => {
-                                const el = document.getElementById("contacto");
-                                if (el) el.scrollIntoView({ behavior: "smooth" });
-                            }}
+                            onClick={() => router.push("/planificacion")}
                             className="px-6 py-2.5 text-[11px] sm:text-xs font-bold"
                         >
-                            <Sparkles className="size-3.5 sm:size-4 text-white fill-white/20" />
-                            <span className="hidden sm:inline">Auditoría Experta</span>
-                            <span className="inline sm:hidden">Auditoría</span>
+                            <Calendar className="size-3.5 sm:size-4 text-white" />
+                            <span className="hidden sm:inline">Agendar cita</span>
+                            <span className="inline sm:hidden">Agendar</span>
                         </Button>
 
                         {/* Mobile Menu Toggle */}
                         <button 
                             onClick={() => setIsOpen(!isOpen)}
-                            className="md:hidden p-2 text-foreground/80 hover:text-primary transition-colors z-[70]"
+                            className="lg:hidden p-2 text-foreground/80 hover:text-primary transition-colors z-[70]"
                             aria-label="Toggle menu"
                         >
                             {isOpen ? <X className="size-6" /> : <Menu className="size-6" />}
@@ -112,28 +119,31 @@ export default function Navbar() {
                         initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
                         animate={{ opacity: 1, backdropFilter: "blur(12px)" }}
                         exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
-                        className="fixed inset-0 z-[55] bg-background/95 md:hidden pt-24 px-6 flex flex-col gap-6"
+                        className="fixed inset-0 z-[55] bg-background/95 lg:hidden pt-24 px-6 flex flex-col gap-6"
                     >
-                        <div className="flex flex-col gap-4">
+                        <div className="flex flex-col gap-3 overflow-y-auto max-h-[70vh] py-2">
                             {navLinks.map((item, i) => (
-                                <motion.a
-                                    key={item}
-                                    href={`#${item.toLowerCase()}`}
+                                <motion.div
+                                    key={item.name}
                                     initial={{ opacity: 0, x: -20 }}
                                     animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: i * 0.1 }}
-                                    onClick={() => setIsOpen(false)}
-                                    className="text-2xl font-display-heavy text-foreground/90 hover:text-primary transition-colors tracking-tight"
+                                    transition={{ delay: i * 0.05 }}
                                 >
-                                    {item}
-                                </motion.a>
+                                    <Link
+                                        href={item.href}
+                                        onClick={() => setIsOpen(false)}
+                                        className="text-lg font-display-heavy text-foreground/90 hover:text-primary transition-colors tracking-tight block py-1"
+                                    >
+                                        {item.name}
+                                    </Link>
+                                </motion.div>
                             ))}
                         </div>
                         
-                        <div className="h-px w-full bg-white/5 my-4" />
+                        <div className="h-px w-full bg-primary/10 my-4" />
                         
                         <div className="text-xs font-mono text-muted-foreground/40 uppercase tracking-[0.2em]">
-                            Ingeniería comercial activa
+                            Marketing y ventas con dirección
                         </div>
                     </motion.div>
                 )}

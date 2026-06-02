@@ -7,9 +7,9 @@ import {
     Calendar, 
     CreditCard, 
     Star, 
-    Zap,
     Target,
-    Globe
+    Globe,
+    Activity
 } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import Image from "next/image";
@@ -23,6 +23,14 @@ export default function CRMWorkflow() {
             
             {/* Background Grid */}
             <div className="texture-grid opacity-[0.05]" />
+
+            {/* Technical Metadata Overlay — Centered as a status label of the dashboard */}
+            <div className="absolute top-3.5 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1 sm:gap-2.5 px-2 py-0.5 sm:px-4 sm:py-2 rounded-md sm:rounded-xl bg-background/80 border border-border backdrop-blur-xl shadow-lg">
+                <Activity className="size-2.5 sm:size-3.5 text-primary animate-pulse" />
+                <span className="text-[7px] sm:text-[10px] font-bold font-mono text-primary/80 tracking-[0.08em] sm:tracking-[0.2em] uppercase whitespace-nowrap">
+                    Centro de comando comercial
+                </span>
+            </div>
 
             {/* Central Engine — Core */}
             <div className="absolute inset-0 flex items-center justify-center">
@@ -202,4 +210,3 @@ function Node({ icon: Icon, label, pos, color }: { icon: LucideIcon, label: stri
         </motion.div>
     );
 }
-

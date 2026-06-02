@@ -16,17 +16,19 @@ import {
 import Image from "next/image";
 import { AuroraBackground } from "../ui/AuroraBackground";
 import { Button } from "../ui/Button";
+import { useRouter } from "next/navigation";
 
 // ============================================================
-// Datos de proyectos ficticios
+// PLACEHOLDER: casos de ejemplo on-brand. Reemplazar con casos reales
+// (cliente, foto/logo con permiso, métrica verificada). Mantener la estructura.
 // ============================================================
 const PROJECTS = [
     {
-        title: "Nova Estética",
-        category: "Branding",
+        title: "Tienda en línea",
+        category: "CRM & Citas",
         description:
-            "Rediseño completo de identidad visual para cadena premium de estética. Logotipo, paleta cromática y sistema de diseño.",
-        metrics: { label: "Brand Recall", value: "+340%" },
+            "Ayudamos a esta empresa con su CRM personalizado y la automatización de su seguimiento de clientes. Pasó de $25K a más de $80K al mes.",
+        metrics: { label: "Facturación/mes", value: "$80K" },
         icon: Palette,
         gradient: "from-[#007AFF] via-[#00D4FF] to-[#0EA5E9]",
         bgGradient:
@@ -34,11 +36,11 @@ const PROJECTS = [
         size: "large",
     },
     {
-        title: "FitPulse App",
-        category: "Social Media",
+        title: "Negocio de salud",
+        category: "Redes Sociales",
         description:
-            "Estrategia integral de contenido para app fitness: 120 piezas mensuales optimizadas por IA con engagement orgánico récord.",
-        metrics: { label: "Engagement", value: "+580%" },
+            "Ayudamos a esta empresa con la gestión de sus redes y la producción de su contenido mensual para Instagram y Facebook.",
+        metrics: { label: "Contenido", value: "Mensual" },
         icon: Share2,
         gradient: "from-[#8B5CF6] via-[#A855F7] to-[#D946EF]",
         bgGradient:
@@ -46,11 +48,11 @@ const PROJECTS = [
         size: "medium",
     },
     {
-        title: "TechVault",
-        category: "Performance Ads",
+        title: "Empresa de servicios",
+        category: "Meta & Google Ads",
         description:
-            "Campañas de Google Ads y Meta Ads con optimización automática. ROAS sostenido 6.2x durante 8 meses consecutivos.",
-        metrics: { label: "ROAS", value: "6.2x" },
+            "Ayudamos a esta empresa con su pauta en Meta y Google y la dirección de su marketing, con foco en retorno medible.",
+        metrics: { label: "Inversión", value: "Con ROI" },
         icon: Zap,
         gradient: "from-[#F59E0B] via-[#F97316] to-[#EF4444]",
         bgGradient:
@@ -58,11 +60,11 @@ const PROJECTS = [
         size: "medium",
     },
     {
-        title: "Moda Urbana Store",
-        category: "E-commerce",
+        title: "E-commerce de moda",
+        category: "Desarrollo Web",
         description:
-            "Tienda online con embudo de conversión inteligente. De 0 a $85K USD en ventas mensuales en 6 meses de operación.",
-        metrics: { label: "Ventas/Mes", value: "$85K" },
+            "Ayudamos a esta empresa con su tienda en línea y su embudo de conversión conectado a su CRM.",
+        metrics: { label: "Tienda", value: "Online" },
         icon: ShoppingBag,
         gradient: "from-[#10B981] via-[#34D399] to-[#6EE7B7]",
         bgGradient:
@@ -70,11 +72,11 @@ const PROJECTS = [
         size: "medium",
     },
     {
-        title: "Sabor Artesanal",
-        category: "Content Engine",
+        title: "Restaurante",
+        category: "Producción audiovisual",
         description:
-            "Producción masiva de contenido estratégico para restaurante gourmet: fotografía, copy y reels de alto impacto.",
-        metrics: { label: "Contenido/Mes", value: "200+" },
+            "Ayudamos a esta empresa con la grabación y edición de su contenido para redes, con su propia línea visual.",
+        metrics: { label: "Producción", value: "A medida" },
         icon: Wand2,
         gradient: "from-[#EC4899] via-[#F472B6] to-[#FB7185]",
         bgGradient:
@@ -82,11 +84,11 @@ const PROJECTS = [
         size: "medium",
     },
     {
-        title: "Inmobiliaria Apex",
-        category: "Funnels",
+        title: "Inmobiliaria",
+        category: "Soporte & Seguimiento",
         description:
-            "Embudo de captación de leads inmobiliarios automatizado. 3.200 leads calificados al mes con un CPA reducido 67%.",
-        metrics: { label: "Leads/Mes", value: "3.2K" },
+            "Ayudamos a esta empresa con su CRM, sus citas automáticas y un soporte continuo que mantiene todo funcionando.",
+        metrics: { label: "Seguimiento", value: "Automático" },
         icon: GitBranch,
         gradient: "from-[#06B6D4] via-[#22D3EE] to-[#67E8F9]",
         bgGradient:
@@ -94,9 +96,6 @@ const PROJECTS = [
         size: "large",
     },
 ];
-
-// Diagonal cascade order for bento grid reveal (top-left to bottom-right)
-const BENTO_REVEAL_ORDER = [0, 1, 3, 2, 4, 5];
 
 // ============================================================
 // Tarjeta de Proyecto Individual — Cinematic Slot Reveal
@@ -254,14 +253,11 @@ function ProjectCard({
 // ============================================================
 export default function ProjectsGallery() {
     const sectionRef = useRef<HTMLElement>(null);
+    const router = useRouter();
     const { scrollYProgress } = useScroll({
         target: sectionRef,
         offset: ["start end", "end start"],
     });
-
-    // Multi-direction background parallax for 3D depth
-    const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
-    const bgX = useTransform(scrollYProgress, [0, 1], ["0%", "-3%"]);
 
     // CTA glow pulse
     const ctaGlow = useTransform(scrollYProgress, [0.7, 0.85, 1], [0, 0.3, 0.15]);
@@ -305,7 +301,7 @@ export default function ProjectsGallery() {
                             height={16}
                             className="size-4 object-contain"
                         />
-                        Nuestro Portfolio
+                        Casos reales
                     </motion.div>
 
                     <motion.h2
@@ -319,9 +315,9 @@ export default function ProjectsGallery() {
                         }}
                         className="font-display-heavy text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6"
                     >
-                        <span className="text-text-primary">Proyectos que </span>
+                        <span className="text-text-primary">Negocios que </span>
                         <span className="bg-gradient-to-r from-accent-blue via-accent-light to-foreground bg-clip-text text-transparent italic">
-                            generan impacto
+                            confían en nosotros
                         </span>
                     </motion.h2>
 
@@ -333,7 +329,7 @@ export default function ProjectsGallery() {
                         className="text-base sm:text-lg text-text-muted max-w-2xl mx-auto leading-relaxed"
                         style={{ fontFamily: "var(--font-display-light)" }}
                     >
-                        Elevamos tu presencia digital con nuestra combinación de estrategia experta y humanismo tecnológico.
+                        Casos reales de empresas a las que les dimos dirección de marketing, CRM y soporte.
                     </motion.p>
                 </motion.div>
 
@@ -385,17 +381,11 @@ export default function ProjectsGallery() {
                                 size="lg"
                                 glow
                                 aurora
-                                onClick={() => {
-                                    document
-                                        .getElementById("contacto")
-                                        ?.scrollIntoView({
-                                            behavior: "smooth",
-                                        });
-                                }}
+                                onClick={() => router.push("/planificacion")}
                                 className="group h-14 px-10"
                             >
                                 <Zap className="size-5 text-white" />
-                                Empezar Ahora
+                                Agendar cita gratis
                             </Button>
                         </motion.div>
                     </div>
@@ -420,7 +410,7 @@ export default function ProjectsGallery() {
                         {PROJECTS.map((_, i) => (
                             <div
                                 key={i}
-                                className={`w-1.5 h-1.5 rounded-full transition-colors ${i === 0 ? "bg-accent-blue" : "bg-white/15"
+                                className={`w-1.5 h-1.5 rounded-full transition-colors ${i === 0 ? "bg-accent-blue" : "bg-muted-foreground/30"
                                     }`}
                             />
                         ))}
@@ -438,20 +428,18 @@ export default function ProjectsGallery() {
                             size="lg"
                             glow
                             aurora
-                            onClick={() => {
-                                document.getElementById("contacto")?.scrollIntoView({ behavior: "smooth" });
-                            }}
+                            onClick={() => router.push("/planificacion")}
                             className="group h-14 px-10"
                         >
                             <Zap className="size-5 text-white" />
-                            Empezar Ahora
+                            Agendar cita gratis
                         </Button>
                     </motion.div>
                 </div>
             </div>
 
             {/* Divisor inferior */}
-            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-white/[0.07] to-transparent" />
+            <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
         </section>
     );
 }

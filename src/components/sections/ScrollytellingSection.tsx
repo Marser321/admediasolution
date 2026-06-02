@@ -6,6 +6,7 @@ import { Rocket, ArrowRight } from "lucide-react";
 import FloatingIcons from "../ui/FloatingIcons";
 import { AuroraBackground } from "../ui/AuroraBackground";
 import { Button } from "../ui/Button";
+import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
 
 // Lazy load del ecosistema orbital para mejor performance
@@ -26,30 +27,31 @@ interface KPIData {
     techLabel: string;
 }
 
+/* PLACEHOLDER: validar estas métricas con casos reales antes de publicar. */
 const KPIS: KPIData[] = [
     {
-        value: 127,
-        prefix: "+",
-        suffix: "%",
-        label: "Crecimiento Mensual",
-        description: "Escalado predecible con embudos automatizados y segmentación por IA.",
-        techLabel: "Ads Engine + Escalado",
+        value: 30,
+        prefix: "+$",
+        suffix: "K",
+        label: "Facturación al mes",
+        description: "Ayudamos a negocios a superar los $30.000 USD mensuales con un sistema claro.",
+        techLabel: "CRM + Dirección de marketing",
     },
     {
-        value: 4.5,
+        value: 24,
         prefix: "",
-        suffix: "x",
-        label: "ROAS Promedio",
-        description: "Optimización constante del retorno sobre inversión publicitaria.",
-        techLabel: "Analytics + Targeting IA",
+        suffix: "/7",
+        label: "Seguimiento automático",
+        description: "Tu CRM da seguimiento y agenda citas a toda hora, sin que se te escape un cliente.",
+        techLabel: "Automatización + CRM",
     },
     {
-        value: 40,
-        prefix: "-",
+        value: 100,
+        prefix: "",
         suffix: "%",
-        label: "Costo por Adquisición",
-        description: "Reducción del CPA mediante automatización y retargeting inteligente.",
-        techLabel: "Automatización + Retención",
+        label: "Soporte real",
+        description: "Te acompañamos de verdad: respondemos, resolvemos y optimizamos mes a mes.",
+        techLabel: "Soporte + Mantenimiento",
     },
 ];
 
@@ -183,6 +185,7 @@ export default function ScrollytellingSection() {
     const isInView = useInView(contentRef, { once: true, margin: "-100px" });
     const stepsRef = useRef<HTMLDivElement>(null);
     const isStepsInView = useInView(stepsRef, { once: true, margin: "-40px" });
+    const router = useRouter();
 
     const { scrollYProgress } = useScroll({
         target: sectionRef,
@@ -191,12 +194,6 @@ export default function ScrollytellingSection() {
 
     // Parallax layers
     const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "20%"]);
-
-    // Background orbs — opposite directions for depth
-    const orbTopY = useTransform(scrollYProgress, [0, 1], [0, -80]);
-    const orbTopX = useTransform(scrollYProgress, [0, 1], [0, 40]);
-    const orbBottomY = useTransform(scrollYProgress, [0, 1], [0, 60]);
-    const orbBottomX = useTransform(scrollYProgress, [0, 1], [0, -30]);
 
     // TechEcosystem scale on scroll
     const orbitScale = useTransform(scrollYProgress, [0.1, 0.4], [0.8, 1.2]); // More scale range
@@ -246,7 +243,7 @@ export default function ScrollytellingSection() {
                         transition={{ duration: 0.8 }}
                         className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/5 border border-primary/20 text-[11px] font-semibold tracking-[0.2em] uppercase text-primary mb-6 backdrop-blur-md"
                     >
-                        Ecosistema de Crecimiento
+                        Resultados que damos
                     </motion.div>
 
                     <motion.h2
@@ -256,9 +253,9 @@ export default function ScrollytellingSection() {
                         transition={{ duration: 1, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
                         className="font-display-heavy text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-8 text-text-primary"
                     >
-                        Tecnología que genera{" "}
+                        Te ayudamos a{" "}
                         <span className="text-primary relative inline-block drop-shadow-[0_0_15px_rgba(0,102,255,0.3)]">
-                            ingresos reales
+                            facturar más
                             {/* Scroll-drawn underline */}
                             <motion.div
                                 className="absolute bottom-1 left-0 w-full h-[3px] bg-gradient-to-r from-primary to-accent-light shadow-[0_2px_10px_rgba(0,102,255,0.4)]"
@@ -274,8 +271,8 @@ export default function ScrollytellingSection() {
                         transition={{ duration: 0.8, delay: 0.2 }}
                         className="text-base sm:text-lg text-text-muted max-w-2xl mx-auto leading-relaxed font-light"
                     >
-                        Un ecosistema de herramientas que trabajan en sinergia.
-                        Cada componente potencia al siguiente para escalar tu negocio con certeza.
+                        CRM, soporte y dirección de marketing trabajando juntos
+                        para que tu negocio venda más, mes a mes.
                     </motion.p>
                 </div>
 
@@ -300,14 +297,13 @@ export default function ScrollytellingSection() {
                     >
                         <div className="space-y-5">
                             <h3 className="font-display-heavy text-2xl sm:text-3xl text-text-primary leading-tight">
-                                Cada pieza del sistema<br />
-                                <span className="text-accent-light">amplifica los resultados.</span>
+                                Cada pieza suma<br />
+                                <span className="text-accent-light">a tus ventas.</span>
                             </h3>
 
                             <p className="text-base text-text-muted leading-relaxed font-light">
-                                No es una herramienta. Es un ecosistema integrado donde la inteligencia artificial
-                                supervisa cada interacción, optimiza cada peso invertido, y escala lo que funciona
-                                — con certeza matemática.
+                                Conectamos tus campañas, tu CRM y tu seguimiento para que nada se pierda
+                                y todo apunte a una sola cosa: que vendas más.
                             </p>
                         </div>
 
@@ -319,9 +315,9 @@ export default function ScrollytellingSection() {
                                 className="absolute left-[18px] top-[12px] w-[1px] bg-gradient-to-b from-accent-blue/30 to-accent-blue/5"
                             />
                             {[
-                                { step: "01", text: "Diagnóstico y auditoría del negocio digital" },
-                                { step: "02", text: "Despliegue de sistemas de adquisición multi-canal" },
-                                { step: "03", text: "Optimización continua y escalado predecible" },
+                                { step: "01", text: "Diagnóstico de tu negocio y tus números" },
+                                { step: "02", text: "Montamos tu CRM, tu pauta y tu seguimiento" },
+                                { step: "03", text: "Soporte y optimización mes a mes" },
                             ].map((item, i) => (
                                 <motion.div
                                     key={item.step}
@@ -361,20 +357,18 @@ export default function ScrollytellingSection() {
                     className="text-center"
                 >
                     <p className="text-sm text-text-muted mb-6 tracking-wide uppercase">
-                        ¿Listo para activar este sistema?
+                        ¿Listo para vender más?
                     </p>
                     <Button
                         variant="primary"
                         size="lg"
                         glow
                         aurora
-                        onClick={() => {
-                            document.getElementById("contacto")?.scrollIntoView({ behavior: "smooth" });
-                        }}
+                        onClick={() => router.push("/planificacion")}
                         className="group h-14 px-10"
                     >
                         <Rocket className="size-5" />
-                        Escanear mi Negocio
+                        Agendar cita gratis
                         <ArrowRight className="size-4 opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
                     </Button>
                 </motion.div>

@@ -33,7 +33,7 @@ import {
     Globe,
     LucideIcon,
 } from "lucide-react";
-import { useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { cn } from "@/lib/utils";
 
 // ============================================================
@@ -48,12 +48,24 @@ interface FloatingIconsProps {
 
 export default function FloatingIcons({ type, className }: FloatingIconsProps) {
     const containerRef = useRef<HTMLDivElement>(null);
+    // Renderizamos el set completo solo en desktop; en móvil mostramos pocos
+    // para no animar de más (rendimiento). En desktop el look no cambia.
+    const [isDesktop, setIsDesktop] = useState(false);
+    useEffect(() => {
+        const mq = window.matchMedia("(min-width: 640px)");
+        const update = () => setIsDesktop(mq.matches);
+        update();
+        mq.addEventListener("change", update);
+        return () => mq.removeEventListener("change", update);
+    }, []);
+
     const { scrollYProgress } = useScroll({
         target: containerRef,
         offset: ["start end", "end start"]
     });
 
-    const icons = getIconsByType(type);
+    const allIcons = getIconsByType(type);
+    const icons = isDesktop ? allIcons : allIcons.slice(0, 2);
 
     return (
         <div
@@ -63,7 +75,6 @@ export default function FloatingIcons({ type, className }: FloatingIconsProps) {
             {icons.map((item, i) => (
                 <FloatingIcon
                     key={i}
-                    index={i}
                     icon={item.icon}
                     initialX={item.x}
                     initialY={item.y}
@@ -97,7 +108,7 @@ function getIconsByType(type: IconType) {
         case "services":
             return [
                 { icon: Video, x: "80%", y: "30%", delay: 0, scale: 2.0, duration: 12, parallaxSpeed: 0.15, color: "text-blue-400" },
-                { icon: Aperture, x: "20%", y: "60%", delay: 1.5, scale: 1.8, duration: 14, parallaxSpeed: 0.25, color: "text-purple-400" },
+                { icon: Aperture, x: "20%", y: "60%", delay: 1.5, scale: 1.8, duration: 14, parallaxSpeed: 0.25, color: "text-sky-400" },
                 { icon: Play, x: "50%", y: "85%", delay: 3, scale: 1.5, duration: 10, parallaxSpeed: 0.1, color: "text-primary" },
             ];
 
@@ -123,7 +134,7 @@ function getIconsByType(type: IconType) {
         // --- CRM & Automatización (ScrollytellingSection) — GoHighLevel, CRMs ---
         case "crm":
             return [
-                { icon: Database, x: "10%", y: "30%", delay: 0, scale: 1.5, duration: 11, parallaxSpeed: 0.2, color: "text-purple-500" },
+                { icon: Database, x: "10%", y: "30%", delay: 0, scale: 1.5, duration: 11, parallaxSpeed: 0.2, color: "text-blue-500" },
                 { icon: Workflow, x: "85%", y: "20%", delay: 1.5, scale: 1.7, duration: 13, parallaxSpeed: 0.15, color: "text-blue-500" },
                 { icon: Bot, x: "22%", y: "75%", delay: 2, scale: 1.4, duration: 10, parallaxSpeed: 0.22, color: "text-blue-400" },
                 { icon: Mail, x: "72%", y: "68%", delay: 3, scale: 1.3, duration: 12, parallaxSpeed: 0.18, color: "text-amber-500" },
@@ -135,7 +146,7 @@ function getIconsByType(type: IconType) {
             return [
                 { icon: Camera, x: "15%", y: "22%", delay: 0, scale: 1.6, duration: 12, parallaxSpeed: 0.2, color: "text-amber-500" },
                 { icon: Palette, x: "80%", y: "18%", delay: 1, scale: 1.4, duration: 10, parallaxSpeed: 0.15, color: "text-pink-500" },
-                { icon: Figma, x: "25%", y: "78%", delay: 2.5, scale: 1.3, duration: 14, parallaxSpeed: 0.25, color: "text-violet-500" },
+                { icon: Figma, x: "25%", y: "78%", delay: 2.5, scale: 1.3, duration: 14, parallaxSpeed: 0.25, color: "text-sky-500" },
                 { icon: PenTool, x: "70%", y: "72%", delay: 1.5, scale: 1.5, duration: 11, parallaxSpeed: 0.12, color: "text-blue-500" },
                 { icon: ImagePlus, x: "52%", y: "90%", delay: 3, scale: 1.2, duration: 9, parallaxSpeed: 0.18, color: "text-blue-400" },
             ];
@@ -145,7 +156,7 @@ function getIconsByType(type: IconType) {
             return [
                 { icon: Zap, x: "12%", y: "20%", delay: 0, scale: 1.5, duration: 10, parallaxSpeed: 0.2, color: "text-yellow-500" },
                 { icon: RefreshCcw, x: "82%", y: "28%", delay: 1.5, scale: 1.4, duration: 12, parallaxSpeed: 0.15, color: "text-blue-500" },
-                { icon: GitBranch, x: "20%", y: "70%", delay: 2, scale: 1.7, duration: 14, parallaxSpeed: 0.22, color: "text-purple-500" },
+                { icon: GitBranch, x: "20%", y: "70%", delay: 2, scale: 1.7, duration: 14, parallaxSpeed: 0.22, color: "text-blue-400" },
                 { icon: Settings, x: "75%", y: "75%", delay: 0.8, scale: 1.3, duration: 9, parallaxSpeed: 0.1, color: "text-slate-500" },
                 { icon: Globe, x: "50%", y: "85%", delay: 3, scale: 1.6, duration: 11, parallaxSpeed: 0.18, color: "text-blue-400" },
             ];
@@ -168,7 +179,6 @@ interface FloatingIconProps {
     scrollYProgress: MotionValue<number>;
     parallaxSpeed: number;
     color: string;
-    index: number;
 }
 
 function FloatingIcon({
@@ -181,7 +191,6 @@ function FloatingIcon({
     scrollYProgress,
     parallaxSpeed,
     color,
-    index
 }: FloatingIconProps) {
     const yRange = useTransform(scrollYProgress, [0, 1], [0, -100 * parallaxSpeed]);
     const shouldReduceMotion = useReducedMotion();
@@ -200,7 +209,7 @@ function FloatingIcon({
             transition={{
                 opacity: { duration: 1, delay: delay }
             }}
-            className={cn("absolute floating-icon will-change-transform", color, index > 1 ? "hidden sm:block" : "")}
+            className={cn("absolute floating-icon will-change-transform", color)}
         >
             <motion.div
                 initial={{ scale: 0 }}

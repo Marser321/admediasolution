@@ -1,6 +1,7 @@
 import Navbar from "@/components/layout/Navbar";
 import HeroSection from "@/components/sections/HeroSection";
-import ServicesSection from "@/components/sections/ServicesSection";
+import BTLTestimonialsSection from "@/components/sections/BTLTestimonialsSection";
+import VSLSection from "@/components/sections/VSLSection";
 import CRMSection from "@/components/sections/CRMSection";
 import AuthoritySection from "@/components/sections/AuthoritySection";
 import ScrollytellingSection from "@/components/sections/ScrollytellingSection";
@@ -10,17 +11,24 @@ import IslandBar from "@/components/layout/IslandBar";
 import SectionTransition from "@/components/animations/SectionTransition";
 import ScrollProgress from "@/components/ui/ScrollProgress";
 import BlueprintSection from "@/components/sections/BlueprintSection";
+import PromoPopup from "@/components/ui/PromoPopup";
+import FloatingConsultWidget from "@/components/ui/FloatingConsultWidget";
 
 export default function Home() {
   return (
     <main className="bg-background min-h-screen relative">
       <ScrollProgress />
       <Navbar />
+      <PromoPopup />
+      <FloatingConsultWidget />
       
       <HeroSection />
       <SectionTransition type="dissolve" />
+
+      <BTLTestimonialsSection />
+      <SectionTransition type="wipe-up" />
       
-      <ServicesSection />
+      <VSLSection />
       <SectionTransition type="fog" />
       
       <CRMSection />

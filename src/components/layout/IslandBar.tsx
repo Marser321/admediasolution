@@ -3,14 +3,14 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { Home, Briefcase, Sparkles, MessageCircle, Moon, Sun, Target, Cpu, Users } from "lucide-react";
+import { Home, Play, Sparkles, MessageCircle, Moon, Sun, Target, Cpu, Users } from "lucide-react";
 
 // ============================================================
 // Ítems de navegación
 // ============================================================
 const NAV_ITEMS = [
     { id: "hero", icon: Home, label: "Inicio" },
-    { id: "servicios", icon: Briefcase, label: "Servicios" },
+    { id: "vsl-masterclass", icon: Play, label: "VSL" },
     { id: "crm", icon: Target, label: "CRM" },
     { id: "infraestructura", icon: Cpu, label: "Infra" },
     { id: "portafolio", icon: Sparkles, label: "Portfolio" },
@@ -23,6 +23,7 @@ const THEMES: Theme[] = ["luxury", "classic", "white"];
 const SCROLL_DELTA_THRESHOLD = 18;
 const EXPAND_COLLAPSE_COOLDOWN = 420;
 const NAV_CLICK_LOCK_MS = 900;
+const FOOTER_LEGAL_SELECTOR = "[data-footer-legal]";
 
 function isTheme(value: string | null): value is Theme {
     return value !== null && THEMES.includes(value as Theme);
@@ -40,6 +41,7 @@ function applyThemeClass(next: Theme) {
 export default function IslandBar() {
     const [expanded, setExpanded] = useState(true);
     const [activeSection, setActiveSection] = useState("hero");
+    const [isFooterLegalVisible, setIsFooterLegalVisible] = useState(false);
     const [theme, setTheme] = useState<Theme>("classic");
     const expandedRef = useRef(expanded);
     const lastScrollYRef = useRef(0);
@@ -132,6 +134,21 @@ export default function IslandBar() {
         };
     }, []);
 
+    useEffect(() => {
+        const legalFooter = document.querySelector(FOOTER_LEGAL_SELECTOR);
+        if (!legalFooter) return;
+
+        const observer = new IntersectionObserver(
+            ([entry]) => {
+                setIsFooterLegalVisible(entry.isIntersecting);
+            },
+            { threshold: 0.01 }
+        );
+
+        observer.observe(legalFooter);
+        return () => observer.disconnect();
+    }, []);
+
     const handleNavClick = (id: string) => {
         const element = document.getElementById(id);
         if (element) {
@@ -152,9 +169,10 @@ export default function IslandBar() {
     return (
         <motion.nav
             initial={{ y: 100, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 1, duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-            className="fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-50"
+            animate={{ y: isFooterLegalVisible ? 96 : 0, opacity: isFooterLegalVisible ? 0 : 1 }}
+            transition={{ delay: isFooterLegalVisible ? 0 : 0.1, duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+            aria-hidden={isFooterLegalVisible}
+            className={`fixed bottom-4 sm:bottom-6 left-1/2 -translate-x-1/2 z-50 ${isFooterLegalVisible ? "pointer-events-none" : ""}`}
         >
             <motion.div
                 className={`
@@ -202,13 +220,16 @@ export default function IslandBar() {
                             onClick={() => handleNavClick(item.id)}
                             whileTap={{ scale: 0.9 }}
                             className={`
-                relative flex items-center gap-1.5 sm:gap-2 px-2 sm:px-3 py-2 rounded-full h-9 sm:h-10
-                transition-colors duration-300 cursor-pointer transform-gpu
+                relative flex shrink-0 items-center justify-center rounded-full h-9 sm:h-10 py-2
+                transition-[width,min-width,padding,color,background-color] duration-300 cursor-pointer transform-gpu
+                ${expanded || isActive ? "min-w-9 px-2" : "w-9 px-0"}
+                ${expanded ? "sm:min-w-10 sm:px-3" : "sm:w-10 sm:px-0"}
                 ${isActive
                                     ? "text-primary"
                                     : "text-muted-foreground hover:text-foreground"
                                 }
               `}
+                            aria-label={item.label}
                         >
                             {/* Indicador activo — glow detrás */}
                             {isActive && (
@@ -219,14 +240,16 @@ export default function IslandBar() {
                                 />
                             )}
 
-                            <Icon className="relative z-10 size-[18px] sm:size-5" />
+                            <span className="relative z-10 flex size-[18px] shrink-0 items-center justify-center sm:size-5">
+                                <Icon className="size-full" />
+                            </span>
 
                             {/* Label — solo visible cuando expanded */}
                             <span
                                 className={`
                                     relative z-10 hidden sm:inline-block text-xs sm:text-sm font-medium whitespace-nowrap overflow-hidden
                                     transition-[max-width,opacity,transform,margin] duration-400 ease-[cubic-bezier(0.22,1,0.36,1)]
-                                    ${expanded ? "max-w-24 opacity-100 translate-x-0" : "max-w-0 opacity-0 -translate-x-1"}
+                                    ${expanded ? "ml-2 max-w-24 opacity-100 translate-x-0" : "ml-0 max-w-0 opacity-0 -translate-x-1"}
                                 `}
                             >
                                 {item.label}
@@ -237,7 +260,7 @@ export default function IslandBar() {
                                 className={`
                                     relative z-10 inline-block sm:hidden text-[10px] font-medium whitespace-nowrap overflow-hidden
                                     transition-[max-width,opacity,transform,margin] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]
-                                    ${isActive ? "max-w-16 opacity-100 translate-x-0 ml-1" : "max-w-0 opacity-0 -translate-x-1 ml-0"}
+                                    ${isActive ? "ml-1.5 max-w-16 opacity-100 translate-x-0" : "ml-0 max-w-0 opacity-0 -translate-x-1"}
                                 `}
                             >
                                 {item.label}
@@ -248,7 +271,7 @@ export default function IslandBar() {
 
                 {/* Vertical Divider */}
                 <div className={`
-                    h-4 bg-white/10 transition-[width,opacity,margin] duration-300
+                    h-4 bg-primary/20 transition-[width,opacity,margin] duration-300
                     ${expanded ? "w-px opacity-100 mx-1" : "w-0 opacity-0 mx-0"}
                 `} />
 

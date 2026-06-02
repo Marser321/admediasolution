@@ -60,7 +60,7 @@ const DiagnosticScan = memo(({ logIndex }: { logIndex: number }) => (
         animate={{ opacity: 1, scale: 1, filter: "blur(0px)" }}
         exit={{ opacity: 0, scale: 1.02, filter: "blur(10px)" }}
         transition={{ duration: 0.8 }}
-        className="w-full bg-white/[0.02] backdrop-blur-xl border border-white/10 p-12 rounded-[2.5rem] text-center"
+        className="w-full bg-card backdrop-blur-xl border border-border p-12 rounded-[2.5rem] text-center"
     >
         <div className="relative size-28 mx-auto mb-10">
             <motion.div 
@@ -223,7 +223,7 @@ export default function AuditQuiz() {
                         key="submitted"
                         initial={{ opacity: 0, scale: 0.95 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="text-center p-16 bg-white/[0.02] backdrop-blur-2xl rounded-[2.5rem] border border-white/10"
+                        className="text-center p-16 bg-card backdrop-blur-2xl rounded-[2.5rem] border border-border"
                     >
                         <div className="size-24 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center text-primary mx-auto mb-10 shadow-2xl shadow-primary/20">
                             <Check className="size-12" />
@@ -270,7 +270,7 @@ export default function AuditQuiz() {
                                     className={`group relative w-full text-left p-8 rounded-[2rem] transition-all duration-700 overflow-hidden border ${
                                         answers[STEPS[currentStep].id] === option.value 
                                         ? "border-primary bg-primary/10" 
-                                        : "border-white/10 bg-white/[0.02] hover:border-primary/30 hover:bg-white/[0.04]"
+                                        : "border-border bg-card/50 hover:border-primary/30 hover:bg-card"
                                     }`}
                                 >
                                     <div className="flex justify-between items-center relative z-10">
@@ -317,7 +317,7 @@ export default function AuditQuiz() {
             </AnimatePresence>
 
             {!isCalculating && !isFinished && !isSubmitted && (
-                <div className="absolute -bottom-16 left-0 right-0 h-2 bg-white/5 rounded-full overflow-hidden">
+                <div className="absolute -bottom-16 left-0 right-0 h-2 bg-primary/10 rounded-full overflow-hidden">
                     <motion.div 
                         initial={{ width: 0 }}
                         animate={{ width: `${((currentStep) / STEPS.length) * 100}%` }}

@@ -1,6 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
 
-const sections = ["hero", "servicios", "contacto"] as const;
+const sections = ["hero", "vsl-masterclass", "contacto"] as const;
 
 async function assertPageIsRenderable(page: Page) {
     await expect(page.locator("body")).toBeVisible();
@@ -40,7 +40,7 @@ test.describe("motion/parallax stability", () => {
 
     test("idle frames remain stable after scroll settles", async ({ page }, testInfo) => {
         await page.goto("/", { waitUntil: "networkidle" });
-        await page.locator("#servicios").scrollIntoViewIfNeeded();
+        await page.locator("#vsl-masterclass").scrollIntoViewIfNeeded();
         await page.waitForTimeout(700);
 
         const before = await page.screenshot({ fullPage: false });

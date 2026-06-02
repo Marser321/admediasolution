@@ -25,12 +25,8 @@ export default function FooterContact() {
     // Background parallax
     const bgY = useTransform(scrollYProgress, [0, 1], ["-20%", "0%"]);
 
-    // Submit button glow
-    const buttonGlowValue = useTransform(scrollYProgress, [0.8, 1], [0, 0.4]);
-
     // Derived transforms for style props
     const footerLogoBlur = useTransform(logoBlur, (v) => `blur(${v}px)`);
-    const submitButtonShadow = useTransform(buttonGlowValue, (v) => `0 0 ${v * 40}px rgba(72,142,255,${v})`);
 
     return (
         <footer ref={footerRef} id="contacto" className="relative bg-background pt-10 sm:pt-16 pb-10 px-5 sm:px-6 overflow-hidden">
@@ -88,7 +84,7 @@ export default function FooterContact() {
                 {/* Headline — Neutral Spanish Pass */}
                 <div className="mb-12">
                     <h2 className="font-display-heavy text-4xl sm:text-5xl lg:text-6xl text-foreground mb-6 tracking-tight">
-                        ¿Te opones a <span className="text-accent-light italic">escalar</span>?
+                        ¿Quieres que tu negocio <span className="text-accent-light italic">facture más</span>?
                     </h2>
                     <motion.p 
                         initial={{ opacity: 0 }}
@@ -96,7 +92,7 @@ export default function FooterContact() {
                         transition={{ duration: 1.2, delay: 0.4 }}
                         className="text-lg text-muted-foreground font-light max-w-xl mx-auto"
                     >
-                        Si tu respuesta es un rotundo &quot;no&quot;, completa el siguiente análisis para determinar si tu modelo de negocio califica para nuestra ingeniería de ingresos.
+                        Agenda una cita gratis y te demostramos cómo ayudarte con CRM, soporte y dirección de marketing. Sin compromiso.
                     </motion.p>
                 </div>
 
@@ -107,10 +103,11 @@ export default function FooterContact() {
 
                 {/* Footer Links / Legal — Spanish Pass */}
                 <motion.div 
+                    data-footer-legal
                     initial={{ opacity: 0 }}
                     animate={isContentInView ? { opacity: 1 } : {}}
                     transition={{ duration: 1.5, delay: 0.8 }}
-                    className="mt-24 pt-8 border-t border-white/5 flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-muted-foreground/60"
+                    className="mt-24 pt-8 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-muted-foreground/60"
                 >
                     <p>© 2026 AD Media Solution. Todos los derechos reservados.</p>
                     <div className="flex gap-6">

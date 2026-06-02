@@ -13,6 +13,7 @@ import {
     Camera,
     Code2,
     MessageSquare,
+    Share2,
 } from "lucide-react";
 
 // ============================================================
@@ -45,6 +46,7 @@ const itemVariants = {
 const TOOLS = [
     { icon: Target, label: "Meta Ads", color: "#0668E1" },
     { icon: Search, label: "Google Ads", color: "#4285F4" },
+    { icon: Share2, label: "Redes Sociales", color: "#E1306C" },
     { icon: Workflow, label: "GoHighLevel", color: "#81E7FF" },
     { icon: MessageSquare, label: "WhatsApp Business", color: "#25D366" },
     { icon: Globe, label: "Desarrollo Web", color: "#488EFF" },
@@ -152,8 +154,9 @@ export default function AuthoritySection() {
                             src="/team/ceo.png"
                             alt="Danger Fernández - CEO"
                             fill
+                            sizes="(max-width: 1024px) 100vw, 50vw"
                             className="object-cover object-top transition-transform duration-[2s] ease-out group-hover:scale-110 contrast-[1.05] brightness-[1.02]"
-                            quality={100}
+                            quality={90}
                             priority
                         />
 
@@ -174,7 +177,7 @@ export default function AuthoritySection() {
                                 </motion.div>
                                 <div>
                                     <p className="text-base font-bold text-foreground">Danger Fernández</p>
-                                    <p className="text-xs text-primary font-mono tracking-tighter uppercase font-bold">Chief Revenue Architect</p>
+                                    <p className="text-xs text-primary font-mono tracking-tighter uppercase font-bold">Fundador · AD Media</p>
                                 </div>
                             </div>
                         </div>
@@ -201,16 +204,17 @@ export default function AuthoritySection() {
 
                         <motion.h2 variants={itemVariants} className="font-display-heavy text-3xl sm:text-5xl lg:text-6xl font-bold mb-8 text-text-primary">
                             Danger Fernández.
-                            <span className="block text-primary font-mono mt-4 text-sm sm:text-base tracking-[0.4em] uppercase font-bold">Chief Revenue Architect</span>
+                            <span className="block text-primary font-mono mt-4 text-sm sm:text-base tracking-[0.4em] uppercase font-bold">Fundador y director</span>
                         </motion.h2>
 
                         {/* Bio extendida — Neutral Spanish Pass */}
+                        {/* PLACEHOLDER: ajustar con la historia real de Danger (10 años, primera oficina, etc.) */}
                         <motion.div variants={itemVariants} className="space-y-6 text-lg sm:text-xl text-foreground leading-relaxed mb-10 font-medium">
                             <p>
-                                No soy un consultor de marketing convencional. Soy el <strong className="text-text-primary font-bold">arquitecto jefe</strong> de tu infraestructura comercial y operativa.
+                                No soy un consultor más. Empecé esto hace más de <strong className="text-foreground font-bold">10 años, yo solo</strong>, y hoy ayudamos a negocios a vender más con sistemas reales, no con promesas.
                             </p>
                             <p>
-                                Diseño sistemas para compañías que facturan entre 7 y 8 cifras, integrando Meta Ads de alta precisión, ecosistemas CRM a medida y flujos de IA que optimizan la rentabilidad sin depender de equipos humanos masivos.
+                                Le damos dirección de marketing y ventas a empresas que quieren facturar más de $30.000, $50.000 o $100.000 USD al mes: CRM personalizados, soporte y pauta en Meta y Google.
                             </p>
                         </motion.div>
 
@@ -238,11 +242,12 @@ export default function AuthoritySection() {
 
                         {/* Stats Grid — Sequential reveal left to right */}
                         <motion.div variants={itemVariants} className="grid grid-cols-2 sm:grid-cols-4 gap-6 border-t border-primary/10 pt-10 mb-10">
+                            {/* PLACEHOLDER: validar cifras reales con el CEO */}
                             {[
-                                { value: "+$10M", label: "Revenue Generado" },
-                                { value: "150+", label: "Estructuras" },
-                                { value: "0%", label: "Churn 2025" },
-                                { value: "4+", label: "Años de Exp." },
+                                { value: "+10", label: "Años de experiencia" },
+                                { value: "+150", label: "Negocios" },
+                                { value: "$30K+", label: "Facturación objetivo" },
+                                { value: "100%", label: "Soporte" },
                             ].map((stat, i) => (
                                 <StatItem key={i} stat={stat} index={i} sectionProgress={scrollYProgress} />
                             ))}
@@ -251,7 +256,7 @@ export default function AuthoritySection() {
                         {/* Fila de herramientas — Cascade entry */}
                         <motion.div variants={itemVariants}>
                             <p className="text-[11px] sm:text-xs uppercase tracking-[0.25em] text-muted-foreground/50 mb-6">
-                                Stack Operativo & Maestría Técnica
+                                Lo que dominamos
                             </p>
                             <div className="flex flex-wrap gap-3">
                                 {TOOLS.map((tool, i) => (

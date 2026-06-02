@@ -6,7 +6,8 @@ import type { CSSProperties } from "react";
 import dynamic from "next/dynamic";
 import { AuroraBackground } from "../ui/AuroraBackground";
 import { motion, useScroll, useTransform } from "framer-motion";
-import { ArrowDown, PlayCircle } from "lucide-react";
+import { ArrowDown, Calendar } from "lucide-react";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import LogoMarquee from "../ui/LogoMarquee";
 
@@ -48,13 +49,14 @@ const itemVariants = {
 // ============================================================
 export default function HeroSection() {
     const sectionRef = useRef<HTMLElement>(null);
-    const handleScrollToScanner = () => {
-        const el = document.getElementById("contacto");
-        if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
+    const router = useRouter();
+    // CTA principal → página de agendamiento de cita gratuita
+    const handleAgendarCita = () => {
+        router.push("/planificacion");
     };
 
-    const handleScrollToServicios = () => {
-        const el = document.getElementById("servicios");
+    const handleScrollToVsl = () => {
+        const el = document.getElementById("vsl-masterclass");
         if (el) el.scrollIntoView({ behavior: "smooth", block: "start" });
     };
 
@@ -73,12 +75,6 @@ export default function HeroSection() {
     const badgeY = useTransform(scrollYProgress, [0, 0.4], [0, -140]);
     const ctaY = useTransform(scrollYProgress, [0, 0.5], [0, -60]);
     const ctaOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0]);
-
-    // Aurora orbs disperse outward on scroll
-    const auroraY1 = useTransform(scrollYProgress, [0, 0.6], [0, 150]);
-    const auroraY2 = useTransform(scrollYProgress, [0, 0.6], [0, -120]);
-    const auroraScale = useTransform(scrollYProgress, [0, 0.5], [1, 1.3]);
-    const auroraOpacity = useTransform(scrollYProgress, [0.2, 0.6], [0.15, 0]);
 
     // 3D layer compresses - Lowered initial opacity to keep in background
     const orbitalScale = useTransform(scrollYProgress, [0, 0.6], [1, 0.75]);
@@ -143,8 +139,7 @@ export default function HeroSection() {
                             style={{ y: badgeY }}
                             className="font-display-heavy text-2xl xs:text-4xl sm:text-6xl md:text-7xl lg:text-[5rem] tracking-tighter sm:tracking-tight leading-[1.2] sm:leading-[1.05] mb-8 text-foreground drop-shadow-2xl will-change-transform max-w-[15ch] sm:max-w-none mx-auto"
                         >
-                            Tu marketing <span className="text-foreground/40">no funciona</span>. <br />
-                            Nuestra <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-primary text-glow-neon italic">Ingeniería</span> sí.
+                            Damos <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-primary text-glow-neon italic">dirección de marketing y ventas</span> a los negocios.
                         </motion.h1>
 
                         {/* Subtitle — Neutral Spanish Pass */}
@@ -153,7 +148,7 @@ export default function HeroSection() {
                             style={{ y: textY }}
                             className="text-[15px] sm:text-lg md:text-xl text-muted-foreground w-full max-w-[280px] xs:max-w-md sm:max-w-2xl mx-auto mb-10 sm:mb-14 leading-relaxed font-light break-words"
                         >
-                            Deja de perseguir leads. Instala un <span className="text-foreground font-medium border-b border-primary/30">Protocolo de Conversión Automatizado</span> que detiene la hemorragia de facturación hoy mismo.
+                            ¿Tu negocio quiere facturar más de $30.000, $50.000 o $100.000 USD al mes? Lo logramos con <span className="text-foreground font-medium border-b border-primary/30">CRM personalizados, soporte y dirección de marketing</span>.
                         </motion.p>
 
                         {/* CTAs — Fade faster */}
@@ -167,12 +162,12 @@ export default function HeroSection() {
                                 variant="primary"
                                 size="lg"
                                 glow
-                                onClick={handleScrollToScanner}
+                                onClick={handleAgendarCita}
                                 className="group px-10" // Content-width pill
                             >
                                 <span className="relative flex items-center justify-center gap-3 font-bold tracking-wide">
-                                    INICIAR AUDITORÍA
-                                    <PlayCircle className="size-5 text-primary-foreground group-hover:scale-110 transition-transform" />
+                                    AGENDAR CITA GRATIS
+                                    <Calendar className="size-5 text-primary-foreground group-hover:scale-110 transition-transform" />
                                 </span>
                             </Button>
 
@@ -180,10 +175,10 @@ export default function HeroSection() {
                             <Button
                                 variant="ghost"
                                 size="lg"
-                                onClick={handleScrollToServicios}
+                                onClick={handleScrollToVsl}
                                 className="group flex items-center justify-center gap-2 text-muted-foreground hover:text-foreground transition-all duration-300 px-10" // Content-width pill
                             >
-                                <span className="font-medium">Explorar el Sistema</span>
+                                <span className="font-medium">Ver la masterclass</span>
                                 <ArrowDown className="size-4 opacity-50 group-hover:translate-y-1 group-hover:opacity-100 group-hover:text-primary transition-all duration-500" />
                             </Button>
                         </motion.div>
