@@ -151,19 +151,25 @@ export default function IslandBar() {
 
     const handleNavClick = (id: string) => {
         const element = document.getElementById(id);
-        if (element) {
-            navLockRef.current = true;
-            setActiveSection(id);
-            setExpandedStable(true);
-            if (navUnlockTimerRef.current) {
-                window.clearTimeout(navUnlockTimerRef.current);
-            }
-            navUnlockTimerRef.current = window.setTimeout(() => {
-                navLockRef.current = false;
-            }, NAV_CLICK_LOCK_MS);
 
-            element.scrollIntoView({ behavior: "smooth", block: "start" });
+        // Las secciones del NAV viven en el home. Si no estamos ahí (p. ej. /equipo),
+        // navegamos al home con el hash para que el navegador haga scroll a la sección.
+        if (!element) {
+            window.location.assign(`/#${id}`);
+            return;
         }
+
+        navLockRef.current = true;
+        setActiveSection(id);
+        setExpandedStable(true);
+        if (navUnlockTimerRef.current) {
+            window.clearTimeout(navUnlockTimerRef.current);
+        }
+        navUnlockTimerRef.current = window.setTimeout(() => {
+            navLockRef.current = false;
+        }, NAV_CLICK_LOCK_MS);
+
+        element.scrollIntoView({ behavior: "smooth", block: "start" });
     };
 
     return (
@@ -192,8 +198,8 @@ export default function IslandBar() {
                     transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
                     whileTap={{ scale: 0.9 }}
                     className={`
-                    relative flex items-center justify-center overflow-hidden transition-[width,opacity,margin] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
-                    ${expanded ? "w-8 sm:w-10 opacity-100 mr-0.5 sm:mr-1" : "w-0 opacity-0 mr-0"}
+                    hidden sm:flex relative items-center justify-center overflow-hidden transition-[width,opacity,margin] duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]
+                    ${expanded ? "sm:w-10 opacity-100 sm:mr-1" : "w-0 opacity-0 mr-0"}
                 `}>
                     <Image
                         src="/brand/logo-icon.png"
@@ -206,7 +212,7 @@ export default function IslandBar() {
 
                 {/* Separator */}
                 <div className={`
-                     h-4 w-px bg-primary/20 transition-[width,opacity,margin] duration-500 delay-100
+                     hidden sm:block h-4 w-px bg-primary/20 transition-[width,opacity,margin] duration-500 delay-100
                      ${expanded ? "opacity-100 mr-1" : "opacity-0 mr-0 w-0"}
                 `} />
 
@@ -222,8 +228,8 @@ export default function IslandBar() {
                             className={`
                 relative flex shrink-0 items-center justify-center rounded-full h-9 sm:h-10 py-2
                 transition-[width,min-width,padding,color,background-color] duration-300 cursor-pointer transform-gpu
-                ${expanded || isActive ? "min-w-9 px-2" : "w-9 px-0"}
-                ${expanded ? "sm:min-w-10 sm:px-3" : "sm:w-10 sm:px-0"}
+                w-8 px-0
+                ${expanded ? "sm:w-auto sm:min-w-10 sm:px-3" : "sm:w-10 sm:px-0"}
                 ${isActive
                                     ? "text-primary"
                                     : "text-muted-foreground hover:text-foreground"
@@ -255,23 +261,13 @@ export default function IslandBar() {
                                 {item.label}
                             </span>
                             
-                            {/* Mobile Label — Solo el activo para ahorrar espacio */}
-                            <span
-                                className={`
-                                    relative z-10 inline-block sm:hidden text-[10px] font-medium whitespace-nowrap overflow-hidden
-                                    transition-[max-width,opacity,transform,margin] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]
-                                    ${isActive ? "ml-1.5 max-w-16 opacity-100 translate-x-0" : "ml-0 max-w-0 opacity-0 -translate-x-1"}
-                                `}
-                            >
-                                {item.label}
-                            </span>
                         </motion.button>
                     );
                 })}
 
                 {/* Vertical Divider */}
                 <div className={`
-                    h-4 bg-primary/20 transition-[width,opacity,margin] duration-300
+                    hidden sm:block h-4 bg-primary/20 transition-[width,opacity,margin] duration-300
                     ${expanded ? "w-px opacity-100 mx-1" : "w-0 opacity-0 mx-0"}
                 `} />
 
