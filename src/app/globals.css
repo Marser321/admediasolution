@@ -452,7 +452,10 @@
   }
 
   .orb-glow {
-    opacity: 0.6; /* Brighter on mobile */
+    /* Más tenue y pequeño en móvil: prioriza legibilidad del texto y rendimiento. */
+    opacity: 0.25;
+    width: 400px;
+    height: 400px;
   }
 }
 /* === Classic Dark Theme Overrides === */

@@ -136,7 +136,7 @@ export default function AuthoritySection() {
                 <div className="texture-grid" />
             </motion.div>
 
-            <div className="max-w-6xl mx-auto relative z-10 grid lg:grid-cols-2 gap-20 items-center">
+            <div className="max-w-6xl mx-auto relative z-10 grid lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-20 items-center">
 
                 {/* Column 1: Visual + Badge — Slides from LEFT */}
                 <motion.div
@@ -165,7 +165,7 @@ export default function AuthoritySection() {
                         <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 bg-[radial-gradient(circle_at_center,_rgba(129,231,255,0.15)_0%,_transparent_70%)] pointer-events-none" />
 
                         {/* Floating Badge — Glow intensifies at viewport center */}
-                        <div className="absolute bottom-8 left-8 right-8 p-5 rounded-2xl bg-card border border-primary/20 shadow-xl backdrop-blur-md">
+                        <div className="absolute bottom-4 left-4 right-4 p-4 sm:bottom-8 sm:left-8 sm:right-8 sm:p-5 rounded-2xl bg-card border border-primary/20 shadow-xl backdrop-blur-md">
                             <div className="flex items-center gap-4">
                                 <motion.div
                                     style={{
@@ -204,12 +204,12 @@ export default function AuthoritySection() {
 
                         <motion.h2 variants={itemVariants} className="font-display-heavy text-3xl sm:text-5xl lg:text-6xl font-bold mb-8 text-text-primary">
                             Danger Fernández.
-                            <span className="block text-primary font-mono mt-4 text-sm sm:text-base tracking-[0.4em] uppercase font-bold">Fundador y director</span>
+                            <span className="block text-primary font-mono mt-4 text-sm sm:text-base tracking-[0.25em] sm:tracking-[0.4em] uppercase font-bold">Fundador y director</span>
                         </motion.h2>
 
                         {/* Bio extendida — Neutral Spanish Pass */}
                         {/* PLACEHOLDER: ajustar con la historia real de Danger (10 años, primera oficina, etc.) */}
-                        <motion.div variants={itemVariants} className="space-y-6 text-lg sm:text-xl text-foreground leading-relaxed mb-10 font-medium">
+                        <motion.div variants={itemVariants} className="space-y-6 text-base sm:text-lg lg:text-xl text-foreground leading-relaxed mb-10 font-medium">
                             <p>
                                 No soy un consultor más. Empecé esto hace más de <strong className="text-foreground font-bold">10 años, yo solo</strong>, y hoy ayudamos a negocios a vender más con sistemas reales, no con promesas.
                             </p>
@@ -222,7 +222,7 @@ export default function AuthoritySection() {
                         <motion.blockquote
                             ref={quoteRef}
                             variants={itemVariants}
-                            className="relative pl-6 mb-12 italic text-foreground overflow-hidden text-lg font-semibold"
+                            className="relative pl-6 mb-12 italic text-foreground overflow-hidden text-base sm:text-lg font-semibold"
                         >
                             {/* Animated bar */}
                             <motion.div
@@ -241,7 +241,7 @@ export default function AuthoritySection() {
                         </motion.blockquote>
 
                         {/* Stats Grid — Sequential reveal left to right */}
-                        <motion.div variants={itemVariants} className="grid grid-cols-2 sm:grid-cols-4 gap-6 border-t border-primary/10 pt-10 mb-10">
+                        <motion.div variants={itemVariants} className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 border-t border-primary/10 pt-10 mb-10">
                             {/* PLACEHOLDER: validar cifras reales con el CEO */}
                             {[
                                 { value: "+10", label: "Años de experiencia" },
@@ -258,7 +258,7 @@ export default function AuthoritySection() {
                             <p className="text-[11px] sm:text-xs uppercase tracking-[0.25em] text-muted-foreground/50 mb-6">
                                 Lo que dominamos
                             </p>
-                            <div className="flex flex-wrap gap-3">
+                            <div className="flex flex-wrap gap-2 sm:gap-3">
                                 {TOOLS.map((tool, i) => (
                                     <ToolBadge key={i} tool={tool} index={i} />
                                 ))}
@@ -293,7 +293,7 @@ function StatItem({
             <p className="text-2xl sm:text-3xl font-display font-bold text-text-primary">
                 {stat.value}
             </p>
-            <p className="text-[10px] text-accent-blue/80 uppercase tracking-wider mt-1">{stat.label}</p>
+            <p className="text-[11px] text-accent-blue/80 uppercase tracking-wider mt-1">{stat.label}</p>
         </motion.div>
     );
 }

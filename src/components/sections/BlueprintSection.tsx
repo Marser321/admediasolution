@@ -121,7 +121,7 @@ export default function BlueprintSection() {
                 {/* 2. Interactive Schematic Visual — Robust Reordered Layout */}
                 <motion.div 
                     style={{ y: diagramY }}
-                    className="relative w-full max-w-4xl mx-auto aspect-square min-h-[700px] sm:min-h-[1000px] flex flex-col sm:block gap-12 sm:gap-0"
+                    className="relative w-full max-w-4xl mx-auto min-h-0 sm:aspect-square sm:min-h-[1000px] flex flex-col sm:block gap-8 sm:gap-0"
                 >
                     
                     {/* Perspective Layer — Only for Connectors and Grid */}
@@ -255,7 +255,7 @@ export default function BlueprintSection() {
                     </div>
 
                     {/* C. DESTINATION NODES (Bottom) */}
-                    <div className="flex flex-col sm:block gap-12 sm:gap-0 order-3">
+                    <div className="flex flex-col sm:block gap-8 sm:gap-0 order-3">
                         {DESTINATION_NODES.map((node, i) => (
                             <motion.div
                                 key={node.id}
@@ -279,7 +279,7 @@ export default function BlueprintSection() {
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="mt-32 sm:mt-48 grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 text-center border-t border-primary/10 pt-16"
+                    className="mt-20 sm:mt-48 grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 text-center border-t border-primary/10 pt-16"
                 >
                     {/* PLACEHOLDER: confirmar métricas reales con el CEO */}
                     {[
@@ -308,11 +308,11 @@ export default function BlueprintSection() {
 // ============================================================
 function NodeCard({ node }: { node: BlueprintNode }) {
     return (
-        <div className="glass-premium p-8 rounded-[2.5rem] border-primary/20 hover:border-primary/50 transition-all duration-700 w-full sm:w-[300px] sm:h-[280px] sm:shadow-2xl relative group-hover:scale-[1.05] bg-background flex flex-col justify-start">
+        <div className="glass-premium p-6 sm:p-8 rounded-[2.5rem] border-primary/20 hover:border-primary/50 transition-all duration-700 w-full sm:w-[300px] sm:h-[280px] sm:shadow-2xl relative group-hover:scale-[1.05] bg-background flex flex-col justify-start">
             <div className="absolute top-6 left-6 size-4 border-t-2 border-l-2 border-primary/60" />
             <div className="absolute bottom-6 right-6 size-4 border-b-2 border-r-2 border-primary/60" />
             
-            <div className="flex items-start gap-6 mb-6">
+            <div className="flex items-start gap-4 sm:gap-6 mb-4 sm:mb-6">
                 <div className={`p-4 rounded-2xl bg-primary/10 border border-primary/30 ${node.color} group-hover:scale-110 transition-transform duration-500 shadow-inner flex-shrink-0 flex items-center justify-center size-[64px]`}>
                     <node.icon className="size-8" />
                 </div>

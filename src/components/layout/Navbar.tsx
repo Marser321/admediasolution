@@ -93,7 +93,7 @@ export default function Navbar() {
                             glow
                             aurora
                             onClick={() => router.push("/planificacion")}
-                            className="px-6 py-2.5 text-[11px] sm:text-xs font-bold"
+                            className="px-6 py-2.5 h-11 sm:h-9 text-[11px] sm:text-xs font-bold"
                         >
                             <Calendar className="size-3.5 sm:size-4 text-white" />
                             <span className="hidden sm:inline">Agendar cita</span>
@@ -103,7 +103,7 @@ export default function Navbar() {
                         {/* Mobile Menu Toggle */}
                         <button 
                             onClick={() => setIsOpen(!isOpen)}
-                            className="lg:hidden p-2 text-foreground/80 hover:text-primary transition-colors z-[70]"
+                            className="lg:hidden p-2.5 text-foreground/80 hover:text-primary transition-colors z-[70]"
                             aria-label="Toggle menu"
                         >
                             {isOpen ? <X className="size-6" /> : <Menu className="size-6" />}
@@ -119,7 +119,7 @@ export default function Navbar() {
                         initial={{ opacity: 0, backdropFilter: "blur(0px)" }}
                         animate={{ opacity: 1, backdropFilter: "blur(12px)" }}
                         exit={{ opacity: 0, backdropFilter: "blur(0px)" }}
-                        className="fixed inset-0 z-[55] bg-background/95 lg:hidden pt-24 px-6 flex flex-col gap-6"
+                        className="fixed inset-0 z-[55] bg-background/95 lg:hidden pt-24 px-5 flex flex-col gap-6"
                     >
                         <div className="flex flex-col gap-3 overflow-y-auto max-h-[70vh] py-2">
                             {navLinks.map((item, i) => (

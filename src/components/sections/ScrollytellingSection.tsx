@@ -224,8 +224,8 @@ export default function ScrollytellingSection() {
                 <div className="texture-grid" />
             </motion.div>
 
-            {/* Iconos flotantes */}
-            <FloatingIcons type="crm" className="z-0 opacity-[var(--floating-icon-opacity)]" />
+            {/* Iconos flotantes — solo desktop (legibilidad + rendimiento en móvil) */}
+            <FloatingIcons type="crm" className="z-0 hidden md:block opacity-[var(--floating-icon-opacity)]" />
 
             {/* Global Aurora Background */}
             <AuroraBackground intensity="medium" className="opacity-15" />
@@ -277,12 +277,12 @@ export default function ScrollytellingSection() {
                 </div>
 
                 {/* === Layout principal: 2 columnas === */}
-                <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-20">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center mb-20">
 
                     {/* Columna izquierda: Animación orbital — Scale up on scroll */}
                     <motion.div
                         style={{ scale: orbitScale, opacity: orbitOpacity, y: orbitY }}
-                        className="order-2 lg:order-1 flex justify-center will-change-transform drop-shadow-[0_0_50px_rgba(0,102,255,0.15)]"
+                        className="order-2 lg:order-1 flex justify-center will-change-transform md:drop-shadow-[0_0_50px_rgba(0,102,255,0.15)]"
                     >
                         <TechEcosystemOrbit />
                     </motion.div>
@@ -339,7 +339,7 @@ export default function ScrollytellingSection() {
                 </div>
 
                 {/* === KPI Cards Grid — Dashboard loading effect === */}
-                <div className="grid sm:grid-cols-3 gap-5 mb-20">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 mb-20">
                     {KPIS.map((kpi, index) => (
                         <KPICard
                             key={kpi.label}

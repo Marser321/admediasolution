@@ -33,8 +33,8 @@ export default function FooterContact() {
             {/* Global Aurora Background */}
             <AuroraBackground intensity="medium" className="opacity-40" />
 
-            {/* Iconos flotantes — Social */}
-            <FloatingIcons type="social" className="z-0 opacity-[var(--floating-icon-opacity)]" />
+            {/* Iconos flotantes — Social (solo desktop: legibilidad + rendimiento) */}
+            <FloatingIcons type="social" className="z-0 hidden md:block opacity-[var(--floating-icon-opacity)]" />
 
             {/* Background Texture - Grid with Parallax */}
             <motion.div
@@ -97,7 +97,7 @@ export default function FooterContact() {
                 </div>
 
                 {/* Audit Quiz Interface */}
-                <div className="mt-16">
+                <div className="mt-10 sm:mt-16">
                     <AuditQuiz />
                 </div>
 
@@ -107,12 +107,12 @@ export default function FooterContact() {
                     initial={{ opacity: 0 }}
                     animate={isContentInView ? { opacity: 1 } : {}}
                     transition={{ duration: 1.5, delay: 0.8 }}
-                    className="mt-24 pt-8 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-muted-foreground/60"
+                    className="mt-16 sm:mt-24 pt-8 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-muted-foreground/60"
                 >
                     <p>© 2026 AD Media Solution. Todos los derechos reservados.</p>
                     <div className="flex gap-6">
-                        <a href="#" className="hover:text-foreground transition-colors">Política de Privacidad</a>
-                        <a href="#" className="hover:text-foreground transition-colors">Términos de Servicio</a>
+                        <a href="#" className="hover:text-foreground transition-colors py-2 -my-2 inline-block">Política de Privacidad</a>
+                        <a href="#" className="hover:text-foreground transition-colors py-2 -my-2 inline-block">Términos de Servicio</a>
                     </div>
                 </motion.div>
             </motion.div>

@@ -99,14 +99,14 @@ export default function HeroSection() {
             {/* 2. Background Texture Overlay */}
             <div className="absolute inset-0 z-[1] texture-travertine opacity-20 mix-blend-soft-light transform-gpu pointer-events-none" />
 
-            {/* 3. 3D Core Layer — Enabled on all devices per user request */}
+            {/* 3. 3D Core Layer — Oculto en móvil (legibilidad + rendimiento); visible en sm+ */}
             <motion.div
                 style={{
                     scale: orbitalScale,
                     opacity: orbitalOpacity,
                     mixBlendMode: "var(--hero-blend-mode)" as CSSProperties["mixBlendMode"]
                 }}
-                className="absolute inset-0 z-[2] scale-90 sm:scale-100 will-change-transform pointer-events-none"
+                className="absolute inset-0 z-[2] hidden sm:block sm:scale-100 will-change-transform pointer-events-none"
             >
                 <OrbitalCore />
             </motion.div>
@@ -126,7 +126,7 @@ export default function HeroSection() {
                     opacity: heroOpacity,
                     scale: heroScale,
                 }}
-                className="relative z-10 text-center px-4 sm:px-6 max-w-5xl mx-auto mt-0 sm:mt-10 will-change-transform"
+                className="relative z-10 text-center px-5 sm:px-6 max-w-5xl mx-auto mt-0 sm:mt-10 will-change-transform"
             >
                 <div className="relative">
                     <motion.div
@@ -137,7 +137,7 @@ export default function HeroSection() {
                         <motion.h1
                             variants={itemVariants}
                             style={{ y: badgeY }}
-                            className="font-display-heavy text-2xl xs:text-4xl sm:text-6xl md:text-7xl lg:text-[5rem] tracking-tighter sm:tracking-tight leading-[1.2] sm:leading-[1.05] mb-8 text-foreground drop-shadow-2xl will-change-transform max-w-[15ch] sm:max-w-none mx-auto"
+                            className="font-display-heavy text-[1.75rem] xs:text-4xl sm:text-6xl md:text-7xl lg:text-[5rem] tracking-tighter sm:tracking-tight leading-[1.2] sm:leading-[1.05] mb-8 text-foreground drop-shadow-2xl will-change-transform max-w-[15ch] sm:max-w-none mx-auto"
                         >
                             Damos <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-primary text-glow-neon italic">dirección de marketing y ventas</span> a los negocios.
                         </motion.h1>
@@ -146,7 +146,7 @@ export default function HeroSection() {
                         <motion.p
                             variants={itemVariants}
                             style={{ y: textY }}
-                            className="text-[15px] sm:text-lg md:text-xl text-muted-foreground w-full max-w-[280px] xs:max-w-md sm:max-w-2xl mx-auto mb-10 sm:mb-14 leading-relaxed font-light break-words"
+                            className="text-base sm:text-lg md:text-xl text-muted-foreground w-full max-w-[20rem] xs:max-w-md sm:max-w-2xl mx-auto mb-10 sm:mb-14 leading-relaxed font-light break-words"
                         >
                             ¿Tu negocio quiere facturar más de $30.000, $50.000 o $100.000 USD al mes? Lo logramos con <span className="text-foreground font-medium border-b border-primary/30">CRM personalizados, soporte y dirección de marketing</span>.
                         </motion.p>

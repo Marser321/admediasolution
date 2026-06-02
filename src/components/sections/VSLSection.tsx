@@ -111,7 +111,7 @@ export default function VSLSection() {
             {/* Divisor superior */}
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
 
-            <div className="relative z-10 max-w-7xl mx-auto grid lg:grid-cols-12 gap-12 lg:gap-20 items-center">
+            <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-20 items-center">
                 
                 {/* Left Column: CTA & Copywriting */}
                 <div className="lg:col-span-6 flex flex-col justify-center text-center lg:text-left">

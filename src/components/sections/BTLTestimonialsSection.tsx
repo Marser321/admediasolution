@@ -57,14 +57,14 @@ const TESTIMONIALS: Testimonial[] = [
 
 export default function BTLTestimonialsSection() {
   return (
-    <section id="testimonios-btl" className="relative py-24 sm:py-32 px-6 bg-background overflow-hidden">
+    <section id="testimonios-btl" className="relative py-24 sm:py-32 px-5 sm:px-6 bg-background overflow-hidden">
       {/* Background Glow */}
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[140px] pointer-events-none" />
       
       <div className="container mx-auto max-w-6xl relative z-10">
         
         {/* Header */}
-        <div className="text-center mb-20">
+        <div className="text-center mb-12 sm:mb-20">
           <span className="text-primary text-xs font-bold uppercase tracking-[0.25em] px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md">
             Testimonios reales · BTL
           </span>
@@ -80,7 +80,7 @@ export default function BTLTestimonialsSection() {
         </div>
 
         {/* Alternating Testimonials List */}
-        <div className="space-y-32">
+        <div className="space-y-20 sm:space-y-32">
           {TESTIMONIALS.map((item, idx) => {
             const isEven = idx % 2 === 0;
             return (
@@ -116,7 +116,7 @@ function TestimonialRow({
   return (
     <div
       ref={rowRef}
-      className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-20 items-center justify-between min-h-[40vh]"
+      className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-20 items-center justify-between min-h-0 lg:min-h-[40vh]"
     >
       {/* Column: VideoPlayerCard (Testimonial) */}
       <motion.div
