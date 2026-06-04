@@ -142,6 +142,7 @@ export default function CasesPage() {
                                             value={item.value}
                                             prefix={item.prefix}
                                             suffix={item.suffix}
+                                            stable
                                             className="block font-display font-bold leading-none text-5xl sm:text-6xl lg:text-7xl text-transparent bg-clip-text bg-gradient-to-r from-text-primary to-text-muted mb-2"
                                         />
                                     ) : (

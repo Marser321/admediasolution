@@ -202,10 +202,10 @@ export default function AuthoritySection() {
                             CEO & Fundador
                         </motion.p>
 
-                        <motion.h2 variants={itemVariants} className="font-display-heavy text-3xl sm:text-5xl lg:text-6xl font-bold mb-5 sm:mb-7 text-text-primary">
+                        <motion.h1 variants={itemVariants} className="font-display-heavy text-3xl sm:text-5xl lg:text-6xl font-bold mb-5 sm:mb-7 text-text-primary">
                             Danger Fernández.
                             <span className="block text-primary font-mono mt-4 text-sm sm:text-base tracking-[0.25em] sm:tracking-[0.4em] uppercase font-bold">Fundador y director</span>
-                        </motion.h2>
+                        </motion.h1>
 
                         {/* Bio extendida — Neutral Spanish Pass */}
                         <motion.div variants={itemVariants} className="space-y-4 sm:space-y-5 text-base sm:text-lg lg:text-xl text-foreground leading-relaxed mb-8 font-medium">

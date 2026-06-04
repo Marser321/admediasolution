@@ -6,7 +6,7 @@ import IslandBar from "@/components/layout/IslandBar";
 import { useState } from "react";
 import { MessageSquare, Play, Video, ExternalLink, Calendar, Users, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-import PresenceField from "@/components/backgrounds/PresenceField";
+import VideoBackground from "@/components/ui/VideoBackground";
 
 export default function ComunidadPage() {
   // PLACEHOLDER: eventos de ejemplo. Reemplazar título/fecha y el enlace real del video (videoUrl).
@@ -43,11 +43,19 @@ export default function ComunidadPage() {
       <Navbar />
 
       <section className="relative pt-24 sm:pt-28 pb-12 sm:pb-16 px-5 sm:px-6 overflow-hidden">
-        {/* Fondo: presencia de personas (comunidad activa); se pausa con el modal abierto */}
-        <PresenceField intensity="medium" paused={activeVideo !== null} />
+        <VideoBackground
+          src="/videos/comunidad-header.mp4"
+          poster="/videos/comunidad-header-poster.jpg"
+          className="z-0 h-[680px] sm:h-[760px] bottom-auto"
+          posterClassName="opacity-[0.45] sm:opacity-[0.55]"
+          videoClassName="opacity-[0.45] sm:opacity-[0.55] md:opacity-[0.6]"
+        >
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_26%,rgba(2,6,23,0.05),rgba(2,6,23,0.4)_55%,rgba(2,6,23,0.82)_100%)]" />
+          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-background via-background/70 to-transparent" />
+        </VideoBackground>
 
         {/* Ambient glow */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/4 left-1/2 z-[2] -translate-x-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
 
         <div className="container mx-auto max-w-5xl relative z-10 text-center">
           <motion.div
@@ -139,7 +147,7 @@ export default function ComunidadPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  className="group bg-card/40 border border-primary/20 hover:border-primary/45 rounded-3xl overflow-hidden shadow-lg backdrop-blur-sm flex flex-col justify-between transition-colors duration-300"
+                  className="group bg-card/70 border border-primary/20 hover:border-primary/45 rounded-3xl overflow-hidden shadow-lg backdrop-blur-md flex flex-col justify-between transition-colors duration-300"
                 >
                   <div>
                     {/* Placeholder thumbnail */}

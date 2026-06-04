@@ -481,7 +481,15 @@ Para facilitar que el modelo de 1M de contexto implemente la lógica compleja de
 
 ## 20. Fondos Narrativos P1: Sistema Comercial y Produccion
 
-<pending_vibe_approval>
+<pending_vibe_approval status="superseded" superseded_by="26-27">
+  <superseded_note>
+    Esta fase quedo cubierta por la integracion de video (secciones 26 y 27). `RevenueSystemMap`
+    y `ProductionPipeline` nunca se construyeron y sus puntos de aplicacion ya no existen: el
+    Hero (target de `RevenueSystemMap`) ahora usa el video de marca, y los fondos por tab de
+    Servicios (target de `ProductionPipeline`, antes `ConstellationField`) fueron reemplazados
+    por un unico `VideoBackground`. No se construiran estos componentes. Bloque conservado como
+    historial de decision (refine-not-delete).
+  </superseded_note>
   <summary>
     Implementar el primer paquete visual de fondos narrativos sin tocar claims sensibles: Hero/Footer como sistema comercial y Servicios de contenido/produccion como pipeline real de trabajo.
   </summary>
@@ -514,6 +522,43 @@ Para facilitar que el modelo de 1M de contexto implemente la lógica compleja de
     <item>Convierte las secciones de mayor conversion en explicaciones visuales del sistema comercial, corrigiendo fondos genericos sin aumentar riesgo reputacional por claims no aprobados.</item>
   </business_benefit>
 </pending_vibe_approval>
+
+---
+
+## 27. Integracion de Videos en Comunidad, Servicios y Sobre Nosotros
+
+<approved_execution_plan>
+  <summary>
+    Integrar los videos provistos como fondos visuales premium en `/comunidad`, `/servicios` y el hito `2027+` de `/about-us`, sin cambiar copy ni estructura comercial.
+  </summary>
+
+  <visual_guardrails>
+    <item>Mantener copy, CTAs, navegacion, datos comerciales y flujo de cada pagina.</item>
+    <item>Usar los videos como capas ambientales con overlays suficientes para priorizar lectura y accion.</item>
+    <item>Respetar reduced motion: no montar ni reproducir video si el usuario pide menos movimiento.</item>
+    <item>Conservar los fondos contextuales por tab en Servicios como textura secundaria sobre el video base.</item>
+    <item>Preservar los cambios locales previos del hero principal y no revertir archivos ajenos.</item>
+  </visual_guardrails>
+
+  <implementation_scope>
+    <item>Copiar `comunidad.mp4`, `SERVICIOS.mp4` y `Futuro e integracion 2027.mp4` a `public/videos/` con nombres ASCII.</item>
+    <item>Generar posters JPG para carga inicial y fallback estatico.</item>
+    <item>Crear un componente reutilizable de video background con autoplay, muted, loop, playsInline, preload metadata, poster y fallback reduced motion.</item>
+    <item>Usar el video de Comunidad como fondo full-bleed del header, manteniendo `PresenceField` suavizado.</item>
+    <item>Usar el video de Servicios como fondo base y conservar `ServiceBackground` por tab con menor opacidad.</item>
+    <item>Extender el milestone 2027+ para renderizar video cuando tenga `videoUrl`, reemplazando solo la imagen generica de futuro.</item>
+  </implementation_scope>
+
+  <validation>
+    <item>Ejecutar ESLint sobre archivos tocados.</item>
+    <item>Ejecutar TypeScript y build de Next.js.</item>
+    <item>Verificar `/comunidad`, `/servicios` y `/about-us` en desktop/mobile y reduced motion: videos o posters correctos, textos legibles, sin controles ni errores de consola.</item>
+  </validation>
+
+  <business_benefit>
+    <item>Eleva la percepcion visual de las paginas internas con piezas de marca propias, mostrando comunidad, servicios e integracion futura de forma mas directa y profesional.</item>
+  </business_benefit>
+</approved_execution_plan>
 
 ---
 
@@ -625,6 +670,45 @@ Para facilitar que el modelo de 1M de contexto implemente la lógica compleja de
     <item>Mejora la capacidad de escaneo de la propuesta comercial y hace mas evidente el valor: CRM, soporte, marketing y ventas conectados para facturar mas.</item>
   </business_benefit>
 </browser_feedback_resolution>
+
+---
+
+## 26. Integracion de Video en Hero Principal
+
+<approved_execution_plan>
+  <summary>
+    Reemplazar el nucleo 3D del hero principal de Home por el video `AD_Media_Solution_logo_waves_202606032158.mp4`, manteniendo legibilidad, rendimiento y fallback estatico.
+  </summary>
+
+  <visual_guardrails>
+    <item>No cambiar copy, CTAs, navegacion, popup, claims ni estructura comercial del hero.</item>
+    <item>Usar el video como capa ambiental premium, detras del contenido y con overlays para que el H1 siga siendo protagonista.</item>
+    <item>Respetar reduced motion: no reproducir video si el usuario pide menos movimiento.</item>
+    <item>Conservar AuroraBackground y LogoMarquee como soporte visual secundario.</item>
+  </visual_guardrails>
+
+  <implementation_scope>
+    <item>Copiar el MP4 a `public/hero/ad-media-logo-waves.mp4`.</item>
+    <item>Generar poster `public/hero/ad-media-logo-waves-poster.jpg` para carga inicial y fallback.</item>
+    <item>Remover import/render de `OrbitalCore` en `HeroSection.tsx`.</item>
+    <item>Agregar capa de video con `autoplay`, `muted`, `loop`, `playsInline`, `preload=metadata`, poster y opacidad responsive.</item>
+  </implementation_scope>
+
+  <validation>
+    <item>Ejecutar ESLint sobre `HeroSection.tsx`.</item>
+    <item>Ejecutar TypeScript y build de Next.js.</item>
+    <item>Verificar Home desktop/mobile: video visible sin controles, copy legible, reduced motion con poster y sin errores de consola.</item>
+  </validation>
+
+  <validation_follow_up>
+    <item>Si reduced motion revela diferencias de hidratacion en animaciones compartidas, estabilizar la lectura de `prefers-reduced-motion` despues del primer montaje sin cambiar copy ni estructura comercial.</item>
+    <item>Validar que el fallback estatico del hero permanezca activo y que no aparezca overlay de errores en mobile/reduced motion.</item>
+  </validation_follow_up>
+
+  <business_benefit>
+    <item>Da un primer impacto mas propio de marca y reduce dependencia del canvas 3D, usando un asset visual directo de AD Media Solution.</item>
+  </business_benefit>
+</approved_execution_plan>
 
 ---
 

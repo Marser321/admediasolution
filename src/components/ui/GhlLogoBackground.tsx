@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useHydratedReducedMotion } from "@/lib/useHydratedReducedMotion";
 
 interface GhlLogoBackgroundProps {
     className?: string;
@@ -11,7 +12,7 @@ export default function GhlLogoBackground({
     className = "absolute right-[-80px] sm:right-[-20px] top-[15%] w-[300px] sm:w-[500px] md:w-[600px] h-auto opacity-[0.07] sm:opacity-[0.09] filter drop-shadow-[0_0_80px_rgba(31,136,229,0.35)]",
     showGlow = true
 }: GhlLogoBackgroundProps) {
-    const shouldReduceMotion = useReducedMotion();
+    const shouldReduceMotion = useHydratedReducedMotion();
     const entranceInitial = (y: number) => shouldReduceMotion ? { y: 0, opacity: 1 } : { y, opacity: 0 };
     const entranceTransition = (delay: number) => shouldReduceMotion
         ? { duration: 0 }

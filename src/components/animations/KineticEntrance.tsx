@@ -1,7 +1,8 @@
 "use client";
 
 import React from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
+import { useHydratedReducedMotion } from "@/lib/useHydratedReducedMotion";
 
 // Definimos los tipos de animaciones cinéticas disponibles
 export type KineticType = 
@@ -23,7 +24,7 @@ export function KineticContainer({
   staggerDelay = 0.08,
   className = "",
 }: KineticContainerProps) {
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useHydratedReducedMotion();
 
   if (shouldReduceMotion) {
     return <div className={className}>{children}</div>;
@@ -101,7 +102,7 @@ export function KineticItem({
   type: KineticType;
   className?: string;
 }) {
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useHydratedReducedMotion();
 
   if (shouldReduceMotion) {
     return (

@@ -1,21 +1,15 @@
 "use client";
 
 import { useRef } from "react";
-import type { CSSProperties } from "react";
 
-import dynamic from "next/dynamic";
 import { AuroraBackground } from "../ui/AuroraBackground";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, Calendar } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import LogoMarquee from "../ui/LogoMarquee";
-
-// Load 3D Canvas dynamically
-const OrbitalCore = dynamic(
-    () => import("@/components/three/OrbitalCore"),
-    { ssr: false }
-);
+import { useHydratedReducedMotion } from "@/lib/useHydratedReducedMotion";
+import { useVideoInView } from "@/lib/useVideoInView";
 
 // ============================================================
 // Animation Variants — Cinematic & Slow
@@ -76,6 +70,13 @@ const ctaVariants = {
 export default function HeroSection() {
     const sectionRef = useRef<HTMLElement>(null);
     const router = useRouter();
+    // Mismo gating que VideoBackground: estable tras hidratación y respeta reduced-motion.
+    const shouldReduceMotion = useHydratedReducedMotion();
+    const canPlayHeroVideo = !shouldReduceMotion;
+    const videoRef = useRef<HTMLVideoElement>(null);
+    // Pausa el video del hero cuando deja de verse (scroll), igual que los headers de fondo.
+    useVideoInView(videoRef, canPlayHeroVideo);
+
     // CTA principal → página de agendamiento de cita gratuita
     const handleAgendarCita = () => {
         router.push("/planificacion");
@@ -102,9 +103,10 @@ export default function HeroSection() {
     const ctaY = useTransform(scrollYProgress, [0, 0.5], [0, -60]);
     const ctaOpacity = useTransform(scrollYProgress, [0, 0.35], [1, 0]);
 
-    // 3D layer compresses - Lowered initial opacity to keep in background
-    const orbitalScale = useTransform(scrollYProgress, [0, 0.6], [1, 0.75]);
-    const orbitalOpacity = useTransform(scrollYProgress, [0.1, 0.5], [0.3, 0]);
+    // Video layer replaces the former 3D core: subtle, brand-led, and cheaper to render.
+    const videoY = useTransform(scrollYProgress, [0, 1], [0, -70]);
+    const videoScale = useTransform(scrollYProgress, [0, 0.7], [1.06, 0.98]);
+    const videoOpacity = useTransform(scrollYProgress, [0, 0.58], [1, 0]);
 
     // Logo marquee has a "sticky" feel — moves slower
     const marqueeY = useTransform(scrollYProgress, [0, 0.6], [0, -30]);
@@ -125,16 +127,38 @@ export default function HeroSection() {
             {/* 2. Background Texture Overlay */}
             <div className="absolute inset-0 z-[1] texture-travertine opacity-20 mix-blend-soft-light transform-gpu pointer-events-none" />
 
-            {/* 3. 3D Core Layer — Oculto en móvil (legibilidad + rendimiento); visible en sm+ */}
+            {/* 3. Brand Video Layer — replaces 3D canvas, with static fallback for reduced motion */}
             <motion.div
                 style={{
-                    scale: orbitalScale,
-                    opacity: orbitalOpacity,
-                    mixBlendMode: "var(--hero-blend-mode)" as CSSProperties["mixBlendMode"]
+                    y: videoY,
+                    scale: videoScale,
+                    opacity: videoOpacity,
                 }}
-                className="absolute inset-0 z-[2] hidden sm:block sm:scale-100 will-change-transform pointer-events-none"
+                className="absolute inset-0 z-[2] will-change-transform pointer-events-none overflow-hidden"
             >
-                <OrbitalCore />
+                <div
+                    className="absolute inset-0 bg-cover bg-center opacity-[0.45] sm:opacity-[0.55]"
+                    style={{ backgroundImage: "url('/hero/ad-media-logo-waves-poster.jpg')" }}
+                    aria-hidden="true"
+                />
+                {canPlayHeroVideo && (
+                    <video
+                        ref={videoRef}
+                        className="absolute inset-0 h-full w-full object-cover opacity-[0.45] sm:opacity-[0.58] md:opacity-[0.64]"
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                        poster="/hero/ad-media-logo-waves-poster.jpg"
+                        aria-hidden="true"
+                    >
+                        <source src="/hero/ad-media-logo-waves.mp4" type="video/mp4" />
+                    </video>
+                )}
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(2,6,23,0.04),rgba(2,6,23,0.44)_48%,rgba(2,6,23,0.88)_100%)]" />
+                <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-background/35 to-background/90" />
+                <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-background/85 to-transparent" />
             </motion.div>
 
             {/* 4. Vignette & Lighting — Adjusted to avoid sharp bottom seams */}
@@ -172,7 +196,7 @@ export default function HeroSection() {
                         <motion.p
                             variants={subtitleVariants}
                             style={{ y: textY }}
-                            className="text-base sm:text-lg md:text-xl text-foreground/80 w-full max-w-[20rem] xs:max-w-md sm:max-w-2xl mx-auto mb-10 sm:mb-14 leading-relaxed font-light break-words"
+                            className="text-base sm:text-lg md:text-xl text-foreground/90 w-full max-w-[20rem] xs:max-w-md sm:max-w-2xl mx-auto mb-10 sm:mb-14 leading-relaxed font-light break-words"
                         >
                             ¿Tu negocio quiere facturar más de $30,000, $40,000, $50,000 o $100,000 USD al mes? Lo logramos con <span className="text-foreground font-medium border-b border-primary/30">CRM personalizados, soporte y dirección de marketing</span>.
                         </motion.p>

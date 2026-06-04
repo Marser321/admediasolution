@@ -7,29 +7,8 @@ import IslandBar from "@/components/layout/IslandBar";
 import { Check, X, ArrowRight, ChevronDown, Bot, Share2, Megaphone, Globe, LifeBuoy, Camera, BadgeCheck } from "lucide-react";
 import servicesData from "@/lib/data/servicesData.json";
 import { motion, AnimatePresence } from "framer-motion";
-import FlowField from "@/components/backgrounds/FlowField";
-import SignalGrid from "@/components/backgrounds/SignalGrid";
-import ConstellationField from "@/components/backgrounds/ConstellationField";
-import BlueprintLayer from "@/components/backgrounds/BlueprintLayer";
 import { KineticContainer, KineticItem } from "@/components/animations/KineticEntrance";
-
-// Mapea cada rubro/servicio a su fondo contextual (mismo mapeo en servicios/[slug]).
-function ServiceBackground({ tab }: { tab: string }) {
-  switch (tab) {
-    case "crm":
-      return <FlowField intensity="medium" />;
-    case "marketing-ads":
-      return <SignalGrid intensity="medium" />;
-    case "social-media":
-    case "production":
-      return <ConstellationField intensity="medium" />;
-    case "web-development":
-    case "maintenance":
-      return <BlueprintLayer intensity="medium" stages={3} />;
-    default:
-      return <FlowField intensity="medium" />;
-  }
-}
+import VideoBackground from "@/components/ui/VideoBackground";
 
 type ServicePlan = (typeof servicesData.services)[number]["plans"][number];
 
@@ -51,7 +30,7 @@ function PlanCard({ plan }: { plan: ServicePlan }) {
         className={`relative flex h-full flex-col justify-between p-6 sm:p-7 lg:p-8 rounded-3xl transition-all duration-300 border ${
           isPopular
             ? "bg-gradient-to-b from-card to-primary/5 border-primary shadow-2xl md:scale-[1.03] z-10"
-            : "bg-card/40 border-border hover:border-muted-foreground/40 hover:bg-card/60 shadow-lg"
+            : "bg-card/70 border-border hover:border-muted-foreground/40 hover:bg-card/80 shadow-lg backdrop-blur-md"
         }`}
       >
         {isPopular && (
@@ -154,22 +133,19 @@ export default function ServiciosPage() {
       <Navbar />
 
       <section className="relative pt-24 sm:pt-28 pb-12 sm:pb-16 px-5 sm:px-6 overflow-hidden">
-        {/* Fondo contextual por rubro — cambia con crossfade al togglear el tab */}
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.5 }}
-            className="absolute inset-0 z-0 pointer-events-none"
-          >
-            <ServiceBackground tab={activeTab} />
-          </motion.div>
-        </AnimatePresence>
+        <VideoBackground
+          src="/videos/servicios-background.mp4"
+          poster="/videos/servicios-background-poster.jpg"
+          className="z-0"
+          posterClassName="opacity-[0.4] sm:opacity-[0.5]"
+          videoClassName="opacity-[0.4] sm:opacity-[0.5] md:opacity-[0.55]"
+        >
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(2,6,23,0.04),rgba(2,6,23,0.5)_48%,rgba(2,6,23,0.92)_100%)]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/32 to-background/92" />
+        </VideoBackground>
 
         {/* Ambient background glow */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-1/4 left-1/2 z-[2] -translate-x-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
 
         <div className="container mx-auto max-w-6xl text-center relative z-10">
           <motion.div
@@ -192,7 +168,7 @@ export default function ServiciosPage() {
           </motion.div>
 
           {/* Interactive Navigation Tabs — carrusel con snap en móvil, wrap en desktop */}
-          <div className="mt-8 sm:mt-10 max-w-4xl mx-auto p-2 rounded-2xl bg-card/50 border border-border backdrop-blur-md">
+          <div className="mt-8 sm:mt-10 max-w-4xl mx-auto p-2 rounded-2xl bg-card/65 border border-border backdrop-blur-md">
             <div className="flex flex-nowrap sm:flex-wrap justify-start sm:justify-center gap-2 sm:gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar -mx-1 px-1">
               {servicesData.services.map((service) => {
                 const Icon = tabIcons[service.id] || Globe;

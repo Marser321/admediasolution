@@ -9,6 +9,7 @@ import type { LucideIcon } from "lucide-react";
 import { motion, useScroll, useTransform, Variants, MotionValue, useMotionValueEvent, useMotionValue, useSpring } from "framer-motion";
 import Image from "next/image";
 import GrowthSchematic from "@/components/ui/GrowthSchematic";
+import VideoBackground from "@/components/ui/VideoBackground";
 
 // ============================================================
 // Types & Structures
@@ -20,6 +21,8 @@ interface MilestoneItem {
   officeTitle: string;
   officeDesc: string;
   imageUrl: string;
+  videoUrl?: string;
+  posterUrl?: string;
   icon: LucideIcon;
 }
 
@@ -118,6 +121,8 @@ export default function AboutUsPage() {
       officeTitle: "Futuro & Expansión",
       officeDesc: "Nuevas integraciones, IA y desarrollo de valor.",
       imageUrl: "/about-us/future_expansion_2027.png",
+      videoUrl: "/videos/about-future-integration-2027.mp4",
+      posterUrl: "/videos/about-future-integration-2027-poster.jpg",
       icon: Sparkles,
     },
   ];
@@ -401,14 +406,24 @@ function MilestoneSlide({
           style={{ y: yParallax }} 
           className="absolute -inset-y-12 inset-x-0 w-full h-[calc(100%+96px)] select-none pointer-events-none"
         >
-          <Image 
-            src={item.imageUrl} 
-            alt={item.title} 
-            fill
-            className="object-cover opacity-85 group-hover:scale-105 transition-transform duration-700" 
-            sizes="(max-w-1024px) 100vw, 45vw"
-            priority
-          />
+          {item.videoUrl && item.posterUrl ? (
+            <VideoBackground
+              src={item.videoUrl}
+              poster={item.posterUrl}
+              className="h-full w-full"
+              posterClassName="opacity-85 transition-transform duration-700 group-hover:scale-105"
+              videoClassName="opacity-85 transition-transform duration-700 group-hover:scale-105"
+            />
+          ) : (
+            <Image 
+              src={item.imageUrl} 
+              alt={item.title} 
+              fill
+              className="object-cover opacity-85 group-hover:scale-105 transition-transform duration-700" 
+              sizes="(max-w-1024px) 100vw, 45vw"
+              priority
+            />
+          )}
         </motion.div>
 
         {/* Technical bottom overlay tag */}

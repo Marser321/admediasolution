@@ -1,8 +1,9 @@
 "use client";
 
 import { useMemo } from "react";
-import { motion, useReducedMotion } from "framer-motion";
+import { motion } from "framer-motion";
 import { cn } from "@/lib/utils";
+import { useHydratedReducedMotion } from "@/lib/useHydratedReducedMotion";
 import {
     ContextBackgroundProps,
     INTENSITY,
@@ -49,7 +50,7 @@ export default function MetricBurst({
     paused = false,
     color,
 }: MetricBurstProps) {
-    const reduce = useReducedMotion();
+    const reduce = useHydratedReducedMotion();
     const resolved = useResolvedDensity(density);
     const layerOpacity = INTENSITY[intensity];
     const stroke = color ?? "var(--primary, #0066FF)";

@@ -1,8 +1,9 @@
 "use client";
 
 import React from "react";
-import { motion, MotionValue, useTransform, useReducedMotion } from "framer-motion";
+import { motion, MotionValue, useTransform } from "framer-motion";
 import { Award, Target, Landmark, ShieldCheck, Sparkles, LucideIcon } from "lucide-react";
+import { useHydratedReducedMotion } from "@/lib/useHydratedReducedMotion";
 
 interface NodePoint {
   id: number;
@@ -30,7 +31,7 @@ interface GrowthSchematicProps {
 }
 
 export default function GrowthSchematic({ scrollYProgress, activeIndex }: GrowthSchematicProps) {
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useHydratedReducedMotion();
 
   // Animación de autotrazado de la línea según el scroll
   const pathLength = useTransform(scrollYProgress, [0.12, 0.88], [0, 1]);

@@ -9,6 +9,12 @@ import { cn } from "@/lib/utils";
 // Extraído de ScrollytellingSection para reutilizarlo en Casos, slug, etc.
 // Si no se pasa `isInView`, se autogestiona con un ref interno.
 // ============================================================
+
+// Formatea respetando el redondeo del valor objetivo (decimales solo si el target los tiene).
+function formatCount(latest: number, target: number) {
+    return target % 1 !== 0 ? latest.toFixed(1) : Math.round(latest).toString();
+}
+
 interface AnimatedCounterProps {
     value: number;
     prefix?: string;
@@ -16,6 +22,12 @@ interface AnimatedCounterProps {
     /** Si se controla desde fuera (p.ej. un KPI card). Si se omite, se autodetecta. */
     isInView?: boolean;
     className?: string;
+    /**
+     * Si es true, muestra el valor final de inmediato sin animar el conteo.
+     * Útil en claims sensibles (p. ej. /casos) para que QA/screenshots no capturen
+     * valores intermedios como `$56K` cuando el final esperado es `$80K`.
+     */
+    stable?: boolean;
 }
 
 export default function AnimatedCounter({
@@ -24,6 +36,7 @@ export default function AnimatedCounter({
     suffix = "",
     isInView,
     className,
+    stable = false,
 }: AnimatedCounterProps) {
     const ref = useRef<HTMLSpanElement>(null);
     const autoInView = useInView(ref, { once: true, margin: "-10%" });
@@ -35,22 +48,21 @@ export default function AnimatedCounter({
         damping: 30,
         restDelta: 0.01,
     });
-    const [displayValue, setDisplayValue] = useState("0");
+    const [displayValue, setDisplayValue] = useState(() =>
+        stable ? formatCount(value, value) : "0"
+    );
 
     useEffect(() => {
-        if (active) motionValue.set(value);
-    }, [active, value, motionValue]);
+        if (active && !stable) motionValue.set(value);
+    }, [active, value, motionValue, stable]);
 
     useEffect(() => {
+        if (stable) return;
         const unsubscribe = springValue.on("change", (latest) => {
-            if (value % 1 !== 0) {
-                setDisplayValue(latest.toFixed(1));
-            } else {
-                setDisplayValue(Math.round(latest).toString());
-            }
+            setDisplayValue(formatCount(latest, value));
         });
         return unsubscribe;
-    }, [springValue, value]);
+    }, [springValue, value, stable]);
 
     return (
         <span
