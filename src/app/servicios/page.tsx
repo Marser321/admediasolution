@@ -356,35 +356,6 @@ export default function ServiciosPage() {
             )}
           </AnimatePresence>
 
-          {/* Sección General: Especialización por Nichos */}
-          <div className="mt-16 text-center">
-            <span className="text-primary text-xs font-bold uppercase tracking-[0.2em] px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20">
-              Personalización Absoluta
-            </span>
-            <h3 className="text-2xl sm:text-4xl font-black mt-6 tracking-tight">
-              Especialización por Nicho <br />
-              <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent-light pl-1 pr-2 box-decoration-clone">
-                &ldquo;Un YouTube para cada persona&rdquo;
-              </span>
-            </h3>
-            <p className="text-muted-foreground text-sm md:text-base max-w-2xl mx-auto mt-4 font-light leading-relaxed">
-              Entendemos que cada mercado requiere una narrativa distinta. Por eso diseñamos una estructura de contenidos hiper-personalizada para tu nicho, construyendo un canal de comunicación directo y educativo que segmenta y nutre a tus prospectos en automático.
-            </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 mt-10">
-              {[
-                { title: "E-commerce & Retail", desc: "Campañas orientadas a compra directa y remarketing automatizado." },
-                { title: "Servicios B2B & Consultoría", desc: "Nutrición de leads calificados y embudos de agendamiento high-ticket." },
-                { title: "Salud & Clínicas Estéticas", desc: "Autoridad, confianza y captación localizada con flujos conversacionales." },
-                { title: "Inmobiliarias & Proyectos", desc: "Exhibición premium de propiedades y calificación rigurosa de inversores." },
-              ].map((nicho, idx) => (
-                <div key={idx} className="p-6 rounded-2xl border border-primary/10 bg-card/20 backdrop-blur-sm text-left hover:border-primary/30 transition-all duration-300">
-                  <h4 className="font-bold text-sm text-foreground">{nicho.title}</h4>
-                  <p className="text-xs text-muted-foreground mt-2 leading-relaxed font-light">{nicho.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
         </div>
       </section>
 

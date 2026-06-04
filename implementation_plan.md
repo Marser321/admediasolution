@@ -551,6 +551,57 @@ Para facilitar que el modelo de 1M de contexto implemente la lógica compleja de
 
 ---
 
+## 23. Feedback del Anotador: Remover Especializacion por Nicho
+
+<browser_feedback_resolution status="approved_by_browser_comment">
+  <source>Comentario sobre la seccion `Personalizacion Absoluta / Especializacion por Nicho` en `/servicios`.</source>
+  <request>Sacar esta seccion del flujo publico de la pagina de servicios.</request>
+
+  <implementation_scope>
+    <item>Eliminar de `src/app/servicios/page.tsx` el bloque general de nichos con el titular `Especializacion por Nicho` y la frase `Un YouTube para cada persona`.</item>
+    <item>Mantener intactos los planes, tabs, detalles condicionales de `social-media` y `marketing-ads`, footer, navegacion y CTAs.</item>
+    <item>Evitar dejar margen vertical innecesario entre el contenido de servicios y el footer.</item>
+  </implementation_scope>
+
+  <validation>
+    <item>Ejecutar ESLint sobre `src/app/servicios/page.tsx`.</item>
+    <item>Ejecutar build de Next.js.</item>
+    <item>Verificar visualmente `/servicios` para confirmar que la seccion ya no aparece y el footer sube correctamente.</item>
+  </validation>
+
+  <business_benefit>
+    <item>Reduce ruido editorial y elimina un claim/frase no aprobada, manteniendo la pagina enfocada en planes, servicios y conversion a cita.</item>
+  </business_benefit>
+</browser_feedback_resolution>
+
+---
+
+## 24. Feedback del Anotador: Imagen Glass para Popup de Diagnostico
+
+<browser_feedback_resolution status="approved_by_browser_comment">
+  <source>Comentario sobre el popup de Home y asset provisto en `/Users/mariomorera/Desktop/fondos ad media solution/carpeta sin título/ChatGPT Image 3 jun 2026, 10_07_14 p.m..png`.</source>
+  <request>Integrar la imagen en el popup, manteniendo sensacion de banner de vidrio, borde cristal animado y copy mas enfocado a vender servicios.</request>
+
+  <implementation_scope>
+    <item>Copiar el asset a `public/popups/` con nombre ASCII limpio.</item>
+    <item>Actualizar `src/components/ui/PromoPopup.tsx` para usar la imagen como visual principal del popup sin sobrecargarlo.</item>
+    <item>Cambiar el copy de cupón generico a diagnostico de servicios: CRM, Ads, WhatsApp, agenda y ventas.</item>
+    <item>Mantener cierre, delay, sessionStorage, CTA a `/planificacion`, reduced motion y borde neon animado.</item>
+  </implementation_scope>
+
+  <validation>
+    <item>Ejecutar ESLint sobre `PromoPopup.tsx`.</item>
+    <item>Ejecutar TypeScript y build de Next.js.</item>
+    <item>Verificar visualmente el popup en Home desktop/mobile confirmando imagen cargada, copy legible y sin overflow.</item>
+  </validation>
+
+  <business_benefit>
+    <item>Convierte el popup en una pieza mas visual y orientada a diagnostico comercial, mostrando de un vistazo el sistema que vende AD Media Solution antes de pedir la cita.</item>
+  </business_benefit>
+</browser_feedback_resolution>
+
+---
+
 ## 21. Semantica SEO y QA Visual de Claims
 
 <pending_vibe_approval>
