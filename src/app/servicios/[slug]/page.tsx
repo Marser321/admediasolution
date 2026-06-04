@@ -7,6 +7,41 @@ import Link from "next/link";
 import Navbar from "@/components/layout/Navbar";
 import IslandBar from "@/components/layout/IslandBar";
 import FooterContact from "@/components/sections/FooterContact";
+import FlowField from "@/components/backgrounds/FlowField";
+import SignalGrid from "@/components/backgrounds/SignalGrid";
+import BlueprintLayer from "@/components/backgrounds/BlueprintLayer";
+import AnimatedCounter from "@/components/ui/AnimatedCounter";
+
+// Fondo contextual según el slug (alineado con el rubro de cada servicio).
+function SlugBackground({ slug }: { slug: string }) {
+  switch (slug) {
+    case "embudos-neurales": // AD Media CRM
+      return <FlowField intensity="medium" />;
+    case "contenido-generativo": // Dirección de marketing / Ads
+      return <SignalGrid intensity="medium" />;
+    case "ads-autopilot": // Soporte y mantenimiento
+      return <BlueprintLayer intensity="medium" stages={3} />;
+    default:
+      return <FlowField intensity="medium" />;
+  }
+}
+
+// Si la stat es puramente numérica ("100%", "0", "+2") la anima con contador;
+// si no ("24/7", "Real", "Meta", "ROI") la deja como texto.
+function StatValue({ value }: { value: string }) {
+  const match = value.match(/^(\+?)(\d+)(%?)$/);
+  if (match) {
+    return (
+      <AnimatedCounter
+        value={Number(match[2])}
+        prefix={match[1]}
+        suffix={match[3]}
+        className="text-3xl sm:text-4xl font-bold text-foreground"
+      />
+    );
+  }
+  return <span className="text-3xl sm:text-4xl font-bold text-foreground">{value}</span>;
+}
 
 // ============================================================
 // Detalle de servicios. Los slugs se conservan para no romper enlaces.
@@ -76,7 +111,7 @@ export default function ServiceDetail() {
 
     if (!service) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-bg-deep text-text-primary">
+            <div className="min-h-screen flex items-center justify-center bg-background text-foreground">
                 <div className="text-center">
                     <h1 className="text-4xl font-bold mb-4">404</h1>
                     <p className="text-slate-400 mb-8">Servicio no encontrado.</p>
@@ -91,7 +126,7 @@ export default function ServiceDetail() {
     const Icon = service.icon;
 
     return (
-        <main className="bg-bg-deep min-h-screen">
+        <main className="bg-background text-foreground min-h-screen">
             {/* Background Glow */}
             <div className="fixed inset-0 pointer-events-none">
                 <div className={`absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-br ${service.gradient} opacity-20 blur-[120px] rounded-full translate-x-1/2 -translate-y-1/2`} />
@@ -100,45 +135,51 @@ export default function ServiceDetail() {
             <Navbar />
 
             {/* Hero Section */}
-            <section className="relative pt-32 pb-20 px-6 max-w-5xl mx-auto">
+            <section className="relative pt-24 sm:pt-28 pb-12 sm:pb-16 px-5 sm:px-6 max-w-5xl mx-auto overflow-hidden">
+                {/* Fondo contextual según el rubro del servicio */}
+                <SlugBackground slug={slug} />
+
                 <motion.div
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.6 }}
+                    className="relative z-10"
                 >
-                    <div className={`inline-flex items-center justify-center p-3 rounded-2xl bg-gradient-to-br ${service.gradient} mb-6 bg-opacity-20`}>
+                    <div className={`inline-flex items-center justify-center p-3 rounded-2xl bg-gradient-to-br ${service.gradient} mb-5 bg-opacity-20`}>
                         <Icon className="size-8 text-white" />
                     </div>
-                    <h1 className="font-display text-5xl md:text-7xl font-bold text-text-primary mb-6">
+                    <h1 className="font-display text-4xl sm:text-6xl md:text-7xl font-bold text-foreground mb-4 sm:mb-5 leading-tight">
                         {service.title}
                     </h1>
-                    <p className="text-xl md:text-2xl text-text-muted max-w-2xl leading-relaxed">
+                    <p className="text-base sm:text-xl md:text-2xl text-muted-foreground max-w-2xl leading-relaxed">
                         {service.description}
                     </p>
                 </motion.div>
 
                 {/* Stats Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-16">
+                <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 sm:mt-10">
                     {service.stats.map((stat, i) => (
                         <motion.div
                             key={stat.label}
                             initial={{ opacity: 0, y: 20 }}
                             animate={{ opacity: 1, y: 0 }}
                             transition={{ delay: 0.2 + i * 0.1 }}
-                            className="glass-card p-6 border border-white/5 bg-white/[0.02]"
+                            className="glass-premium p-5 sm:p-6 border border-border bg-card/40"
                         >
-                            <p className="text-4xl font-bold text-text-primary mb-2">{stat.value}</p>
-                            <p className="text-sm text-text-muted uppercase tracking-wider">{stat.label}</p>
+                            <p className="mb-2">
+                                <StatValue value={stat.value} />
+                            </p>
+                            <p className="text-sm text-muted-foreground uppercase tracking-wider">{stat.label}</p>
                         </motion.div>
                     ))}
                 </div>
             </section>
 
             {/* Features Section */}
-            <section className="py-20 bg-white/[0.02] border-y border-white/5">
-                <div className="max-w-5xl mx-auto px-6">
-                    <h2 className="text-3xl font-display font-bold text-text-primary mb-12">Características Clave</h2>
-                    <div className="grid md:grid-cols-2 gap-8">
+            <section className="py-10 sm:py-16 lg:py-20 bg-card/20 border-y border-border">
+                <div className="max-w-5xl mx-auto px-5 sm:px-6">
+                    <h2 className="text-2xl sm:text-3xl font-display font-bold text-foreground mb-7 sm:mb-10">Características Clave</h2>
+                    <div className="grid md:grid-cols-2 gap-5 sm:gap-7">
                         {service.features.map((feature, i) => (
                             <motion.div
                                 key={feature}
@@ -151,7 +192,7 @@ export default function ServiceDetail() {
                                 <div className="mt-1 flex-shrink-0 w-6 h-6 rounded-full bg-emerald-500/20 flex items-center justify-center">
                                     <CheckCircle2 className="size-4 text-emerald-400" />
                                 </div>
-                                <p className="text-lg text-text-muted">{feature}</p>
+                                <p className="text-base sm:text-lg text-muted-foreground">{feature}</p>
                             </motion.div>
                         ))}
                     </div>

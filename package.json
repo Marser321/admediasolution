@@ -12,7 +12,8 @@
     "lint": "eslint",
     "audit:motion:static": "node scripts/audit-motion-parallax.mjs",
     "audit:motion:visual": "playwright test -c playwright.motion.config.ts",
-    "audit:motion": "npm run lint && npm run audit:motion:static && npm run audit:motion:visual"
+    "audit:motion": "npm run lint && npm run audit:motion:static && npm run audit:motion:visual",
+    "audit:rhythm": "playwright test -c playwright.rhythm.config.ts"
   },
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",

@@ -1,10 +1,11 @@
 "use client";
 
-import { useRef, useEffect, useState } from "react";
-import { motion, useScroll, useTransform, useInView, useSpring, useMotionValue } from "framer-motion";
+import { useRef } from "react";
+import { motion, useScroll, useTransform, useInView } from "framer-motion";
 import { Rocket, ArrowRight } from "lucide-react";
 import FloatingIcons from "../ui/FloatingIcons";
-import { AuroraBackground } from "../ui/AuroraBackground";
+import MetricBurst from "@/components/backgrounds/MetricBurst";
+import AnimatedCounter from "../ui/AnimatedCounter";
 import { Button } from "../ui/Button";
 import { useRouter } from "next/navigation";
 import dynamic from "next/dynamic";
@@ -55,52 +56,6 @@ const KPIS: KPIData[] = [
     },
 ];
 
-// ============================================================
-// Componente de Contador Animado
-// ============================================================
-function AnimatedCounter({
-    value,
-    prefix,
-    suffix,
-    isInView,
-}: {
-    value: number;
-    prefix: string;
-    suffix: string;
-    isInView: boolean;
-}) {
-    const motionValue = useMotionValue(0);
-    const springValue = useSpring(motionValue, {
-        stiffness: 50,
-        damping: 30,
-        restDelta: 0.01,
-    });
-    const [displayValue, setDisplayValue] = useState("0");
-
-    useEffect(() => {
-        if (isInView) {
-            motionValue.set(value);
-        }
-    }, [isInView, value, motionValue]);
-
-    useEffect(() => {
-        const unsubscribe = springValue.on("change", (latest) => {
-            // Para decimales (4.5x), mostrar con un decimal
-            if (value % 1 !== 0) {
-                setDisplayValue(latest.toFixed(1));
-            } else {
-                setDisplayValue(Math.round(latest).toString());
-            }
-        });
-        return unsubscribe;
-    }, [springValue, value]);
-
-    return (
-        <span className="font-display-heavy text-4xl sm:text-5xl lg:text-6xl text-primary tabular-nums">
-            {prefix}{displayValue}{suffix}
-        </span>
-    );
-}
 
 // ============================================================
 // Card KPI Individual — Dashboard Loading Effect
@@ -214,7 +169,7 @@ export default function ScrollytellingSection() {
         <section
             ref={sectionRef}
             id="estrategia"
-            className="relative py-14 sm:py-32 px-5 sm:px-6 bg-background overflow-hidden"
+            className="relative py-10 sm:py-20 lg:py-24 px-5 sm:px-6 bg-background overflow-hidden"
         >
             {/* Background grid con parallax */}
             <motion.div
@@ -227,15 +182,15 @@ export default function ScrollytellingSection() {
             {/* Iconos flotantes — solo desktop (legibilidad + rendimiento en móvil) */}
             <FloatingIcons type="crm" className="z-0 hidden md:block opacity-[var(--floating-icon-opacity)]" />
 
-            {/* Global Aurora Background */}
-            <AuroraBackground intensity="medium" className="opacity-15" />
+            {/* Fondo narrativo: curva de crecimiento / facturación */}
+            <MetricBurst intensity="medium" />
             
             {/* Divisor superior */}
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent-blue/10 to-transparent" />
 
             <div ref={contentRef} className="relative z-10 max-w-7xl mx-auto">
                 {/* Header */}
-                <div className="text-center mb-10 sm:mb-20">
+                <div className="text-center mb-10 sm:mb-14 lg:mb-16">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
@@ -251,7 +206,7 @@ export default function ScrollytellingSection() {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 1, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
-                        className="font-display-heavy text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-8 text-text-primary"
+                        className="font-display-heavy text-3xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight mb-5 sm:mb-7 text-text-primary"
                     >
                         Te ayudamos a{" "}
                         <span className="text-primary relative inline-block drop-shadow-[0_0_15px_rgba(0,102,255,0.3)]">
@@ -277,7 +232,7 @@ export default function ScrollytellingSection() {
                 </div>
 
                 {/* === Layout principal: 2 columnas === */}
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-20 items-center mb-12 sm:mb-20">
+                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-16 items-center mb-10 sm:mb-14">
 
                     {/* Columna izquierda: Animación orbital — Scale up on scroll */}
                     <motion.div
@@ -293,7 +248,7 @@ export default function ScrollytellingSection() {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ duration: 0.8, delay: 0.3 }}
-                        className="order-1 lg:order-2 space-y-8"
+                        className="order-1 lg:order-2 space-y-6 sm:space-y-8"
                     >
                         <div className="space-y-5">
                             <h3 className="font-display-heavy text-2xl sm:text-3xl text-text-primary leading-tight">
@@ -339,7 +294,7 @@ export default function ScrollytellingSection() {
                 </div>
 
                 {/* === KPI Cards Grid — Dashboard loading effect === */}
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 mb-12 sm:mb-20">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-5 mb-10 sm:mb-14">
                     {KPIS.map((kpi, index) => (
                         <KPICard
                             key={kpi.label}

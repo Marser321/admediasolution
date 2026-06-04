@@ -4,9 +4,17 @@ import { useState } from "react";
 import Navbar from "@/components/layout/Navbar";
 import FooterContact from "@/components/sections/FooterContact";
 import IslandBar from "@/components/layout/IslandBar";
-import { CheckCircle2, User, Mail, MessageSquare, ArrowRight } from "lucide-react";
+import { CheckCircle2, User, Mail, MessageSquare, ArrowRight, ClipboardList, CalendarCheck } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
+import BlueprintLayer from "@/components/backgrounds/BlueprintLayer";
+import MetricBurst from "@/components/backgrounds/MetricBurst";
+
+const STEPS = [
+  { n: 1, label: "Contacto", icon: User },
+  { n: 2, label: "Calificación", icon: ClipboardList },
+  { n: 3, label: "Listo", icon: CalendarCheck },
+];
 
 export default function PlanificacionPage() {
   const [step, setStep] = useState(1);
@@ -18,12 +26,23 @@ export default function PlanificacionPage() {
     serviceOfInterest: "crm",
   });
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
   const nextStep = () => setStep((prev) => prev + 1);
   const prevStep = () => setStep((prev) => prev - 1);
 
   // PLACEHOLDER: conectar este envío a un endpoint/CRM real para registrar la solicitud.
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setIsSubmitting(true);
+    
+    // Simular llamada de API/CRM con un delay de 1.5s
+    await new Promise((resolve) => setTimeout(resolve, 1500));
+    
+    // Guardar lead en localStorage por persistencia
+    localStorage.setItem("admedia-lead", JSON.stringify({ ...formData, timestamp: Date.now() }));
+    
+    setIsSubmitting(false);
     nextStep();
   };
 
@@ -31,7 +50,10 @@ export default function PlanificacionPage() {
     <main className="bg-background min-h-screen relative flex flex-col justify-between overflow-x-hidden text-foreground">
       <Navbar />
 
-      <section className="relative pt-32 pb-20 px-6 overflow-hidden">
+      <section className="relative pt-24 sm:pt-28 pb-12 sm:pb-16 px-5 sm:px-6 overflow-hidden">
+        {/* Fondo: el sistema se construye etapa por etapa con cada paso del wizard */}
+        <BlueprintLayer intensity="medium" stages={3} activeStage={step} />
+
         {/* Glow */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
 
@@ -44,19 +66,49 @@ export default function PlanificacionPage() {
             <span className="text-primary text-sm font-semibold tracking-wider uppercase px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md">
               Planificación
             </span>
-            <h1 className="text-4xl md:text-6xl font-black mt-6 tracking-tight">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-black mt-5 tracking-tight leading-tight">
               Agenda tu Consulta <br />
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent-light">
                 Estratégica Gratis
               </span>
             </h1>
-            <p className="text-muted-foreground text-lg md:text-xl max-w-2xl mx-auto mt-6">
-              Te demostramos en 30 minutos sin costo cómo escalar la facturación de tu negocio mediante automatizaciones, pauta digital y optimización de ventas.
+            <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto mt-4 sm:mt-5 leading-relaxed">
+              30 minutos sin costo para mostrarte cómo escalar tu facturación.
             </p>
           </motion.div>
 
+          {/* Stepper visual — siempre sé en qué paso estoy */}
+          <div className="mt-8 flex items-center justify-center gap-2 sm:gap-4 max-w-xl mx-auto">
+            {STEPS.map((s, i) => {
+              const StepIcon = s.icon;
+              const done = step > s.n;
+              const active = step === s.n;
+              return (
+                <div key={s.n} className="flex items-center gap-2 sm:gap-4">
+                  <div className="flex flex-col items-center gap-1.5">
+                    <div
+                      className={`flex items-center justify-center size-9 sm:size-10 rounded-full border transition-colors duration-300 ${
+                        active || done
+                          ? "bg-primary border-primary text-primary-foreground shadow-md shadow-primary/20"
+                          : "bg-card border-border text-muted-foreground"
+                      }`}
+                    >
+                      {done ? <CheckCircle2 className="size-5" /> : <StepIcon className="size-4 sm:size-5" />}
+                    </div>
+                    <span className={`text-[10px] sm:text-xs font-semibold ${active || done ? "text-foreground" : "text-muted-foreground"}`}>
+                      {s.label}
+                    </span>
+                  </div>
+                  {i < STEPS.length - 1 && (
+                    <div className={`h-px w-8 sm:w-16 -mt-5 transition-colors duration-300 ${step > s.n ? "bg-primary" : "bg-border"}`} />
+                  )}
+                </div>
+              );
+            })}
+          </div>
+
           {/* Form Wizard Container */}
-          <div className="mt-12 max-w-xl mx-auto p-8 md:p-10 rounded-3xl bg-card/50 border border-border backdrop-blur-md shadow-2xl text-left">
+          <div className="relative overflow-hidden mt-8 sm:mt-10 max-w-xl mx-auto p-6 sm:p-8 md:p-9 rounded-3xl bg-card/50 border border-border backdrop-blur-md shadow-2xl text-left">
             <AnimatePresence mode="wait">
               {step === 1 && (
                 <motion.div
@@ -192,9 +244,10 @@ export default function PlanificacionPage() {
                       </button>
                       <button
                         type="submit"
-                        className="flex-2 py-3.5 bg-primary text-primary-foreground font-semibold rounded-xl hover:bg-primary/95 shadow-md shadow-primary/10 transition-all cursor-pointer text-center"
+                        disabled={isSubmitting}
+                        className="flex-2 py-3.5 bg-primary text-primary-foreground font-semibold rounded-xl hover:bg-primary/95 shadow-md shadow-primary/10 transition-all cursor-pointer text-center disabled:opacity-50"
                       >
-                        Agendar Consulta
+                        {isSubmitting ? "Conectando con el CRM..." : "Agendar Consulta"}
                       </button>
                     </div>
                   </form>
@@ -207,16 +260,18 @@ export default function PlanificacionPage() {
                   initial={{ opacity: 0, scale: 0.95 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.4 }}
-                  className="text-center py-6"
+                  className="relative text-center py-6"
                 >
-                  <CheckCircle2 className="w-16 h-16 text-primary mx-auto mb-6 shrink-0" />
-                  <h3 className="text-2xl font-black tracking-tight mb-3">¡Consulta Solicitada Exitosamente!</h3>
-                  <p className="text-muted-foreground text-sm max-w-sm mx-auto leading-relaxed mb-6">
+                  {/* Ráfaga celebratoria detrás del check */}
+                  <MetricBurst intensity="medium" density="mid" />
+                  <CheckCircle2 className="relative z-10 w-16 h-16 text-primary mx-auto mb-6 shrink-0" />
+                  <h3 className="relative z-10 text-2xl font-black tracking-tight mb-3">¡Consulta Solicitada Exitosamente!</h3>
+                  <p className="relative z-10 text-muted-foreground text-sm max-w-sm mx-auto leading-relaxed mb-6">
                     Hola <strong>{formData.name}</strong>, tu solicitud estratégica de consulta gratuita ha sido registrada. Nuestro equipo se pondrá en contacto contigo a través de WhatsApp (<strong>{formData.whatsapp}</strong>) para agendar la fecha y hora final.
                   </p>
                   <Link
                     href="/"
-                    className="inline-flex items-center justify-center bg-primary text-primary-foreground font-semibold py-3 px-6 rounded-xl hover:bg-primary/95 shadow-md transition-all cursor-pointer"
+                    className="relative z-10 inline-flex items-center justify-center bg-primary text-primary-foreground font-semibold py-3 px-6 rounded-xl hover:bg-primary/95 shadow-md transition-all cursor-pointer"
                   >
                     Volver a Inicio
                   </Link>

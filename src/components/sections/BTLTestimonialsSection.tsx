@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import { Star, ArrowLeft, ArrowRight, ShieldCheck, Play, Video } from "lucide-react";
 import Image from "next/image";
+import { KineticContainer, KineticItem } from "@/components/animations/KineticEntrance";
 
 interface Testimonial {
   name: string;
@@ -57,30 +58,38 @@ const TESTIMONIALS: Testimonial[] = [
 
 export default function BTLTestimonialsSection() {
   return (
-    <section id="testimonios-btl" className="relative py-14 sm:py-32 px-5 sm:px-6 bg-background overflow-hidden">
+    <section id="testimonios-btl" className="relative py-10 sm:py-20 lg:py-24 px-5 sm:px-6 bg-background overflow-hidden">
       {/* Background Glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[min(600px,90vw)] aspect-square bg-primary/5 rounded-full blur-[140px] pointer-events-none" />
       
       <div className="container mx-auto max-w-6xl relative z-10">
         
         {/* Header */}
-        <div className="text-center mb-12 sm:mb-20">
-          <span className="text-primary text-xs font-bold uppercase tracking-[0.25em] px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md">
-            Testimonios reales · BTL
-          </span>
-          <h2 className="text-3xl md:text-5xl font-black mt-6 tracking-tight max-w-3xl mx-auto leading-tight">
-            Negocios reales. <br />
-            <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent-light">
-              Resultados reales.
-            </span>
-          </h2>
-          <p className="text-muted-foreground text-sm md:text-base max-w-xl mx-auto mt-4 font-light">
-            Esto es BTL: cercano, humano y directo. Mira cómo ayudamos a cada empresa a vender más con CRM, soporte y dirección de marketing.
-          </p>
+        <div className="text-center mb-10 sm:mb-14">
+          <KineticContainer className="space-y-4">
+            <KineticItem type="subtitle-top">
+              <span className="text-primary text-xs font-bold uppercase tracking-[0.25em] px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md mx-auto w-fit block">
+                Testimonios reales · BTL
+              </span>
+            </KineticItem>
+            <KineticItem type="title-right">
+              <h2 className="text-3xl md:text-5xl font-black mt-6 tracking-tight max-w-3xl mx-auto leading-tight">
+                Negocios reales. <br />
+                <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent-light">
+                  Resultados reales.
+                </span>
+              </h2>
+            </KineticItem>
+            <KineticItem type="body-bottom">
+              <p className="text-muted-foreground text-sm md:text-base max-w-xl mx-auto mt-4 font-light">
+                Cercano, humano y directo. Así ayudamos a cada empresa a vender más.
+              </p>
+            </KineticItem>
+          </KineticContainer>
         </div>
 
         {/* Alternating Testimonials List */}
-        <div className="space-y-16 sm:space-y-32">
+        <div className="space-y-12 sm:space-y-20 lg:space-y-24">
           {TESTIMONIALS.map((item, idx) => {
             const isEven = idx % 2 === 0;
             return (
@@ -116,7 +125,7 @@ function TestimonialRow({
   return (
     <div
       ref={rowRef}
-      className="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-20 items-center justify-between min-h-0 lg:min-h-[40vh]"
+      className="grid grid-cols-1 lg:grid-cols-12 gap-7 sm:gap-10 lg:gap-16 items-center justify-between min-h-0 lg:min-h-[34vh]"
     >
       {/* Column: VideoPlayerCard (Testimonial) */}
       <motion.div
@@ -174,7 +183,7 @@ function VideoPlayerCard({ testimonial }: { testimonial: Testimonial }) {
           src={testimonial.thumbnailUrl} 
           alt={`${testimonial.name} Testimonial Video`}
           fill
-          className="object-cover opacity-95 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-700 ease-out brightness-[0.95] group-hover:brightness-100"
+          className="object-cover opacity-95 group-hover:opacity-100 group-hover:scale-[1.03] transition-all duration-700 ease-out group-hover:brightness-105"
           sizes="(max-w-768px) 100vw, 270px"
           priority
         />
@@ -193,12 +202,9 @@ function VideoPlayerCard({ testimonial }: { testimonial: Testimonial }) {
       {/* Dark video cover overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-transparent to-primary/5 z-10" />
 
-      {/* Ambient background thumbnail glow - Removed opacity to maintain maximum quality */}
-      <div className="absolute inset-0 bg-primary/2 opacity-20 pointer-events-none" />
-
       {/* Glowing Interactive Play Button */}
       <div className="absolute inset-0 flex items-center justify-center z-20">
-        <div className="w-14 h-14 rounded-full bg-primary/45 border border-primary/60 flex items-center justify-center text-white shadow-2xl backdrop-blur-md group-hover:scale-110 transition-transform duration-300">
+        <div className="w-14 h-14 rounded-full bg-primary/65 border border-primary/75 flex items-center justify-center text-white shadow-2xl shadow-primary/30 backdrop-blur-md group-hover:scale-110 group-hover:bg-primary/80 transition-all duration-300">
           <Play className="w-6 h-6 fill-current ml-0.5" />
         </div>
       </div>

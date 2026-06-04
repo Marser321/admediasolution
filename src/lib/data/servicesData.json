@@ -58,6 +58,30 @@
             { "text": "Acompañamiento y seguimiento mensual", "included": true }
           ],
           "highlightText": "Con Danger Fernández"
+        },
+        {
+          "id": "crm-custom",
+          "name": "Plan CRM Personalizado",
+          "price": "Desde $1,500 USD (pago único)",
+          "description": "Solución CRM adaptada a requerimientos empresariales avanzados, APIs externas y automatizaciones a medida.",
+          "features": [
+            { "text": "Configuración y personalización a medida de tu negocio", "included": true },
+            { "text": "Integración avanzada con APIs externas y webhooks", "included": true },
+            { "text": "Flujos automatizados y embudos avanzados", "included": true },
+            { "text": "Soporte técnico y ajustes por 30 días post-entrega", "included": true }
+          ]
+        },
+        {
+          "id": "crm-assistants",
+          "name": "Asistentes de Ventas",
+          "price": "A cotizar",
+          "description": "Personal asignado para la gestión de leads directamente en tu CRM para que no pierdas ventas.",
+          "features": [
+            { "text": "Asistente de ventas dedicado para tu CRM", "included": true },
+            { "text": "Gestión activa de leads y agenda", "included": true },
+            { "text": "Respuesta en tiempo real a llamadas y mensajes", "included": true },
+            { "text": "Reportes diarios de conversión y métricas", "included": true }
+          ]
         }
       ]
     },
@@ -98,7 +122,7 @@
         {
           "id": "sm-custom",
           "name": "Plan Redes Personalizado",
-          "price": "A cotizar",
+          "price": "Desde $800 USD/mes",
           "description": "Para marcas que necesitan más plataformas, más contenido o producción a medida.",
           "features": [
             { "text": "Plataformas a elección (Instagram, Facebook, TikTok, LinkedIn, YouTube)", "included": true },
@@ -215,6 +239,19 @@
           ]
         },
         {
+          "id": "maint-basic",
+          "name": "Plan Básico",
+          "price": "A cotizar",
+          "description": "Actualizaciones básicas, email corporativo y soporte WhatsApp.",
+          "features": [
+            { "text": "Alojamiento y email profesional con dominio corporativo", "included": true },
+            { "text": "Actualizaciones básicas de contenido", "included": true },
+            { "text": "Parcheo de seguridad y actualizaciones de plugins", "included": true },
+            { "text": "Creación de hasta 1 página nueva al mes", "included": true },
+            { "text": "Soporte WhatsApp en horario laboral", "included": true }
+          ]
+        },
+        {
           "id": "maint-premium",
           "name": "Plan Premium",
           "price": "$500 USD/mes",
@@ -230,54 +267,12 @@
         {
           "id": "maint-custom",
           "name": "Plan Personalizado",
-          "price": "A cotizar",
+          "price": "Desde $500 USD/mes",
           "description": "Mantenimiento a medida para empresas con varios sistemas o necesidades específicas.",
           "features": [
             { "text": "Alcance a medida de tu operación", "included": true },
             { "text": "Tiempos de respuesta definidos", "included": true },
             { "text": "Mantenimiento de múltiples plataformas", "included": true }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "production",
-      "title": "Producción Audiovisual",
-      "description": "Grabamos, editamos y diseñamos tu contenido. Fotógrafos y camarógrafos propios para que tu marca se vea profesional.",
-      "plans": [
-        {
-          "id": "prod-grabacion",
-          "name": "Grabación de Contenido",
-          "price": "A cotizar",
-          "description": "Sesiones de foto y video con nuestro equipo (Cadete y camarógrafos).",
-          "features": [
-            { "text": "Dirección de arte y guion", "included": true },
-            { "text": "Grabación con equipo profesional", "included": true },
-            { "text": "Fotografía de producto y marca", "included": true },
-            { "text": "Grabación en locación o estudio", "included": true }
-          ],
-          "isPopular": true
-        },
-        {
-          "id": "prod-edicion",
-          "name": "Edición y Postproducción",
-          "price": "A cotizar",
-          "description": "Convertimos tu material en contenido listo para vender.",
-          "features": [
-            { "text": "Edición de video para redes y anuncios", "included": true },
-            { "text": "Subtítulos y motion graphics", "included": true },
-            { "text": "Corrección de color y audio", "included": true }
-          ]
-        },
-        {
-          "id": "prod-diseno",
-          "name": "Diseño Gráfico",
-          "price": "A cotizar",
-          "description": "Piezas gráficas con la identidad de tu marca.",
-          "features": [
-            { "text": "Piezas para redes sociales y anuncios", "included": true },
-            { "text": "Identidad visual y branding", "included": true },
-            { "text": "Presentaciones y material comercial", "included": true }
           ]
         }
       ]

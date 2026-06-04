@@ -3,7 +3,6 @@ import HeroSection from "@/components/sections/HeroSection";
 import BTLTestimonialsSection from "@/components/sections/BTLTestimonialsSection";
 import VSLSection from "@/components/sections/VSLSection";
 import CRMSection from "@/components/sections/CRMSection";
-import AuthoritySection from "@/components/sections/AuthoritySection";
 import ScrollytellingSection from "@/components/sections/ScrollytellingSection";
 import ProjectsGallery from "@/components/sections/ProjectsGallery";
 import FooterContact from "@/components/sections/FooterContact";
@@ -35,9 +34,6 @@ export default function Home() {
       <SectionTransition type="line-expand" />
       
       <BlueprintSection />
-      <SectionTransition type="line-expand" />
-      
-      <AuthoritySection />
       <SectionTransition type="fog" />
       
       <ScrollytellingSection />

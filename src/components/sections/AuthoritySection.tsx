@@ -1,8 +1,10 @@
 "use client";
 
-import { useRef } from "react";
-import { motion, useScroll, useTransform, useInView, useMotionValue, useSpring } from "framer-motion";
+import { useRef, useState } from "react";
+import { motion, AnimatePresence, useScroll, useTransform, useInView, useMotionValue, useSpring, useReducedMotion } from "framer-motion";
 import Image from "next/image";
+import Link from "next/link";
+import { Button } from "../ui/Button";
 import FloatingIcons from "../ui/FloatingIcons";
 import { AuroraBackground } from "../ui/AuroraBackground";
 import {
@@ -61,6 +63,8 @@ export default function AuthoritySection() {
     const sectionRef = useRef<HTMLElement>(null);
     const quoteRef = useRef<HTMLQuoteElement>(null);
     const isQuoteInView = useInView(quoteRef, { once: true, margin: "-60px" });
+    const shouldReduceMotion = useReducedMotion();
+    const [bioExpanded, setBioExpanded] = useState(false);
 
     // Mouse tracking for interactive background glow
     const mouseX = useMotionValue(0);
@@ -89,14 +93,8 @@ export default function AuthoritySection() {
         `0 0 ${v * 40}px rgba(72,142,255,${v})`
     );
 
-    // Split parallax — columns enter from opposite sides
-    const photoX = useTransform(scrollYProgress, [0, 0.35], [-120, 0]);
-    const photoY = useTransform(scrollYProgress, [0, 1], [0, -40]); // Subtle vertical parallax
-    const photoOpacity = useTransform(scrollYProgress, [0.05, 0.25], [0, 1]);
-    const photoScale = useTransform(scrollYProgress, [0, 0.35], [0.92, 1]);
-
-    const copyX = useTransform(scrollYProgress, [0, 0.35], [120, 0]);
-    const copyOpacity = useTransform(scrollYProgress, [0.05, 0.25], [0, 1]);
+    // Parallax on scroll (subtle vertical offset)
+    const photoY = useTransform(scrollYProgress, [0, 1], [0, -40]);
 
     // Background grid parallax
     const gridY = useTransform(scrollYProgress, [0, 1], ["0%", "10%"]);
@@ -106,7 +104,7 @@ export default function AuthoritySection() {
             ref={sectionRef} 
             id="nosotros"
             onMouseMove={handleMouseMove}
-            className="relative py-14 sm:py-32 px-5 sm:px-6 bg-background overflow-hidden"
+            className="relative py-10 sm:py-20 lg:py-24 px-5 sm:px-6 bg-background overflow-hidden"
         >
             {/* Global Aurora Background */}
             <AuroraBackground intensity="medium" className="opacity-15" />
@@ -136,60 +134,62 @@ export default function AuthoritySection() {
                 <div className="texture-grid" />
             </motion.div>
 
-            <div className="max-w-6xl mx-auto relative z-10 grid lg:grid-cols-2 gap-10 sm:gap-12 lg:gap-20 items-center">
+            <div className="max-w-6xl mx-auto relative z-10 grid lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-16 items-center">
 
                 {/* Column 1: Visual + Badge — Slides from LEFT */}
                 <motion.div
                     style={{
-                        x: photoX,
                         y: photoY,
-                        opacity: photoOpacity,
-                        scale: photoScale,
                     }}
                     className="relative order-2 lg:order-1 will-change-transform"
                 >
-                    <div className="aspect-[4/5] rounded-3xl overflow-hidden relative bg-card border border-primary/10 shadow-2xl shadow-primary/5 group">
-                        {/* Foto CEO */}
-                        <Image
-                            src="/team/ceo.png"
-                            alt="Danger Fernández - CEO"
-                            fill
-                            sizes="(max-width: 1024px) 100vw, 50vw"
-                            className="object-cover object-top transition-transform duration-[2s] ease-out group-hover:scale-110 contrast-[1.05] brightness-[1.02]"
-                            quality={90}
-                            priority
-                        />
+                    <motion.div
+                        initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: -80, scale: 0.95 }}
+                        animate={{ opacity: 1, x: 0, scale: 1 }}
+                        transition={{ type: "spring", stiffness: 60, damping: 15, delay: 0.1 }}
+                    >
+                        <div className="aspect-[4/5] rounded-3xl overflow-hidden relative bg-card border border-primary/10 shadow-2xl shadow-primary/5 group">
+                            {/* Foto CEO */}
+                            <Image
+                                src="/team/ceo.png"
+                                alt="Danger Fernández - CEO"
+                                fill
+                                sizes="(max-width: 1024px) 100vw, 50vw"
+                                className="object-cover object-top transition-transform duration-[2s] ease-out group-hover:scale-110 contrast-[1.05] brightness-[1.02]"
+                                quality={90}
+                                priority
+                            />
 
-                        {/* Blue Lighting Overlay & Glass Fusion — Refined for White Mode */}
-                        <div className="absolute inset-0 bg-gradient-to-tr from-accent-blue/5 via-transparent to-primary/5 pointer-events-none mix-blend-overlay" />
-                        <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 bg-[radial-gradient(circle_at_center,_rgba(129,231,255,0.15)_0%,_transparent_70%)] pointer-events-none" />
+                            {/* Blue Lighting Overlay & Glass Fusion — Refined for White Mode */}
+                            <div className="absolute inset-0 bg-gradient-to-tr from-accent-blue/5 via-transparent to-primary/5 pointer-events-none mix-blend-overlay" />
+                            <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-1000 bg-[radial-gradient(circle_at_center,_rgba(129,231,255,0.15)_0%,_transparent_70%)] pointer-events-none" />
 
-                        {/* Floating Badge — Glow intensifies at viewport center */}
-                        <div className="absolute bottom-4 left-4 right-4 p-4 sm:bottom-8 sm:left-8 sm:right-8 sm:p-5 rounded-2xl bg-card border border-primary/20 shadow-xl backdrop-blur-md">
-                            <div className="flex items-center gap-4">
-                                <motion.div
-                                    style={{
-                                        boxShadow: badgeBoxShadow,
-                                    }}
-                                    className="size-12 rounded-full bg-primary flex items-center justify-center text-white font-bold font-display text-base"
-                                >
-                                    DF
-                                </motion.div>
-                                <div>
-                                    <p className="text-base font-bold text-foreground">Danger Fernández</p>
-                                    <p className="text-xs text-primary font-mono tracking-tighter uppercase font-bold">Fundador · AD Media</p>
+                            {/* Floating Badge — Glow intensifies at viewport center */}
+                            <div className="absolute bottom-4 left-4 right-4 p-4 sm:bottom-8 sm:left-8 sm:right-8 sm:p-5 rounded-2xl bg-card border border-primary/20 shadow-xl backdrop-blur-md">
+                                <div className="flex items-center gap-4">
+                                    <motion.div
+                                        style={{
+                                            boxShadow: badgeBoxShadow,
+                                        }}
+                                        className="size-12 rounded-full bg-primary flex items-center justify-center text-white font-bold font-display text-base"
+                                    >
+                                        DF
+                                    </motion.div>
+                                    <div>
+                                        <p className="text-base font-bold text-foreground">Danger Fernández</p>
+                                        <p className="text-xs text-primary font-mono tracking-tighter uppercase font-bold">Fundador · AD Media</p>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </motion.div>
                 </motion.div>
 
                 {/* Column 2: Copy & Stats — Slides from RIGHT */}
                 <motion.div
-                    style={{
-                        x: copyX,
-                        opacity: copyOpacity,
-                    }}
+                    initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, x: 80 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ type: "spring", stiffness: 60, damping: 15, delay: 0.2 }}
                     className="order-1 lg:order-2 will-change-transform"
                 >
                     <motion.div
@@ -198,31 +198,48 @@ export default function AuthoritySection() {
                         whileInView="visible"
                         viewport={{ once: true }}
                     >
-                        <motion.p variants={itemVariants} className="text-[12px] font-bold tracking-[0.25em] uppercase text-primary mb-6">
+                        <motion.p variants={itemVariants} className="text-[12px] font-bold tracking-[0.25em] uppercase text-primary mb-4 sm:mb-5">
                             CEO & Fundador
                         </motion.p>
 
-                        <motion.h2 variants={itemVariants} className="font-display-heavy text-3xl sm:text-5xl lg:text-6xl font-bold mb-8 text-text-primary">
+                        <motion.h2 variants={itemVariants} className="font-display-heavy text-3xl sm:text-5xl lg:text-6xl font-bold mb-5 sm:mb-7 text-text-primary">
                             Danger Fernández.
                             <span className="block text-primary font-mono mt-4 text-sm sm:text-base tracking-[0.25em] sm:tracking-[0.4em] uppercase font-bold">Fundador y director</span>
                         </motion.h2>
 
                         {/* Bio extendida — Neutral Spanish Pass */}
-                        {/* PLACEHOLDER: ajustar con la historia real de Danger (10 años, primera oficina, etc.) */}
-                        <motion.div variants={itemVariants} className="space-y-6 text-base sm:text-lg lg:text-xl text-foreground leading-relaxed mb-10 font-medium">
+                        <motion.div variants={itemVariants} className="space-y-4 sm:space-y-5 text-base sm:text-lg lg:text-xl text-foreground leading-relaxed mb-8 font-medium">
                             <p>
-                                No soy un consultor más. Empecé esto hace más de <strong className="text-foreground font-bold">10 años, yo solo</strong>, y hoy ayudamos a negocios a vender más con sistemas reales, no con promesas.
+                                Mi trayectoria no sigue el camino tradicional de consultor. Comencé hace más de 10 años como ingeniero de software, lo que me dio una base sólida para entender sistemas complejos y lógica de automatización. Sin embargo, pronto comprendí que la tecnología sin dirección comercial no genera impacto; esto me llevó a estudiar a fondo la ciencia del comercio y las ventas.
                             </p>
-                            <p>
-                                Le damos dirección de marketing y ventas a empresas que quieren facturar más de $30.000, $50.000 o $100.000 USD al mes: CRM personalizados, soporte y pauta en Meta y Google.
-                            </p>
+                            <AnimatePresence initial={false}>
+                                {bioExpanded && (
+                                    <motion.p
+                                        initial={{ height: 0, opacity: 0 }}
+                                        animate={{ height: "auto", opacity: 1 }}
+                                        exit={{ height: 0, opacity: 0 }}
+                                        transition={{ duration: 0.4, ease: "easeInOut" }}
+                                        className="overflow-hidden"
+                                    >
+                                        Hoy combino ambos mundos: la precisión de la ingeniería y la psicología de la venta. Lidero al equipo técnico y comercial de AD Media para resolver cuellos de botella reales en los embudos de nuestros clientes. No pretendo ser perfecto ni vender fórmulas mágicas; cometo errores, pero me enfoco en la corrección constante, la búsqueda de la mejora continua y el inconformismo constructivo.
+                                    </motion.p>
+                                )}
+                            </AnimatePresence>
+                            <button
+                                type="button"
+                                onClick={() => setBioExpanded((v) => !v)}
+                                aria-expanded={bioExpanded}
+                                className="text-sm font-bold text-primary uppercase tracking-wider cursor-pointer hover:opacity-80 transition-opacity"
+                            >
+                                {bioExpanded ? "Leer menos" : "Leer más"}
+                            </button>
                         </motion.div>
 
                         {/* Quote — Bar extends first, then text fades in */}
                         <motion.blockquote
                             ref={quoteRef}
                             variants={itemVariants}
-                            className="relative pl-6 mb-12 italic text-foreground overflow-hidden text-base sm:text-lg font-semibold"
+                            className="relative pl-6 mb-8 sm:mb-10 italic text-foreground overflow-hidden text-base sm:text-lg font-semibold"
                         >
                             {/* Animated bar */}
                             <motion.div
@@ -241,7 +258,7 @@ export default function AuthoritySection() {
                         </motion.blockquote>
 
                         {/* Stats Grid — Sequential reveal left to right */}
-                        <motion.div variants={itemVariants} className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 border-t border-primary/10 pt-10 mb-10">
+                        <motion.div variants={itemVariants} className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 border-t border-primary/10 pt-7 sm:pt-8 mb-8">
                             {/* PLACEHOLDER: validar cifras reales con el CEO */}
                             {[
                                 { value: "+10", label: "Años de experiencia" },
@@ -249,7 +266,7 @@ export default function AuthoritySection() {
                                 { value: "$30K+", label: "Facturación objetivo" },
                                 { value: "100%", label: "Soporte" },
                             ].map((stat, i) => (
-                                <StatItem key={i} stat={stat} index={i} sectionProgress={scrollYProgress} />
+                                <StatItem key={i} stat={stat} index={i} />
                             ))}
                         </motion.div>
 
@@ -258,11 +275,24 @@ export default function AuthoritySection() {
                             <p className="text-[11px] sm:text-xs uppercase tracking-[0.25em] text-muted-foreground/50 mb-6">
                                 Lo que dominamos
                             </p>
-                            <div className="flex flex-wrap gap-2 sm:gap-3">
+                            <div className="flex flex-wrap gap-2 sm:gap-3 mb-8">
                                 {TOOLS.map((tool, i) => (
                                     <ToolBadge key={i} tool={tool} index={i} />
                                 ))}
                             </div>
+                        </motion.div>
+
+                        <motion.div variants={itemVariants} className="pt-2">
+                            <Link href="/planificacion">
+                                <Button
+                                    variant="primary"
+                                    size="lg"
+                                    glow
+                                    className="w-full sm:w-auto font-bold tracking-wide text-sm h-14 px-8"
+                                >
+                                    Agendar Consultoría Directa
+                                </Button>
+                            </Link>
                         </motion.div>
                     </motion.div>
                 </motion.div>
@@ -273,23 +303,30 @@ export default function AuthoritySection() {
 }
 
 // ============================================================
-// Stat Item — Reveals sequentially left-to-right on scroll
+// Stat Item — Reveals sequentially left-to-right on mount
 // ============================================================
 function StatItem({
     stat,
     index,
-    sectionProgress,
 }: {
     stat: { value: string; label: string };
     index: number;
-    sectionProgress: ReturnType<typeof useScroll>["scrollYProgress"];
 }) {
-    const threshold = 0.35 + index * 0.04;
-    const opacity = useTransform(sectionProgress, [threshold, threshold + 0.08], [0, 1]);
-    const y = useTransform(sectionProgress, [threshold, threshold + 0.1], [20, 0]);
+    const shouldReduceMotion = useReducedMotion();
 
     return (
-        <motion.div style={{ opacity, y }} className="text-center sm:text-left">
+        <motion.div
+            initial={shouldReduceMotion ? { opacity: 0 } : { opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{
+                delay: 0.15 + index * 0.1,
+                type: "spring",
+                stiffness: 80,
+                damping: 15,
+            }}
+            className="text-center sm:text-left"
+        >
             <p className="text-2xl sm:text-3xl font-display font-bold text-text-primary">
                 {stat.value}
             </p>

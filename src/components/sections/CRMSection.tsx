@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform, useInView } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { 
     Zap, 
     ShieldCheck, 
@@ -12,6 +12,8 @@ import { Button } from "@/components/ui/Button";
 import { useRouter } from "next/navigation";
 import CRMWorkflow from "../ui/CRMWorkflow";
 import GhlLogoBackground from "@/components/ui/GhlLogoBackground";
+import FlowField from "@/components/backgrounds/FlowField";
+import { KineticContainer, KineticItem } from "@/components/animations/KineticEntrance";
 
 // ============================================================
 // CRM Feature Data
@@ -48,8 +50,6 @@ const CRM_FEATURES = [
 // ============================================================
 export default function CRMSection() {
     const containerRef = useRef<HTMLElement>(null);
-    const titleRef = useRef<HTMLDivElement>(null);
-    const isTitleInView = useInView(titleRef, { once: true, margin: "-100px" });
     const router = useRouter();
 
     const { scrollYProgress } = useScroll({
@@ -58,7 +58,6 @@ export default function CRMSection() {
     });
 
     // Parallax & Reveal animations
-    const backgroundY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
     const dashboardScale = useTransform(scrollYProgress, [0, 0.5], [0.9, 1]);
     const dashboardOpacity = useTransform(scrollYProgress, [0, 0.4], [0, 1]);
 
@@ -66,92 +65,90 @@ export default function CRMSection() {
         <section 
             ref={containerRef} 
             id="crm" 
-            className="relative pt-16 sm:pt-32 lg:pt-48 pb-10 sm:pb-28 px-5 sm:px-6 bg-background overflow-hidden"
+            className="relative py-10 sm:py-20 lg:py-24 px-5 sm:px-6 bg-background overflow-hidden"
         >
-            {/* Background Atmosphere */}
-            <motion.div 
-                style={{ y: backgroundY }}
-                className="absolute inset-0 z-0 pointer-events-none"
-            >
-                <div className="hidden sm:block absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-primary/5 blur-[120px] rounded-full animate-pulse-slow" />
-                <div className="hidden sm:block absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-primary/5 blur-[100px] rounded-full animate-pulse-slow" style={{ animationDelay: "2s" }} />
-            </motion.div>
+            {/* Fondo narrativo: leads convergiendo hacia el núcleo CRM */}
+            <FlowField intensity="medium" />
 
-            <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-12 lg:gap-28 items-center">
+            <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-2 gap-8 sm:gap-10 lg:gap-20 items-center">
                 
                 {/* Left Column: Narrative */}
                 <div className="relative">
-                    <motion.div 
-                        ref={titleRef}
-                        initial={{ opacity: 0, x: -40 }}
-                        animate={isTitleInView ? { opacity: 1, x: 0 } : {}}
-                        transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
-                    >
-                        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-primary/5 border border-primary/20 mb-8">
-                            <span className="relative flex h-2 w-2">
-                                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-                            </span>
-                            <span className="text-[11px] font-bold font-mono text-primary uppercase tracking-[0.2em]">CRM personalizados</span>
-                        </div>
+                    <KineticContainer className="space-y-6 sm:space-y-8">
+                        {/* Status Badge */}
+                        <KineticItem type="subtitle-top">
+                            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-primary/5 border border-primary/20 w-fit">
+                                <span className="relative flex h-2 w-2">
+                                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                                </span>
+                                <span className="text-[11px] font-bold font-mono text-primary uppercase tracking-[0.2em]">CRM personalizados</span>
+                            </div>
+                        </KineticItem>
 
-                        <h2 className="text-4xl sm:text-5xl md:text-6xl font-display-heavy mb-8 leading-[1.1] text-foreground">
-                            AD Media <span className="text-primary italic">CRM</span>. <br />
-                            Hecho a la medida de tu negocio.
-                        </h2>
+                        {/* Title */}
+                        <KineticItem type="title-right">
+                            <h2 className="text-3xl sm:text-5xl md:text-6xl font-display-heavy leading-[1.1] text-foreground">
+                                AD Media <span className="text-primary italic">CRM</span>. <br />
+                                Hecho a la medida de tu negocio.
+                            </h2>
+                        </KineticItem>
 
-                        <p className="text-lg sm:text-xl text-muted-foreground font-light leading-relaxed mb-12 max-w-xl">
-                            No es un CRM genérico. Es <span className="text-foreground font-bold border-b border-primary/30">tu sistema de ventas</span>: tus clientes, su seguimiento y tus citas en un solo lugar, con soporte que de verdad responde.
-                        </p>
+                        {/* Description */}
+                        <KineticItem type="body-bottom">
+                            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground font-light leading-relaxed max-w-xl">
+                                No es un CRM genérico. Es <span className="text-foreground font-bold border-b border-primary/30">tu sistema de ventas</span>: tus clientes, su seguimiento y tus citas en un solo lugar, con soporte que de verdad responde.
+                            </p>
+                        </KineticItem>
 
                         {/* Feature List */}
-                        <div className="space-y-6 sm:space-y-8 mb-10 sm:mb-14">
-                            {CRM_FEATURES.map((feature, i) => (
-                                <motion.div 
+                        <div className="space-y-5 sm:space-y-6">
+                            {CRM_FEATURES.map((feature) => (
+                                <KineticItem 
                                     key={feature.id}
-                                    initial={{ opacity: 0, y: 15 }}
-                                    animate={isTitleInView ? { opacity: 1, y: 0 } : {}}
-                                    transition={{ delay: 0.3 + (i * 0.1) }}
+                                    type="body-bottom"
                                     className="flex gap-5 group"
                                 >
-                                    <div className={`mt-1 p-3 rounded-xl bg-primary/5 border border-border group-hover:border-primary/40 transition-all duration-500 shadow-inner`}>
-                                        <feature.icon className={`size-6 text-primary`} />
+                                    <div className="mt-1 p-3 rounded-xl bg-primary/5 border border-border group-hover:border-primary/40 transition-all duration-500 shadow-inner">
+                                        <feature.icon className="size-6 text-primary" />
                                     </div>
                                     <div>
-                                        <h4 className="text-xl font-bold text-foreground mb-1.5 transition-colors group-hover:text-primary">{feature.label}</h4>
-                                        <p className="text-base text-muted-foreground leading-relaxed">{feature.description}</p>
+                                        <h4 className="text-lg sm:text-xl font-bold text-foreground mb-1.5 transition-colors group-hover:text-primary">{feature.label}</h4>
+                                        <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">{feature.description}</p>
                                     </div>
-                                </motion.div>
+                                </KineticItem>
                             ))}
                         </div>
 
-                        <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8">
-                            <Button variant="primary" size="lg" glow onClick={() => router.push("/planificacion")} className="group w-full sm:w-auto">
-                                <span className="flex items-center gap-2 font-bold tracking-tight">
-                                    AGENDAR DEMO GRATIS
-                                    <ArrowRight className="size-5 transition-transform group-hover:translate-x-1" />
-                                </span>
-                            </Button>
-                            <div className="flex items-center gap-4">
-                                <div className="flex -space-x-3">
-                                    {[1, 2, 3, 4].map(i => (
-                                        <div key={i} className="size-10 rounded-full border-2 border-background bg-zinc-800 shadow-lg" />
-                                    ))}
+                        {/* CTAs */}
+                        <KineticItem type="btn-left">
+                            <div className="flex flex-col sm:flex-row items-center gap-6 sm:gap-8 pt-2">
+                                <Button variant="primary" size="lg" glow onClick={() => router.push("/planificacion")} className="group w-full sm:w-auto">
+                                    <span className="flex items-center gap-2 font-bold tracking-tight">
+                                        AGENDAR DEMO GRATIS
+                                        <ArrowRight className="size-5 transition-transform group-hover:translate-x-1" />
+                                    </span>
+                                </Button>
+                                <div className="flex items-center gap-4">
+                                    <div className="flex -space-x-3">
+                                        {[1, 2, 3, 4].map(i => (
+                                            <div key={i} className="size-10 rounded-full border-2 border-background bg-zinc-800 shadow-lg" />
+                                        ))}
+                                    </div>
+                                    <p className="text-xs text-muted-foreground leading-tight">
+                                        <span className="text-foreground font-bold block">+150 negocios</span>
+                                        con su CRM funcionando
+                                    </p>
                                 </div>
-                                {/* PLACEHOLDER: confirmar número real de CRMs implementados */}
-                                <p className="text-xs text-muted-foreground leading-tight">
-                                    <span className="text-foreground font-bold block">+150 negocios</span>
-                                    con su CRM funcionando
-                                </p>
                             </div>
-                        </div>
-                    </motion.div>
+                        </KineticItem>
+                    </KineticContainer>
                 </div>
 
                 {/* Right Column: High Fidelity Workflow Animation */}
                 <motion.div 
                     style={{ scale: dashboardScale, opacity: dashboardOpacity }}
-                    className="relative w-full max-w-[320px] xs:max-w-[370px] sm:max-w-[450px] lg:max-w-[500px] xl:max-w-[540px] mx-auto mt-16 sm:mt-24 lg:mt-0"
+                    className="relative w-full max-w-[320px] xs:max-w-[370px] sm:max-w-[450px] lg:max-w-[500px] xl:max-w-[540px] mx-auto mt-10 sm:mt-16 lg:mt-0"
                 >
                     <div className="absolute -inset-10 bg-primary/5 blur-[120px] rounded-full animate-pulse-slow pointer-events-none" />
                     

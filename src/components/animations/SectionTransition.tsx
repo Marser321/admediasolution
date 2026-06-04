@@ -17,7 +17,7 @@ interface SectionTransitionProps {
 export default function SectionTransition({ 
     type = "dissolve", 
     className = "",
-    height = "h-12 sm:h-20" 
+    height = "h-8 sm:h-12" 
 }: SectionTransitionProps) {
     const ref = useRef<HTMLDivElement>(null);
     const { scrollYProgress } = useScroll({
@@ -43,7 +43,7 @@ export default function SectionTransition({
     const fogFilter = useTransform(fogBlur, (v) => `blur(${v}px)`);
 
     return (
-        <div ref={ref} className={`relative w-full overflow-hidden ${height} flex items-center justify-center -my-6 sm:-my-10 z-20 pointer-events-none ${className}`}>
+        <div ref={ref} className={`relative w-full overflow-hidden ${height} flex items-center justify-center -my-4 sm:-my-6 z-20 pointer-events-none ${className}`}>
             
             {type === "dissolve" && (
                 <motion.div 

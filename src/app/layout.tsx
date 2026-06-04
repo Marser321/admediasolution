@@ -23,9 +23,9 @@ export const viewport: Viewport = {
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://admediasolution.com"),
-  title: "AD Media Solution | Dirección de marketing y ventas para tu negocio",
+  title: "AD Media Solution | Dirección de marketing y ventas",
   description:
-    "Le damos dirección de marketing y ventas a tu negocio: CRM personalizados, soporte y pauta en Meta y Google para ayudarte a facturar más.",
+    "Dirección de marketing y ventas para negocios que necesitan CRM, soporte, pauta digital, contenido, web y un sistema claro para convertir más citas.",
   keywords: [
     "dirección de marketing y ventas",
     "CRM personalizado",
@@ -46,7 +46,7 @@ export const metadata: Metadata = {
   openGraph: {
     title: "AD Media Solution | Dirección de marketing y ventas",
     description:
-      "Damos dirección de marketing y ventas a los negocios. CRM personalizados, soporte y pauta en Meta y Google para que factures más.",
+      "Dirección de marketing y ventas para negocios que necesitan CRM, soporte, pauta digital, contenido, web y un sistema claro para convertir más citas.",
     url: "https://admediasolution.com",
     siteName: "AD Media Solution",
     locale: "es_US",
@@ -63,8 +63,12 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title: "AD Media Solution | Dirección de marketing y ventas",
-    description: "CRM personalizados, soporte y dirección de marketing para que tu negocio facture más.",
+    description:
+      "CRM, soporte, pauta digital, contenido, web y dirección de marketing para ordenar el sistema comercial de tu negocio.",
     images: ["/brand/logo-full.png"],
+  },
+  alternates: {
+    canonical: "https://admediasolution.com/",
   },
   robots: {
     index: true,

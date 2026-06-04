@@ -3,23 +3,25 @@
 import { useState, useEffect, useRef } from "react";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
 import Image from "next/image";
-import { Home, Play, Sparkles, MessageCircle, Moon, Sun, Target, Cpu, Users } from "lucide-react";
+import { useRouter, usePathname } from "next/navigation";
+import { Home, PlayCircle, Info, Layers, Globe, FolderOpen, Users, Calendar, Moon, Sun, Sparkles, CloudSun } from "lucide-react";
 
 // ============================================================
 // Ítems de navegación
 // ============================================================
 const NAV_ITEMS = [
-    { id: "hero", icon: Home, label: "Inicio" },
-    { id: "vsl-masterclass", icon: Play, label: "VSL" },
-    { id: "crm", icon: Target, label: "CRM" },
-    { id: "infraestructura", icon: Cpu, label: "Infra" },
-    { id: "portafolio", icon: Sparkles, label: "Portfolio" },
-    { id: "nosotros", icon: Users, label: "Nosotros" },
-    { id: "contacto", icon: MessageCircle, label: "Contacto" },
+    { href: "/", icon: Home, label: "Inicio" },
+    { href: "/#vsl-masterclass", icon: PlayCircle, label: "VSL" },
+    { href: "/about-us", icon: Info, label: "Nosotros" },
+    { href: "/servicios", icon: Layers, label: "Servicios" },
+    { href: "/comunidad", icon: Globe, label: "Comunidad" },
+    { href: "/casos", icon: FolderOpen, label: "Casos" },
+    { href: "/equipo", icon: Users, label: "Equipo" },
+    { href: "/planificacion", icon: Calendar, label: "Agenda" },
 ];
 
-type Theme = "luxury" | "classic" | "white";
-const THEMES: Theme[] = ["luxury", "classic", "white"];
+type Theme = "luxury" | "classic" | "sky" | "white";
+const THEMES: Theme[] = ["luxury", "classic", "sky", "white"];
 const SCROLL_DELTA_THRESHOLD = 18;
 const EXPAND_COLLAPSE_COOLDOWN = 420;
 const NAV_CLICK_LOCK_MS = 900;
@@ -30,8 +32,9 @@ function isTheme(value: string | null): value is Theme {
 }
 
 function applyThemeClass(next: Theme) {
-    document.documentElement.classList.remove("theme-classic", "theme-white");
+    document.documentElement.classList.remove("theme-classic", "theme-sky", "theme-white");
     if (next === "classic") document.documentElement.classList.add("theme-classic");
+    if (next === "sky") document.documentElement.classList.add("theme-sky");
     if (next === "white") document.documentElement.classList.add("theme-white");
 }
 
@@ -40,14 +43,14 @@ function applyThemeClass(next: Theme) {
 // ============================================================
 export default function IslandBar() {
     const [expanded, setExpanded] = useState(true);
-    const [activeSection, setActiveSection] = useState("hero");
     const [isFooterLegalVisible, setIsFooterLegalVisible] = useState(false);
     const [theme, setTheme] = useState<Theme>("classic");
     const expandedRef = useRef(expanded);
     const lastScrollYRef = useRef(0);
     const lastToggleAtRef = useRef(0);
-    const navLockRef = useRef(false);
-    const navUnlockTimerRef = useRef<number | null>(null);
+
+    const router = useRouter();
+    const pathname = usePathname();
 
     useEffect(() => {
         const savedTheme = localStorage.getItem("vibe-theme") ?? localStorage.getItem("theme");
@@ -71,7 +74,8 @@ export default function IslandBar() {
         setTheme(prev => {
             let next: Theme;
             if (prev === "luxury") next = "classic";
-            else if (prev === "classic") next = "white";
+            else if (prev === "classic") next = "sky";
+            else if (prev === "sky") next = "white";
             else next = "luxury";
 
             applyThemeClass(next);
@@ -100,40 +104,6 @@ export default function IslandBar() {
         }
     });
 
-    // Detectar sección activa por IntersectionObserver
-    useEffect(() => {
-        const sections = NAV_ITEMS.map((item) =>
-            document.getElementById(item.id)
-        ).filter(Boolean) as HTMLElement[];
-
-        const sectionRatios = new Map<string, number>();
-        const observer = new IntersectionObserver(
-            (entries) => {
-                if (navLockRef.current) return;
-
-                for (const entry of entries) {
-                    sectionRatios.set(entry.target.id, entry.intersectionRatio);
-                }
-
-                const nextActive = [...sectionRatios.entries()]
-                    .sort((a, b) => b[1] - a[1])[0];
-
-                if (nextActive && nextActive[1] > 0.08) {
-                    setActiveSection((current) => current === nextActive[0] ? current : nextActive[0]);
-                }
-            },
-            { threshold: [0, 0.15, 0.35, 0.55], rootMargin: "-25% 0px -35% 0px" }
-        );
-
-        sections.forEach((section) => observer.observe(section));
-        return () => {
-            observer.disconnect();
-            if (navUnlockTimerRef.current) {
-                window.clearTimeout(navUnlockTimerRef.current);
-            }
-        };
-    }, []);
-
     useEffect(() => {
         const legalFooter = document.querySelector(FOOTER_LEGAL_SELECTOR);
         if (!legalFooter) return;
@@ -149,27 +119,29 @@ export default function IslandBar() {
         return () => observer.disconnect();
     }, []);
 
-    const handleNavClick = (id: string) => {
-        const element = document.getElementById(id);
-
-        // Las secciones del NAV viven en el home. Si no estamos ahí (p. ej. /equipo),
-        // navegamos al home con el hash para que el navegador haga scroll a la sección.
-        if (!element) {
-            window.location.assign(`/#${id}`);
+    const handleNavClick = (href: string) => {
+        if (href === "/") {
+            if (pathname === "/") {
+                window.scrollTo({ top: 0, behavior: "smooth" });
+            } else {
+                router.push("/");
+            }
             return;
         }
 
-        navLockRef.current = true;
-        setActiveSection(id);
-        setExpandedStable(true);
-        if (navUnlockTimerRef.current) {
-            window.clearTimeout(navUnlockTimerRef.current);
+        // Anclas a la home (ej. "/#vsl-masterclass"): scroll suave si ya estamos
+        // en home, o navegar a la home dejando que el navegador salte al ancla.
+        if (href.startsWith("/#")) {
+            const targetId = href.slice(2);
+            if (pathname === "/") {
+                document.getElementById(targetId)?.scrollIntoView({ behavior: "smooth" });
+            } else {
+                router.push(href);
+            }
+            return;
         }
-        navUnlockTimerRef.current = window.setTimeout(() => {
-            navLockRef.current = false;
-        }, NAV_CLICK_LOCK_MS);
 
-        element.scrollIntoView({ behavior: "smooth", block: "start" });
+        router.push(href);
     };
 
     return (
@@ -217,13 +189,17 @@ export default function IslandBar() {
                 `} />
 
                 {NAV_ITEMS.map((item) => {
-                    const isActive = activeSection === item.id;
+                    const isActive = item.href === "/"
+                        ? pathname === "/"
+                        : item.href.startsWith("/#")
+                            ? false
+                            : pathname?.startsWith(item.href);
                     const Icon = item.icon;
 
                     return (
                         <motion.button
-                            key={item.id}
-                            onClick={() => handleNavClick(item.id)}
+                            key={item.href}
+                            onClick={() => handleNavClick(item.href)}
                             whileTap={{ scale: 0.9 }}
                             className={`
                 relative flex shrink-0 items-center justify-center rounded-full h-9 sm:h-10 py-2
@@ -293,6 +269,7 @@ export default function IslandBar() {
                         >
                             {theme === "luxury" && <Sparkles className="size-4 sm:size-5" />}
                             {theme === "classic" && <Moon className="size-4 sm:size-5" />}
+                            {theme === "sky" && <CloudSun className="size-4 sm:size-5" />}
                             {theme === "white" && <Sun className="size-4 sm:size-5" />}
                         </motion.div>
                     </AnimatePresence>

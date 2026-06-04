@@ -2,33 +2,39 @@
 
 import { motion } from "framer-motion";
 import { 
-    Bot,
-    CalendarCheck,
-    CreditCard,
-    MessageCircle,
-    PlugZap,
-    Target,
-    Workflow,
+    Shield,
+    Gem,
+    TrendingUp,
+    Heart,
+    Cpu,
+    Globe,
+    FileText,
+    Home,
+    Briefcase,
+    DollarSign,
 } from "lucide-react";
 
-const CONNECTED_TECH = [
-    { name: "WhatsApp API", icon: MessageCircle, color: "#25D366" },
-    { name: "GoHighLevel", icon: Workflow, color: "#81E7FF" },
-    { name: "Meta Ads", icon: Target, color: "#0668E1" },
-    { name: "OpenAI", icon: Bot, color: "#74AA9C" },
-    { name: "Make", icon: PlugZap, color: "#8B5CF6" },
-    { name: "Calendly", icon: CalendarCheck, color: "#00A2FF" },
-    { name: "Stripe", icon: CreditCard, color: "#635BFF" },
+const CLIENT_BRANDS = [
+    { name: "Del Toro Insurance", icon: Shield, color: "#3b82f6" },
+    { name: "Ventura Joyería", icon: Gem, color: "#d97706" },
+    { name: "EcomScale", icon: TrendingUp, color: "#10b981" },
+    { name: "HealthFit", icon: Heart, color: "#ef4444" },
+    { name: "LogiTec", icon: Cpu, color: "#6366f1" },
+    { name: "AC Global Agency", icon: Globe, color: "#0ea5e9" },
+    { name: "Abech", icon: FileText, color: "#10b981" },
+    { name: "Realtor Laury", icon: Home, color: "#ec4899" },
+    { name: "Empire Finest Group", icon: Briefcase, color: "#f59e0b" },
+    { name: "Capital Ganador", icon: DollarSign, color: "#22c55e" },
 ];
 
-const PARTNERS = [...CONNECTED_TECH, ...CONNECTED_TECH];
+const PARTNERS = [...CLIENT_BRANDS, ...CLIENT_BRANDS];
 
 export default function LogoMarquee() {
     return (
         <div className="relative w-full py-10 overflow-hidden">
             <div className="flex flex-col items-center mb-8">
                 <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-primary/70 mb-2">
-                    Plataformas conectadas
+                    Marcas que confían en nosotros
                 </span>
                 <div className="h-px w-12 bg-primary/30" />
             </div>
@@ -39,7 +45,7 @@ export default function LogoMarquee() {
                     x: ["0%", "-50%"] 
                 }}
                 transition={{ 
-                    duration: 30, 
+                    duration: 35, 
                     repeat: Infinity, 
                     ease: "linear" 
                 }}

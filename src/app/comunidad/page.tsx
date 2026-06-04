@@ -6,6 +6,7 @@ import IslandBar from "@/components/layout/IslandBar";
 import { useState } from "react";
 import { MessageSquare, Play, Video, ExternalLink, Calendar, Users, X } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import PresenceField from "@/components/backgrounds/PresenceField";
 
 export default function ComunidadPage() {
   // PLACEHOLDER: eventos de ejemplo. Reemplazar título/fecha y el enlace real del video (videoUrl).
@@ -41,7 +42,10 @@ export default function ComunidadPage() {
     <main className="bg-background min-h-screen relative flex flex-col justify-between overflow-x-hidden text-foreground">
       <Navbar />
 
-      <section className="relative pt-32 pb-20 px-6 overflow-hidden">
+      <section className="relative pt-24 sm:pt-28 pb-12 sm:pb-16 px-5 sm:px-6 overflow-hidden">
+        {/* Fondo: presencia de personas (comunidad activa); se pausa con el modal abierto */}
+        <PresenceField intensity="medium" paused={activeVideo !== null} />
+
         {/* Ambient glow */}
         <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
 
@@ -54,14 +58,14 @@ export default function ComunidadPage() {
             <span className="text-primary text-xs font-bold tracking-wider uppercase px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md">
               AD Media Community
             </span>
-            <h1 className="text-4xl md:text-6xl font-black mt-6 tracking-tight">
+            <h1 className="text-3xl sm:text-5xl md:text-6xl font-black mt-5 tracking-tight leading-tight">
               Conecta, Comparte y <br />
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent-light">
                 Aprende en Comunidad
               </span>
             </h1>
-            <p className="text-muted-foreground text-sm md:text-lg max-w-2xl mx-auto mt-6 font-light leading-relaxed">
-              Únete a nuestro grupo exclusivo de WhatsApp, accede a eventos de networking y revisa nuestras grabaciones de workshops y masterclasses de escala de facturación.
+            <p className="text-muted-foreground text-sm md:text-lg max-w-2xl mx-auto mt-4 sm:mt-5 font-light leading-relaxed">
+              Grupo privado de WhatsApp, eventos de networking y grabaciones de nuestros workshops.
             </p>
           </motion.div>
 
@@ -70,7 +74,7 @@ export default function ComunidadPage() {
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.2 }}
-            className="mt-12 p-8 md:p-12 rounded-3xl bg-gradient-to-br from-card to-primary/5 border border-primary/25 flex flex-col lg:flex-row items-center justify-between text-left shadow-2xl backdrop-blur-md"
+            className="mt-8 sm:mt-10 p-6 sm:p-8 md:p-10 rounded-3xl bg-gradient-to-br from-card to-primary/5 border border-primary/25 flex flex-col lg:flex-row items-center justify-between text-left shadow-2xl backdrop-blur-md"
           >
             <div className="max-w-xl">
               <span className="flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-wider mb-2">
@@ -83,6 +87,25 @@ export default function ComunidadPage() {
               <p className="text-muted-foreground text-xs md:text-sm mt-3 leading-relaxed font-light">
                 Comparte diariamente con otros dueños de negocios facturando sobre $30K-$100K. Conversa sobre APIs de conversión, configuraciones de CRM y estrategias de pauta publicitaria Meta/Google.
               </p>
+
+              {/* Pulso de presencia — comunidad activa (sin métricas inventadas) */}
+              <div className="flex items-center gap-3 mt-4">
+                <div className="flex -space-x-2">
+                  {["from-primary to-accent-light", "from-sky-500 to-blue-600", "from-blue-400 to-primary"].map((g, i) => (
+                    <span
+                      key={i}
+                      className={`w-7 h-7 rounded-full bg-gradient-to-br ${g} border-2 border-card`}
+                    />
+                  ))}
+                </div>
+                <span className="flex items-center gap-1.5 text-xs font-medium text-muted-foreground">
+                  <span className="relative flex h-2 w-2">
+                    <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75 animate-ping" />
+                    <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
+                  </span>
+                  Comunidad activa ahora
+                </span>
+              </div>
             </div>
             <div className="mt-8 lg:mt-0 shrink-0 w-full lg:w-auto">
               {/* PLACEHOLDER: reemplazar por el enlace real de invitación a la comunidad de WhatsApp */}
@@ -100,15 +123,15 @@ export default function ComunidadPage() {
           </motion.div>
 
           {/* Video Section */}
-          <div className="mt-24 text-left">
+          <div className="mt-12 sm:mt-16 text-left">
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/5 border border-primary/20 text-xs font-semibold text-primary mb-4">
               <Video className="w-3.5 h-3.5 text-accent-light" />
               Biblioteca de Workshops
             </div>
-            <h2 className="text-2xl md:text-3xl font-black tracking-tight mb-8">
+            <h2 className="text-2xl md:text-3xl font-black tracking-tight mb-5 sm:mb-7">
               Eventos y Masterclasses Pasadas
             </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 lg:gap-8">
               {videos.map((vid, idx) => (
                 <motion.div
                   key={vid.id}
@@ -116,7 +139,7 @@ export default function ComunidadPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  className="bg-card/40 border border-primary/20 hover:border-primary/45 rounded-3xl overflow-hidden shadow-lg backdrop-blur-sm flex flex-col justify-between transition-colors duration-300"
+                  className="group bg-card/40 border border-primary/20 hover:border-primary/45 rounded-3xl overflow-hidden shadow-lg backdrop-blur-sm flex flex-col justify-between transition-colors duration-300"
                 >
                   <div>
                     {/* Placeholder thumbnail */}
@@ -138,7 +161,8 @@ export default function ComunidadPage() {
                       <h3 className="font-bold text-base line-clamp-2 leading-snug text-foreground">
                         {vid.title}
                       </h3>
-                      <p className="text-muted-foreground text-xs leading-relaxed mt-3 font-light">
+                      {/* Descripción: oculta por defecto, se revela al hover de la tarjeta */}
+                      <p className="text-muted-foreground text-xs leading-relaxed font-light overflow-hidden max-h-0 opacity-0 group-hover:max-h-32 group-hover:opacity-100 group-hover:mt-3 transition-all duration-300">
                         {vid.desc}
                       </p>
                     </div>
@@ -178,7 +202,7 @@ export default function ComunidadPage() {
               >
                 <X className="w-5 h-5" />
               </button>
-              <div className="aspect-video w-full bg-slate-950 flex items-center justify-center">
+              <div className="aspect-video w-full bg-slate-950 flex items-center justify-center relative overflow-hidden group">
                 {activeVideo.videoUrl ? (
                   <iframe
                     src={activeVideo.videoUrl}
@@ -188,10 +212,48 @@ export default function ComunidadPage() {
                     allowFullScreen
                   />
                 ) : (
-                  <div className="text-center px-6">
-                    {/* PLACEHOLDER: insertar el embed real (YouTube/Vimeo) del evento en videoUrl */}
-                    <Play className="w-12 h-12 text-primary mx-auto mb-3" />
-                    <p className="text-sm text-muted-foreground">Video próximamente disponible</p>
+                  <div className="absolute inset-0 flex flex-col justify-between p-6">
+                    {/* Top Streaming Header */}
+                    <div className="flex justify-between items-center text-[10px] font-mono text-white/60">
+                      <span className="flex items-center gap-1">
+                        <span className="w-2 h-2 bg-emerald-500 rounded-full animate-ping" />
+                        AD MEDIA LIVE
+                      </span>
+                      <span>1080p HD</span>
+                    </div>
+
+                    {/* Center Equalizer & Title */}
+                    <div className="flex flex-col items-center justify-center gap-4 py-8">
+                      <motion.div
+                        animate={{ scale: [1, 1.1, 1], opacity: [0.8, 1, 0.8] }}
+                        transition={{ duration: 2, repeat: Infinity }}
+                        className="w-16 h-16 rounded-full bg-primary/20 border border-primary flex items-center justify-center text-primary shadow-2xl backdrop-blur-md cursor-pointer"
+                      >
+                        <Play className="w-7 h-7 fill-current ml-0.5" />
+                      </motion.div>
+                      <div className="text-center">
+                        <p className="text-sm font-bold text-white tracking-wide">{activeVideo.title}</p>
+                        <p className="text-xs text-muted-foreground mt-1">Conectando con el servidor de streaming...</p>
+                      </div>
+                    </div>
+
+                    {/* Bottom Custom Video Controls */}
+                    <div className="space-y-3">
+                      <div className="h-1 w-full bg-white/10 rounded-full overflow-hidden relative">
+                        <motion.div 
+                          animate={{ width: ["0%", "85%"] }}
+                          transition={{ duration: 15, ease: "linear", repeat: Infinity }}
+                          className="h-full bg-primary rounded-full" 
+                        />
+                      </div>
+                      <div className="flex justify-between items-center text-[10px] font-mono text-white/50">
+                        <div className="flex gap-4">
+                          <span>04:12 / {activeVideo.duration}</span>
+                          <span>Volumen: 80%</span>
+                        </div>
+                        <span>Subtítulos: ES</span>
+                      </div>
+                    </div>
                   </div>
                 )}
               </div>

@@ -93,7 +93,7 @@ const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
 
         // Variant styles — Blue Luxury Evolution
         const variants = {
-            primary: "bg-gradient-to-br from-[#0066FF] via-[#0044CC] to-[#020617] text-white shadow-[0_8px_30px_-5px_rgba(0,102,255,0.4)] hover:shadow-[0_15px_45px_-5px_rgba(0,102,255,0.6)] border border-white/10",
+            primary: "bg-[linear-gradient(135deg,var(--button-primary-from,#0066FF),var(--button-primary-mid,#0044CC),var(--button-primary-to,#020617))] text-white shadow-[0_8px_30px_-5px_rgba(0,102,255,0.4)] hover:shadow-[0_15px_45px_-5px_rgba(0,102,255,0.6)] border border-white/10",
             secondary: "bg-[#1e293b] text-[#f8fafc] border border-white/5 hover:bg-[#334155]",
             ghost: "hover:bg-white/5 text-muted-foreground hover:text-foreground",
             outline: "border border-white/20 bg-transparent hover:bg-white/5 hover:border-primary/30 hover:text-white",

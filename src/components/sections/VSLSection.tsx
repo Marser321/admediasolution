@@ -6,17 +6,18 @@ import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 import { Play, Volume2, VolumeX, ShieldCheck, Calendar, Activity, Loader2, Sparkles } from "lucide-react";
 import { Button } from "../ui/Button";
 import { useRouter } from "next/navigation";
+import { KineticContainer, KineticItem } from "@/components/animations/KineticEntrance";
 
 // ============================================================
-// Subtitles timed data matching CEO VSL Script
+// Subtitles timed data matching the diagnostic video script.
 // ============================================================
 const SUBTITLES = [
     { text: "Si tienes una empresa de trámites migratorios y quieres escalar tus ventas...", duration: 4000 },
     { text: "...hemos ayudado a muchas como la tuya y esto es lo que tienen que decir de nosotros.", duration: 4000 },
-    { text: "Y la manera en que lo hemos hecho te lo voy a enseñar en mi próxima Masterclass.", duration: 4000 },
+    { text: "Y la manera en que lo hemos hecho te la mostramos con nuestro sistema comercial.", duration: 4000 },
     { text: "Vas a aprender cómo traer clientes potenciales de calidad, cerrar más ventas...", duration: 4000 },
     { text: "...y entregar tus procesos de forma automática y todo con un CRM de trámites migratorios.", duration: 4500 },
-    { text: "Haz clic en el botón de abajo y reserva tu lugar, los cupos son limitados, nos vemos dentro.", duration: 4500 }
+    { text: "Haz clic en el botón de abajo y agenda una cita para revisar tu operación.", duration: 4500 }
 ];
 
 export default function VSLSection() {
@@ -100,7 +101,7 @@ export default function VSLSection() {
         <section
             ref={sectionRef}
             id="vsl-masterclass"
-            className="relative py-14 sm:py-32 px-5 sm:px-6 bg-background overflow-hidden"
+            className="relative py-10 sm:py-20 lg:py-24 px-5 sm:px-6 bg-background overflow-hidden"
         >
             {/* Background Grid Pattern */}
             <div className="absolute inset-0 z-0 pointer-events-none">
@@ -111,69 +112,71 @@ export default function VSLSection() {
             {/* Divisor superior */}
             <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
 
-            <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 lg:gap-20 items-center">
+            <div className="relative z-10 max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-10 lg:gap-16 items-center">
                 
                 {/* Left Column: CTA & Copywriting */}
                 <div className="lg:col-span-6 flex flex-col justify-center text-center lg:text-left">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.8, ease: "easeOut" }}
-                        className="space-y-8"
-                    >
+                    <KineticContainer className="space-y-6 sm:space-y-8">
                         {/* Status Badge */}
-                        <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-primary/5 border border-primary/20 backdrop-blur-md mx-auto lg:mx-0 w-fit">
-                            <span className="relative flex h-2 w-2">
-                                <span className="absolute inline-flex h-full w-full rounded-full bg-primary opacity-35"></span>
-                                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-                            </span>
-                            <span className="text-[10px] sm:text-[11px] font-bold font-mono text-primary uppercase tracking-[0.2em]">
-                                Masterclass Exclusiva
-                            </span>
-                        </div>
+                        <KineticItem type="subtitle-top">
+                            <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-primary/5 border border-primary/20 backdrop-blur-md mx-auto lg:mx-0 w-fit">
+                                <span className="relative flex h-2 w-2">
+                                    <span className="absolute inline-flex h-full w-full rounded-full bg-primary opacity-35"></span>
+                                    <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+                                </span>
+                                <span className="text-[10px] sm:text-[11px] font-bold font-mono text-primary uppercase tracking-[0.2em]">
+                                    Diagnóstico comercial
+                                </span>
+                            </div>
+                        </KineticItem>
 
                         {/* Title */}
-                        <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display-heavy leading-[1.1] text-foreground tracking-tight">
-                            Cómo traer clientes de calidad y escalar tu negocio de <span className="text-primary italic">trámites migratorios</span>
-                        </h2>
+                        <KineticItem type="title-right">
+                            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display-heavy leading-[1.1] text-foreground tracking-tight">
+                                Cómo ordenar ventas, seguimiento y clientes para escalar tu <span className="text-primary italic">negocio</span>
+                            </h2>
+                        </KineticItem>
 
                         {/* Description */}
-                        <p className="text-base sm:text-lg text-muted-foreground font-light leading-relaxed max-w-xl mx-auto lg:mx-0">
-                            Te enseñamos la arquitectura de embudo y el CRM de trámites migratorios exacto que utilizamos para automatizar el seguimiento, cerrar más ventas y eliminar el caos operativo de tu negocio.
-                        </p>
+                        <KineticItem type="body-bottom">
+                            <p className="text-base sm:text-lg text-muted-foreground font-light leading-relaxed max-w-xl mx-auto lg:mx-0">
+                                Te mostramos la arquitectura de embudo, CRM y seguimiento que usamos para automatizar procesos, cerrar más ventas y reducir el caos operativo.
+                            </p>
+                        </KineticItem>
 
-                        {/* Masterclass CTA Button */}
-                        <div className="flex flex-col sm:flex-row items-center gap-6 justify-center lg:justify-start pt-2">
-                            <Button
-                                variant="primary"
-                                size="lg"
-                                glow
-                                aurora={false}
-                                shimmer={false}
-                                pulse={false}
-                                onClick={() => router.push("/planificacion")}
-                                className="group w-full sm:w-auto px-10 h-16 sm:h-18"
-                            >
-                                <span className="flex items-center justify-center gap-3 font-bold tracking-wide">
-                                    RESERVAR MI LUGAR GRATIS
-                                    <Calendar className="size-5 text-primary-foreground group-hover:scale-110 transition-transform" />
-                                </span>
-                            </Button>
-                        </div>
+                        {/* Diagnostic CTA Button */}
+                        <KineticItem type="btn-left" className="space-y-6">
+                            <div className="flex flex-col sm:flex-row items-center gap-6 justify-center lg:justify-start pt-2">
+                                <Button
+                                    variant="primary"
+                                    size="lg"
+                                    glow
+                                    aurora={false}
+                                    shimmer={false}
+                                    pulse={false}
+                                    onClick={() => router.push("/planificacion")}
+                                    className="group w-full sm:w-auto px-10 h-16 sm:h-18"
+                                >
+                                    <span className="flex items-center justify-center gap-3 font-bold tracking-wide">
+                                        AGENDAR DIAGNÓSTICO GRATIS
+                                        <Calendar className="size-5 text-primary-foreground group-hover:scale-110 transition-transform" />
+                                    </span>
+                                </Button>
+                            </div>
 
-                        {/* Bullet Metrics */}
-                        <div className="grid grid-cols-2 gap-4 max-w-sm pt-6 border-t border-border/60 mx-auto lg:mx-0">
-                            <div className="flex items-center gap-2.5 text-xs text-muted-foreground font-medium">
-                                <ShieldCheck className="size-4.5 text-primary" />
-                                <span>Cupos limitados</span>
+                            {/* Bullet Metrics */}
+                            <div className="grid grid-cols-2 gap-4 max-w-sm pt-6 border-t border-border/60 mx-auto lg:mx-0">
+                                <div className="flex items-center gap-2.5 text-xs text-muted-foreground font-medium">
+                                    <ShieldCheck className="size-4.5 text-primary" />
+                                    <span>Revisión personalizada</span>
+                                </div>
+                                <div className="flex items-center gap-2.5 text-xs text-muted-foreground font-medium">
+                                    <Sparkles className="size-4.5 text-accent-light" />
+                                    <span>Cita 100% gratuita</span>
+                                </div>
                             </div>
-                            <div className="flex items-center gap-2.5 text-xs text-muted-foreground font-medium">
-                                <Sparkles className="size-4.5 text-accent-light" />
-                                <span>Acceso 100% gratuito</span>
-                            </div>
-                        </div>
-                    </motion.div>
+                        </KineticItem>
+                    </KineticContainer>
                 </div>
 
                 {/* Right Column: High Fidelity Cinematic VSL Video Player Mockup */}
@@ -193,7 +196,7 @@ export default function VSLSection() {
                             {/* Inner abstract branding layout simulating video source */}
                             {!isPlaying && !isBuffering && (
                                 <div className="absolute inset-0 flex flex-col items-center justify-center text-center p-6 bg-slate-950/20 backdrop-blur-[1px]">
-                                    <div className="relative w-[140px] h-[39px] opacity-25 group-hover:opacity-40 transition-opacity duration-500">
+                                    <div className="relative w-[140px] h-[39px] opacity-45 group-hover:opacity-70 transition-opacity duration-500">
                                         <Image
                                             src="/brand/logo-full-white.png" 
                                             alt="AD Media Logo Background" 
@@ -202,7 +205,7 @@ export default function VSLSection() {
                                             className="object-contain brightness-0 invert"
                                         />
                                     </div>
-                                    <p className="text-[10px] font-mono text-primary/40 uppercase tracking-[0.25em] mt-4">
+                                    <p className="text-[10px] font-mono text-primary/70 uppercase tracking-[0.25em] mt-4">
                                         ADM-STREAM-SOURCE_01
                                     </p>
                                 </div>
@@ -213,7 +216,7 @@ export default function VSLSection() {
                         <div className="absolute top-4 inset-x-0 flex justify-between px-6 z-30 text-[9px] font-mono text-white/70 pointer-events-none">
                             <span className="flex items-center gap-1.5 bg-slate-950/65 border border-white/5 px-2.5 py-1 rounded-md backdrop-blur-sm">
                                 <Activity className="size-3 text-primary" />
-                                ADM-VSL-LIVE
+                                ADM-SYSTEM-LIVE
                             </span>
                             <span className="flex items-center gap-1.5 bg-slate-950/65 border border-white/5 px-2.5 py-1 rounded-md backdrop-blur-sm">
                                 <span className="w-1.5 h-1.5 rounded-full bg-red-500" />
@@ -242,7 +245,7 @@ export default function VSLSection() {
                         {/* Central Glowing Play Button */}
                         {!isPlaying && !isBuffering && (
                             <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none">
-                                <div className="w-18 h-18 rounded-full bg-primary/45 border border-primary/60 flex items-center justify-center text-white shadow-2xl backdrop-blur-md group-hover:scale-110 group-hover:bg-primary/60 group-hover:border-primary/80 transition-all duration-300 pointer-events-auto">
+                                <div className="w-18 h-18 rounded-full bg-primary/70 border border-primary/80 flex items-center justify-center text-white shadow-2xl shadow-primary/30 backdrop-blur-md group-hover:scale-110 group-hover:bg-primary/85 group-hover:border-primary/90 transition-all duration-300 pointer-events-auto">
                                     <Play className="w-8 h-8 fill-current ml-1" />
                                 </div>
                             </div>
@@ -259,7 +262,7 @@ export default function VSLSection() {
                                     animate={{ opacity: 1, y: 0 }}
                                     exit={{ opacity: 0, y: 15 }}
                                     transition={{ duration: 0.4 }}
-                                    className="absolute bottom-16 inset-x-6 z-30 text-center px-4 py-3 bg-slate-950/75 border border-white/5 backdrop-blur-md rounded-2xl pointer-events-none"
+                                    className="absolute bottom-16 inset-x-6 z-30 text-center px-4 py-3 bg-slate-950/55 border border-white/5 backdrop-blur-md rounded-2xl pointer-events-none"
                                 >
                                     <p className="text-white text-xs sm:text-sm font-semibold tracking-wide leading-relaxed drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
                                         &ldquo;{SUBTITLES[subtitleIndex].text}&rdquo;

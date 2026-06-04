@@ -6,8 +6,9 @@ import FooterContact from "@/components/sections/FooterContact";
 import IslandBar from "@/components/layout/IslandBar";
 import { Award, Target, Landmark, ShieldCheck, ArrowRight, Sparkles } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
-import { motion, useScroll, useTransform, Variants, MotionValue, useMotionValueEvent } from "framer-motion";
+import { motion, useScroll, useTransform, Variants, MotionValue, useMotionValueEvent, useMotionValue, useSpring } from "framer-motion";
 import Image from "next/image";
+import GrowthSchematic from "@/components/ui/GrowthSchematic";
 
 // ============================================================
 // Types & Structures
@@ -33,6 +34,24 @@ export default function AboutUsPage() {
   const { scrollYProgress } = useScroll({
     target: targetRef,
   });
+
+  const mouseX = useMotionValue(0);
+  const mouseY = useMotionValue(0);
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
+    const { clientX, clientY } = e;
+    const w = typeof window !== "undefined" ? window.innerWidth : 1920;
+    const h = typeof window !== "undefined" ? window.innerHeight : 1080;
+    mouseX.set(clientX - w / 2);
+    mouseY.set(clientY - h / 2);
+  };
+
+  const smoothX = useSpring(mouseX, { stiffness: 45, damping: 22 });
+  const smoothY = useSpring(mouseY, { stiffness: 45, damping: 22 });
+
+  // Parallax displacements for background depth
+  const schematicTiltX = useTransform(smoothX, [-960, 960], [-25, 25]);
+  const schematicTiltY = useTransform(smoothY, [-540, 540], [-25, 25]);
 
   // Monitor scrollYProgress to update the active slide index dynamically
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
@@ -95,7 +114,7 @@ export default function AboutUsPage() {
     {
       year: "2027+",
       title: "Futuro e Integración Exponencial",
-      description: "No se trata solo de hasta dónde hemos llegado, sino de lo que haremos de aquí en adelante. El conocimiento adquirido nos permite multiplicar por mil las herramientas comerciales cada día. En el próximo año, nuestro crecimiento e integración de tecnologías de vanguardia superará todo lo logrado en la última década. Sumamos nuevos profesionales y testeamos de forma pionera las tecnologías del mañana para abrir nuevos campos de posibilidades y valor absoluto.",
+      description: "Lo mejor está por venir. Sumamos nuevos profesionales y tecnologías de vanguardia para multiplicar cada año lo logrado en la última década.",
       officeTitle: "Futuro & Expansión",
       officeDesc: "Nuevas integraciones, IA y desarrollo de valor.",
       imageUrl: "/about-us/future_expansion_2027.png",
@@ -135,7 +154,10 @@ export default function AboutUsPage() {
   };
 
   return (
-    <main className="bg-background min-h-screen relative text-foreground">
+    <main 
+      onMouseMove={handleMouseMove}
+      className="bg-background min-h-screen relative text-foreground"
+    >
       <Navbar />
 
       {/* Vertical Timeline Track Container (Scrollable height = 500vh) */}
@@ -144,6 +166,17 @@ export default function AboutUsPage() {
         {/* Sticky Window Container (Fixed viewport h-screen) */}
         <div className="sticky top-0 h-screen w-screen overflow-hidden flex items-center bg-background z-10">
           
+          {/* Background Growth Schematic Map — Cursor Parallax Depth */}
+          <motion.div
+            style={{
+              x: schematicTiltX,
+              y: schematicTiltY,
+            }}
+            className="absolute inset-0 pointer-events-none transform-gpu z-0"
+          >
+            <GrowthSchematic scrollYProgress={scrollYProgress} activeIndex={activeIndex} />
+          </motion.div>
+
           {/* Vertical Slides Track */}
           <motion.div style={{ y }} className="flex flex-col h-full w-full">
             
@@ -161,16 +194,16 @@ export default function AboutUsPage() {
                 <span className="text-primary text-xs sm:text-sm font-bold tracking-wider uppercase px-4 py-2 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md">
                   AD Media Trayectoria
                 </span>
-                <h1 className="text-4xl sm:text-6xl lg:text-8xl font-black mt-8 tracking-tight leading-none text-foreground">
+                <h1 className="text-3xl xs:text-4xl sm:text-6xl lg:text-8xl font-black mt-5 sm:mt-7 tracking-tight leading-tight sm:leading-none text-foreground">
                   10 Años de Evolución e <br />
-                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent-light">
+                  <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent-light pl-1 pr-2 box-decoration-clone">
                     Impacto Comercial
                   </span>
                 </h1>
-                <p className="text-muted-foreground text-sm sm:text-lg lg:text-xl max-w-2xl mx-auto mt-6 leading-relaxed font-light">
+                <p className="text-muted-foreground text-sm sm:text-lg lg:text-xl max-w-2xl mx-auto mt-4 sm:mt-5 leading-relaxed font-light">
                   Desde que Danger empezó solo hace 10 años hasta hoy: le damos dirección de marketing y ventas a empresas que quieren facturar más.
                 </p>
-                <div className="mt-12 flex justify-center items-center gap-2.5 text-primary font-bold animate-pulse text-xs sm:text-sm">
+                <div className="mt-8 sm:mt-10 flex justify-center items-center gap-2.5 text-primary font-bold animate-pulse text-xs sm:text-sm">
                   <span>Desliza hacia abajo para comenzar</span>
                   <ArrowRight className="w-4 h-4 rotate-90" />
                 </div>
@@ -301,7 +334,7 @@ function MilestoneSlide({
       variants={cardVariants}
       initial="hidden"
       animate={isActive ? "visible" : "hidden"}
-      className="w-screen h-screen flex-shrink-0 flex flex-col lg:flex-row items-center justify-center p-6 sm:p-12 lg:p-24 relative overflow-hidden bg-background"
+      className="w-screen h-screen flex-shrink-0 flex flex-col lg:flex-row items-center justify-center p-5 sm:p-10 lg:p-20 relative overflow-hidden bg-transparent"
     >
       {/* Ambient background glow */}
       <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
@@ -314,21 +347,21 @@ function MilestoneSlide({
       }`}>
         <motion.span
           variants={textVariants}
-          className="text-6xl sm:text-7xl lg:text-9xl font-mono font-black bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/80 to-accent-light tracking-tighter leading-none select-none block mb-2 filter drop-shadow-[0_0_15px_rgba(72,142,255,0.35)]"
+          className="text-5xl sm:text-7xl lg:text-9xl font-mono font-black bg-clip-text text-transparent bg-gradient-to-r from-primary via-primary/80 to-accent-light tracking-tighter leading-none select-none block mb-2 filter drop-shadow-[0_0_15px_rgba(72,142,255,0.35)]"
         >
           {item.year}
         </motion.span>
         
         <motion.h2
           variants={textVariants}
-          className="text-2xl sm:text-4xl lg:text-5xl font-display-heavy mt-2 text-foreground leading-tight"
+          className="text-xl sm:text-4xl lg:text-5xl font-display-heavy mt-2 text-foreground leading-tight"
         >
           {item.title}
         </motion.h2>
 
         <motion.p
           variants={textVariants}
-          className="text-muted-foreground text-xs sm:text-sm lg:text-base mt-4 sm:mt-6 leading-relaxed max-w-xl font-light"
+          className="text-muted-foreground text-xs sm:text-sm lg:text-base mt-3 sm:mt-5 leading-relaxed max-w-xl font-light"
         >
           {item.description}
         </motion.p>
@@ -336,7 +369,7 @@ function MilestoneSlide({
         {/* Small location details badge */}
         <motion.div 
           variants={textVariants}
-          className="mt-6 flex items-center gap-3 px-4 py-2 rounded-xl bg-card border border-primary/20 w-fit backdrop-blur-sm shadow-md"
+          className="mt-4 sm:mt-5 flex items-center gap-3 px-4 py-2 rounded-xl bg-card border border-primary/20 w-fit backdrop-blur-sm shadow-md"
         >
           <div className="p-2 rounded-lg bg-primary/10 border border-primary/20 text-primary">
             <Icon className="w-4 h-4 sm:w-5 h-5" />
@@ -355,7 +388,7 @@ function MilestoneSlide({
       {/* Visual Showcase Column (Full-Screen Aspect Card) */}
       <motion.div
         variants={photoVariants}
-        className={`w-full lg:w-[45vw] h-[25vh] sm:h-[35vh] lg:h-[60vh] flex-shrink-0 rounded-3xl border border-primary/15 bg-card/30 backdrop-blur-md overflow-hidden relative shadow-2xl flex items-center justify-center mt-6 lg:mt-0 group ${
+        className={`w-full lg:w-[45vw] h-[23vh] sm:h-[34vh] lg:h-[58vh] flex-shrink-0 rounded-3xl border border-primary/15 bg-card/30 backdrop-blur-md overflow-hidden relative shadow-2xl flex items-center justify-center mt-5 lg:mt-0 group ${
           idx % 2 === 0 
             ? "lg:order-2" 
             : "lg:order-1"

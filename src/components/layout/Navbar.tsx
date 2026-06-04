@@ -4,8 +4,8 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from "framer-motion";
-import { Calendar, Menu, X } from "lucide-react";
-import { useRouter } from "next/navigation";
+import { Calendar, Menu, X, ChevronDown } from "lucide-react";
+import { useRouter, usePathname } from "next/navigation";
 import { Button } from "../ui/Button";
 
 // ============================================================
@@ -14,8 +14,10 @@ import { Button } from "../ui/Button";
 export default function Navbar() {
     const [scrolled, setScrolled] = useState(false);
     const [isOpen, setIsOpen] = useState(false);
+    const [servicesExpanded, setServicesExpanded] = useState(false);
     const { scrollY } = useScroll();
     const router = useRouter();
+    const pathname = usePathname();
 
     useMotionValueEvent(scrollY, "change", (latest) => {
         const nextScrolled = latest > 50;
@@ -23,10 +25,27 @@ export default function Navbar() {
         if (nextScrolled) setIsOpen(false);
     });
 
+    const isActiveLink = (href: string) => {
+        if (href === "/") {
+            return pathname === "/";
+        }
+        return pathname?.startsWith(href);
+    };
+
     const navLinks = [
         { name: "Inicio", href: "/" },
         { name: "Sobre Nosotros", href: "/about-us" },
-        { name: "Servicios", href: "/servicios" },
+        {
+            name: "Servicios",
+            href: "/servicios",
+            isDropdown: true,
+            subLinks: [
+                { name: "CRM & Automatización", href: "/servicios?tab=crm" },
+                { name: "Meta & Google Ads", href: "/servicios?tab=marketing-ads" },
+                { name: "Redes Sociales", href: "/servicios?tab=social-media" },
+                { name: "Desarrollo Web", href: "/servicios?tab=web-development" },
+            ]
+        },
         { name: "Comunidad", href: "/comunidad" },
         { name: "Casos", href: "/casos" },
         { name: "Equipo", href: "/equipo" },
@@ -82,17 +101,52 @@ export default function Navbar() {
                     </Link>
 
                     {/* Navegación central (oculta en mobile) */}
-                    <div className="hidden lg:flex items-center gap-2 xl:gap-4 flex-wrap justify-center max-w-[55%]">
-                        {navLinks.map((item) => (
-                            <Link
-                                key={item.name}
-                                href={item.href}
-                                className="text-[10px] xl:text-[11px] font-semibold text-muted-foreground hover:text-foreground transition-all duration-300 relative group tracking-wider uppercase whitespace-nowrap"
-                            >
-                                {item.name}
-                                <span className="absolute -bottom-1 left-1/2 w-0 h-0.5 bg-primary group-hover:w-full group-hover:left-0 transition-all duration-500 ease-out" />
-                            </Link>
-                        ))}
+                    <div className="hidden lg:flex items-center gap-2 xl:gap-4 flex-wrap justify-center max-w-[75%]">
+                        {navLinks.map((item) => {
+                            const active = isActiveLink(item.href);
+                            if (item.isDropdown && item.subLinks) {
+                                return (
+                                    <div key={item.name} className="relative group/dropdown py-2">
+                                        <Link
+                                            href={item.href}
+                                            className={`text-[10px] xl:text-[11px] font-semibold flex items-center gap-1 transition-all duration-300 relative group tracking-wider uppercase whitespace-nowrap ${
+                                                active ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                                            }`}
+                                        >
+                                            {item.name}
+                                            <ChevronDown className="size-3 transition-transform duration-300 group-hover/dropdown:rotate-180" />
+                                            <span className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-500 ease-out ${active ? "w-full" : "w-0 group-hover:w-full group-hover:left-0"}`} />
+                                        </Link>
+                                        <div className="absolute top-full left-1/2 -translate-x-1/2 pt-2 w-64 opacity-0 translate-y-2 pointer-events-none group-hover/dropdown:opacity-100 group-hover/dropdown:translate-y-0 group-hover/dropdown:pointer-events-auto transition-all duration-300 ease-out z-50">
+                                            <div className="glass-premium backdrop-blur-md bg-background/95 border border-primary/20 rounded-2xl p-2.5 shadow-2xl">
+                                                {item.subLinks.map((sub) => (
+                                                    <Link
+                                                        key={sub.name}
+                                                        href={sub.href}
+                                                        className="block px-4 py-3 text-[10px] xl:text-[11px] font-semibold text-muted-foreground hover:text-primary rounded-xl hover:bg-primary/10 transition-all duration-200 uppercase tracking-wider"
+                                                    >
+                                                        {sub.name}
+                                                    </Link>
+                                                ))}
+                                            </div>
+                                        </div>
+                                    </div>
+                                );
+                            }
+
+                            return (
+                                <Link
+                                    key={item.name}
+                                    href={item.href}
+                                    className={`text-[10px] xl:text-[11px] font-semibold transition-all duration-300 relative group tracking-wider uppercase whitespace-nowrap py-2 ${
+                                        active ? "text-primary" : "text-muted-foreground hover:text-foreground"
+                                    }`}
+                                >
+                                    {item.name}
+                                    <span className={`absolute -bottom-1 left-0 h-0.5 bg-primary transition-all duration-500 ease-out ${active ? "w-full" : "w-0 group-hover:w-full group-hover:left-0"}`} />
+                                </Link>
+                            );
+                        })}
                     </div>
 
                     {/* Right Side: CTA + Mobile Toggle */}
@@ -132,22 +186,76 @@ export default function Navbar() {
                         className="fixed inset-0 z-[55] bg-background/95 lg:hidden pt-24 px-5 flex flex-col gap-6"
                     >
                         <div className="flex flex-col gap-3 overflow-y-auto max-h-[70vh] py-2">
-                            {navLinks.map((item, i) => (
-                                <motion.div
-                                    key={item.name}
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: i * 0.05 }}
-                                >
-                                    <Link
-                                        href={item.href}
-                                        onClick={() => setIsOpen(false)}
-                                        className="text-lg font-display-heavy text-foreground/90 hover:text-primary transition-colors tracking-tight block py-1"
+                            {navLinks.map((item, i) => {
+                                const active = isActiveLink(item.href);
+                                if (item.isDropdown && item.subLinks) {
+                                    return (
+                                        <motion.div
+                                            key={item.name}
+                                            initial={{ opacity: 0, x: -20 }}
+                                            animate={{ opacity: 1, x: 0 }}
+                                            transition={{ delay: i * 0.05 }}
+                                            className="flex flex-col"
+                                        >
+                                            <div className="flex items-center justify-between py-1">
+                                                <Link
+                                                    href={item.href}
+                                                    onClick={() => setIsOpen(false)}
+                                                    className={`text-lg font-display-heavy tracking-tight ${active ? "text-primary" : "text-foreground/90 hover:text-primary"}`}
+                                                >
+                                                    {item.name}
+                                                </Link>
+                                                <button
+                                                    onClick={() => setServicesExpanded(!servicesExpanded)}
+                                                    className="p-2 text-foreground/70 hover:text-primary"
+                                                    aria-label="Expand services"
+                                                >
+                                                    <ChevronDown className={`size-5 transition-transform duration-300 ${servicesExpanded ? "rotate-180" : ""}`} />
+                                                </button>
+                                            </div>
+                                            <AnimatePresence initial={false}>
+                                                {servicesExpanded && (
+                                                    <motion.div
+                                                        initial={{ height: 0, opacity: 0 }}
+                                                        animate={{ height: "auto", opacity: 1 }}
+                                                        exit={{ height: 0, opacity: 0 }}
+                                                        transition={{ duration: 0.3 }}
+                                                        className="overflow-hidden pl-4 flex flex-col gap-2 border-l border-primary/20 mt-1"
+                                                    >
+                                                        {item.subLinks.map((sub) => (
+                                                            <Link
+                                                                key={sub.name}
+                                                                href={sub.href}
+                                                                onClick={() => setIsOpen(false)}
+                                                                className="text-sm font-semibold text-muted-foreground hover:text-primary py-1.5 block"
+                                                            >
+                                                                {sub.name}
+                                                            </Link>
+                                                        ))}
+                                                    </motion.div>
+                                                )}
+                                            </AnimatePresence>
+                                        </motion.div>
+                                    );
+                                }
+
+                                return (
+                                    <motion.div
+                                        key={item.name}
+                                        initial={{ opacity: 0, x: -20 }}
+                                        animate={{ opacity: 1, x: 0 }}
+                                        transition={{ delay: i * 0.05 }}
                                     >
-                                        {item.name}
-                                    </Link>
-                                </motion.div>
-                            ))}
+                                        <Link
+                                            href={item.href}
+                                            onClick={() => setIsOpen(false)}
+                                            className={`text-lg font-display-heavy tracking-tight block py-1 ${active ? "text-primary" : "text-foreground/90 hover:text-primary"}`}
+                                        >
+                                            {item.name}
+                                        </Link>
+                                    </motion.div>
+                                );
+                            })}
                         </div>
                         
                         <div className="h-px w-full bg-primary/10 my-4" />

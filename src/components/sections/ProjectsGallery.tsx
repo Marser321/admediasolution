@@ -17,6 +17,7 @@ import Image from "next/image";
 import { AuroraBackground } from "../ui/AuroraBackground";
 import { Button } from "../ui/Button";
 import { useRouter } from "next/navigation";
+import { KineticContainer, KineticItem } from "@/components/animations/KineticEntrance";
 
 // ============================================================
 // PLACEHOLDER: casos de ejemplo on-brand. Reemplazar con casos reales
@@ -134,10 +135,10 @@ function ProjectCard({
             }}
             className={`group relative overflow-hidden rounded-2xl cursor-pointer will-change-transform
                 ${project.size === "large"
-                    ? "md:col-span-2 md:row-span-2 min-h-[320px] md:min-h-[420px]"
-                    : "min-h-[280px] md:min-h-[320px]"
+                    ? "lg:col-span-2 lg:row-span-2 min-h-[320px] lg:min-h-[420px]"
+                    : "min-h-[280px] lg:min-h-[320px]"
                 }
-                min-w-[300px] md:min-w-0 snap-center
+                min-w-[300px] lg:min-w-0 snap-center
             `}
         >
             {/* Fondo con gradiente dinámico — Internal parallax */}
@@ -192,7 +193,7 @@ function ProjectCard({
                                 repeat: Infinity,
                                 repeatDelay: 2,
                             }}
-                            className={`p-6 rounded-3xl bg-gradient-to-br ${project.gradient} shadow-2xl opacity-20 group-hover:opacity-40 transition-opacity duration-700`}
+                            className={`p-6 rounded-3xl bg-gradient-to-br ${project.gradient} shadow-2xl opacity-35 group-hover:opacity-60 transition-opacity duration-700`}
                         >
                             <Icon className="size-16 text-primary" />
                         </motion.div>
@@ -270,7 +271,7 @@ export default function ProjectsGallery() {
         <section
             ref={sectionRef}
             id="portafolio"
-            className="relative py-14 sm:py-32 px-5 sm:px-6 overflow-hidden bg-background"
+            className="relative py-10 sm:py-20 lg:py-24 px-5 sm:px-6 overflow-hidden bg-background"
         >
             {/* Iconos flotantes — Creativos (solo desktop: legibilidad + rendimiento) */}
             <FloatingIcons type="creative" className="z-0 hidden md:block opacity-[var(--floating-icon-opacity)]" />
@@ -285,56 +286,44 @@ export default function ProjectsGallery() {
                 {/* Header de la sección — Parallax slide-up */}
                 <motion.div
                     style={{ y: headerY, opacity: headerOpacity }}
-                    className="text-center mb-10 sm:mb-20"
+                    className="text-center mb-10 sm:mb-14 lg:mb-16"
                 >
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6 }}
-                        className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent-blue/5 border border-accent-blue/10 text-[11px] font-semibold tracking-[0.2em] uppercase text-accent-blue mb-6"
-                    >
-                        <Image
-                            src="/brand/logo-icon.png"
-                            alt="Ad Media Solution"
-                            width={16}
-                            height={16}
-                            className="size-4 object-contain"
-                        />
-                        Casos reales
-                    </motion.div>
+                    <KineticContainer className="space-y-4">
+                        <KineticItem type="subtitle-top">
+                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-accent-blue/5 border border-accent-blue/10 text-[11px] font-semibold tracking-[0.2em] uppercase text-accent-blue mb-6 mx-auto w-fit">
+                                <Image
+                                    src="/brand/logo-icon.png"
+                                    alt="Ad Media Solution"
+                                    width={16}
+                                    height={16}
+                                    className="size-4 object-contain mr-2 inline"
+                                />
+                                Casos reales
+                            </div>
+                        </KineticItem>
 
-                    <motion.h2
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{
-                            duration: 0.7,
-                            delay: 0.1,
-                            ease: [0.22, 1, 0.36, 1],
-                        }}
-                        className="font-display-heavy text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6"
-                    >
-                        <span className="text-text-primary">Negocios que </span>
-                        <span className="bg-gradient-to-r from-accent-blue via-accent-light to-foreground bg-clip-text text-transparent italic">
-                            confían en nosotros
-                        </span>
-                    </motion.h2>
+                        <KineticItem type="title-right">
+                            <h2 className="font-display-heavy text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight mb-6">
+                                <span className="text-text-primary">Negocios que </span>
+                                <span className="bg-gradient-to-r from-accent-blue via-accent-light to-foreground bg-clip-text text-transparent italic pl-1 pr-2 box-decoration-clone">
+                                    confían en nosotros
+                                </span>
+                            </h2>
+                        </KineticItem>
 
-                    <motion.p
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.6, delay: 0.2 }}
-                        className="text-base sm:text-lg text-text-muted max-w-2xl mx-auto leading-relaxed"
-                        style={{ fontFamily: "var(--font-display-light)" }}
-                    >
-                        Casos reales de empresas a las que les dimos dirección de marketing, CRM y soporte.
-                    </motion.p>
+                        <KineticItem type="body-bottom">
+                            <p
+                                className="text-base sm:text-lg text-text-muted max-w-2xl mx-auto leading-relaxed"
+                                style={{ fontFamily: "var(--font-display-light)" }}
+                            >
+                                Casos reales de empresas a las que les dimos dirección de marketing, CRM y soporte.
+                            </p>
+                        </KineticItem>
+                    </KineticContainer>
                 </motion.div>
 
                 {/* Bento Grid Desktop — Diagonal cascade reveal */}
-                <div className="hidden md:grid md:grid-cols-4 md:grid-rows-3 gap-4 lg:gap-5">
+                <div className="hidden lg:grid lg:grid-cols-4 lg:grid-rows-3 gap-5">
                     {/* Card 0 — Grande (2x2) — Enters first */}
                     <div className="col-span-2 row-span-2">
                         <ProjectCard project={PROJECTS[0]} index={0} revealIndex={0} sectionProgress={scrollYProgress} />
@@ -392,7 +381,7 @@ export default function ProjectsGallery() {
                 </div>
 
                 {/* Carrusel Mobile (snap-scroll horizontal) */}
-                <div className="md:hidden">
+                <div className="lg:hidden">
                     <div className="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-4 -mx-5 px-5 scroll-px-5 pb-4">
                         {PROJECTS.map((project, index) => (
                             <ProjectCard

@@ -5,9 +5,10 @@ import Navbar from "@/components/layout/Navbar";
 import FooterContact from "@/components/sections/FooterContact";
 import IslandBar from "@/components/layout/IslandBar";
 import Image from "next/image";
-import { Camera, Code, UserCheck, Briefcase, ArrowRight, ExternalLink, Cpu, LucideIcon } from "lucide-react";
+import { ArrowRight, Briefcase, Camera, Code, Cpu, ExternalLink, Film, LucideIcon, Megaphone, Palette, UserCheck } from "lucide-react";
 import { motion, useScroll, useTransform, useReducedMotion, MotionValue } from "framer-motion";
 import { useIsDesktop } from "@/lib/useMediaQuery";
+import PresenceField from "@/components/backgrounds/PresenceField";
 
 interface ProjectLink {
   name: string;
@@ -25,113 +26,137 @@ interface Member {
   projects: ProjectLink[];
 }
 
-// PLACEHOLDER: fotos (photoUrl) y los perfiles de refuerzo son marcadores.
-// Reemplazar con fotos y datos reales. Departamentos: Dirección, Marketing, Comercial, Desarrollo, Producción.
 const team: Member[] = [
   {
     name: "Danger Fernández",
-    role: "CEO & Founder",
+    role: "CEO & Fundador",
     dept: "Dirección",
-    bio: "Fundador y estratega jefe de AD Media. Especialista en consultoría estratégica comercial, automatización de sistemas de venta y optimización de pauta para negocios con facturación de alto ticket.",
-    photoUrl: "/brand/logo-crm.png",
+    bio: "Lidera la visión comercial de AD Media Solution y conecta estrategia, pauta, CRM y ventas para que cada proyecto tenga una dirección clara. Su foco está en ordenar la operación, priorizar decisiones y convertir el marketing en un sistema de crecimiento medible.",
+    photoUrl: "/team/ceo.png",
     icon: UserCheck,
-    specialties: ["Dirección Estratégica", "Consultoría Comercial VIP", "Ingeniería de Ingresos"],
+    specialties: ["Dirección Estratégica", "Estructura Comercial", "Arquitectura de Crecimiento"],
     projects: [
-      { name: "Caso EcomScale ($80K)", url: "/danger" },
-      { name: "Estructura HealthFit", url: "/danger" }
+      { name: "Perfil de Dirección", url: "/danger" },
+      { name: "Consulta Estratégica", url: "/planificacion" }
     ]
   },
   {
-    name: "Ariel Oliva",
-    role: "CRM Director & Specialist",
-    dept: "CRM",
-    bio: "Director y especialista del área de CRM. Experto en el diseño de arquitecturas conversacionales avanzadas, automatización de ventas mediante GoHighLevel e integración de inteligencia artificial y automatizaciones.",
-    photoUrl: "/brand/logo-crm.png",
-    icon: Cpu,
-    specialties: ["Dirección de CRM", "Automatizaciones de Ventas", "Inteligencia Artificial"],
+    name: "Paola",
+    role: "Directora del Departamento ADS y Marketing",
+    dept: "Marketing",
+    bio: "Coordina la estrategia de pauta y marketing para transformar objetivos comerciales en campañas accionables. Su rol une criterio de segmentación, lectura de embudo y seguimiento del rendimiento para sostener decisiones publicitarias con foco operativo.",
+    photoUrl: "/team/equipo-2026/paola-directora-ads-marketing.jpeg",
+    icon: Megaphone,
+    specialties: ["Dirección de Marketing", "Estrategia ADS", "Optimización de Embudo"],
     projects: [
-      { name: "Flujos de WhatsApp GHL", url: "/servicios" },
-      { name: "Integración de IA Conversacional", url: "/servicios" }
-    ]
-  },
-  {
-    name: "Angely Gomez",
-    role: "Jefa de Ventas y Atención al Cliente",
-    dept: "Comercial",
-    bio: "Responsable de liderar el departamento de ventas y atención al cliente. Brinda soporte integral y asistencia de operaciones a todo el equipo de AD Media Solution.",
-    photoUrl: "/brand/logo-crm.png",
-    icon: UserCheck,
-    specialties: ["Liderazgo de Ventas", "Atención al Cliente", "Soporte Operativo"],
-    projects: [
-      { name: "Optimización de Embudo", url: "/servicios" },
-      { name: "Soporte y Asistencia General", url: "/servicios" }
-    ]
-  },
-  {
-    name: "Paola Parra",
-    role: "Jefa Administrativa y Especialista en Ads",
-    dept: "Dirección",
-    bio: "Responsable de la gestión administrativa y especialista en pauta publicitaria. Diseña y optimiza campañas de ads con un control riguroso de presupuestos operativos.",
-    photoUrl: "/brand/logo-crm.png",
-    icon: Briefcase,
-    specialties: ["Dirección Administrativa", "Meta y Google Ads", "Gestión de Presupuestos"],
-    projects: [
-      { name: "Administración Operativa", url: "/servicios" },
-      { name: "Estrategias de Pauta Digital", url: "/servicios" }
-    ]
-  },
-  {
-    name: "Jesús Reyes",
-    role: "Ingeniero de Software y Especialista CRM",
-    dept: "Desarrollo",
-    bio: "Especialista en programación, ingeniería de software e integraciones técnicas de CRM. Encargado de extender la plataforma mediante webhooks y código personalizado.",
-    photoUrl: "/brand/logo-crm.png",
-    icon: Code,
-    specialties: ["Ingeniería de Software", "Desarrollo a Medida", "Integración de CRM"],
-    projects: [
-      { name: "Desarrollo Cloud CRM", url: "/servicios" },
-      { name: "Conectores Personalizados", url: "/servicios" }
-    ]
-  },
-  {
-    name: "Yerlandy Núñez Hernández",
-    role: "Ingeniero de Sistemas y Especialista CRM",
-    dept: "Desarrollo",
-    bio: "Especialista en CRM, ingeniero de software e ingeniero de sistemas. Experto en la gestión de aprobaciones de cumplimiento de telefonía A2P y tareas especiales de CRM.",
-    photoUrl: "/brand/logo-crm.png",
-    icon: Code,
-    specialties: ["Aprobaciones de Telefonía A2P", "Ingeniería de Sistemas", "Seguridad Conversacional"],
-    projects: [
-      { name: "Cumplimiento Normativo A2P", url: "/servicios" },
-      { name: "Infraestructura Segura CRM", url: "/servicios" }
+      { name: "Dirección de Marketing", url: "/servicios/contenido-generativo" },
+      { name: "Catálogo de Servicios", url: "/servicios" }
     ]
   },
   {
     name: "Carmen Lora",
-    role: "Asistente de Ads y Marketing",
+    role: "Especialista en ADS",
     dept: "Marketing",
-    bio: "Asistente y miembro clave de los departamentos de publicidad y marketing. Apoya en el montaje y monitoreo diario de campañas de tráfico de pago omnicanal.",
-    photoUrl: "/brand/logo-crm.png",
-    icon: Briefcase,
-    specialties: ["Soporte de Ads", "Monitoreo de Campañas", "Auxiliar de Marketing"],
+    bio: "Apoya la ejecución y mejora continua de campañas publicitarias, cuidando la calidad del tráfico, la coherencia de los mensajes y la respuesta del mercado. Su fortaleza está en convertir análisis de campaña en ajustes concretos para captar prospectos mejor calificados.",
+    photoUrl: "/team/equipo-2026/carmen-lora-especialista-ads.png",
+    icon: Megaphone,
+    specialties: ["Gestión de Campañas", "Lectura de Métricas", "Pruebas Creativas"],
     projects: [
-      { name: "Montaje de Campañas", url: "/servicios" },
-      { name: "Métricas de Conversión", url: "/servicios" }
+      { name: "Dirección de Marketing", url: "/servicios/contenido-generativo" },
+      { name: "Planificación Comercial", url: "/planificacion" }
     ]
   },
   {
-    name: "Yelena Díaz",
-    role: "Atención al Cliente, Ventas y Soporte",
+    name: "Anllelys",
+    role: "Ventas",
     dept: "Comercial",
-    bio: "Parte fundamental de las áreas de atención al cliente, ventas y soporte. Garantiza el correcto seguimiento de los leads calificados en los embudos de la agencia.",
-    photoUrl: "/brand/logo-crm.png",
+    bio: "Acompaña el frente comercial con atención, seguimiento y claridad en la comunicación con prospectos. Su aporte mantiene la conexión entre la estrategia de marketing y la experiencia humana que necesita cada oportunidad para avanzar.",
+    photoUrl: "/team/equipo-2026/anllelys-ventas.jpg",
     icon: UserCheck,
-    specialties: ["Atención al Cliente", "Ventas de Conversión", "Soporte Técnico CRM"],
+    specialties: ["Seguimiento Comercial", "Atención a Prospectos", "Coordinación de Agenda"],
     projects: [
-      { name: "Operación de Soporte Activo", url: "/servicios" },
-      { name: "Closer de Ventas Consultivas", url: "/servicios" }
+      { name: "Consulta Estratégica", url: "/planificacion" },
+      { name: "Soporte Comercial", url: "/servicios" }
     ]
   },
+  {
+    name: "Ariel",
+    role: "Director de Área CRM",
+    dept: "CRM & Automatización",
+    bio: "Dirige el área CRM para que los procesos de captación, seguimiento y soporte tengan estructura. Su trabajo conecta automatizaciones, flujos conversacionales y necesidades comerciales en sistemas que el equipo puede operar con claridad.",
+    photoUrl: "/team/equipo-2026/ariel-director-area-crm.jpeg",
+    icon: Cpu,
+    specialties: ["Dirección CRM", "Automatización Operativa", "Diseño de Flujos"],
+    projects: [
+      { name: "CRM & Automatización", url: "/servicios/embudos-neurales" },
+      { name: "Soporte y Mantenimiento", url: "/servicios/ads-autopilot" }
+    ]
+  },
+  {
+    name: "Juan Esteban",
+    role: "Jefe del Departamento de Edición",
+    dept: "Producción",
+    bio: "Ordena el proceso de edición para que cada pieza audiovisual mantenga intención, ritmo y consistencia de marca. Su enfoque permite transformar material bruto en contenidos claros, comerciales y listos para alimentar campañas o canales orgánicos.",
+    photoUrl: "/team/equipo-2026/juan-esteban-jefe-edicion.jpg",
+    icon: Film,
+    specialties: ["Dirección de Edición", "Ritmo Narrativo", "Control de Calidad Visual"],
+    projects: [
+      { name: "Redes y Contenido", url: "/servicios/contenido-generativo" },
+      { name: "Producción Audiovisual", url: "/servicios" }
+    ]
+  },
+  {
+    name: "Jesús",
+    role: "Ingeniero en Sistemas Especialista en CRM",
+    dept: "CRM & Sistemas",
+    bio: "Construye y ajusta soluciones CRM desde una mirada técnica, cuidando que formularios, automatizaciones y conexiones trabajen de forma ordenada. Su rol ayuda a que la operación digital sea más estable y fácil de supervisar.",
+    photoUrl: "/team/equipo-2026/jesus-ingeniero-sistemas-crm.jpeg",
+    icon: Code,
+    specialties: ["Ingeniería de Sistemas", "Configuración CRM", "Integraciones Técnicas"],
+    projects: [
+      { name: "CRM & Automatización", url: "/servicios/embudos-neurales" },
+      { name: "Desarrollo Web", url: "/servicios" }
+    ]
+  },
+  {
+    name: "Yerandy Hernández",
+    role: "Ingeniero en Sistemas Especialista en CRM",
+    dept: "CRM & Sistemas",
+    bio: "Refuerza la arquitectura técnica de CRM con atención a la estabilidad, el orden de los datos y el funcionamiento de los flujos. Su trabajo sostiene la continuidad operativa para que marketing, ventas y soporte compartan una misma base de información.",
+    photoUrl: "/team/equipo-2026/yerandy-hernandez-ingeniero-sistemas-crm.jpg",
+    icon: Cpu,
+    specialties: ["Arquitectura CRM", "Mantenimiento Técnico", "Automatización de Procesos"],
+    projects: [
+      { name: "CRM & Automatización", url: "/servicios/embudos-neurales" },
+      { name: "Soporte y Mantenimiento", url: "/servicios/ads-autopilot" }
+    ]
+  },
+  {
+    name: "Mario Morera",
+    role: "Diseñador Gráfico Especialista en IA",
+    dept: "Diseño & IA",
+    bio: "Desarrolla recursos visuales y piezas gráficas con criterio de marca, apoyándose en herramientas de IA para acelerar exploración, variaciones y producción. Su aporte ayuda a que la comunicación visual sea más clara, moderna y consistente.",
+    photoUrl: "/team/equipo-2026/mario-morera-disenador-grafico-ia.png",
+    icon: Palette,
+    specialties: ["Diseño Gráfico", "Producción con IA", "Identidad Visual"],
+    projects: [
+      { name: "Redes y Contenido", url: "/servicios/contenido-generativo" },
+      { name: "Diseño para Campañas", url: "/servicios/contenido-generativo" }
+    ]
+  },
+  {
+    name: "Juan Pablo Lombana",
+    role: "Especialista Editor de Video",
+    dept: "Producción",
+    bio: "Edita contenido de video con enfoque en claridad, ritmo y utilidad comercial. Su trabajo convierte grabaciones y materiales de campaña en piezas listas para publicar, presentar o probar dentro de una estrategia de contenido.",
+    photoUrl: "/team/equipo-2026/juan-pablo-lombana-editor-video.png",
+    icon: Camera,
+    specialties: ["Edición de Video", "Contenido Comercial", "Postproducción"],
+    projects: [
+      { name: "Redes y Contenido", url: "/servicios/contenido-generativo" },
+      { name: "Producción Audiovisual", url: "/servicios" }
+    ]
+  }
 ];
 
 // Staggered Scrollytelling Animation Variants (desktop carousel)
@@ -220,9 +245,11 @@ export default function EquipoPage() {
   // Hooks de scroll del carrusel — declarados siempre (Rules of Hooks). En móvil
   // el carrusel no se monta, así que no enlazamos el ref vacío (evita warnings) y
   // el MotionValue `x` resultante simplemente no se usa.
-  const { scrollYProgress } = useScroll({ target: showDesktop ? targetRef : undefined });
-  // Total horizontal offset: 9 slides (Intro + 8 members) = 800vw
-  const x = useTransform(scrollYProgress, [0, 1], ["0vw", "-800vw"]);
+  const { scrollYProgress } = useScroll({
+    target: showDesktop ? targetRef : undefined,
+    offset: ["start start", "end end"],
+  });
+  const x = useTransform(scrollYProgress, [0, 1], ["0vw", `-${team.length * 100}vw`]);
 
   return (
     <main className="bg-background min-h-screen relative text-foreground">
@@ -267,14 +294,22 @@ function DesktopCarousel({
 }: DesktopCarouselProps) {
   return (
     /* Horizontal Carousel Section (Vertical Scroll Trigger) */
-    <div ref={targetRef} className="relative h-[900vh] bg-background">
+    <div
+      ref={targetRef}
+      className="relative bg-background"
+      style={{ height: `${(team.length + 1) * 100}vh` }}
+    >
       <div className="sticky top-0 h-screen w-screen overflow-hidden flex items-center bg-background">
 
         {/* Main Horizontal Slide Track */}
         <motion.div style={{ x }} className="flex h-full w-full">
 
           {/* Slide 0: Massive Intro Slide (Merged with Header for seamless layout transition) */}
-          <div className="w-screen h-screen flex-shrink-0 flex flex-col items-center justify-center px-6 text-center relative select-none">
+          <div className="w-screen h-screen flex-shrink-0 flex flex-col items-center justify-center px-6 text-center relative select-none overflow-hidden">
+            {/* Fondo: presencia del equipo (avatares conectados) */}
+            <div className={`absolute inset-0 transition-opacity duration-700 ${hoveredRoadmapIndex !== null ? "opacity-0" : "opacity-100"}`}>
+              <PresenceField intensity="soft" density="mid" />
+            </div>
             {/* Default background overlay */}
             <div className={`absolute inset-0 bg-gradient-to-b from-primary/5 to-accent-light/5 transition-opacity duration-700 pointer-events-none ${hoveredRoadmapIndex !== null ? "opacity-0" : "opacity-100"}`} />
             <div className={`absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[140px] transition-opacity duration-700 pointer-events-none ${hoveredRoadmapIndex !== null ? "opacity-0" : "opacity-100"}`} />
@@ -318,7 +353,7 @@ function DesktopCarousel({
               <span className="text-primary text-xs md:text-sm font-bold tracking-wider uppercase px-4 py-2 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md">
                 Especialistas de la Media
               </span>
-              <h1 className="text-4xl md:text-7xl font-black mt-6 tracking-tight leading-none text-foreground">
+              <h1 className="text-3xl sm:text-5xl md:text-7xl font-black mt-5 tracking-tight leading-tight md:leading-none text-foreground">
                 Los Líderes Detrás <br />
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent-light">
                   de la Operación
@@ -331,14 +366,14 @@ function DesktopCarousel({
               {/* Synergy Roadmap Component */}
               <SynergyRoadmap hoveredIndex={hoveredRoadmapIndex} setHoveredIndex={setHoveredRoadmapIndex} />
 
-              <div className="mt-8 flex justify-center items-center gap-2 text-primary font-bold animate-pulse text-xs md:text-sm">
+              <div className="mt-6 sm:mt-8 flex justify-center items-center gap-2 text-primary font-bold animate-pulse text-xs md:text-sm">
                 <span>Comenzar recorrido</span>
                 <ArrowRight className="w-4.5 h-4.5" />
               </div>
             </motion.div>
           </div>
 
-          {/* Slides 1 to 11: Full Screen Team Members with Staggered Parallax Entrance */}
+          {/* Full Screen Team Members with Staggered Parallax Entrance */}
           {team.map((member, idx) => (
             <TeamMemberSlide
               key={member.name}
@@ -377,7 +412,7 @@ function TeamMemberSlide({
       initial="hidden"
       whileInView="visible"
       viewport={{ once: false, amount: 0.25 }}
-      className="w-screen h-screen flex-shrink-0 flex flex-col md:flex-row items-center justify-center p-8 md:p-24 relative overflow-hidden"
+      className="w-screen h-screen flex-shrink-0 flex flex-col md:flex-row items-center justify-center p-5 sm:p-8 md:p-20 relative overflow-hidden"
     >
       {/* Subtle Background Glow per slide */}
       <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
@@ -385,25 +420,36 @@ function TeamMemberSlide({
       {/* Left Column: Visual Container (Vertical Aspect Ratio 3:4 for portrait photos) */}
       <motion.div
         variants={photoVariants}
-        className="w-full md:w-[35vw] h-[35vh] md:h-[65vh] flex-shrink-0 rounded-3xl p-8 bg-card/30 border border-border backdrop-blur-md shadow-2xl flex items-center justify-center overflow-hidden relative group"
+        className="w-full md:w-[35vw] h-[30vh] sm:h-[34vh] md:h-[60vh] flex-shrink-0 rounded-3xl p-6 sm:p-8 bg-card/30 border border-border backdrop-blur-md shadow-2xl flex items-center justify-center overflow-hidden relative group"
       >
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent-light/5" />
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent-light/5 z-10 pointer-events-none" />
 
         {/* Parallax Icon/Profile Container */}
         <motion.div
           style={{ y }}
-          className="w-32 h-32 md:w-44 md:h-44 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shadow-xl group-hover:scale-105 transition-transform duration-500"
+          className="w-full h-full flex items-center justify-center"
         >
-          <Icon className="w-16 h-16 md:w-20 md:h-20 text-primary" />
+          {member.photoUrl ? (
+            <div className="relative w-full h-full rounded-2xl overflow-hidden">
+              <Image
+                src={member.photoUrl}
+                alt={member.name}
+                fill
+                className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+                sizes="(max-width: 1024px) 100vw, 35vw"
+                priority
+              />
+            </div>
+          ) : (
+            <div className="w-32 h-32 md:w-44 md:h-44 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shadow-xl group-hover:scale-105 transition-transform duration-500 relative z-20">
+              <Icon className="w-16 h-16 md:w-20 md:h-20 text-primary" />
+            </div>
+          )}
         </motion.div>
-
-        <span className="absolute bottom-6 left-6 text-xs text-muted-foreground font-mono">
-          Portrait Slot: ADM-P-{idx + 1}
-        </span>
       </motion.div>
 
       {/* Right Column: Detailed Info Container (Staggered Texts) */}
-      <div className="w-full md:w-[50vw] flex flex-col justify-center text-left md:pl-16 mt-8 md:mt-0">
+      <div className="w-full md:w-[50vw] flex flex-col justify-center text-left md:pl-12 lg:pl-16 mt-6 md:mt-0">
         <motion.span
           variants={roleVariants}
           className="text-xs text-primary font-bold tracking-widest uppercase mb-2 block"
@@ -414,7 +460,7 @@ function TeamMemberSlide({
         {/* Staggered Name */}
         <motion.h2
           variants={nameVariants}
-          className="text-3xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight"
+          className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-black tracking-tight leading-tight"
         >
           {member.name}
         </motion.h2>
@@ -436,7 +482,7 @@ function TeamMemberSlide({
         </motion.p>
 
         {/* Specialties / Areas of Expertise */}
-        <motion.div variants={specialtiesVariants} className="mt-6">
+        <motion.div variants={specialtiesVariants} className="mt-5">
           <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Áreas de Especialidad:</h4>
           <div className="flex flex-wrap gap-2">
             {member.specialties.map((spec, sIdx) => (
@@ -448,7 +494,7 @@ function TeamMemberSlide({
         </motion.div>
 
         {/* Key Projects & Case Studies */}
-        <motion.div variants={projectsVariants} className="mt-6">
+        <motion.div variants={projectsVariants} className="mt-5">
           <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Proyectos Clave:</h4>
           <div className="flex flex-wrap gap-3">
             {member.projects.map((proj, pIdx) => (
@@ -467,7 +513,7 @@ function TeamMemberSlide({
         {/* Footer / Staggered Details */}
         <motion.div
           variants={footerVariants}
-          className="mt-8 flex items-center gap-6 text-xs text-muted-foreground/60 border-t border-border/40 pt-6 max-w-sm"
+          className="mt-6 flex items-center gap-6 text-xs text-muted-foreground/60 border-t border-border/40 pt-5 max-w-sm"
         >
           <span className="font-mono text-sm font-semibold text-primary">
             0{idx + 1} / {totalCount}
@@ -488,15 +534,17 @@ function MobileTeamList() {
   const shouldReduceMotion = useReducedMotion();
 
   return (
-    <div className="md:hidden px-5 pt-28 pb-24 bg-background">
+    <div className="md:hidden px-5 pt-24 pb-16 bg-background">
       {/* Hero compacto */}
-      <header className="text-center mb-12 relative">
+      <header className="text-center mb-8 relative overflow-hidden">
+        {/* Fondo: presencia del equipo (avatares conectados) */}
+        <PresenceField intensity="soft" density="low" />
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[320px] h-[320px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
         <div className="relative z-10 flex flex-col items-center">
           <span className="text-primary text-xs font-bold tracking-wider uppercase px-4 py-2 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md">
             Especialistas de la Media
           </span>
-          <h1 className="text-3xl xs:text-4xl font-black mt-6 tracking-tight leading-tight text-foreground">
+          <h1 className="text-3xl xs:text-4xl font-black mt-5 tracking-tight leading-tight text-foreground">
             Los Líderes Detrás{" "}
             <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent-light">
               de la Operación
@@ -512,7 +560,7 @@ function MobileTeamList() {
       </header>
 
       {/* Tarjetas de miembros */}
-      <div className="space-y-8">
+      <div className="space-y-6">
         {team.map((member, idx) => (
           <MobileTeamCard
             key={member.name}
@@ -543,17 +591,25 @@ function MobileTeamCard({ member, idx, total, reduceMotion }: MobileTeamCardProp
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="rounded-3xl border border-border bg-card/40 backdrop-blur-md p-6 shadow-xl"
+      className="rounded-3xl border border-border bg-card/40 backdrop-blur-md p-5 sm:p-6 shadow-xl"
     >
       {/* Visual / placeholder de retrato — caja de aspecto real, no h-fija */}
-      <div className="w-full aspect-[4/5] rounded-2xl overflow-hidden relative bg-card/30 border border-border flex items-center justify-center mb-6">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent-light/5" />
-        <div className="w-28 h-28 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shadow-xl">
-          <Icon className="w-14 h-14 text-primary" />
-        </div>
-        <span className="absolute bottom-4 left-4 text-xs text-muted-foreground font-mono">
-          Portrait Slot: ADM-P-{idx + 1}
-        </span>
+      <div className="w-full aspect-[4/5] rounded-2xl overflow-hidden relative bg-card/30 border border-border flex items-center justify-center mb-5 group">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent-light/5 z-10 pointer-events-none" />
+        {member.photoUrl ? (
+          <Image
+            src={member.photoUrl}
+            alt={member.name}
+            fill
+            className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, 400px"
+            priority
+          />
+        ) : (
+          <div className="w-28 h-28 rounded-full bg-primary/10 border border-primary/20 flex items-center justify-center shadow-xl relative z-20">
+            <Icon className="w-14 h-14 text-primary" />
+          </div>
+        )}
       </div>
 
       {/* Texto */}
@@ -662,7 +718,7 @@ function SynergyRoadmap({ hoveredIndex, setHoveredIndex }: SynergyRoadmapProps) 
   ];
 
   return (
-    <div className="w-full max-w-5xl mx-auto mt-10 px-4">
+    <div className="w-full max-w-5xl mx-auto mt-6 sm:mt-10 px-4">
       {/* Desktop Version: Interactive SVG winding roadmap */}
       <div className="hidden md:block relative w-full h-[220px]">
         {/* Connection Line Background */}

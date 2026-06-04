@@ -12,7 +12,7 @@ import {
 } from "lucide-react";
 import { AuroraBackground } from "../ui/AuroraBackground";
 import Image from "next/image";
-import GhlLogoBackground from "@/components/ui/GhlLogoBackground";
+import { KineticContainer, KineticItem } from "@/components/animations/KineticEntrance";
 
 // ============================================================
 // Blueprint Node Data
@@ -63,7 +63,7 @@ export default function BlueprintSection() {
     return (
         <section 
             ref={containerRef}
-            className="relative py-14 sm:py-32 px-5 sm:px-6 bg-background overflow-hidden"
+            className="relative py-10 sm:py-20 lg:py-24 px-5 sm:px-6 bg-background overflow-hidden"
             id="infraestructura"
         >
             {/* Global Aurora Background */}
@@ -75,53 +75,36 @@ export default function BlueprintSection() {
                 <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
             </div>
 
-            {/* Gigantic GHL Background Atmosphere */}
-            <div className="absolute inset-0 z-0 flex items-center justify-center opacity-[0.03] sm:opacity-[0.05] pointer-events-none overflow-hidden">
-                <GhlLogoBackground 
-                    showGlow={false}
-                    className="w-[120%] min-w-[1000px] h-auto scale-110 sm:scale-100"
-                />
-            </div>
-
             <div className="relative z-10 max-w-7xl mx-auto">
                 {/* Header Narrative */}
-                <div className="text-center mb-10 sm:mb-40 max-w-3xl mx-auto">
-                    <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-primary/5 border border-primary/20 mb-8"
-                    >
-                        <Activity className="size-4 text-primary animate-pulse" />
-                        <span className="text-[11px] font-bold font-mono text-primary uppercase tracking-[0.3em]">Cómo trabaja tu sistema</span>
-                    </motion.div>
-                    
-                    <motion.h2 
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.1 }}
-                        className="text-4xl sm:text-6xl font-display-heavy mb-8 leading-tight"
-                    >
-                        Todo tu marketing <br />
-                        <span className="text-primary italic">en un solo lugar</span>
-                    </motion.h2>
-                    
-                    <motion.p
-                        initial={{ opacity: 0, y: 30 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        transition={{ delay: 0.2 }}
-                        className="text-lg sm:text-xl text-muted-foreground font-light leading-relaxed"
-                    >
-                        Conectamos tus campañas, tus clientes y tu seguimiento en un mismo sistema. Menos caos, <span className="text-foreground font-bold underline decoration-primary/30">más control y más ventas</span> con AD Media CRM.
-                    </motion.p>
+                <div className="text-center mb-10 sm:mb-20 lg:mb-24 max-w-3xl mx-auto">
+                    <KineticContainer className="space-y-4">
+                        <KineticItem type="subtitle-top">
+                            <div className="inline-flex items-center gap-3 px-4 py-1.5 rounded-full bg-primary/5 border border-primary/20 mb-5 sm:mb-7 mx-auto w-fit">
+                                <Activity className="size-4 text-primary animate-pulse" />
+                                <span className="text-[11px] font-bold font-mono text-primary uppercase tracking-[0.3em]">Cómo trabaja tu sistema</span>
+                            </div>
+                        </KineticItem>
+                        
+                        <KineticItem type="title-right">
+                            <h2 className="text-3xl sm:text-5xl lg:text-6xl font-display-heavy mb-5 sm:mb-7 leading-tight">
+                                Todo tu marketing <br />
+                                <span className="text-primary italic">en un solo lugar</span>
+                            </h2>
+                        </KineticItem>
+                        
+                        <KineticItem type="body-bottom">
+                            <p className="text-base sm:text-lg lg:text-xl text-muted-foreground font-light leading-relaxed">
+                                Conectamos tus campañas, tus clientes y tu seguimiento en un mismo sistema. Menos caos, <span className="text-foreground font-bold underline decoration-primary/30">más control y más ventas</span> con AD Media CRM.
+                            </p>
+                        </KineticItem>
+                    </KineticContainer>
                 </div>
 
                 {/* 2. Interactive Schematic Visual — Robust Reordered Layout */}
                 <motion.div 
                     style={{ y: diagramY }}
-                    className="relative w-full max-w-4xl mx-auto min-h-0 sm:aspect-square sm:min-h-[1000px] flex flex-col sm:block gap-8 sm:gap-0"
+                    className="relative w-full max-w-4xl mx-auto min-h-0 sm:aspect-square sm:min-h-[760px] lg:min-h-[860px] flex flex-col sm:block gap-7 sm:gap-0"
                 >
                     
                     {/* Perspective Layer — Only for Connectors and Grid */}
@@ -279,7 +262,7 @@ export default function BlueprintSection() {
                     initial={{ opacity: 0, y: 40 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true }}
-                    className="mt-20 sm:mt-48 grid grid-cols-2 md:grid-cols-4 gap-8 sm:gap-12 text-center border-t border-primary/10 pt-16"
+                    className="mt-12 sm:mt-24 lg:mt-28 grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-10 text-center border-t border-primary/10 pt-10 sm:pt-12"
                 >
                     {/* PLACEHOLDER: confirmar métricas reales con el CEO */}
                     {[
@@ -290,7 +273,7 @@ export default function BlueprintSection() {
                     ].map((stat, i) => (
                         <div key={i} className="group cursor-default">
                             <p className="text-[11px] font-bold font-mono text-muted-foreground/60 uppercase tracking-[0.25em] mb-3 group-hover:text-primary transition-colors">{stat.label}</p>
-                            <p className="text-2xl sm:text-3xl font-display-heavy text-primary italic tracking-tight">{stat.val}</p>
+                            <p className="text-xl sm:text-2xl lg:text-3xl font-display-heavy text-primary italic tracking-tight">{stat.val}</p>
                         </div>
                     ))}
                 </motion.div>

@@ -29,7 +29,7 @@ export default function FooterContact() {
     const footerLogoBlur = useTransform(logoBlur, (v) => `blur(${v}px)`);
 
     return (
-        <footer ref={footerRef} id="contacto" className="relative bg-background pt-10 sm:pt-16 pb-10 px-5 sm:px-6 overflow-hidden">
+        <footer ref={footerRef} id="contacto" className="relative bg-background pt-10 sm:pt-14 pb-10 px-5 sm:px-6 overflow-hidden">
             {/* Global Aurora Background */}
             <AuroraBackground intensity="medium" className="opacity-40" />
 
@@ -91,7 +91,7 @@ export default function FooterContact() {
 
                 {/* Headline — Neutral Spanish Pass */}
                 <div className="mb-12">
-                    <h2 className="font-display-heavy text-4xl sm:text-5xl lg:text-6xl text-foreground mb-6 tracking-tight">
+                    <h2 className="font-display-heavy text-3xl sm:text-5xl lg:text-6xl text-foreground mb-5 sm:mb-6 tracking-tight">
                         ¿Quieres que tu negocio <span className="text-accent-light italic">facture más</span>?
                     </h2>
                     <motion.p 
@@ -115,7 +115,7 @@ export default function FooterContact() {
                     initial={{ opacity: 0 }}
                     animate={isContentInView ? { opacity: 1 } : {}}
                     transition={{ duration: 1.5, delay: 0.8 }}
-                    className="mt-16 sm:mt-24 pt-8 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-muted-foreground/60"
+                    className="mt-10 sm:mt-16 pt-7 sm:pt-8 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-muted-foreground/60"
                 >
                     <p>© 2026 AD Media Solution. Todos los derechos reservados.</p>
                     <div className="flex gap-6">

@@ -25,21 +25,47 @@ const containerVariants = {
     visible: {
         opacity: 1,
         transition: {
-            staggerChildren: 0.2, // Slightly faster stagger for engagement
-            delayChildren: 0.1,
+            staggerChildren: 0.1,
+            delayChildren: 0.05,
         },
     },
 };
 
-const itemVariants = {
-    hidden: { opacity: 0, y: 20, filter: "blur(5px)" },
+const titleVariants = {
+    hidden: { opacity: 0, x: 40 },
+    visible: {
+        opacity: 1,
+        x: 0,
+        transition: {
+            type: "spring" as const,
+            stiffness: 70,
+            damping: 14,
+        },
+    },
+};
+
+const subtitleVariants = {
+    hidden: { opacity: 0, y: 25 },
     visible: {
         opacity: 1,
         y: 0,
-        filter: "blur(0px)",
         transition: {
-            duration: 1.0,
-            ease: [0.22, 1, 0.36, 1] as [number, number, number, number],
+            type: "spring" as const,
+            stiffness: 70,
+            damping: 15,
+        },
+    },
+};
+
+const ctaVariants = {
+    hidden: { opacity: 0, x: -30 },
+    visible: {
+        opacity: 1,
+        x: 0,
+        transition: {
+            type: "spring" as const,
+            stiffness: 80,
+            damping: 14,
         },
     },
 };
@@ -135,25 +161,25 @@ export default function HeroSection() {
                         animate="visible"
                     >
                         <motion.h1
-                            variants={itemVariants}
+                            variants={titleVariants}
                             style={{ y: badgeY }}
                             className="font-display-heavy text-[1.75rem] xs:text-4xl sm:text-6xl md:text-7xl lg:text-[5rem] tracking-tighter sm:tracking-tight leading-[1.2] sm:leading-[1.05] mb-8 text-foreground drop-shadow-2xl will-change-transform max-w-[15ch] sm:max-w-none mx-auto"
                         >
-                            Damos <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-primary text-glow-neon italic">dirección de marketing y ventas</span> a los negocios.
+                            Damos <span className="text-transparent bg-clip-text bg-gradient-to-r from-foreground via-primary to-primary text-glow-neon italic pl-1 pr-2 box-decoration-clone">dirección de marketing y ventas</span> a los negocios.
                         </motion.h1>
 
                         {/* Subtitle — Neutral Spanish Pass */}
                         <motion.p
-                            variants={itemVariants}
+                            variants={subtitleVariants}
                             style={{ y: textY }}
-                            className="text-base sm:text-lg md:text-xl text-muted-foreground w-full max-w-[20rem] xs:max-w-md sm:max-w-2xl mx-auto mb-10 sm:mb-14 leading-relaxed font-light break-words"
+                            className="text-base sm:text-lg md:text-xl text-foreground/80 w-full max-w-[20rem] xs:max-w-md sm:max-w-2xl mx-auto mb-10 sm:mb-14 leading-relaxed font-light break-words"
                         >
-                            ¿Tu negocio quiere facturar más de $30.000, $50.000 o $100.000 USD al mes? Lo logramos con <span className="text-foreground font-medium border-b border-primary/30">CRM personalizados, soporte y dirección de marketing</span>.
+                            ¿Tu negocio quiere facturar más de $30,000, $40,000, $50,000 o $100,000 USD al mes? Lo logramos con <span className="text-foreground font-medium border-b border-primary/30">CRM personalizados, soporte y dirección de marketing</span>.
                         </motion.p>
 
                         {/* CTAs — Fade faster */}
                         <motion.div
-                            variants={itemVariants}
+                            variants={ctaVariants}
                             style={{ y: ctaY, opacity: ctaOpacity }}
                             className="flex flex-col sm:flex-row items-center justify-center gap-6"
                         >
@@ -178,7 +204,7 @@ export default function HeroSection() {
                                 onClick={handleScrollToVsl}
                                 className="group flex items-center justify-center gap-2 text-muted-foreground hover:text-foreground transition-all duration-300 px-10" // Content-width pill
                             >
-                                <span className="font-medium">Ver la masterclass</span>
+                                <span className="font-medium">Ver cómo funciona</span>
                                 <ArrowDown className="size-4 opacity-50 group-hover:translate-y-1 group-hover:opacity-100 group-hover:text-primary transition-all duration-500" />
                             </Button>
                         </motion.div>

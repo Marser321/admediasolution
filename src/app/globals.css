@@ -101,6 +101,11 @@
   --chart-3: #e2e8f0;
   --chart-4: #94a3b8;
   --chart-5: #1e293b;
+  /* Opacidad base de los fondos contextuales (src/components/backgrounds/). */
+  --ctxbg-opacity: 0.5;
+  --button-primary-from: #0066FF;
+  --button-primary-mid: #0044CC;
+  --button-primary-to: #020617;
   --sidebar: #020617;
   --sidebar-foreground: #ffffff;
   --sidebar-primary: #0066FF;
@@ -135,9 +140,21 @@
   --border: rgba(0, 102, 255, 0.2);
   --input: rgba(0, 102, 255, 0.1);
   --ring: #0066FF;
+  --button-primary-from: #0066FF;
+  --button-primary-mid: #0044CC;
+  --button-primary-to: #020617;
 }
 
 @layer utilities {
+  /* Oculta la barra de scroll manteniendo el scroll (carruseles con snap). */
+  .no-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
   .animate-pulse-slow {
     animation: pulse-slow 10s cubic-bezier(0.4, 0, 0.6, 1) infinite;
   }
@@ -461,6 +478,12 @@
 /* === Classic Dark Theme Overrides === */
 .theme-classic {
   --background: #050505;
+  --bg-deep: #050505;
+  --bg-surface: #0a0a0a;
+  --bg-card: rgba(5, 5, 5, 0.86);
+  --foreground: #f8fafc;
+  --text-primary: #f8fafc;
+  --text-muted: #a1a1aa;
   --color-bg-deep: #050505;
   --color-bg-charcoal: #050505;
   --color-accent-blue: #3b82f6;
@@ -470,6 +493,57 @@
   --border: rgba(255, 255, 255, 0.1);
   --primary: #3b82f6;
   --card: rgba(0, 0, 0, 0.8);
+  --button-primary-from: #3b82f6;
+  --button-primary-mid: #1d4ed8;
+  --button-primary-to: #050505;
+}
+
+/* === Experimental Sky Theme Overrides === */
+.theme-sky {
+  --background: #dff7ff;
+  --foreground: #06253d;
+  --bg-deep: #b9ecff;
+  --bg-surface: #d8f6ff;
+  --bg-card: rgba(235, 251, 255, 0.86);
+  --text-primary: #06253d;
+  --text-muted: #31556f;
+  --card: rgba(236, 251, 255, 0.88);
+  --card-foreground: #06253d;
+  --popover: rgba(231, 249, 255, 0.98);
+  --popover-foreground: #06253d;
+  --primary: #0284c7;
+  --primary-foreground: #ffffff;
+  --secondary: #b9ecff;
+  --secondary-foreground: #06253d;
+  --muted: #caeffb;
+  --muted-foreground: #31556f;
+  --accent: #7dd3fc;
+  --accent-foreground: #06253d;
+  --border: rgba(2, 132, 199, 0.24);
+  --input: rgba(2, 132, 199, 0.12);
+  --ring: #0284c7;
+  --color-bg-charcoal: #0b3154;
+  --color-bg-deep: #b9ecff;
+  --color-bg-surface: #d8f6ff;
+  --color-accent-blue: #0284c7;
+  --color-accent-light: #0ea5e9;
+  --color-accent-neon: #38bdf8;
+  --button-primary-from: #38bdf8;
+  --button-primary-mid: #0284c7;
+  --button-primary-to: #075985;
+  --color-glass-bg: rgba(234, 250, 255, 0.72);
+  --color-glass-bg-mobile: rgba(238, 252, 255, 0.96);
+  --border-glass: rgba(14, 165, 233, 0.34);
+  --color-shadow: rgba(2, 132, 199, 0.22);
+  --color-aurora-center: #e0f7ff;
+  --color-aurora-mid: #7dd3fc;
+  --color-aurora-edge: #0284c7;
+  --aurora-blend-mode: multiply;
+  --hero-blend-mode: plus-darker;
+  --vignette-color: rgba(2, 132, 199, 0.22);
+  --icon-opacity: 0.32;
+  --floating-icon-opacity: 0.22;
+  --ctxbg-opacity: 0.42; /* Fondos contextuales algo más tenues en modo celeste */
 }
 
   /* === Pure White Luxury Theme Overrides === */
@@ -487,6 +561,9 @@
   --primary: #0066FF;
   --card: rgba(255, 255, 255, 0.9);
   --muted-foreground: #475569;
+  --button-primary-from: #0066FF;
+  --button-primary-mid: #0ea5e9;
+  --button-primary-to: #1d4ed8;
   
   /* Glass & Shadows Overrides — High-Ticket Definition */
   --color-glass-bg: rgba(255, 255, 255, 0.98); /* Near-solid glass for maximum definition */
@@ -494,6 +571,7 @@
   --border-glass: rgba(0, 102, 255, 0.45);
   --color-shadow: rgba(0, 102, 255, 0.25);
   --aurora-opacity: 0.10; /* Reduced to push background further back */
+  --ctxbg-opacity: 0.3; /* Fondos contextuales más tenues sobre blanco */
   --icon-opacity: 0.5; /* Subtler individual icons */
   --floating-icon-opacity: 0.15; /* Push floating icons to background in white mode */
   
@@ -538,6 +616,8 @@
 .logo-light-bg { display: none; }
 .theme-white .logo-dark-bg { display: none; }
 .theme-white .logo-light-bg { display: block; }
+.theme-sky .logo-dark-bg { display: none; }
+.theme-sky .logo-light-bg { display: block; }
 
 /* Logo de CRM sensible al tema */
 .logo-crm-themed {
@@ -546,6 +626,25 @@
 }
 .theme-white .logo-crm-themed {
   filter: drop-shadow(0 0 15px rgba(0, 102, 255, 0.15));
+}
+.theme-sky .logo-crm-themed {
+  filter: drop-shadow(0 0 18px rgba(2, 132, 199, 0.22));
+}
+
+.theme-sky .texture-grid {
+  opacity: 0.035;
+}
+
+.theme-sky .texture-travertine {
+  opacity: 0.45;
+}
+
+.theme-sky .bg-noise {
+  opacity: 0.055;
+}
+
+.theme-sky .texture-travertine::before {
+  background: radial-gradient(circle at center, transparent 28%, rgba(2, 132, 199, 0.16) 100%);
 }
 
 

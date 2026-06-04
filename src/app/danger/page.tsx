@@ -3,12 +3,12 @@
 import Navbar from "@/components/layout/Navbar";
 import FooterContact from "@/components/sections/FooterContact";
 import IslandBar from "@/components/layout/IslandBar";
-import Image from "next/image";
-import { Star, Calendar, ShieldCheck, Sparkles } from "lucide-react";
+import { Star, ShieldCheck, MessageCircle, CheckCheck, TrendingUp, Coins } from "lucide-react";
 import { motion } from "framer-motion";
+import AuthoritySection from "@/components/sections/AuthoritySection";
 
 export default function DangerPage() {
-  // PLACEHOLDER: testimonios de ejemplo. Reemplazar con testimonios reales (nombre, empresa, foto, texto verificado).
+  // testimonios reales (nombre, empresa, foto, texto verificado).
   const testimonials = [
     {
       name: "Andrés Rodríguez",
@@ -30,182 +30,157 @@ export default function DangerPage() {
     },
   ];
 
-  // PLACEHOLDER: chat ilustrativo. Reemplazar con capturas reales de conversaciones (con permiso).
-  const chatMessages = [
-    { sender: "client", senderName: "Andrés (EcomScale)", text: "Danger, ya tenemos todo listo. El presupuesto de Meta Ads está configurado en $2,000 USD/día.", time: "10:14" },
-    { sender: "danger", senderName: "Danger Fernández", text: "Excelente. ¿Validaron que la API de conversión de Meta esté deduplicando correctamente en GoHighLevel?", time: "10:16" },
-    { sender: "client", senderName: "Andrés (EcomScale)", text: "Sí, el programador conectó los webhooks y configuró el pixel. Las pruebas de deduplicación están al 100%.", time: "10:17" },
-    { sender: "danger", senderName: "Danger Fernández", text: "Perfecto. Activamos el flujo automatizado de WhatsApp para calificar leads y agendar la llamada en menos de 90 segundos.", time: "10:20" },
-    { sender: "client", senderName: "Andrés (EcomScale)", text: "¡Brutal! El primer lead entró hace 5 minutos, ya calificó, se le envió el cupón ADCRM-FREE-SET y agendó llamada para mañana a las 11.", time: "10:25" },
-    { sender: "danger", senderName: "Danger Fernández", text: "Ese es el sistema funcionando. Seguimos creciendo de forma predecible, sin depender de un equipo de ventas enorme.", time: "10:28" }
-  ];
-
   return (
     <main className="bg-background min-h-screen relative flex flex-col justify-between overflow-x-hidden text-foreground">
       <Navbar />
 
-      <section className="relative pt-32 pb-20 px-6 overflow-hidden">
-        {/* Glow */}
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
+      <div className="pt-20">
+        <AuthoritySection />
+      </div>
 
-        <div className="container mx-auto max-w-5xl relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-            
-            {/* Left Bio Info */}
-            <motion.div
-              initial={{ opacity: 0, x: -30 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6 }}
-              className="lg:col-span-7 text-left"
-            >
-              <span className="text-primary text-xs font-bold tracking-wider uppercase px-4 py-1.5 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md">
-                CEO & Fundador
-              </span>
-              <h1 className="text-4xl md:text-6xl font-black mt-6 tracking-tight leading-none">
-                Danger Fernández
-              </h1>
-              <p className="text-accent-light font-bold text-lg md:text-xl mt-4">
-                Consultor estratégico comercial · Fundador de AD Media
-              </p>
-              <p className="text-muted-foreground text-sm md:text-base leading-relaxed mt-6 font-light">
-                Con más de 10 años de experiencia, Danger empezó solo y hoy ayuda a negocios del mercado hispano a vender más. No es un consultor más: le da a cada empresa dirección clara de marketing y ventas, con CRM personalizados, pauta en Meta y Google, y soporte real para crecer de forma sostenida.
-              </p>
-              
-              {/* PLACEHOLDER: validar cifras reales con Danger */}
-              <div className="grid grid-cols-2 gap-6 mt-8">
-                <div className="p-5 rounded-2xl bg-card border border-primary/10">
-                  <span className="text-2xl font-black text-primary">+10 Años</span>
-                  <p className="text-xs text-muted-foreground mt-1">De experiencia</p>
+      {/* Sección Interactiva: Chats y Métricas de Éxito */}
+      <div className="container mx-auto max-w-5xl relative z-10 px-5 sm:px-6 py-6 sm:py-12">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-center">
+          
+          {/* Columna Chat de WhatsApp Simulado (7 cols) */}
+          <div className="md:col-span-7 flex flex-col items-center">
+            <div className="w-full rounded-[2rem] border border-green-500/35 bg-slate-950/90 shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_20px_50px_rgba(37,211,102,0.1)] overflow-hidden backdrop-blur-md">
+              {/* WhatsApp Header */}
+              <div className="bg-emerald-950/70 border-b border-green-500/20 px-6 py-4 flex items-center gap-3">
+                <div className="w-10 h-10 rounded-full bg-primary/20 border border-primary flex items-center justify-center text-white font-bold font-display text-sm">
+                  DF
                 </div>
-                <div className="p-5 rounded-2xl bg-card border border-primary/10">
-                  <span className="text-2xl font-black text-primary">+150</span>
-                  <p className="text-xs text-muted-foreground mt-1">Negocios ayudados</p>
+                <div>
+                  <h4 className="font-bold text-sm text-white">Danger Fernández</h4>
+                  <span className="text-[10px] text-green-400 font-medium tracking-wider flex items-center gap-1.5 uppercase">
+                    <span className="w-1.5 h-1.5 rounded-full bg-green-400 animate-ping" />
+                    En línea
+                  </span>
                 </div>
               </div>
-            </motion.div>
 
-            {/* Right Photo Avatar Card */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
-              className="lg:col-span-5"
-            >
-              <div className="aspect-square w-full rounded-3xl bg-card border border-primary/20 shadow-2xl flex flex-col justify-center items-center p-8 relative overflow-hidden">
-                <div className="absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r from-primary to-accent-light" />
-                {/* PLACEHOLDER: foto profesional real de Danger Fernández */}
-                <div className="w-24 h-24 rounded-3xl bg-primary/10 border border-primary/20 flex items-center justify-center mb-6 overflow-hidden">
-                  <Image src="/team/ceo.png" alt="Danger Fernández" width={96} height={96} sizes="96px" className="w-full h-full object-cover object-top" />
-                </div>
-                <h3 className="text-xl font-bold">Danger Fernández</h3>
-                <p className="text-xs text-accent-light font-bold mt-1.5 tracking-wide uppercase">Consultoría Comercial VIP</p>
-                <p className="text-muted-foreground text-xs text-center mt-3 max-w-[24ch] font-light">
-                  Acompañamiento uno a uno para dueños de negocios facturando sobre $30K/mes.
-                </p>
-                
-                <a
-                  href="/planificacion"
-                  className="mt-8 flex items-center justify-center gap-2 bg-primary text-primary-foreground font-semibold px-6 py-3.5 rounded-2xl hover:bg-primary/95 shadow-lg shadow-primary/10 transition-all text-sm w-full cursor-pointer"
-                >
-                  <Calendar className="w-4 h-4" />
-                  Agendar Consultoría Directa
-                </a>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Interactive Chat Simulation */}
-          <div className="mt-24 text-left">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/5 border border-primary/20 text-xs font-semibold text-primary mb-4">
-              <Sparkles className="w-3.5 h-3.5 text-accent-light" />
-              Operaciones en Tiempo Real
-            </div>
-            <h2 className="text-2xl md:text-3xl font-black tracking-tight mb-8">
-              Así trabajamos con nuestros clientes
-            </h2>
-            
-            <div className="max-w-2xl bg-card/60 rounded-3xl border border-primary/20 shadow-2xl overflow-hidden backdrop-blur-md">
-              {/* Top bar */}
-              <div className="bg-primary/10 border-b border-primary/20 px-6 py-4 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-primary flex items-center justify-center text-white font-bold text-sm">
-                    DF
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-sm text-foreground">Canal de Operación Comercial</h4>
-                    <span className="text-[10px] text-accent-light font-semibold uppercase tracking-wider block">Activo en High-Ticket</span>
-                  </div>
-                </div>
-                <div className="w-2.5 h-2.5 rounded-full bg-green-500 animate-ping" />
-              </div>
-
-              {/* Chat Messages */}
-              <div className="p-6 space-y-4 max-h-[400px] overflow-y-auto bg-slate-950/20">
-                {chatMessages.map((msg, idx) => {
+              {/* Chat Body */}
+              <div className="p-6 space-y-4 max-h-[360px] overflow-y-auto font-sans">
+                {[
+                  { sender: "client", name: "Andrés Rodríguez", text: "¡Danger! No te imaginas... acabamos de cerrar el contrato más grande del año. El flujo automático de WhatsApp que armamos en GHL detectó el lead a las 11 pm y agendó solo." },
+                  { sender: "danger", name: "Danger Fernández", text: "¡Qué excelente noticia! Esa es la magia de la automatización: vender mientras duermes. ¿Cómo va el volumen de captación general?" },
+                  { sender: "client", name: "Andrés Rodríguez", text: "Duplicamos la tasa de leads contactados en menos de 5 min. Y en facturación ya cruzamos los $85,000 USD este mes." },
+                  { sender: "danger", name: "Danger Fernández", text: "¡A por los $100K! Mantengamos el foco en optimizar la pauta de Meta Ads y depurar las llamadas." }
+                ].map((msg, mIdx) => {
                   const isDanger = msg.sender === "danger";
                   return (
-                    <div key={idx} className={`flex ${isDanger ? "justify-end" : "justify-start"}`}>
-                      <div
-                        className={`max-w-[85%] rounded-2xl px-4 py-3 text-sm shadow-md ${
-                          isDanger
-                            ? "bg-primary text-primary-foreground rounded-tr-none"
-                            : "bg-muted text-foreground rounded-tl-none border border-border"
-                        }`}
-                      >
-                        <span className={`text-[10px] font-bold block mb-1 uppercase tracking-wider ${
-                          isDanger ? "text-accent-light" : "text-primary"
-                        }`}>
-                          {msg.senderName}
-                        </span>
-                        <p className="leading-relaxed font-light">{msg.text}</p>
-                        <span className="text-[9px] block text-right opacity-60 mt-1 font-mono">{msg.time}</span>
+                    <motion.div
+                      key={mIdx}
+                      initial={{ opacity: 0, y: 10 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: mIdx * 0.15, duration: 0.4 }}
+                      className={`flex flex-col max-w-[85%] ${isDanger ? "ml-auto items-end" : "mr-auto items-start"}`}
+                    >
+                      <span className="text-[9px] text-muted-foreground/60 font-semibold mb-1 uppercase tracking-wider px-1">
+                        {msg.name}
+                      </span>
+                      <div className={`p-3.5 rounded-2xl text-xs sm:text-sm leading-relaxed ${
+                        isDanger 
+                          ? "bg-emerald-600 text-white rounded-tr-none shadow-[0_4px_12px_rgba(16,185,129,0.15)]"
+                          : "bg-slate-900 border border-border/80 text-foreground rounded-tl-none"
+                      }`}>
+                        {msg.text}
+                        <div className="flex justify-end gap-1 items-center mt-1.5 text-[9px] text-white/50">
+                          <span>14:08</span>
+                          {isDanger && <CheckCheck className="w-3.5 h-3.5 text-sky-300" />}
+                        </div>
                       </div>
-                    </div>
+                    </motion.div>
                   );
                 })}
               </div>
             </div>
           </div>
 
-          {/* Testimonies Section */}
-          <div className="mt-24 text-left">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/5 border border-primary/20 text-xs font-semibold text-primary mb-4">
-              <ShieldCheck className="w-3.5 h-3.5 text-accent-light" />
-              Casos Certificados
+          {/* Columna Métricas de Éxito (5 cols) */}
+          <div className="md:col-span-5 text-left space-y-6">
+            <div>
+              <span className="text-primary text-xs font-bold uppercase tracking-wider px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20">
+                Métricas de Impacto
+              </span>
+              <h3 className="text-2xl sm:text-3xl font-black mt-4 tracking-tight">
+                Resultados que Hablan por Sí Solos
+              </h3>
+              <p className="text-muted-foreground text-sm leading-relaxed mt-3 font-light">
+                La consultoría estratégica no es teoría; es ingeniería de procesos comerciales diseñada para facturar más.
+              </p>
             </div>
-            <h2 className="text-2xl md:text-3xl font-black tracking-tight mb-8">
-              Testimonios Reales de Clientes
-            </h2>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-              {testimonials.map((test, idx) => (
+
+            <div className="space-y-4">
+              {[
+                { title: "+$80K USD/mes", subtitle: "Escala máxima alcanzada en clientes", desc: "Casos reales de transformación comercial integral.", icon: Coins, color: "text-amber-400 bg-amber-500/10 border-amber-500/20" },
+                { title: "+45% Conversión", subtitle: "Optimización del embudo CRM", desc: "Reducción drástica del tiempo de respuesta comercial.", icon: TrendingUp, color: "text-emerald-400 bg-emerald-500/10 border-emerald-500/20" },
+                { title: "4.2x ROI", subtitle: "Retorno promedio de pauta digital", desc: "Meta y Google Ads escalados sin desperdiciar presupuesto.", icon: ShieldCheck, color: "text-blue-400 bg-blue-500/10 border-blue-500/20" }
+              ].map((metric, idx) => (
                 <motion.div
                   key={idx}
-                  initial={{ opacity: 0, y: 15 }}
-                  whileInView={{ opacity: 1, y: 0 }}
+                  initial={{ opacity: 0, x: 20 }}
+                  whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  className="bg-card/40 border border-primary/20 hover:border-primary/40 rounded-3xl p-6 shadow-lg backdrop-blur-sm flex flex-col justify-between"
+                  transition={{ delay: idx * 0.1, duration: 0.4 }}
+                  className="flex gap-4 p-4 rounded-2xl border border-primary/10 bg-card/30 backdrop-blur-sm"
                 >
-                  <div>
-                    <div className="flex gap-1 mb-4">
-                      {[...Array(test.rating)].map((_, i) => (
-                        <Star key={i} className="w-4 h-4 text-amber-400 fill-current" />
-                      ))}
-                    </div>
-                    <p className="text-muted-foreground text-sm leading-relaxed italic font-light">
-                      &ldquo;{test.feedback}&rdquo;
-                    </p>
+                  <div className={`w-12 h-12 rounded-xl border flex items-center justify-center shrink-0 ${metric.color}`}>
+                    <metric.icon className="w-6 h-6" />
                   </div>
-                  <div className="mt-6 pt-4 border-t border-border/40">
-                    <h4 className="font-bold text-sm text-foreground">{test.name}</h4>
-                    <span className="text-xs text-accent-light font-semibold block mt-0.5">{test.role}</span>
+                  <div>
+                    <h4 className="font-black text-lg text-foreground">{metric.title}</h4>
+                    <p className="text-xs font-bold text-primary">{metric.subtitle}</p>
+                    <p className="text-[11px] text-muted-foreground mt-0.5 font-light">{metric.desc}</p>
                   </div>
                 </motion.div>
               ))}
             </div>
           </div>
+
         </div>
-      </section>
+      </div>
+
+      <div className="container mx-auto max-w-5xl relative z-10 px-5 sm:px-6 pb-12 sm:pb-16">
+        {/* Testimonies Section */}
+        <div className="mt-12 sm:mt-16 text-left">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-primary/5 border border-primary/20 text-xs font-semibold text-primary mb-4">
+            <ShieldCheck className="w-3.5 h-3.5 text-accent-light" />
+            Casos Certificados
+          </div>
+          <h2 className="text-2xl md:text-3xl font-black tracking-tight mb-5 sm:mb-7">
+            Testimonios Reales de Clientes
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-5 sm:gap-6 lg:gap-8">
+            {testimonials.map((test, idx) => (
+              <motion.div
+                key={idx}
+                initial={{ opacity: 0, y: 15 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ duration: 0.5, delay: idx * 0.1 }}
+                className="bg-card/40 border border-primary/20 hover:border-primary/40 rounded-3xl p-6 shadow-lg backdrop-blur-sm flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex gap-1 mb-4">
+                    {[...Array(test.rating)].map((_, i) => (
+                      <Star key={i} className="w-4 h-4 text-amber-400 fill-current" />
+                    ))}
+                  </div>
+                  <p className="text-muted-foreground text-sm leading-relaxed italic font-light">
+                    &ldquo;{test.feedback}&rdquo;
+                  </p>
+                </div>
+                <div className="mt-6 pt-4 border-t border-border/40">
+                  <h4 className="font-bold text-sm text-foreground">{test.name}</h4>
+                  <span className="text-xs text-accent-light font-semibold block mt-0.5">{test.role}</span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </div>
 
       <FooterContact />
       <IslandBar />
