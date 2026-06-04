@@ -25,6 +25,10 @@ export default function VideoBackground({
 }: VideoBackgroundProps) {
     const shouldReduceMotion = useHydratedReducedMotion();
     const [canPlayVideo, setCanPlayVideo] = useState(false);
+    // Una vez que el video reproduce, ocultamos el poster para que no se
+    // transparente por debajo y duplique el logo. El poster queda solo como
+    // fallback (reduced-motion o antes de que el video arranque).
+    const [videoPlaying, setVideoPlaying] = useState(false);
     const videoRef = useRef<HTMLVideoElement>(null);
 
     useEffect(() => {
@@ -44,8 +48,8 @@ export default function VideoBackground({
             aria-hidden="true"
         >
             <div
-                className={cn("absolute inset-0 bg-cover bg-center", posterClassName)}
-                style={{ backgroundImage: `url('${poster}')` }}
+                className={cn("absolute inset-0 bg-cover bg-center transition-opacity duration-700", posterClassName)}
+                style={{ backgroundImage: `url('${poster}')`, opacity: videoPlaying ? 0 : undefined }}
             />
             {canPlayVideo && (
                 <video
@@ -58,6 +62,7 @@ export default function VideoBackground({
                     preload="metadata"
                     poster={poster}
                     aria-hidden="true"
+                    onPlaying={() => setVideoPlaying(true)}
                 >
                     <source src={src} type="video/mp4" />
                 </video>
