@@ -10,6 +10,7 @@ import { Button } from "@/components/ui/Button";
 import LogoMarquee from "../ui/LogoMarquee";
 import { useHydratedReducedMotion } from "@/lib/useHydratedReducedMotion";
 import { useVideoInView } from "@/lib/useVideoInView";
+import ResponsiveVideoBg from "../ui/ResponsiveVideoBg";
 
 // ============================================================
 // Animation Variants — Cinematic & Slow
@@ -70,12 +71,7 @@ const ctaVariants = {
 export default function HeroSection() {
     const sectionRef = useRef<HTMLElement>(null);
     const router = useRouter();
-    // Mismo gating que VideoBackground: estable tras hidratación y respeta reduced-motion.
-    const shouldReduceMotion = useHydratedReducedMotion();
-    const canPlayHeroVideo = !shouldReduceMotion;
-    const videoRef = useRef<HTMLVideoElement>(null);
-    // Pausa el video del hero cuando deja de verse (scroll), igual que los headers de fondo.
-    useVideoInView(videoRef, canPlayHeroVideo);
+
 
     // CTA principal → página de agendamiento de cita gratuita
     const handleAgendarCita = () => {
@@ -136,26 +132,15 @@ export default function HeroSection() {
                 }}
                 className="absolute inset-0 z-[2] will-change-transform pointer-events-none overflow-hidden"
             >
-                <div
-                    className="absolute inset-0 bg-cover bg-center opacity-[0.45] sm:opacity-[0.55]"
-                    style={{ backgroundImage: "url('/hero/ad-media-logo-waves-poster.jpg')" }}
-                    aria-hidden="true"
+                <ResponsiveVideoBg
+                    mobileMp4Src="/videos/dashboard-ambient-mobile-vertical.mp4"
+                    mobileWebmSrc="/videos/dashboard-ambient-mobile-vertical.webm"
+                    mobilePoster="/videos/dashboard-ambient-mobile-vertical-poster.jpg"
+                    desktopMp4Src="/hero/ad-media-logo-waves.mp4"
+                    desktopPoster="/hero/ad-media-logo-waves-poster.jpg"
+                    posterClassName="opacity-[0.45] sm:opacity-[0.55]"
+                    videoClassName="absolute inset-0 h-full w-full object-cover opacity-[0.45] sm:opacity-[0.58] md:opacity-[0.64]"
                 />
-                {canPlayHeroVideo && (
-                    <video
-                        ref={videoRef}
-                        className="absolute inset-0 h-full w-full object-cover opacity-[0.45] sm:opacity-[0.58] md:opacity-[0.64]"
-                        autoPlay
-                        muted
-                        loop
-                        playsInline
-                        preload="metadata"
-                        poster="/hero/ad-media-logo-waves-poster.jpg"
-                        aria-hidden="true"
-                    >
-                        <source src="/hero/ad-media-logo-waves.mp4" type="video/mp4" />
-                    </video>
-                )}
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(2,6,23,0.04),rgba(2,6,23,0.44)_48%,rgba(2,6,23,0.88)_100%)]" />
                 <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-background/35 to-background/90" />
                 <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-background/85 to-transparent" />

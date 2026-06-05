@@ -8,7 +8,7 @@ import { Check, X, ArrowRight, ChevronDown, Bot, Share2, Megaphone, Globe, LifeB
 import servicesData from "@/lib/data/servicesData.json";
 import { motion, AnimatePresence } from "framer-motion";
 import { KineticContainer, KineticItem } from "@/components/animations/KineticEntrance";
-import VideoBackground from "@/components/ui/VideoBackground";
+import ResponsiveVideoBg from "@/components/ui/ResponsiveVideoBg";
 
 type ServicePlan = (typeof servicesData.services)[number]["plans"][number];
 
@@ -133,16 +133,19 @@ export default function ServiciosPage() {
       <Navbar />
 
       <section className="relative pt-24 sm:pt-28 pb-12 sm:pb-16 px-5 sm:px-6 overflow-hidden">
-        <VideoBackground
-          src="/videos/servicios-background.mp4"
-          poster="/videos/servicios-background-poster.jpg"
+        <ResponsiveVideoBg
+          mobileMp4Src="/videos/glassmorphic-dashboard-mobile-vertical.mp4"
+          mobileWebmSrc="/videos/glassmorphic-dashboard-mobile-vertical.webm"
+          mobilePoster="/videos/glassmorphic-dashboard-mobile-vertical-poster.jpg"
+          desktopMp4Src="/videos/servicios-background.mp4"
+          desktopPoster="/videos/servicios-background-poster.jpg"
           className="z-0"
           posterClassName="opacity-[0.4] sm:opacity-[0.5]"
           videoClassName="opacity-[0.4] sm:opacity-[0.5] md:opacity-[0.55]"
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(2,6,23,0.04),rgba(2,6,23,0.5)_48%,rgba(2,6,23,0.92)_100%)]" />
           <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/32 to-background/92" />
-        </VideoBackground>
+        </ResponsiveVideoBg>
 
         {/* Ambient background glow */}
         <div className="absolute top-1/4 left-1/2 z-[2] -translate-x-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
