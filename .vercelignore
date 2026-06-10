@@ -1,0 +1,16 @@
+# Material fuente y archivos pesados que no deben subir al deploy
+/*.mp4
+/*.mov
+*.dmg
+*.zip
+*.opus
+Testimonios/
+VSL/
+V3/
+FONDOS ROADMAP/
+fotos-fuente/
+test-results/
+docs/
+checklists/
+templates/
+.claude/

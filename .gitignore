@@ -59,6 +59,8 @@ checklists/
 !public/**/*.html
 
 # custom binaries and temp
+/*.mp4
+/*.mov
 *.dmg
 *.opus
 VSL/
