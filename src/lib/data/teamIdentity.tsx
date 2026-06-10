@@ -1,14 +1,26 @@
 "use client";
 
-import type { ComponentType, CSSProperties } from "react";
+import type { ComponentType } from "react";
 import {
+    Activity,
+    BarChart3,
+    Cable,
     CalendarCheck,
     Clapperboard,
     Compass,
-    Crosshair,
+    Handshake,
+    Headset,
+    Megaphone,
+    MessageSquare,
+    Palette,
     PenTool,
+    PhoneCall,
+    Scissors,
+    Sparkles,
     Terminal,
+    TrendingUp,
     Workflow,
+    Zap,
     type LucideIcon,
 } from "lucide-react";
 import type { ContextBackgroundProps } from "@/components/backgrounds/types";
@@ -18,126 +30,117 @@ import FlowField from "@/components/backgrounds/FlowField";
 import MetricBurst from "@/components/backgrounds/MetricBurst";
 import SignalGrid from "@/components/backgrounds/SignalGrid";
 import { AuroraBackground } from "@/components/ui/AuroraBackground";
-import type { CraftVariant } from "@/components/ui/CraftFrame";
 
 // ============================================================
 // Identidad visual por disciplina para los perfiles de /equipo.
-// Cada departamento tiene su fondo contextual, acento, marco de
-// oficio (CraftFrame), firma del rol y herramientas del día a día.
-// Acentos desaturados que conviven con el dark #020617; el azul
-// primario sigue siendo el color dominante del sitio.
+// TODO el color vive dentro de la familia azul/celeste de la marca;
+// la diferenciación entre áreas viene de los chips de oficio (cristal),
+// el fondo contextual y el matiz de azul — nunca de colores ajenos.
 // ============================================================
 
+export interface CraftChip {
+    icon: LucideIcon;
+    label: string;
+}
+
 export interface DeptTheme {
-    /** Fondo contextual del slide (contrato ContextBackgroundProps). */
+    /** Fondo contextual del slide (contrato ContextBackgroundProps, colores de marca). */
     Background: ComponentType<ContextBackgroundProps>;
-    /** Color de acento del departamento. */
+    /** Matiz de azul del departamento (familia primary/celeste). */
     accent: string;
     /** Ícono-marca de agua del oficio (cards mobile). */
     motifIcon: LucideIcon;
-    /** Variante del marco de oficio sobre el retrato. */
-    frame: CraftVariant;
-    /** Herramientas reales del día a día (badges, distintas de specialties). */
+    /** Chips de cristal con íconos concretos del oficio (borde del retrato). */
+    chips: CraftChip[];
+    /** Solo Producción: chip extra con timecode corriendo en vivo. */
+    timecode?: boolean;
+    /** Herramientas reales del día a día (badges bajo la bio). */
     tools: string[];
-    /** Path SVG de la firma del rol (viewBox 0 0 120 12). */
-    underline: string;
-}
-
-// Tiñe un fondo redefiniendo sus variables de color SOLO dentro de su capa
-// (no contamina pills/botones del slide, que siguen usando --primary global).
-function tinted(
-    Base: ComponentType<ContextBackgroundProps>,
-    vars: CSSProperties
-): ComponentType<ContextBackgroundProps> {
-    return function TintedBackground(props: ContextBackgroundProps) {
-        return (
-            <div className="absolute inset-0" style={vars}>
-                <Base {...props} />
-            </div>
-        );
-    };
-}
-
-function ComercialBurst(props: ContextBackgroundProps) {
-    return <MetricBurst {...props} color="#34D399" />;
 }
 
 const DEPT_THEMES: Record<string, DeptTheme> = {
     // CEO — arquitectura por etapas: el plano del negocio.
     "Dirección": {
         Background: BlueprintLayer,
-        accent: "#488EFF",
+        accent: "#0066FF",
         motifIcon: Compass,
-        frame: "seal",
+        chips: [
+            { icon: Compass, label: "Estrategia" },
+            { icon: Handshake, label: "Acuerdos" },
+        ],
         tools: ["Estrategia", "Oferta", "Roadmap 2027"],
-        underline: "M 2 8 C 32 5, 78 4, 118 6",
     },
-    // Pauta — malla de campañas optimizándose; pulso de señal en la firma.
+    // Pauta — malla de campañas optimizándose.
     "Marketing": {
-        Background: tinted(SignalGrid, {
-            "--primary": "#F59E0B",
-            "--border": "rgba(245, 158, 11, 0.22)",
-        } as CSSProperties),
-        accent: "#F59E0B",
-        motifIcon: Crosshair,
-        frame: "crosshair",
+        Background: SignalGrid,
+        accent: "#488EFF",
+        motifIcon: Megaphone,
+        chips: [
+            { icon: Megaphone, label: "Campañas" },
+            { icon: BarChart3, label: "Métricas" },
+            { icon: TrendingUp, label: "Embudo" },
+        ],
         tools: ["Meta Ads", "Google Ads", "Embudos"],
-        underline: "M 2 9 H 30 L 38 3 L 46 11 L 54 9 H 118",
     },
-    // Ventas — curva que sube; cita confirmada.
+    // Ventas — agenda, llamadas y atención.
     "Comercial": {
-        Background: ComercialBurst,
-        accent: "#34D399",
+        Background: MetricBurst,
+        accent: "#7DD3FC",
         motifIcon: CalendarCheck,
-        frame: "check",
+        chips: [
+            { icon: CalendarCheck, label: "Agenda" },
+            { icon: PhoneCall, label: "Llamadas" },
+            { icon: Headset, label: "Atención" },
+        ],
         tools: ["Agenda", "WhatsApp", "Seguimiento"],
-        underline: "M 2 10 C 50 10, 92 8, 118 2",
     },
     // CRM operativo — leads que convergen en el nexo.
     "CRM & Automatización": {
         Background: FlowField,
-        accent: "#7DD3FC",
+        accent: "#38BDF8",
         motifIcon: Workflow,
-        frame: "flow",
+        chips: [
+            { icon: Workflow, label: "Flujos" },
+            { icon: MessageSquare, label: "WhatsApp" },
+            { icon: Zap, label: "Automatización" },
+        ],
         tools: ["GoHighLevel", "A2P", "Workflows"],
-        underline: "M 2 9 C 30 9, 36 4, 60 4 C 84 4, 92 9, 118 9",
     },
-    // Ingeniería — constelación de nodos (arquitectura de datos) + terminal.
+    // Ingeniería — constelación de nodos (arquitectura de datos).
     "CRM & Sistemas": {
-        Background: tinted(ConstellationField, {
-            "--primary": "#A78BFA",
-            "--chart-2": "#C4B5FD",
-        } as CSSProperties),
-        accent: "#A78BFA",
+        Background: ConstellationField,
+        accent: "#8FB4FF",
         motifIcon: Terminal,
-        frame: "caret",
+        chips: [
+            { icon: Terminal, label: "Código" },
+            { icon: Cable, label: "Integraciones" },
+            { icon: Activity, label: "Monitoreo" },
+        ],
         tools: ["APIs", "Integraciones", "Monitoreo"],
-        underline: "M 2 9 H 34 L 42 3 H 74 L 82 9 H 118",
     },
-    // Edición — malla teñida REC; firma de cortes de timeline.
+    // Edición — celdas de clips + timecode vivo.
     "Producción": {
-        Background: tinted(SignalGrid, {
-            "--primary": "#FB7185",
-            "--border": "rgba(251, 113, 133, 0.22)",
-        } as CSSProperties),
-        accent: "#FB7185",
+        Background: SignalGrid,
+        accent: "#60A5FA",
         motifIcon: Clapperboard,
-        frame: "viewfinder",
+        chips: [
+            { icon: Clapperboard, label: "Rodaje" },
+            { icon: Scissors, label: "Corte" },
+        ],
+        timecode: true,
         tools: ["Premiere", "DaVinci", "CapCut"],
-        underline: "M 2 9 H 24 M 32 9 H 60 M 68 9 H 92 M 100 9 H 118",
     },
-    // Diseño — aurora teñida (creatividad) + marcas de corte.
+    // Diseño — aurora de marca (creatividad).
     "Diseño & IA": {
-        Background: tinted(AuroraBackground, {
-            "--color-aurora-mid": "#E879F9",
-            "--color-aurora-edge": "#7C3AED",
-            "--aurora-opacity": "0.3",
-        } as CSSProperties),
-        accent: "#E879F9",
+        Background: AuroraBackground,
+        accent: "#93C5FD",
         motifIcon: PenTool,
-        frame: "cropmarks",
+        chips: [
+            { icon: Palette, label: "Marca" },
+            { icon: PenTool, label: "Diseño" },
+            { icon: Sparkles, label: "IA" },
+        ],
         tools: ["Photoshop", "Illustrator", "IA Generativa"],
-        underline: "M 2 9 C 24 1, 44 13, 66 5 C 84 -1, 102 9, 118 4",
     },
 };
 
