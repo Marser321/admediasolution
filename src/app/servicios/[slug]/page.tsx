@@ -10,7 +10,16 @@ import FooterContact from "@/components/sections/FooterContact";
 import FlowField from "@/components/backgrounds/FlowField";
 import SignalGrid from "@/components/backgrounds/SignalGrid";
 import BlueprintLayer from "@/components/backgrounds/BlueprintLayer";
+import MetricBurst from "@/components/backgrounds/MetricBurst";
 import AnimatedCounter from "@/components/ui/AnimatedCounter";
+
+// Acento de resultados por servicio (coherente con la identidad por
+// disciplina de /equipo: CRM cielo, pauta ámbar, soporte esmeralda).
+const SLUG_ACCENTS: Record<string, string> = {
+  "embudos-neurales": "#7DD3FC",
+  "contenido-generativo": "#F59E0B",
+  "ads-autopilot": "#34D399",
+};
 
 // Fondo contextual según el slug (alineado con el rubro de cada servicio).
 function SlugBackground({ slug }: { slug: string }) {
@@ -155,22 +164,32 @@ export default function ServiceDetail() {
                     </p>
                 </motion.div>
 
-                {/* Stats Grid */}
-                <div className="relative z-10 grid grid-cols-1 md:grid-cols-3 gap-4 mt-8 sm:mt-10">
-                    {service.stats.map((stat, i) => (
-                        <motion.div
-                            key={stat.label}
-                            initial={{ opacity: 0, y: 20 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            transition={{ delay: 0.2 + i * 0.1 }}
-                            className="glass-premium p-5 sm:p-6 border border-border bg-card/40"
-                        >
-                            <p className="mb-2">
-                                <StatValue value={stat.value} />
-                            </p>
-                            <p className="text-sm text-muted-foreground uppercase tracking-wider">{stat.label}</p>
-                        </motion.div>
-                    ))}
+                {/* Stats Grid — con curva de resultado en el color del servicio */}
+                <div className="relative z-10 mt-8 sm:mt-10">
+                    <div className="pointer-events-none absolute -inset-x-4 -inset-y-6 z-0">
+                        <MetricBurst
+                            intensity="soft"
+                            density="low"
+                            opacity={0.3}
+                            color={SLUG_ACCENTS[slug] ?? "#7DD3FC"}
+                        />
+                    </div>
+                    <div className="relative grid grid-cols-1 md:grid-cols-3 gap-4">
+                        {service.stats.map((stat, i) => (
+                            <motion.div
+                                key={stat.label}
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ delay: 0.2 + i * 0.1 }}
+                                className="glass-premium p-5 sm:p-6 border border-border bg-card/40"
+                            >
+                                <p className="mb-2">
+                                    <StatValue value={stat.value} />
+                                </p>
+                                <p className="text-sm text-muted-foreground uppercase tracking-wider">{stat.label}</p>
+                            </motion.div>
+                        ))}
+                    </div>
                 </div>
             </section>
 

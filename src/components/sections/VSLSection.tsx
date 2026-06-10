@@ -7,6 +7,7 @@ import { Activity, Calendar, Gauge, Play, ShieldCheck, Sparkles } from "lucide-r
 import { useRouter } from "next/navigation";
 import { KineticContainer, KineticItem } from "@/components/animations/KineticEntrance";
 import { Button } from "@/components/ui/Button";
+import SectionDivider from "@/components/ui/SectionDivider";
 import { useMediaQuery } from "@/lib/useMediaQuery";
 
 const VSL_POSTER = "/media/vsl/vsl-8min-poster.jpg";
@@ -33,7 +34,7 @@ export default function VSLSection() {
         <div className="texture-grid opacity-[0.025]" />
         <div className="absolute inset-0 bg-gradient-to-b from-background via-transparent to-background" />
       </div>
-      <div className="absolute left-0 right-0 top-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+      <SectionDivider className="absolute left-0 right-0 top-0" />
 
       <div className="relative z-10 mx-auto grid max-w-7xl grid-cols-1 items-center gap-10 lg:grid-cols-12 lg:gap-16">
         <div className="lg:col-span-5">
@@ -138,6 +139,10 @@ export default function VSLSection() {
                       Sistema comercial, seguimiento y agenda en una sola explicacion.
                     </p>
                   </div>
+                  {/* Barra de progreso fantasma: sugiere "esto se reproduce" (se desmonta al play) */}
+                  <div className="absolute inset-x-0 bottom-0 h-[3px] overflow-hidden bg-white/5">
+                    <div className="h-full w-full animate-shimmer bg-gradient-to-r from-transparent via-primary to-transparent" />
+                  </div>
                 </button>
               )}
             </div>
@@ -160,7 +165,7 @@ export default function VSLSection() {
         </motion.div>
       </div>
 
-      <div className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/20 to-transparent" />
+      <SectionDivider className="absolute bottom-0 left-0 right-0" />
     </section>
   );
 }

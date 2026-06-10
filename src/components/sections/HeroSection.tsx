@@ -3,7 +3,7 @@
 import { useRef } from "react";
 
 import { AuroraBackground } from "../ui/AuroraBackground";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, Calendar } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
@@ -69,6 +69,7 @@ const ctaVariants = {
 export default function HeroSection() {
     const sectionRef = useRef<HTMLElement>(null);
     const router = useRouter();
+    const reduceMotion = useReducedMotion();
 
 
     // CTA principal → página de agendamiento de cita gratuita
@@ -144,6 +145,8 @@ export default function HeroSection() {
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(2,6,23,0.04),rgba(2,6,23,0.44)_48%,rgba(2,6,23,0.88)_100%)]" />
                 <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-background/35 to-background/90" />
                 <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-background/85 to-transparent" />
+                {/* Grano de cine en movimiento: textura viva que disimula la compresión del video */}
+                <div className="absolute -inset-[12%] animate-grain texture-travertine opacity-[0.05] mix-blend-overlay pointer-events-none" />
             </motion.div>
 
             {/* 4. Vignette & Lighting — Adjusted to avoid sharp bottom seams */}
@@ -244,7 +247,16 @@ export default function HeroSection() {
                 className="absolute bottom-10 left-1/2 -translate-x-1/2 z-10 hidden sm:flex flex-col items-center gap-3"
             >
                 <div className="text-[11px] uppercase tracking-[0.3em] text-muted-foreground/40 font-bold">Deslizar</div>
-                <div className="h-16 w-[1px] bg-gradient-to-b from-primary/40 to-transparent" />
+                <div className="relative h-16 w-[1px] bg-gradient-to-b from-primary/40 to-transparent">
+                    {/* Punto que desciende por la línea: invita al scroll sin gritar */}
+                    {!reduceMotion && (
+                        <motion.span
+                            className="absolute -left-[2.5px] top-0 size-[6px] rounded-full bg-primary shadow-[0_0_8px_var(--primary)]"
+                            animate={{ y: [0, 52], opacity: [0, 1, 0] }}
+                            transition={{ duration: 2.2, repeat: Infinity, ease: "easeInOut", repeatDelay: 0.6 }}
+                        />
+                    )}
+                </div>
             </motion.div>
         </section>
     );
