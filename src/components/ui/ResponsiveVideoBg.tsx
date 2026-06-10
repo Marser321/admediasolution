@@ -1,9 +1,8 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState, useSyncExternalStore } from "react";
 import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
-import { useHydratedReducedMotion } from "@/lib/useHydratedReducedMotion";
 import { useVideoInView } from "@/lib/useVideoInView";
 import { useMediaQuery } from "@/lib/useMediaQuery";
 
@@ -24,8 +23,16 @@ interface ResponsiveVideoBgProps {
     className?: string;
     posterClassName?: string;
     videoClassName?: string;
+    mobilePosterClassName?: string;
+    desktopPosterClassName?: string;
+    mobileVideoClassName?: string;
+    desktopVideoClassName?: string;
     children?: ReactNode;
 }
+
+const subscribeToHydration = () => () => {};
+const getHydratedSnapshot = () => true;
+const getServerHydratedSnapshot = () => false;
 
 export default function ResponsiveVideoBg({
     mobileWebmSrc,
@@ -38,31 +45,30 @@ export default function ResponsiveVideoBg({
     className,
     posterClassName,
     videoClassName,
+    mobilePosterClassName,
+    desktopPosterClassName,
+    mobileVideoClassName,
+    desktopVideoClassName,
     children,
 }: ResponsiveVideoBgProps) {
+    const hasHydrated = useSyncExternalStore(
+        subscribeToHydration,
+        getHydratedSnapshot,
+        getServerHydratedSnapshot,
+    );
     const isDesktop = useMediaQuery(`(min-width: ${breakpoint}px)`);
-    const shouldReduceMotion = useHydratedReducedMotion();
+    const shouldReduceMotion = useMediaQuery("(prefers-reduced-motion: reduce)");
 
-    const [canPlayVideo, setCanPlayVideo] = useState(false);
-    const [videoPlaying, setVideoPlaying] = useState(false);
+    const [playingSource, setPlayingSource] = useState<string | null>(null);
     const videoRef = useRef<HTMLVideoElement>(null);
 
     // Obtener los assets correspondientes al viewport actual
     const currentPoster = isDesktop ? (desktopPoster || mobilePoster) : mobilePoster;
     const currentWebm = isDesktop ? desktopWebmSrc : mobileWebmSrc;
     const currentMp4 = isDesktop ? desktopMp4Src : mobileMp4Src;
-
-    useEffect(() => {
-        // Reiniciar estado de reproducción al cambiar de video/viewport
-        setVideoPlaying(false);
-        
-        // Solo reproducimos si no prefiere movimiento reducido y tenemos fuentes de video
-        const hasSource = isDesktop
-            ? (!!desktopWebmSrc || !!desktopMp4Src)
-            : (!!mobileWebmSrc || !!mobileMp4Src);
-
-        setCanPlayVideo(hasSource && !shouldReduceMotion);
-    }, [isDesktop, shouldReduceMotion, desktopWebmSrc, desktopMp4Src, mobileWebmSrc, mobileMp4Src]);
+    const currentSourceKey = `${isDesktop ? "desktop" : "mobile"}-${currentMp4 || currentWebm}`;
+    const canPlayVideo = hasHydrated && Boolean(currentMp4 || currentWebm) && !shouldReduceMotion;
+    const videoPlaying = playingSource === currentSourceKey;
 
     // Pausa el video cuando sale del viewport
     useVideoInView(videoRef, canPlayVideo);
@@ -76,7 +82,8 @@ export default function ResponsiveVideoBg({
             <div
                 className={cn(
                     "absolute inset-0 bg-cover bg-center transition-opacity duration-700",
-                    posterClassName
+                    posterClassName,
+                    isDesktop ? desktopPosterClassName : mobilePosterClassName,
                 )}
                 style={{
                     backgroundImage: `url('${currentPoster}')`,
@@ -87,12 +94,12 @@ export default function ResponsiveVideoBg({
             {/* Capa de video (solo se monta si se puede reproducir en este breakpoint) */}
             {canPlayVideo && (currentWebm || currentMp4) && (
                 <video
-                    key={`${isDesktop ? "desktop" : "mobile"}-${currentMp4}`} // Remonta el video al cambiar de viewport
+                    key={currentSourceKey}
                     ref={videoRef}
                     className={cn(
-                        "absolute inset-0 h-full w-full",
-                        isDesktop ? "object-cover" : "object-fill",
-                        videoClassName
+                        "absolute inset-0 h-full w-full object-cover",
+                        videoClassName,
+                        isDesktop ? desktopVideoClassName : mobileVideoClassName,
                     )}
                     autoPlay
                     muted
@@ -101,10 +108,10 @@ export default function ResponsiveVideoBg({
                     preload="metadata"
                     poster={currentPoster}
                     aria-hidden="true"
-                    onPlaying={() => setVideoPlaying(true)}
+                    onPlaying={() => setPlayingSource(currentSourceKey)}
                 >
-                    {currentWebm && <source src={currentWebm} type="video/webm" />}
                     {currentMp4 && <source src={currentMp4} type="video/mp4" />}
+                    {currentWebm && <source src={currentWebm} type="video/webm" />}
                 </video>
             )}
             {children}

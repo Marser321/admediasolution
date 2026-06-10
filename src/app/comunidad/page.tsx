@@ -34,13 +34,14 @@ export default function ComunidadPage() {
       <section className="relative overflow-hidden px-5 pb-16 pt-24 sm:px-6 sm:pb-20 sm:pt-28">
         <ResponsiveVideoBg
           mobileMp4Src="/videos/glassmorphic-details-mobile-vertical.mp4"
-          mobileWebmSrc="/videos/glassmorphic-details-mobile-vertical.webm"
           mobilePoster="/videos/glassmorphic-details-mobile-vertical-poster.jpg"
           desktopMp4Src="/videos/comunidad-header.mp4"
           desktopPoster="/videos/comunidad-header-poster.jpg"
           className="z-0 h-[640px] bottom-auto"
           posterClassName="opacity-[0.35] sm:opacity-[0.45]"
           videoClassName="opacity-[0.35] sm:opacity-[0.45]"
+          mobilePosterClassName="bg-[position:50%_42%]"
+          mobileVideoClassName="object-[50%_42%]"
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_26%,rgba(2,6,23,0.05),rgba(2,6,23,0.45)_55%,rgba(2,6,23,0.88)_100%)]" />
           <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-background via-background/75 to-transparent" />

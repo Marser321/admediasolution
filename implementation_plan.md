@@ -709,6 +709,46 @@ Para facilitar que el modelo de 1M de contexto implemente la lógica compleja de
 
 ---
 
+## 27. Afinacion de Videos de Fondo Responsive
+
+<approved_execution_plan>
+  <summary>
+    Corregir la deformacion de los videos verticales en mobile, limitar el fondo animado de Servicios a su cabecera y optimizar la entrega responsive completa sin cambiar contenido ni estructura comercial.
+  </summary>
+
+  <visual_guardrails>
+    <item>No usar `object-fill` ni deformar la relacion de aspecto de ningun video.</item>
+    <item>Mantener Home y Comunidad con fondos verticales completos, ajustando encuadre y overlays solo cuando sea necesario para conservar legibilidad.</item>
+    <item>Limitar el video mobile de Servicios a la cabecera y desvanecerlo antes de la lista extensa de planes.</item>
+    <item>No cambiar copy, planes, navegacion, CTAs, claims ni estructura comercial.</item>
+    <item>Respetar reduced motion mediante posters estaticos y conservar autoplay silencioso, `playsInline` y pausa fuera del viewport.</item>
+  </visual_guardrails>
+
+  <implementation_scope>
+    <item>Extender `ResponsiveVideoBg` con configuracion explicita de encuadre y comportamiento por breakpoint, manteniendo compatibilidad con sus usos actuales.</item>
+    <item>Usar `object-cover` para preservar proporcion y configurar posiciones responsive por seccion cuando el foco visual lo requiera.</item>
+    <item>Priorizar MP4 optimizado cuando pese menos y conservar fuentes alternativas solo cuando aporten compatibilidad o transferencia real.</item>
+    <item>Reprocesar los videos responsive con `faststart`, conservando dimensiones, duracion y una calidad visual apropiada para fondos ambientales.</item>
+    <item>Ajustar el breakpoint y alcance del fondo de Servicios para evitar que tablet descargue assets desktop pesados o estire el asset vertical sobre toda la seccion.</item>
+    <item>Documentar o retirar el asset vertical `tech-card-glowing` si continua sin uso despues de confirmar que no tiene consumidor.</item>
+  </implementation_scope>
+
+  <validation>
+    <item>Ejecutar TypeScript, ESLint y build de Next.js.</item>
+    <item>Verificar Home, Servicios y Comunidad en `390x844`, `768x1024`, `1024x768` y desktop.</item>
+    <item>Confirmar ausencia de `object-fill`, deformaciones, saltos al cambiar breakpoint y errores de consola relacionados con video.</item>
+    <item>Confirmar que Servicios apaga el video antes de la lista extensa de planes.</item>
+    <item>Validar seleccion del asset correcto, pesos transferidos, `faststart`, posters, autoplay y reduced motion.</item>
+    <item>Tratar la validacion visual con navegador como una fase separada de la implementacion.</item>
+  </validation>
+
+  <business_benefit>
+    <item>Mejora la calidad percibida en mobile, reduce consumo innecesario de datos y bateria, y evita que fondos deformados resten confianza a la presentacion comercial.</item>
+  </business_benefit>
+</approved_execution_plan>
+
+---
+
 ## 29. Feedback del Anotador: Auditoria de Contraste por Modos de Color
 
 <pending_vibe_approval>

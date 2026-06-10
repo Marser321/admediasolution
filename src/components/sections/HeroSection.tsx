@@ -8,8 +8,6 @@ import { ArrowDown, Calendar } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import LogoMarquee from "../ui/LogoMarquee";
-import { useHydratedReducedMotion } from "@/lib/useHydratedReducedMotion";
-import { useVideoInView } from "@/lib/useVideoInView";
 import ResponsiveVideoBg from "../ui/ResponsiveVideoBg";
 
 // ============================================================
@@ -134,12 +132,13 @@ export default function HeroSection() {
             >
                 <ResponsiveVideoBg
                     mobileMp4Src="/videos/dashboard-ambient-mobile-vertical.mp4"
-                    mobileWebmSrc="/videos/dashboard-ambient-mobile-vertical.webm"
                     mobilePoster="/videos/dashboard-ambient-mobile-vertical-poster.jpg"
                     desktopMp4Src="/hero/ad-media-logo-waves.mp4"
                     desktopPoster="/hero/ad-media-logo-waves-poster.jpg"
                     posterClassName="opacity-[0.45] sm:opacity-[0.55]"
                     videoClassName="opacity-[0.45] sm:opacity-[0.58] md:opacity-[0.64]"
+                    mobilePosterClassName="bg-[position:50%_46%]"
+                    mobileVideoClassName="object-[50%_46%]"
                 />
                 <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(2,6,23,0.04),rgba(2,6,23,0.44)_48%,rgba(2,6,23,0.88)_100%)]" />
                 <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-background/35 to-background/90" />

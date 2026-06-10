@@ -135,16 +135,18 @@ export default function ServiciosPage() {
       <section className="relative pt-24 sm:pt-28 pb-12 sm:pb-16 px-5 sm:px-6 overflow-hidden">
         <ResponsiveVideoBg
           mobileMp4Src="/videos/glassmorphic-dashboard-mobile-vertical.mp4"
-          mobileWebmSrc="/videos/glassmorphic-dashboard-mobile-vertical.webm"
           mobilePoster="/videos/glassmorphic-dashboard-mobile-vertical-poster.jpg"
           desktopMp4Src="/videos/servicios-background.mp4"
           desktopPoster="/videos/servicios-background-poster.jpg"
-          className="z-0"
+          breakpoint={1280}
+          className="z-0 h-[620px] sm:h-[720px] lg:h-[780px] bottom-auto"
           posterClassName="opacity-[0.4] sm:opacity-[0.5]"
           videoClassName="opacity-[0.4] sm:opacity-[0.5] md:opacity-[0.55]"
+          mobilePosterClassName="bg-[position:50%_30%]"
+          mobileVideoClassName="object-[50%_30%]"
         >
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(2,6,23,0.04),rgba(2,6,23,0.5)_48%,rgba(2,6,23,0.92)_100%)]" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/32 to-background/92" />
+          <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/32 to-background" />
         </ResponsiveVideoBg>
 
         {/* Ambient background glow */}
