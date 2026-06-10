@@ -124,23 +124,24 @@ function ConnectionLines({ radius, centerX, centerY }: { radius: number; centerX
 // ============================================================
 // Nodo Orbital Individual
 // ============================================================
-function OrbitalNode({
-    node,
-    index,
-    total,
-    radius,
-    centerX,
-    centerY,
-    isInView,
-}: {
-    node: (typeof TECH_NODES)[0];
-    index: number;
+interface OrbitalConfig {
     total: number;
     radius: number;
     centerX: number;
     centerY: number;
     isInView: boolean;
+}
+
+function OrbitalNode({
+    node,
+    index,
+    config,
+}: {
+    node: (typeof TECH_NODES)[0];
+    index: number;
+    config: OrbitalConfig;
 }) {
+    const { total, radius, centerX, centerY, isInView } = config;
     const [isHovered, setIsHovered] = useState(false);
     const Icon = node.icon;
     const angle = (index * 360) / total - 90;
@@ -253,6 +254,14 @@ export default function TechEcosystemOrbit() {
     const center = viewSize / 2;
     const orbitRadius = 120;
 
+    const orbitalConfig: OrbitalConfig = {
+        total: TECH_NODES.length,
+        radius: orbitRadius,
+        centerX: center,
+        centerY: center,
+        isInView: isInView,
+    };
+
     return (
         <div
             ref={containerRef}
@@ -280,11 +289,7 @@ export default function TechEcosystemOrbit() {
                         key={node.label}
                         node={node}
                         index={index}
-                        total={TECH_NODES.length}
-                        radius={orbitRadius}
-                        centerX={center}
-                        centerY={center}
-                        isInView={isInView}
+                        config={orbitalConfig}
                     />
                 ))}
             </div>
