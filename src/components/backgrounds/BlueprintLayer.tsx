@@ -89,7 +89,7 @@ export default function BlueprintLayer({
                                 stroke="url(#bp-line)"
                                 strokeWidth="2.5"
                                 strokeLinecap="round"
-                                initial={{ pathLength: 0 }}
+                                initial={{ pathLength: 0, opacity: 0 }}
                                 animate={{ pathLength: lit ? 1 : 0, opacity: lit ? 0.8 : 0 }}
                                 transition={{ duration: 0.9, ease: "easeInOut" }}
                             />
@@ -135,7 +135,7 @@ export default function BlueprintLayer({
                             fill="var(--bg-card, rgba(15,23,42,0.95))"
                             stroke={n.active ? "var(--primary, #0066FF)" : "var(--border, rgba(0,102,255,0.2))"}
                             strokeWidth="2"
-                            initial={{ scale: 0 }}
+                            initial={{ scale: 0, opacity: 0 }}
                             animate={{ scale: 1, opacity: n.active ? 1 : 0.4 }}
                             transition={{ type: "spring", stiffness: 120, damping: 14, delay: i * 0.1 }}
                             style={{

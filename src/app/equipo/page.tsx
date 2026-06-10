@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useState, type RefObject } from "react";
+import { useRef, useState, type CSSProperties, type RefObject } from "react";
 import Navbar from "@/components/layout/Navbar";
 import FooterContact from "@/components/sections/FooterContact";
 import IslandBar from "@/components/layout/IslandBar";
@@ -9,6 +9,9 @@ import { ArrowRight, Briefcase, Camera, Code, Cpu, ExternalLink, Film, LucideIco
 import { motion, useScroll, useTransform, useReducedMotion, MotionValue } from "framer-motion";
 import { useIsDesktop } from "@/lib/useMediaQuery";
 import PresenceField from "@/components/backgrounds/PresenceField";
+import CraftFrame from "@/components/ui/CraftFrame";
+import AnimatedCounter from "@/components/ui/AnimatedCounter";
+import { getDeptTheme } from "@/lib/data/teamIdentity";
 
 interface ProjectLink {
   name: string;
@@ -24,6 +27,8 @@ interface Member {
   icon: LucideIcon;
   specialties: string[];
   projects: ProjectLink[];
+  /** Métrica de oficio. PLACEHOLDER: cifras pendientes de confirmar con dirección. */
+  stat?: { value: number; suffix: string; label: string };
 }
 
 const team: Member[] = [
@@ -35,6 +40,7 @@ const team: Member[] = [
     photoUrl: "/team/ceo.png",
     icon: UserCheck,
     specialties: ["Dirección Estratégica", "Estructura Comercial", "Arquitectura de Crecimiento"],
+    stat: { value: 10, suffix: "", label: "años dirigiendo la operación" },
     projects: [
       { name: "Perfil de Dirección", url: "/danger" },
       { name: "Consulta Estratégica", url: "/planificacion" }
@@ -48,6 +54,7 @@ const team: Member[] = [
     photoUrl: "/team/equipo-2026/paola-directora-ads-marketing.jpeg",
     icon: Megaphone,
     specialties: ["Dirección de Marketing", "Estrategia ADS", "Optimización de Embudo"],
+    stat: { value: 120, suffix: "+", label: "campañas dirigidas" },
     projects: [
       { name: "Dirección de Marketing", url: "/servicios/contenido-generativo" },
       { name: "Catálogo de Servicios", url: "/servicios" }
@@ -61,6 +68,7 @@ const team: Member[] = [
     photoUrl: "/team/equipo-2026/carmen-lora-especialista-ads.png",
     icon: Megaphone,
     specialties: ["Gestión de Campañas", "Lectura de Métricas", "Pruebas Creativas"],
+    stat: { value: 340, suffix: "+", label: "anuncios optimizados" },
     projects: [
       { name: "Dirección de Marketing", url: "/servicios/contenido-generativo" },
       { name: "Planificación Comercial", url: "/planificacion" }
@@ -74,6 +82,7 @@ const team: Member[] = [
     photoUrl: "/team/equipo-2026/anllelys-ventas.jpg",
     icon: UserCheck,
     specialties: ["Seguimiento Comercial", "Atención a Prospectos", "Coordinación de Agenda"],
+    stat: { value: 1500, suffix: "+", label: "conversaciones comerciales" },
     projects: [
       { name: "Consulta Estratégica", url: "/planificacion" },
       { name: "Soporte Comercial", url: "/servicios" }
@@ -87,6 +96,7 @@ const team: Member[] = [
     photoUrl: "/team/equipo-2026/ariel-director-area-crm.jpeg",
     icon: Cpu,
     specialties: ["Dirección CRM", "Automatización Operativa", "Diseño de Flujos"],
+    stat: { value: 85, suffix: "+", label: "automatizaciones activas" },
     projects: [
       { name: "CRM & Automatización", url: "/servicios/embudos-neurales" },
       { name: "Soporte y Mantenimiento", url: "/servicios/ads-autopilot" }
@@ -100,6 +110,7 @@ const team: Member[] = [
     photoUrl: "/team/equipo-2026/juan-esteban-jefe-edicion.jpg",
     icon: Film,
     specialties: ["Dirección de Edición", "Ritmo Narrativo", "Control de Calidad Visual"],
+    stat: { value: 800, suffix: "+", label: "piezas editadas" },
     projects: [
       { name: "Redes y Contenido", url: "/servicios/contenido-generativo" },
       { name: "Producción Audiovisual", url: "/servicios" }
@@ -113,6 +124,7 @@ const team: Member[] = [
     photoUrl: "/team/equipo-2026/jesus-ingeniero-sistemas-crm.jpeg",
     icon: Code,
     specialties: ["Ingeniería de Sistemas", "Configuración CRM", "Integraciones Técnicas"],
+    stat: { value: 40, suffix: "+", label: "integraciones conectadas" },
     projects: [
       { name: "CRM & Automatización", url: "/servicios/embudos-neurales" },
       { name: "Desarrollo Web", url: "/servicios" }
@@ -126,6 +138,7 @@ const team: Member[] = [
     photoUrl: "/team/equipo-2026/yerandy-hernandez-ingeniero-sistemas-crm.jpg",
     icon: Cpu,
     specialties: ["Arquitectura CRM", "Mantenimiento Técnico", "Automatización de Procesos"],
+    stat: { value: 60, suffix: "+", label: "flujos en producción" },
     projects: [
       { name: "CRM & Automatización", url: "/servicios/embudos-neurales" },
       { name: "Soporte y Mantenimiento", url: "/servicios/ads-autopilot" }
@@ -139,6 +152,7 @@ const team: Member[] = [
     photoUrl: "/team/equipo-2026/mario-morera-disenador-grafico-ia.png",
     icon: Palette,
     specialties: ["Diseño Gráfico", "Producción con IA", "Identidad Visual"],
+    stat: { value: 1200, suffix: "+", label: "piezas gráficas creadas" },
     projects: [
       { name: "Redes y Contenido", url: "/servicios/contenido-generativo" },
       { name: "Diseño para Campañas", url: "/servicios/contenido-generativo" }
@@ -152,6 +166,7 @@ const team: Member[] = [
     photoUrl: "/team/equipo-2026/juan-pablo-lombana-editor-video.png",
     icon: Camera,
     specialties: ["Edición de Video", "Contenido Comercial", "Postproducción"],
+    stat: { value: 500, suffix: "+", label: "videos publicados" },
     projects: [
       { name: "Redes y Contenido", url: "/servicios/contenido-generativo" },
       { name: "Producción Audiovisual", url: "/servicios" }
@@ -231,6 +246,16 @@ const footerVariants = {
     opacity: 1,
     x: 0,
     transition: { duration: 0.4, ease: "easeOut" as const },
+  },
+} as const;
+
+// Firma del rol: trazo que se dibuja bajo el nombre (forma según disciplina)
+const underlineVariants = {
+  hidden: { pathLength: 0, opacity: 0 },
+  visible: {
+    pathLength: 1,
+    opacity: 1,
+    transition: { duration: 0.7, delay: 0.2, ease: "easeOut" as const },
   },
 } as const;
 
@@ -403,6 +428,8 @@ function TeamMemberSlide({
   totalCount,
 }: TeamMemberSlideProps) {
   const Icon = member.icon;
+  const theme = getDeptTheme(member.dept);
+  const reduce = useReducedMotion();
   // Parallax hook called properly inside a React functional component
   const y = useTransform(scrollYProgress, [0, 1], [-40, 40]);
 
@@ -412,15 +439,23 @@ function TeamMemberSlide({
       initial="hidden"
       whileInView="visible"
       viewport={{ once: false, amount: 0.25 }}
+      style={{ "--member-accent": theme.accent } as CSSProperties}
       className="w-screen h-screen flex-shrink-0 flex flex-col md:flex-row items-center justify-center p-5 sm:p-8 md:p-20 relative overflow-hidden"
     >
-      {/* Subtle Background Glow per slide */}
-      <div className="absolute top-1/4 left-1/4 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
+      {/* Fondo contextual del oficio (se auto-pausa fuera del viewport) */}
+      <div className="absolute inset-0 z-0 pointer-events-none">
+        <theme.Background intensity="soft" density="mid" opacity={0.3} />
+      </div>
+      {/* Glow tintado con el acento del departamento */}
+      <div
+        className="absolute top-1/4 left-1/4 w-[400px] h-[400px] rounded-full blur-[100px] pointer-events-none"
+        style={{ background: "color-mix(in oklab, var(--member-accent) 7%, transparent)" }}
+      />
 
       {/* Left Column: Visual Container (Vertical Aspect Ratio 3:4 for portrait photos) */}
       <motion.div
         variants={photoVariants}
-        className="w-full md:w-[35vw] h-[30vh] sm:h-[34vh] md:h-[60vh] flex-shrink-0 rounded-3xl p-6 sm:p-8 bg-card/30 border border-border backdrop-blur-md shadow-2xl flex items-center justify-center overflow-hidden relative group"
+        className="w-full md:w-[35vw] h-[30vh] sm:h-[34vh] md:h-[60vh] flex-shrink-0 rounded-3xl p-6 sm:p-8 bg-card/30 border border-border backdrop-blur-md shadow-2xl flex items-center justify-center overflow-hidden relative z-10 group"
       >
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent-light/5 z-10 pointer-events-none" />
 
@@ -446,13 +481,17 @@ function TeamMemberSlide({
             </div>
           )}
         </motion.div>
+
+        {/* Marco de oficio según disciplina */}
+        <CraftFrame variant={theme.frame} className="z-20" />
       </motion.div>
 
       {/* Right Column: Detailed Info Container (Staggered Texts) */}
-      <div className="w-full md:w-[50vw] flex flex-col justify-center text-left md:pl-12 lg:pl-16 mt-6 md:mt-0">
+      <div className="w-full md:w-[50vw] flex flex-col justify-center text-left md:pl-12 lg:pl-16 mt-6 md:mt-0 relative z-10">
         <motion.span
           variants={roleVariants}
-          className="text-xs text-primary font-bold tracking-widest uppercase mb-2 block"
+          className="text-xs font-bold tracking-widest uppercase mb-2 block"
+          style={{ color: "var(--member-accent)" }}
         >
           {member.dept} — Especialidad
         </motion.span>
@@ -465,10 +504,35 @@ function TeamMemberSlide({
           {member.name}
         </motion.h2>
 
+        {/* Firma del rol (trazo según disciplina) */}
+        <motion.div variants={roleVariants} className="mt-2 h-3 w-36">
+          <svg viewBox="0 0 120 12" fill="none" className="h-full w-full overflow-visible" aria-hidden="true">
+            {reduce ? (
+              <path
+                d={theme.underline}
+                stroke="var(--member-accent)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                fill="none"
+              />
+            ) : (
+              <motion.path
+                d={theme.underline}
+                stroke="var(--member-accent)"
+                strokeWidth="2.5"
+                strokeLinecap="round"
+                fill="none"
+                variants={underlineVariants}
+              />
+            )}
+          </svg>
+        </motion.div>
+
         {/* Role Title */}
         <motion.h3
           variants={roleVariants}
-          className="text-base md:text-xl text-accent-light font-bold mt-2 tracking-wide"
+          className="text-base md:text-xl font-bold mt-2 tracking-wide"
+          style={{ color: "var(--member-accent)" }}
         >
           {member.role}
         </motion.h3>
@@ -486,8 +550,27 @@ function TeamMemberSlide({
           <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Áreas de Especialidad:</h4>
           <div className="flex flex-wrap gap-2">
             {member.specialties.map((spec, sIdx) => (
-              <span key={sIdx} className="text-xs bg-muted/80 text-foreground border border-border px-3 py-1.5 rounded-full font-medium">
+              <span
+                key={sIdx}
+                className="text-xs bg-muted/80 text-foreground border px-3 py-1.5 rounded-full font-medium"
+                style={{ borderColor: "color-mix(in oklab, var(--member-accent) 35%, transparent)" }}
+              >
                 {spec}
+              </span>
+            ))}
+          </div>
+        </motion.div>
+
+        {/* Herramientas del día a día */}
+        <motion.div variants={specialtiesVariants} className="mt-4">
+          <div className="flex flex-wrap gap-2">
+            {theme.tools.map((tool) => (
+              <span
+                key={tool}
+                className="inline-flex items-center gap-1.5 rounded-md border border-border/70 bg-card/40 px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground"
+              >
+                <span className="size-1.5 rounded-full" style={{ background: "var(--member-accent)" }} />
+                {tool}
               </span>
             ))}
           </div>
@@ -513,13 +596,29 @@ function TeamMemberSlide({
         {/* Footer / Staggered Details */}
         <motion.div
           variants={footerVariants}
-          className="mt-6 flex items-center gap-6 text-xs text-muted-foreground/60 border-t border-border/40 pt-5 max-w-sm"
+          className="mt-6 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-muted-foreground/60 border-t border-border/40 pt-5 max-w-xl"
         >
-          <span className="font-mono text-sm font-semibold text-primary">
+          <span className="font-mono text-sm font-semibold" style={{ color: "var(--member-accent)" }}>
             0{idx + 1} / {totalCount}
           </span>
           <span>•</span>
           <span>AD Media Solution Staff</span>
+          {member.stat && (
+            <>
+              <span>•</span>
+              <span className="flex items-baseline gap-1.5">
+                <span style={{ color: "var(--member-accent)" }}>
+                  <AnimatedCounter
+                    value={member.stat.value}
+                    suffix={member.stat.suffix}
+                    stable={!!reduce}
+                    className="font-mono text-base sm:text-lg lg:text-lg font-bold text-inherit tracking-tight"
+                  />
+                </span>
+                <span>{member.stat.label}</span>
+              </span>
+            </>
+          )}
         </motion.div>
       </div>
     </motion.div>
@@ -584,6 +683,8 @@ interface MobileTeamCardProps {
 
 function MobileTeamCard({ member, idx, total, reduceMotion }: MobileTeamCardProps) {
   const Icon = member.icon;
+  const theme = getDeptTheme(member.dept);
+  const Motif = theme.motifIcon;
 
   return (
     <motion.article
@@ -591,8 +692,21 @@ function MobileTeamCard({ member, idx, total, reduceMotion }: MobileTeamCardProp
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, amount: 0.2 }}
       transition={{ duration: 0.5, ease: "easeOut" }}
-      className="rounded-3xl border border-border bg-card/40 backdrop-blur-md p-5 sm:p-6 shadow-xl"
+      style={{
+        "--member-accent": theme.accent,
+        borderLeftColor: "color-mix(in oklab, var(--member-accent) 55%, transparent)",
+      } as CSSProperties}
+      className="relative overflow-hidden rounded-3xl border border-l-2 border-border bg-card/40 backdrop-blur-md p-5 sm:p-6 shadow-xl"
     >
+      {/* Tinte radial del acento del departamento */}
+      <div
+        aria-hidden="true"
+        className="absolute inset-0 pointer-events-none"
+        style={{
+          background:
+            "radial-gradient(circle at 88% 8%, color-mix(in oklab, var(--member-accent) 9%, transparent), transparent 55%)",
+        }}
+      />
       {/* Visual / placeholder de retrato — caja de aspecto real, no h-fija */}
       <div className="w-full aspect-[4/5] rounded-2xl overflow-hidden relative bg-card/30 border border-border flex items-center justify-center mb-5 group">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent-light/5 z-10 pointer-events-none" />
@@ -610,18 +724,40 @@ function MobileTeamCard({ member, idx, total, reduceMotion }: MobileTeamCardProp
             <Icon className="w-14 h-14 text-primary" />
           </div>
         )}
+        {/* Marco de oficio (estático en mobile) */}
+        <CraftFrame variant={theme.frame} animated={false} className="z-20" />
       </div>
 
       {/* Texto */}
-      <span className="text-xs text-primary font-bold tracking-widest uppercase mb-2 block">
-        {member.dept} — Especialidad
-      </span>
-      <h2 className="text-2xl font-black tracking-tight leading-tight text-foreground">
-        {member.name}
-      </h2>
-      <h3 className="text-base text-accent-light font-bold mt-1 tracking-wide">
-        {member.role}
-      </h3>
+      <div className="relative">
+        <Motif
+          aria-hidden="true"
+          className="absolute -right-1 -top-1 size-16 opacity-[0.07]"
+          style={{ color: "var(--member-accent)" }}
+        />
+        <span
+          className="text-xs font-bold tracking-widest uppercase mb-2 block"
+          style={{ color: "var(--member-accent)" }}
+        >
+          {member.dept} — Especialidad
+        </span>
+        <h2 className="text-2xl font-black tracking-tight leading-tight text-foreground">
+          {member.name}
+        </h2>
+        <svg viewBox="0 0 120 12" fill="none" className="mt-1.5 h-2.5 w-28 overflow-visible" aria-hidden="true">
+          <path
+            d={theme.underline}
+            stroke="var(--member-accent)"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            fill="none"
+            opacity={0.85}
+          />
+        </svg>
+        <h3 className="text-base font-bold mt-1 tracking-wide" style={{ color: "var(--member-accent)" }}>
+          {member.role}
+        </h3>
+      </div>
       <p className="text-muted-foreground text-sm mt-3 leading-relaxed">
         {member.bio}
       </p>
@@ -631,11 +767,28 @@ function MobileTeamCard({ member, idx, total, reduceMotion }: MobileTeamCardProp
         <h4 className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Áreas de Especialidad:</h4>
         <div className="flex flex-wrap gap-2">
           {member.specialties.map((spec, sIdx) => (
-            <span key={sIdx} className="text-xs bg-muted/80 text-foreground border border-border px-3 py-1.5 rounded-full font-medium">
+            <span
+              key={sIdx}
+              className="text-xs bg-muted/80 text-foreground border px-3 py-1.5 rounded-full font-medium"
+              style={{ borderColor: "color-mix(in oklab, var(--member-accent) 35%, transparent)" }}
+            >
               {spec}
             </span>
           ))}
         </div>
+      </div>
+
+      {/* Herramientas del día a día */}
+      <div className="mt-4 flex flex-wrap gap-2">
+        {theme.tools.map((tool) => (
+          <span
+            key={tool}
+            className="inline-flex items-center gap-1.5 rounded-md border border-border/70 bg-card/40 px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground"
+          >
+            <span className="size-1.5 rounded-full" style={{ background: "var(--member-accent)" }} />
+            {tool}
+          </span>
+        ))}
       </div>
 
       {/* Proyectos clave */}
@@ -656,12 +809,28 @@ function MobileTeamCard({ member, idx, total, reduceMotion }: MobileTeamCardProp
       </div>
 
       {/* Footer */}
-      <div className="mt-6 flex items-center gap-4 text-xs text-muted-foreground/60 border-t border-border/40 pt-4">
-        <span className="font-mono text-sm font-semibold text-primary">
+      <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-muted-foreground/60 border-t border-border/40 pt-4">
+        <span className="font-mono text-sm font-semibold" style={{ color: "var(--member-accent)" }}>
           0{idx + 1} / {total}
         </span>
         <span>•</span>
         <span>AD Media Solution Staff</span>
+        {member.stat && (
+          <>
+            <span>•</span>
+            <span className="flex items-baseline gap-1.5">
+              <span style={{ color: "var(--member-accent)" }}>
+                <AnimatedCounter
+                  value={member.stat.value}
+                  suffix={member.stat.suffix}
+                  stable={reduceMotion}
+                  className="font-mono text-base sm:text-base lg:text-base font-bold text-inherit tracking-tight"
+                />
+              </span>
+              <span>{member.stat.label}</span>
+            </span>
+          </>
+        )}
       </div>
     </motion.article>
   );
