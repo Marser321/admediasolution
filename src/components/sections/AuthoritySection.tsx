@@ -326,7 +326,7 @@ function StatItem({
             }}
             className="text-center sm:text-left"
         >
-            <p className="text-2xl sm:text-3xl font-display font-bold text-text-primary">
+            <p className="text-xl sm:text-2xl font-display font-bold tracking-tight text-text-primary">
                 {stat.value}
             </p>
             <p className="text-[11px] text-accent-blue/80 uppercase tracking-wider mt-1">{stat.label}</p>
