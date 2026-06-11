@@ -140,8 +140,8 @@ export default function VSLSection() {
                     </p>
                   </div>
                   {/* Barra de progreso fantasma: sugiere "esto se reproduce" (se desmonta al play) */}
-                  <div className="absolute inset-x-0 bottom-0 h-[3px] overflow-hidden bg-white/5">
-                    <div className="h-full w-full animate-shimmer bg-gradient-to-r from-transparent via-primary to-transparent" />
+                  <div className="absolute inset-x-0 bottom-0 h-[2px] overflow-hidden bg-white/5 opacity-70">
+                    <div className="h-full w-full animate-shimmer bg-gradient-to-r from-transparent via-primary/40 to-transparent" />
                   </div>
                 </button>
               )}

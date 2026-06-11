@@ -17,6 +17,16 @@ import {
 // afinar con dirección; la estructura es la real.
 // ============================================================
 
+/** Fondo de marca que florece detrás del mapa al tocar la etapa. */
+export type BackgroundKey =
+    | "blueprint"
+    | "flow"
+    | "presence"
+    | "aurora"
+    | "constellation"
+    | "signal"
+    | "metric";
+
 export interface JourneyStage {
     id: string;
     /** Nombre corto de la etapa (voz directa, sin jerga). */
@@ -30,6 +40,8 @@ export interface JourneyStage {
     icon: LucideIcon;
     /** Qué recibe o queda listo para el cliente. */
     deliverables: string[];
+    /** Fondo animado de marca que se revela al tocar la etapa. */
+    bg: BackgroundKey;
 }
 
 export const JOURNEY_STAGES: JourneyStage[] = [
@@ -41,6 +53,7 @@ export const JOURNEY_STAGES: JourneyStage[] = [
         depts: ["Dirección"],
         icon: PhoneCall,
         deliverables: ["Lectura del negocio", "Metas claras", "Plan inicial"],
+        bg: "blueprint",
     },
     {
         id: "configuracion-crm",
@@ -50,6 +63,7 @@ export const JOURNEY_STAGES: JourneyStage[] = [
         depts: ["CRM & Automatización", "CRM & Sistemas"],
         icon: Workflow,
         deliverables: ["CRM operativo", "WhatsApp conectado", "A2P aprobado"],
+        bg: "flow",
     },
     {
         id: "segunda-llamada",
@@ -59,6 +73,7 @@ export const JOURNEY_STAGES: JourneyStage[] = [
         depts: ["Dirección", "Comercial"],
         icon: Presentation,
         deliverables: ["Oferta definida", "Presupuesto", "Calendario"],
+        bg: "presence",
     },
     {
         id: "pila-de-arte",
@@ -68,6 +83,7 @@ export const JOURNEY_STAGES: JourneyStage[] = [
         depts: ["Diseño & IA", "Producción"],
         icon: Palette,
         deliverables: ["Piezas gráficas", "Videos editados", "Creativos de campaña"],
+        bg: "aurora",
     },
     {
         id: "configuraciones-tecnicas",
@@ -77,6 +93,7 @@ export const JOURNEY_STAGES: JourneyStage[] = [
         depts: ["CRM & Sistemas"],
         icon: Cog,
         deliverables: ["Integraciones activas", "Tracking instalado", "Monitoreo"],
+        bg: "constellation",
     },
     {
         id: "presupuesto-pauta",
@@ -86,6 +103,7 @@ export const JOURNEY_STAGES: JourneyStage[] = [
         depts: ["Marketing"],
         icon: Megaphone,
         deliverables: ["Campañas activas", "Segmentación", "Reportes de pauta"],
+        bg: "signal",
     },
     {
         id: "lanzamiento-agenda",
@@ -95,6 +113,7 @@ export const JOURNEY_STAGES: JourneyStage[] = [
         depts: ["Comercial"],
         icon: CalendarCheck,
         deliverables: ["Agenda con citas", "Seguimiento activo", "Atención al prospecto"],
+        bg: "metric",
     },
     {
         id: "optimizacion",
@@ -104,5 +123,6 @@ export const JOURNEY_STAGES: JourneyStage[] = [
         depts: ["Dirección", "Marketing", "CRM & Automatización"],
         icon: TrendingUp,
         deliverables: ["Métricas mensuales", "Ajustes de campaña", "Soporte continuo"],
+        bg: "presence",
     },
 ];
