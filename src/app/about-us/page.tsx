@@ -10,6 +10,7 @@ import { motion, useScroll, useTransform, Variants, MotionValue, useMotionValueE
 import Image from "next/image";
 import GrowthSchematic from "@/components/ui/GrowthSchematic";
 import VideoBackground from "@/components/ui/VideoBackground";
+import { useMediaQuery } from "@/lib/useMediaQuery";
 
 // ============================================================
 // Types & Structures
@@ -32,10 +33,11 @@ interface MilestoneItem {
 export default function AboutUsPage() {
   const targetRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const showDesktop = useMediaQuery("(min-width: 1024px)");
   
   // Track scroll on the scrollytelling container
   const { scrollYProgress } = useScroll({
-    target: targetRef,
+    target: showDesktop ? targetRef : undefined,
   });
 
   const mouseX = useMotionValue(0);
@@ -58,6 +60,8 @@ export default function AboutUsPage() {
 
   // Monitor scrollYProgress to update the active slide index dynamically
   useMotionValueEvent(scrollYProgress, "change", (latest) => {
+    if (!showDesktop) return;
+
     // 6 zones: Intro (0), 2016 (1), 2019 (2), 2022 (3), 2026 (4), 2027+ (5)
     if (latest < 0.15) {
       setActiveIndex(0);
@@ -76,6 +80,7 @@ export default function AboutUsPage() {
 
   // Interpolate vertical scroll into slides translation (6 slides total = Intro + 5 Milestones)
   const y = useTransform(scrollYProgress, [0, 1], ["0vh", "-500vh"]);
+  const hudProgressHeight = useTransform(scrollYProgress, [0.15, 0.85], ["0%", "100%"]);
 
   const milestones: MilestoneItem[] = [
     {
@@ -165,11 +170,13 @@ export default function AboutUsPage() {
     >
       <Navbar />
 
-      {/* Vertical Timeline Track Container (Scrollable height = 500vh) */}
-      <div ref={targetRef} className="relative h-[500vh] bg-background">
+      {showDesktop ? (
+        <>
+          {/* Vertical Timeline Track Container (Scrollable height = 500vh) */}
+          <div ref={targetRef} className="relative h-[500vh] bg-background">
         
-        {/* Sticky Window Container (Fixed viewport h-screen) */}
-        <div className="sticky top-0 h-screen w-screen overflow-hidden flex items-center bg-background z-10">
+            {/* Sticky Window Container (Fixed viewport h-screen) */}
+            <div className="sticky top-0 h-screen w-screen overflow-hidden flex items-center bg-background z-10">
           
           {/* Background Growth Schematic Map — Cursor Parallax Depth */}
           <motion.div
@@ -231,18 +238,16 @@ export default function AboutUsPage() {
             ))}
 
           </motion.div>
-        </div>
-      </div>
+            </div>
+          </div>
 
-      {/* HUD Navigation Overlay (Desktop only) */}
-      <div className="fixed right-10 top-1/2 -translate-y-1/2 z-50 hidden lg:flex flex-col gap-6 items-center">
+          {/* HUD Navigation Overlay (Desktop only) */}
+          <div className="fixed right-10 top-1/2 -translate-y-1/2 z-50 hidden lg:flex flex-col gap-6 items-center">
         {/* Progress Line */}
         <div className="absolute top-0 bottom-0 w-[2px] bg-white/10 rounded-full z-0">
           <motion.div 
             className="w-full bg-gradient-to-b from-primary to-accent-light rounded-full origin-top"
-            style={{ 
-              height: useTransform(scrollYProgress, [0.15, 0.85], ["0%", "100%"]),
-            }}
+            style={{ height: hudProgressHeight }}
           />
         </div>
 
@@ -291,7 +296,11 @@ export default function AboutUsPage() {
             </button>
           );
         })}
-      </div>
+          </div>
+        </>
+      ) : (
+        <MobileAboutTimeline milestones={milestones} />
+      )}
 
       {/* Footer Contact renders statically below the sticky track */}
       <div className="relative z-20 bg-background">
@@ -300,6 +309,101 @@ export default function AboutUsPage() {
       
       <IslandBar />
     </main>
+  );
+}
+
+function MobileAboutTimeline({ milestones }: { milestones: MilestoneItem[] }) {
+  return (
+    <section
+      className="relative overflow-hidden bg-background px-5 pb-16 pt-28 sm:px-8"
+      aria-labelledby="mobile-about-title"
+    >
+      <div className="pointer-events-none absolute inset-0">
+        <div className="texture-grid opacity-[0.025]" />
+        <div className="absolute left-1/2 top-32 h-72 w-72 -translate-x-1/2 rounded-full bg-primary/10 blur-[110px]" />
+      </div>
+
+      <header className="relative z-10 mx-auto max-w-2xl text-center">
+        <span className="inline-flex rounded-full border border-primary/20 bg-primary/10 px-4 py-2 text-xs font-bold uppercase tracking-[0.18em] text-primary">
+          AD Media Trayectoria
+        </span>
+        <h1 id="mobile-about-title" className="mt-5 text-4xl font-black leading-tight tracking-tight text-foreground sm:text-5xl">
+          10 años de evolución e{" "}
+          <span className="bg-gradient-to-r from-primary to-accent-light bg-clip-text text-transparent">
+            impacto comercial
+          </span>
+        </h1>
+        <p className="mx-auto mt-4 max-w-xl text-base leading-relaxed text-muted-foreground">
+          Desde que Danger empezó solo hasta el equipo y los sistemas que hoy dan dirección de marketing y ventas.
+        </p>
+      </header>
+
+      <div className="relative z-10 mx-auto mt-10 max-w-2xl">
+        <div className="absolute bottom-8 left-[21px] top-8 w-px bg-gradient-to-b from-primary via-accent-light/60 to-primary/20" />
+        <div className="space-y-6">
+          {milestones.map((item, index) => {
+            const Icon = item.icon;
+            return (
+              <motion.article
+                key={item.year}
+                data-mobile-milestone={item.year}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.15 }}
+                transition={{ duration: 0.45, delay: index * 0.04 }}
+                className="relative pl-14"
+              >
+                <div className="absolute left-0 top-6 z-10 flex size-11 items-center justify-center rounded-full border border-primary/40 bg-background text-primary shadow-lg shadow-primary/15">
+                  <Icon className="size-5" />
+                </div>
+
+                <div className="overflow-hidden rounded-3xl border border-primary/20 bg-card/55 shadow-xl backdrop-blur-md">
+                  <div className="relative aspect-[4/3] overflow-hidden bg-slate-950">
+                    {item.videoUrl && item.posterUrl ? (
+                      <VideoBackground
+                        profile="media-card"
+                        src={item.videoUrl}
+                        poster={item.posterUrl}
+                        className="h-full w-full"
+                      />
+                    ) : (
+                      <Image
+                        src={item.imageUrl}
+                        alt={item.title}
+                        fill
+                        className="object-cover"
+                        sizes="(max-width: 1024px) 100vw, 640px"
+                        priority={index === 0}
+                      />
+                    )}
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950/75 via-transparent to-transparent" />
+                    <span
+                      className="absolute bottom-4 left-4 rounded-full border border-white/15 bg-slate-950/70 px-3 py-1 text-sm font-black text-white backdrop-blur-md"
+                      data-video-contrast-content="media-card"
+                      data-video-audit-text
+                    >
+                      {item.year}
+                    </span>
+                  </div>
+
+                  <div className="p-5 sm:p-6">
+                    <p className="text-xs font-bold uppercase tracking-[0.16em] text-primary">
+                      Hito {String(index + 1).padStart(2, "0")} de {String(milestones.length).padStart(2, "0")}
+                    </p>
+                    <h2 className="mt-2 text-2xl font-black leading-tight text-foreground">{item.title}</h2>
+                    <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{item.description}</p>
+                    <div className="mt-4 rounded-2xl border border-primary/15 bg-primary/5 p-4">
+                      <p className="text-sm font-bold text-foreground">{item.officeTitle}</p>
+                      <p className="mt-1 text-xs leading-relaxed text-accent-light">{item.officeDesc}</p>
+                    </div>
+                  </div>
+                </div>
+              </motion.article>
+            );
+          })}
+        </div>
+      </div>
+    </section>
   );
 }
 
@@ -393,6 +497,7 @@ function MilestoneSlide({
       {/* Visual Showcase Column (Full-Screen Aspect Card) */}
       <motion.div
         variants={photoVariants}
+        data-video-surface="media-card"
         className={`w-full lg:w-[45vw] h-[23vh] sm:h-[34vh] lg:h-[58vh] flex-shrink-0 rounded-3xl border border-primary/15 bg-card/30 backdrop-blur-md overflow-hidden relative shadow-2xl flex items-center justify-center mt-5 lg:mt-0 group ${
           idx % 2 === 0 
             ? "lg:order-2" 
@@ -408,11 +513,12 @@ function MilestoneSlide({
         >
           {item.videoUrl && item.posterUrl ? (
             <VideoBackground
+              profile="media-card"
               src={item.videoUrl}
               poster={item.posterUrl}
               className="h-full w-full"
-              posterClassName="opacity-85 transition-transform duration-700 group-hover:scale-105"
-              videoClassName="opacity-85 transition-transform duration-700 group-hover:scale-105"
+              posterClassName="transition-transform duration-700 group-hover:scale-105"
+              videoClassName="transition-transform duration-700 group-hover:scale-105"
             />
           ) : (
             <Image
@@ -427,9 +533,16 @@ function MilestoneSlide({
         </motion.div>
 
         {/* Technical bottom overlay tag */}
-        <div className="absolute bottom-4 right-4 z-20 flex items-center gap-2 px-3 py-1.5 rounded-lg bg-background/80 border border-white/5 backdrop-blur-md">
+        <div
+          className="absolute bottom-4 right-4 z-20 flex items-center gap-2 px-3 py-1.5 rounded-lg bg-background/80 border border-white/5 backdrop-blur-md"
+          data-video-label="media-card"
+          data-video-contrast-content="media-card"
+        >
           <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
-          <span className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest">
+          <span
+            className="text-[9px] font-mono text-muted-foreground uppercase tracking-widest"
+            data-video-audit-text
+          >
             HITO_0{idx + 1} / 0{totalCount}
           </span>
         </div>

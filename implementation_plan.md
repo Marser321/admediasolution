@@ -4,6 +4,107 @@ Este plan de integración detalla la estrategia controlada para implementar el f
 
 ---
 
+## 18. Sincronización del Repositorio
+
+<pending_approval_plan>
+  <summary>
+    Consolidar el trabajo local actual y actualizar `origin/main` de forma segura, preservando todos los cambios existentes y deteniendo la publicación si el remoto cambia durante la ejecución.
+  </summary>
+
+  <business_goal>
+    <item>Respaldar en el repositorio remoto los avances de diseño, contenido, video y validación que hoy solo existen total o parcialmente en local.</item>
+    <item>Mantener una historia de Git auditable y evitar pérdidas por sobrescrituras, merges automáticos o archivos sensibles publicados por accidente.</item>
+  </business_goal>
+
+  <read_only_baseline>
+    <item>La rama activa es `main` y el commit local actual es `669c9eb`.</item>
+    <item>`origin/main` apunta a `84bb077`; la rama local está dos commits por delante y no está por detrás.</item>
+    <item>El worktree contiene múltiples archivos modificados y archivos nuevos todavía sin commit, incluido este plan preexistente.</item>
+  </read_only_baseline>
+
+  <implementation_scope>
+    <item>Revisar el diff completo y clasificar archivos fuente, pruebas, configuración, documentación y assets nuevos.</item>
+    <item>Comprobar que no haya secretos, credenciales, logs pesados ni artefactos generados que no deban versionarse.</item>
+    <item>Ejecutar verificaciones proporcionales al alcance: `git diff --check`, lint, build y las pruebas relevantes disponibles.</item>
+    <item>Preparar un commit coherente con el trabajo local actual, sin alterar ni descartar cambios existentes.</item>
+    <item>Actualizar las referencias remotas y confirmar nuevamente que `origin/main` no haya avanzado desde `84bb077`.</item>
+    <item>Publicar la rama `main` en `origin` únicamente si las validaciones pasan y no existe divergencia remota inesperada.</item>
+    <item>Verificar que el commit publicado sea el nuevo extremo de `origin/main` y que el estado local quede correctamente reportado.</item>
+  </implementation_scope>
+
+  <guardrails>
+    <item>No usar `reset --hard`, `checkout --`, force push ni comandos que descarten trabajo.</item>
+    <item>No sobrescribir, revertir ni excluir cambios locales sin una justificación visible.</item>
+    <item>No escribir ni publicar tokens, API keys, PITs, archivos `.env` o secretos equivalentes.</item>
+    <item>No resolver una divergencia remota mediante merge o rebase improvisado; detenerse y presentar el conflicto si aparece.</item>
+    <item>Mantener fases atómicas: inspeccionar, validar, consolidar y publicar.</item>
+  </guardrails>
+
+  <validation>
+    <item>Confirmar que los checks automáticos finalicen sin errores o documentar con precisión cualquier limitación preexistente.</item>
+    <item>Revisar el contenido y tamaño de los archivos nuevos antes de añadirlos al índice.</item>
+    <item>Comparar el hash local y remoto después del push para confirmar la sincronización.</item>
+  </validation>
+</pending_approval_plan>
+
+---
+
+## 17. Auditoría de Fondos de Video en Cuatro Temas
+
+<approved_execution_plan>
+  <summary>
+    Centralizar transparencias, filtros, modos de fusión y overlays de los fondos de video para garantizar legibilidad consistente en los temas luxury, classic, sky y white.
+  </summary>
+
+  <business_goal>
+    <item>Proteger la lectura de títulos, textos, controles y precios sin perder el carácter cinematográfico de los fondos audiovisuales.</item>
+    <item>Mantener la identidad azul de AD Media Solution en ambos modos claros y eliminar el tinte cálido no deseado del tema white.</item>
+    <item>Reducir ajustes aislados por página mediante perfiles reutilizables y verificables.</item>
+  </business_goal>
+
+  <baseline>
+    <item>La auditoría estructural actual pasa en escritorio, pero no evalúa correctamente contraste sobre video ni cubre sky en la suite visual de contraste.</item>
+    <item>ResponsiveVideoBg se usa en Home, Servicios y Comunidad; VideoBackground se usa como medio enmarcado dentro de About Us.</item>
+    <item>El worktree contiene cambios locales previos en globals.css, ResponsiveVideoBg y páginas relacionadas que deben preservarse.</item>
+  </baseline>
+
+  <implementation_scope>
+    <item>Añadir a ResponsiveVideoBg y VideoBackground un perfil tipado: hero, services, community o media-card.</item>
+    <item>Exponer capas identificables para asset, póster y scrim mediante clases y atributos data-video-profile.</item>
+    <item>Aplicar el mismo filtro, opacidad y modo de fusión al póster y al video para evitar destellos al iniciar la reproducción.</item>
+    <item>Definir tratamientos centralizados por tema: normal/navy para luxury, screen/negro para classic y multiply/azul claro para sky y white.</item>
+    <item>Conservar el color original de media-card y adaptar únicamente su superficie y etiqueta al tema activo.</item>
+    <item>Calibrar los perfiles para Home, Servicios, Comunidad y el hito audiovisual de About Us sin cambiar copy, estructura ni assets.</item>
+    <item>Eliminar las reglas de inversión que vuelven cálido el video en white y retirar tokens de fusión que queden sin consumidores.</item>
+  </implementation_scope>
+
+  <public_interfaces>
+    <item>ResponsiveVideoBg.profile: "hero" | "services" | "community" | "media-card".</item>
+    <item>VideoBackground.profile: "hero" | "services" | "community" | "media-card".</item>
+    <item>Los consumidores existentes asignarán explícitamente el perfil correspondiente; media-card será el perfil del video de About Us.</item>
+  </public_interfaces>
+
+  <validation>
+    <item>Cubrir /, /about-us, /servicios, los tres detalles públicos de servicio, /casos, /equipo, /planificacion, /comunidad y /danger.</item>
+    <item>Excluir /logos por ser una utilidad interna con assets faltantes y ajena a los fondos de video públicos.</item>
+    <item>Validar luxury, classic, sky y white en viewport móvil 390 px, tablet 768 px y escritorio 1440 px.</item>
+    <item>Capturar el estado de póster y frames de video al 10, 50 y 90 por ciento para detectar cambios de color o luminosidad.</item>
+    <item>Exigir contraste WCAG AA: 4.5:1 para texto normal y 3:1 para texto grande sobre las superficies auditadas.</item>
+    <item>Verificar cambio de tema, reduced motion, ausencia de destellos, overflow y errores de consola.</item>
+    <item>Ejecutar git diff --check, npm run lint, npm run build y las suites Playwright de contraste y ritmo.</item>
+  </validation>
+
+  <guardrails>
+    <item>No revertir ni sobrescribir cambios locales existentes.</item>
+    <item>No modificar copy, estructura comercial ni assets audiovisuales.</item>
+    <item>No introducir excepciones por página fuera del sistema de perfiles.</item>
+    <item>No escribir secretos ni credenciales en archivos versionados.</item>
+    <item>Mantener fases atómicas: planificar, implementar y validar.</item>
+  </guardrails>
+</approved_execution_plan>
+
+---
+
 ## 14. Sesion Local con Anotador
 
 <pending_approval_plan>
@@ -706,6 +807,47 @@ Para facilitar que el modelo de 1M de contexto implemente la lógica compleja de
     <item>Convierte las secciones de mayor conversion en explicaciones visuales del sistema comercial, corrigiendo fondos genericos sin aumentar riesgo reputacional por claims no aprobados.</item>
   </business_benefit>
 </pending_vibe_approval>
+
+---
+
+## 27. Auditoría y Corrección Móvil Integral
+
+<approved_execution_plan>
+  <summary>
+    Corregir los patrones móviles que ocultan contenido, dependen de gestos laterales poco evidentes, generan recorridos excesivos o reducen la legibilidad y el área táctil.
+  </summary>
+
+  <business_goal>
+    <item>Permitir que servicios, historia, equipo, testimonios y navegación se entiendan y utilicen sin descubrir gestos ocultos.</item>
+    <item>Evitar que la navegación fija tape CTAs, formularios o tarjetas.</item>
+    <item>Convertir la revisión móvil en una protección automática permanente para todas las rutas públicas.</item>
+  </business_goal>
+
+  <implementation_scope>
+    <item>Sustituir el carrusel móvil de categorías de Servicios por un selector accesible de ancho completo y conservar tabs visibles desde tablet.</item>
+    <item>Crear una línea temporal vertical para About Us en móvil y reservar el scrollytelling para escritorio.</item>
+    <item>Reducir IslandBar móvil a cuatro destinos principales y un menú Más con destinos secundarios y selector de tema.</item>
+    <item>Mostrar las personas antes del recorrido completo en Equipo y convertir Cómo trabajamos en contenido resumido y expandible.</item>
+    <item>Aplicar targets táctiles mínimos de 44 por 44 píxeles y texto significativo de al menos 12 píxeles.</item>
+    <item>Añadir espacio inferior seguro global para navegación fija y ampliar controles compactos en Servicios, Casos, Danger, Planificación y pie.</item>
+    <item>Eliminar solicitudes de assets inexistentes en la utilidad interna Logos y marcarla como no indexable.</item>
+    <item>Extender la auditoría Playwright a 320, 390 y 430 píxeles con controles de scroll oculto, targets, microtexto, overlays, hitos y capturas.</item>
+  </implementation_scope>
+
+  <validation>
+    <item>Validar primero 320x700, 390x844 y 430x932; después tablet y escritorio.</item>
+    <item>Probar scroll, menú Más, selector de servicios, formularios, filtros, hitos y navegación inferior.</item>
+    <item>Ejecutar lint, build y las suites Playwright móviles.</item>
+    <item>Exigir que ninguna función dependa de un gesto lateral oculto, ningún CTA quede cubierto y el contenido comercial sea legible.</item>
+  </validation>
+
+  <guardrails>
+    <item>No revertir ni sobrescribir cambios locales existentes.</item>
+    <item>Preservar copy, claims y rutas salvo ajustes estrictamente necesarios para accesibilidad móvil.</item>
+    <item>No escribir secretos ni credenciales en archivos versionados.</item>
+    <item>Mantener fases atómicas: navegación, páginas críticas, controles compartidos y validación.</item>
+  </guardrails>
+</approved_execution_plan>
 
 ---
 

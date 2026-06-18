@@ -1,10 +1,10 @@
 import { defineConfig, devices } from "@playwright/test";
 
 export default defineConfig({
-  testDir: "./tests/rhythm",
-  timeout: 90_000,
+  testDir: "./tests/video",
+  timeout: 120_000,
   expect: {
-    timeout: 10_000,
+    timeout: 15_000,
   },
   use: {
     baseURL: "http://127.0.0.1:3000",
@@ -19,24 +19,11 @@ export default defineConfig({
   },
   projects: [
     {
-      name: "mobile-320",
-      use: {
-        ...devices["Pixel 7"],
-        viewport: { width: 320, height: 700 },
-      },
-    },
-    {
       name: "mobile-390",
       use: {
         ...devices["Pixel 7"],
         viewport: { width: 390, height: 844 },
-      },
-    },
-    {
-      name: "mobile-430",
-      use: {
-        ...devices["Pixel 7"],
-        viewport: { width: 430, height: 932 },
+        deviceScaleFactor: 1,
       },
     },
     {
@@ -46,6 +33,7 @@ export default defineConfig({
         viewport: { width: 768, height: 1024 },
         isMobile: false,
         hasTouch: true,
+        deviceScaleFactor: 1,
       },
     },
     {
@@ -53,6 +41,7 @@ export default defineConfig({
       use: {
         ...devices["Desktop Chrome"],
         viewport: { width: 1440, height: 900 },
+        deviceScaleFactor: 1,
       },
     },
   ],

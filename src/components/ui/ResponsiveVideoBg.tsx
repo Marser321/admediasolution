@@ -6,8 +6,11 @@ import Image from "next/image";
 import { cn } from "@/lib/utils";
 import { useVideoInView } from "@/lib/useVideoInView";
 import { useMediaQuery } from "@/lib/useMediaQuery";
+import type { VideoBackgroundProfile } from "@/components/ui/videoBackgroundProfiles";
 
 interface ResponsiveVideoBgProps {
+    profile: VideoBackgroundProfile;
+
     // Recursos para móvil/tablet (vertical)
     mobileWebmSrc?: string;
     mobileMp4Src?: string;
@@ -39,6 +42,7 @@ const getHydratedSnapshot = () => true;
 const getServerHydratedSnapshot = () => false;
 
 export default function ResponsiveVideoBg({
+    profile,
     mobileWebmSrc,
     mobileMp4Src,
     mobilePoster,
@@ -80,15 +84,20 @@ export default function ResponsiveVideoBg({
 
     return (
         <div
-            className={cn("absolute inset-0 overflow-hidden pointer-events-none", className)}
+            className={cn(
+                "video-background responsive-video-bg-container absolute inset-0 isolate overflow-hidden pointer-events-none",
+                className,
+            )}
+            data-video-profile={profile}
             aria-hidden="true"
         >
             {/* Capa estática de póster (next/image: AVIF/WebP + preload scanner → mejora LCP) */}
             <div
                 className={cn(
-                    "absolute inset-0 transition-opacity duration-700",
+                    "video-background__visual video-background__poster absolute inset-0 transition-opacity duration-700",
                     posterClassName,
                 )}
+                data-video-layer="poster"
                 style={{ opacity: videoPlaying ? 0 : undefined }}
             >
                 <Image
@@ -99,7 +108,7 @@ export default function ResponsiveVideoBg({
                     quality={75}
                     priority={posterPriority}
                     className={cn(
-                        "object-cover object-center",
+                        "video-background__asset object-cover object-center",
                         isDesktop ? desktopPosterClassName : mobilePosterClassName,
                     )}
                 />
@@ -107,26 +116,35 @@ export default function ResponsiveVideoBg({
 
             {/* Capa de video (solo se monta si se puede reproducir en este breakpoint) */}
             {canPlayVideo && (currentWebm || currentMp4) && (
-                <video
+                <div
                     key={currentSourceKey}
-                    ref={videoRef}
-                    className={cn(
-                        "absolute inset-0 h-full w-full object-cover",
-                        videoClassName,
-                        isDesktop ? desktopVideoClassName : mobileVideoClassName,
-                    )}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                    aria-hidden="true"
-                    onPlaying={() => setPlayingSource(currentSourceKey)}
+                    className="video-background__visual video-background__motion absolute inset-0"
+                    data-video-layer="video"
                 >
-                    {currentMp4 && <source src={currentMp4} type="video/mp4" />}
-                    {currentWebm && <source src={currentWebm} type="video/webm" />}
-                </video>
+                    <video
+                        ref={videoRef}
+                        className={cn(
+                            "video-background__asset absolute inset-0 h-full w-full object-cover",
+                            videoClassName,
+                            isDesktop ? desktopVideoClassName : mobileVideoClassName,
+                        )}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                        aria-hidden="true"
+                        onPlaying={() => setPlayingSource(currentSourceKey)}
+                    >
+                        {currentMp4 && <source src={currentMp4} type="video/mp4" />}
+                        {currentWebm && <source src={currentWebm} type="video/webm" />}
+                    </video>
+                </div>
             )}
+            <div
+                className="video-background__scrim absolute inset-0"
+                data-video-layer="scrim"
+            />
             {children}
         </div>
     );

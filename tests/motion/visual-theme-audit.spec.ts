@@ -5,14 +5,18 @@ const PAGES = [
     "/",
     "/about-us",
     "/servicios",
+    "/servicios/embudos-neurales",
+    "/servicios/contenido-generativo",
+    "/servicios/ads-autopilot",
     "/casos",
+    "/danger",
     "/equipo",
     "/planificacion",
     "/comunidad",
 ] as const;
 
 // List of vibe themes to cycle through
-const THEMES = ["classic", "luxury", "white"] as const;
+const THEMES = ["classic", "luxury", "sky", "white"] as const;
 
 interface ContrastFailure {
     tag: string;
@@ -181,8 +185,9 @@ test.describe("Visual Theme & Contrast Audit", () => {
                 // Inject theme into localStorage and class list
                 await page.evaluate((themeName) => {
                     localStorage.setItem("vibe-theme", themeName);
-                    document.documentElement.classList.remove("theme-classic", "theme-white");
+                    document.documentElement.classList.remove("theme-classic", "theme-sky", "theme-white");
                     if (themeName === "classic") document.documentElement.classList.add("theme-classic");
+                    if (themeName === "sky") document.documentElement.classList.add("theme-sky");
                     if (themeName === "white") document.documentElement.classList.add("theme-white");
                 }, theme);
 

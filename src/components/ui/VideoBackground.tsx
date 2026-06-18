@@ -5,8 +5,10 @@ import type { ReactNode } from "react";
 import { cn } from "@/lib/utils";
 import { useHydratedReducedMotion } from "@/lib/useHydratedReducedMotion";
 import { useVideoInView } from "@/lib/useVideoInView";
+import type { VideoBackgroundProfile } from "@/components/ui/videoBackgroundProfiles";
 
 interface VideoBackgroundProps {
+    profile: VideoBackgroundProfile;
     src: string;
     poster: string;
     className?: string;
@@ -16,6 +18,7 @@ interface VideoBackgroundProps {
 }
 
 export default function VideoBackground({
+    profile,
     src,
     poster,
     className,
@@ -44,29 +47,49 @@ export default function VideoBackground({
 
     return (
         <div
-            className={cn("absolute inset-0 overflow-hidden pointer-events-none", className)}
+            className={cn(
+                "video-background absolute inset-0 isolate overflow-hidden pointer-events-none",
+                className,
+            )}
+            data-video-profile={profile}
             aria-hidden="true"
         >
             <div
-                className={cn("absolute inset-0 bg-cover bg-center transition-opacity duration-700", posterClassName)}
+                className={cn(
+                    "video-background__visual video-background__poster video-background__asset absolute inset-0 bg-cover bg-center transition-opacity duration-700",
+                    posterClassName,
+                )}
+                data-video-layer="poster"
                 style={{ backgroundImage: `url('${poster}')`, opacity: videoPlaying ? 0 : undefined }}
             />
             {canPlayVideo && (
-                <video
-                    ref={videoRef}
-                    className={cn("absolute inset-0 h-full w-full object-cover", videoClassName)}
-                    autoPlay
-                    muted
-                    loop
-                    playsInline
-                    preload="metadata"
-                    poster={poster}
-                    aria-hidden="true"
-                    onPlaying={() => setVideoPlaying(true)}
+                <div
+                    className="video-background__visual video-background__motion absolute inset-0"
+                    data-video-layer="video"
                 >
-                    <source src={src} type="video/mp4" />
-                </video>
+                    <video
+                        ref={videoRef}
+                        className={cn(
+                            "video-background__asset absolute inset-0 h-full w-full object-cover",
+                            videoClassName,
+                        )}
+                        autoPlay
+                        muted
+                        loop
+                        playsInline
+                        preload="metadata"
+                        poster={poster}
+                        aria-hidden="true"
+                        onPlaying={() => setVideoPlaying(true)}
+                    >
+                        <source src={src} type="video/mp4" />
+                    </video>
+                </div>
             )}
+            <div
+                className="video-background__scrim absolute inset-0"
+                data-video-layer="scrim"
+            />
             {children}
         </div>
     );

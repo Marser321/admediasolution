@@ -49,7 +49,7 @@ export default function CraftChips({
                 return (
                     <motion.span
                         key={chip.label}
-                        className="glass-premium inline-flex items-center gap-1.5 rounded-full bg-card/70 px-2.5 py-1 font-mono text-[9px] font-bold uppercase tracking-[0.16em] text-foreground/85 shadow-lg"
+                        className="glass-premium inline-flex items-center gap-1.5 rounded-full bg-card/70 px-2.5 py-1 font-mono text-xs font-bold uppercase tracking-[0.08em] text-foreground/85 shadow-lg"
                         initial={draw ? { opacity: 0, y: 10 } : false}
                         animate={
                             draw
@@ -82,7 +82,7 @@ export default function CraftChips({
 
             {timecode && (
                 <motion.span
-                    className="glass-premium inline-flex items-center gap-1.5 rounded-full bg-card/70 px-2.5 py-1 font-mono text-[9px] font-bold tracking-[0.16em] text-foreground/85 shadow-lg"
+                    className="glass-premium inline-flex items-center gap-1.5 rounded-full bg-card/70 px-2.5 py-1 font-mono text-xs font-bold tracking-[0.08em] text-foreground/85 shadow-lg"
                     initial={draw ? { opacity: 0, y: 10 } : false}
                     animate={draw ? (inView ? { opacity: 1, y: 0 } : { opacity: 0, y: 10 }) : undefined}
                     transition={{ duration: 0.4, delay: 0.3 + chips.length * 0.12, ease: [0, 0, 0.2, 1] }}

@@ -95,7 +95,7 @@ export default function PlanificacionPage() {
                     >
                       {done ? <CheckCircle2 className="size-5" /> : <StepIcon className="size-4 sm:size-5" />}
                     </div>
-                    <span className={`text-[10px] sm:text-xs font-semibold ${active || done ? "text-foreground" : "text-muted-foreground"}`}>
+                    <span className={`text-xs font-semibold ${active || done ? "text-foreground" : "text-muted-foreground"}`}>
                       {s.label}
                     </span>
                   </div>

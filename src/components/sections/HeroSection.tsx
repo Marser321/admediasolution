@@ -3,12 +3,13 @@
 import { useRef } from "react";
 
 import { AuroraBackground } from "../ui/AuroraBackground";
-import { motion, useReducedMotion, useScroll, useTransform } from "framer-motion";
+import { motion, useScroll, useTransform } from "framer-motion";
 import { ArrowDown, Calendar } from "lucide-react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import LogoMarquee from "../ui/LogoMarquee";
 import ResponsiveVideoBg from "../ui/ResponsiveVideoBg";
+import { useHydratedReducedMotion } from "@/lib/useHydratedReducedMotion";
 
 // ============================================================
 // Animation Variants — Cinematic & Slow
@@ -69,7 +70,7 @@ const ctaVariants = {
 export default function HeroSection() {
     const sectionRef = useRef<HTMLElement>(null);
     const router = useRouter();
-    const reduceMotion = useReducedMotion();
+    const reduceMotion = useHydratedReducedMotion();
 
 
     // CTA principal → página de agendamiento de cita gratuita
@@ -132,38 +133,26 @@ export default function HeroSection() {
                 className="absolute inset-0 z-[2] will-change-transform pointer-events-none overflow-hidden"
             >
                 <ResponsiveVideoBg
+                    profile="hero"
                     mobileMp4Src="/videos/dashboard-ambient-mobile-vertical.mp4"
                     mobilePoster="/videos/dashboard-ambient-mobile-vertical-poster.jpg"
                     desktopMp4Src="/hero/ad-media-logo-waves.mp4"
                     desktopPoster="/hero/ad-media-logo-waves-poster.jpg"
-                    posterClassName="opacity-[0.45] sm:opacity-[0.55]"
-                    videoClassName="opacity-[0.45] sm:opacity-[0.58] md:opacity-[0.64]"
                     mobilePosterClassName="object-[50%_46%]"
                     mobileVideoClassName="object-[50%_46%]"
                     posterPriority
                 />
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(2,6,23,0.04),rgba(2,6,23,0.44)_48%,rgba(2,6,23,0.88)_100%)]" />
-                <div className="absolute inset-0 bg-gradient-to-b from-background/20 via-background/35 to-background/90" />
-                <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-background/85 to-transparent" />
                 {/* Grano de cine en movimiento: textura viva que disimula la compresión del video */}
                 <div className="absolute -inset-[12%] animate-grain texture-travertine opacity-[0.05] mix-blend-overlay pointer-events-none" />
             </motion.div>
 
-            {/* 4. Vignette & Lighting — Adjusted to avoid sharp bottom seams */}
-            <div
-                className="absolute inset-0 z-[3] pointer-events-none"
-                style={{
-                    background: "radial-gradient(circle at center, transparent 30%, var(--vignette-color) 100%)",
-                }}
-            />
-            <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent z-[3] pointer-events-none" />
-
-            {/* 5. Content Layer — Multi-speed parallax exit */}
+            {/* 4. Content Layer — Multi-speed parallax exit */}
             <motion.div
                 style={{
                     opacity: heroOpacity,
                     scale: heroScale,
                 }}
+                data-video-contrast-content="hero"
                 className="relative z-10 text-center px-5 sm:px-6 max-w-5xl mx-auto mt-0 sm:mt-10 will-change-transform"
             >
                 <div className="relative">
@@ -214,7 +203,7 @@ export default function HeroSection() {
                                 variant="ghost"
                                 size="lg"
                                 onClick={handleScrollToVsl}
-                                className="group flex items-center justify-center gap-2 text-muted-foreground hover:text-foreground transition-all duration-300 px-10" // Content-width pill
+                                className="group flex items-center justify-center gap-2 text-foreground/80 hover:text-foreground transition-all duration-300 px-10" // Content-width pill
                             >
                                 <span className="font-medium">Ver cómo funciona</span>
                                 <ArrowDown className="size-4 opacity-50 group-hover:translate-y-1 group-hover:opacity-100 group-hover:text-primary transition-all duration-500" />

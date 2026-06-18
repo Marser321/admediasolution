@@ -1,12 +1,12 @@
 "use client";
 
-import { useRef, type CSSProperties, type RefObject } from "react";
+import { useRef, useState, type CSSProperties, type RefObject } from "react";
 import Navbar from "@/components/layout/Navbar";
 import FooterContact from "@/components/sections/FooterContact";
 import IslandBar from "@/components/layout/IslandBar";
 import Image from "next/image";
-import { ArrowRight, Camera, Code, Cpu, ExternalLink, Film, LucideIcon, Megaphone, Palette, UserCheck } from "lucide-react";
-import { motion, useScroll, useTransform, useReducedMotion, MotionValue } from "framer-motion";
+import { ArrowRight, Camera, ChevronDown, Code, Cpu, ExternalLink, Film, LucideIcon, Megaphone, Palette, UserCheck } from "lucide-react";
+import { AnimatePresence, motion, useScroll, useTransform, useReducedMotion, MotionValue } from "framer-motion";
 import { useIsDesktop } from "@/lib/useMediaQuery";
 import PresenceField from "@/components/backgrounds/PresenceField";
 import CraftChips from "@/components/ui/CraftFrame";
@@ -314,7 +314,7 @@ function DesktopCarousel({
         <motion.div style={{ x }} className="flex h-full w-full">
 
           {/* Slide 0: Massive Intro Slide (Merged with Header for seamless layout transition) */}
-          <div className="w-screen h-screen flex-shrink-0 flex flex-col items-center justify-center px-6 text-center relative select-none overflow-hidden">
+          <div className="w-screen h-screen flex-shrink-0 flex flex-col items-center justify-center px-6 pt-20 pb-24 text-center relative select-none overflow-hidden">
             {/* Fondo: presencia del equipo (avatares conectados) */}
             <div className="absolute inset-0">
               <PresenceField intensity="soft" density="mid" />
@@ -328,25 +328,25 @@ function DesktopCarousel({
               transition={{ duration: 0.8 }}
               className="max-w-5xl relative z-10 flex flex-col items-center justify-center w-full"
             >
-              <span className="text-primary text-xs md:text-sm font-bold tracking-wider uppercase px-4 py-2 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md">
+              <span className="text-primary text-[10px] md:text-xs font-bold tracking-wider uppercase px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md">
                 Especialistas de la Media
               </span>
-              <h1 className="text-3xl sm:text-5xl md:text-7xl font-black mt-5 tracking-tight leading-tight md:leading-none text-foreground">
+              <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black mt-3 tracking-tight leading-tight md:leading-none text-foreground">
                 Los Líderes Detrás <br />
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent-light">
                   de la Operación
                 </span>
               </h1>
-              <p className="text-muted-foreground text-xs md:text-sm max-w-2xl mx-auto mt-4 leading-relaxed font-light">
-                Desliza hacia abajo para conocer a cada profesional, o recorre el mapa del servicio paso a paso: qué hacemos, en qué orden y qué área lo ejecuta.
+              <p className="text-muted-foreground text-xs md:text-sm max-w-2xl mx-auto mt-2.5 leading-relaxed font-light">
+                Recorre el mapa del servicio paso a paso: qué hacemos, en qué orden y qué área lo ejecuta. Desliza para conocer a cada profesional.
               </p>
 
               {/* Mapa interactivo del recorrido del servicio */}
               <ServiceJourneyMap />
 
-              <div className="mt-6 sm:mt-8 flex justify-center items-center gap-2 text-primary font-bold animate-pulse text-xs md:text-sm">
+              <div className="mt-3 flex justify-center items-center gap-2 text-primary font-bold animate-pulse text-[11px] md:text-xs">
                 <span>Comenzar recorrido</span>
-                <ArrowRight className="w-4.5 h-4.5" />
+                <ArrowRight className="w-4 h-4" />
               </div>
             </motion.div>
           </div>
@@ -560,6 +560,7 @@ function TeamMemberSlide({
 // ============================================================
 function MobileTeamList() {
   const shouldReduceMotion = useReducedMotion();
+  const [journeyOpen, setJourneyOpen] = useState(false);
 
   return (
     <div className="md:hidden px-5 pt-24 pb-16 bg-background">
@@ -581,11 +582,38 @@ function MobileTeamList() {
           <p className="text-muted-foreground text-sm max-w-md mx-auto mt-3 leading-relaxed font-light">
             Conoce a cada profesional de AD Media Solution y cómo trabajamos juntos punto a punto.
           </p>
-
-          {/* Mapa del servicio — timeline vertical móvil */}
-          <ServiceJourneyMap />
         </div>
       </header>
+
+      <section className="mb-6 rounded-3xl border border-primary/20 bg-card/45 p-5 text-left shadow-xl backdrop-blur-md">
+        <p className="text-xs font-bold uppercase tracking-[0.18em] text-primary">Cómo trabajamos</p>
+        <h2 className="mt-2 text-xl font-black text-foreground">Un sistema claro, sin retrasar el acceso al equipo.</h2>
+        <p className="mt-2 text-sm leading-relaxed text-muted-foreground">
+          Diagnosticamos, configuramos el sistema, producimos los activos y acompañamos la operación comercial.
+        </p>
+        <button
+          type="button"
+          onClick={() => setJourneyOpen((open) => !open)}
+          aria-expanded={journeyOpen}
+          className="mt-4 flex min-h-11 w-full items-center justify-between rounded-2xl border border-primary/20 bg-primary/5 px-4 py-3 text-sm font-bold text-primary"
+        >
+          {journeyOpen ? "Ocultar recorrido completo" : "Ver recorrido completo"}
+          <ChevronDown className={`size-5 transition-transform ${journeyOpen ? "rotate-180" : ""}`} />
+        </button>
+
+        <AnimatePresence initial={false}>
+          {journeyOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: "auto", opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="overflow-hidden"
+            >
+              <ServiceJourneyMap />
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </section>
 
       {/* Tarjetas de miembros */}
       <div className="space-y-6">
@@ -702,7 +730,7 @@ function MobileTeamCard({ member, idx, total, reduceMotion }: MobileTeamCardProp
         {theme.tools.map((tool) => (
           <span
             key={tool}
-            className="inline-flex items-center gap-1.5 rounded-md border border-border/70 bg-card/40 px-2.5 py-1 font-mono text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground"
+            className="inline-flex items-center gap-1.5 rounded-md border border-border/70 bg-card/40 px-2.5 py-1.5 font-mono text-xs font-semibold uppercase tracking-[0.1em] text-muted-foreground"
           >
             <span className="size-1.5 rounded-full" style={{ background: "var(--member-accent)" }} />
             {tool}
@@ -718,7 +746,7 @@ function MobileTeamCard({ member, idx, total, reduceMotion }: MobileTeamCardProp
             <a
               key={pIdx}
               href={proj.url}
-              className="inline-flex items-center gap-1.5 text-xs text-primary font-bold border border-primary/20 hover:border-primary/50 bg-primary/5 hover:bg-primary/10 px-3.5 py-2 rounded-xl transition-all duration-300"
+              className="inline-flex min-h-11 items-center gap-1.5 rounded-xl border border-primary/20 bg-primary/5 px-3.5 py-2 text-xs font-bold text-primary transition-all duration-300 hover:border-primary/50 hover:bg-primary/10"
             >
               {proj.name}
               <ExternalLink className="w-3 h-3" />

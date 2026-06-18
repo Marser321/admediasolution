@@ -30,7 +30,7 @@ export default function CRMWorkflow() {
             {/* Technical Metadata Overlay — Centered as a status label of the dashboard */}
             <div className="absolute top-3.5 left-1/2 -translate-x-1/2 z-30 flex items-center gap-1 sm:gap-2.5 px-2 py-0.5 sm:px-4 sm:py-2 rounded-md sm:rounded-xl bg-background/80 border border-border backdrop-blur-xl shadow-lg">
                 <Activity className="size-2.5 sm:size-3.5 text-primary animate-pulse" />
-                <span className="text-[7px] sm:text-[10px] font-bold font-mono text-primary/80 tracking-[0.08em] sm:tracking-[0.2em] uppercase whitespace-nowrap">
+                <span className="whitespace-nowrap font-mono text-xs font-bold uppercase tracking-[0.08em] text-primary/80 sm:tracking-[0.14em]">
                     Centro de comando comercial
                 </span>
             </div>
@@ -175,8 +175,8 @@ export default function CRMWorkflow() {
                 <div className="flex items-center gap-2">
                     <Calendar className="size-4 text-accent-blue" />
                     <div>
-                        <p className="text-[8px] uppercase tracking-tighter text-muted-foreground">Nueva Cita</p>
-                        <p className="text-[10px] font-bold text-foreground">Lunes 10:30 AM</p>
+                        <p className="text-xs uppercase tracking-tight text-muted-foreground">Nueva Cita</p>
+                        <p className="text-xs font-bold text-foreground">Lunes 10:30 AM</p>
                     </div>
                 </div>
             </motion.div>
@@ -189,8 +189,8 @@ export default function CRMWorkflow() {
                 <div className="flex items-center gap-2">
                     <CreditCard className="size-4 text-emerald-500" />
                     <div>
-                        <p className="text-[8px] uppercase tracking-tighter text-muted-foreground">Pago Recibido</p>
-                        <p className="text-[10px] font-bold text-foreground">$1,250.00 USD</p>
+                        <p className="text-xs uppercase tracking-tight text-muted-foreground">Pago Recibido</p>
+                        <p className="text-xs font-bold text-foreground">$1,250.00 USD</p>
                     </div>
                 </div>
             </motion.div>
@@ -201,7 +201,7 @@ export default function CRMWorkflow() {
                 className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-1.5 px-3 py-1 rounded-full bg-accent-blue/10 border border-accent-blue/20"
             >
                 <Star className="size-3 text-amber-400 fill-amber-400" />
-                <span className="text-[9px] font-mono text-foreground tracking-widest uppercase">Reputación Automatizada</span>
+                <span className="font-mono text-xs uppercase tracking-[0.12em] text-foreground">Reputación Automatizada</span>
             </motion.div>
 
         </div>
@@ -223,7 +223,7 @@ function Node({ icon: Icon, label, pos, color }: { icon: LucideIcon, label: stri
                 
                 {/* Label - Absolutely positioned below the icon to prevent layout offset */}
                 <div className="absolute top-[calc(100%+12px)] left-1/2 -translate-x-1/2 whitespace-nowrap">
-                    <span className="text-[9px] font-mono uppercase tracking-[0.2em] text-muted-foreground group-hover:text-foreground transition-colors">{label}</span>
+                    <span className="font-mono text-xs uppercase tracking-[0.1em] text-muted-foreground transition-colors group-hover:text-foreground">{label}</span>
                 </div>
             </div>
         </motion.div>

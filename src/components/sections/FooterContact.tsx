@@ -29,7 +29,7 @@ export default function FooterContact() {
     const footerLogoBlur = useTransform(logoBlur, (v) => `blur(${v}px)`);
 
     return (
-        <footer ref={footerRef} id="contacto" className="relative bg-background pt-10 sm:pt-14 pb-10 px-5 sm:px-6 overflow-hidden">
+        <footer ref={footerRef} id="contacto" className="relative overflow-hidden bg-background px-5 pb-36 pt-10 sm:px-6 sm:pt-14 lg:pb-10">
             {/* Global Aurora Background */}
             <AuroraBackground intensity="medium" className="opacity-40" />
 
@@ -115,12 +115,12 @@ export default function FooterContact() {
                     initial={{ opacity: 0 }}
                     animate={isContentInView ? { opacity: 1 } : {}}
                     transition={{ duration: 1.5, delay: 0.8 }}
-                    className="mt-10 sm:mt-16 pt-7 sm:pt-8 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-muted-foreground/60"
+                    className="mt-10 flex flex-col items-center justify-between gap-4 border-t border-border pt-7 text-xs text-muted-foreground/60 sm:mt-16 sm:flex-row sm:pt-8"
                 >
                     <p>© 2026 AD Media Solution. Todos los derechos reservados.</p>
-                    <div className="flex gap-6">
-                        <a href="#" className="hover:text-foreground transition-colors py-2 -my-2 inline-block">Política de Privacidad</a>
-                        <a href="#" className="hover:text-foreground transition-colors py-2 -my-2 inline-block">Términos de Servicio</a>
+                    <div className="flex flex-wrap justify-center gap-x-4 gap-y-1 sm:gap-6">
+                        <a href="#" className="inline-flex min-h-11 items-center px-1 transition-colors hover:text-foreground">Política de Privacidad</a>
+                        <a href="#" className="inline-flex min-h-11 items-center px-1 transition-colors hover:text-foreground">Términos de Servicio</a>
                     </div>
                 </motion.div>
             </motion.div>

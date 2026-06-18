@@ -42,7 +42,7 @@ export default function VSLSection() {
             <KineticItem type="subtitle-top">
               <div className="mx-auto inline-flex w-fit items-center gap-2 rounded-full border border-primary/20 bg-primary/5 px-4 py-1.5 backdrop-blur-md lg:mx-0">
                 <span className="size-2 rounded-full bg-primary" />
-                <span className="font-mono text-[10px] font-bold uppercase tracking-[0.22em] text-primary sm:text-[11px]">
+                <span className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-primary">
                   VSL principal
                 </span>
               </div>
@@ -119,7 +119,7 @@ export default function VSLSection() {
                     priority
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/35 to-transparent" />
-                  <div className="absolute left-4 top-4 flex flex-wrap gap-2 text-[10px] font-mono uppercase tracking-[0.18em] text-white/85 sm:left-5 sm:top-5">
+                  <div className="absolute left-4 top-4 flex flex-wrap gap-2 font-mono text-xs uppercase tracking-[0.12em] text-white/85 sm:left-5 sm:top-5">
                     <span className="inline-flex items-center gap-1.5 rounded-md border border-white/10 bg-slate-950/70 px-2.5 py-1 backdrop-blur-sm">
                       <Activity className="size-3 text-primary" />
                       1 min

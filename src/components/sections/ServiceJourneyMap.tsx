@@ -1,8 +1,13 @@
 "use client";
 
+import Image from "next/image";
 import { useState, type ComponentType, type CSSProperties } from "react";
 import { AnimatePresence, motion, useReducedMotion } from "framer-motion";
-import { JOURNEY_STAGES, type BackgroundKey } from "@/lib/data/serviceJourney";
+import {
+    JOURNEY_STAGES,
+    JOURNEY_IMAGES_READY,
+    type BackgroundKey,
+} from "@/lib/data/serviceJourney";
 import { getDeptTheme } from "@/lib/data/teamIdentity";
 import type { ContextBackgroundProps } from "@/components/backgrounds/types";
 import BlueprintLayer from "@/components/backgrounds/BlueprintLayer";
@@ -15,10 +20,10 @@ import { AuroraBackground } from "@/components/ui/AuroraBackground";
 
 // ============================================================
 // ServiceJourneyMap — Mapa interactivo del recorrido del servicio.
-// Un sendero orgánico que asciende sobre un terreno de mapa, dentro
-// de un panel de cristal. Al tocar cada etapa, florece detrás el
-// fondo animado de marca de esa área y el sendero se ilumina hasta ahí.
-// Todo en la familia azul/celeste.
+// Sendero orgánico que asciende sobre un terreno de mapa, dentro de un
+// panel de cristal. Al tocar cada etapa florece detrás su fondo (imagen
+// enfocada o, de respaldo, el campo animado de marca) y el sendero se
+// ilumina hasta ahí. El detalle aparece como HUD inferior dentro del panel.
 // ============================================================
 
 const BG_MAP: Record<BackgroundKey, ComponentType<ContextBackgroundProps>> = {
@@ -35,16 +40,17 @@ const BG_MAP: Record<BackgroundKey, ComponentType<ContextBackgroundProps>> = {
 const VB_W = 1200;
 const VB_H = 460;
 
-// Waypoints que serpentean ascendiendo de izquierda a derecha.
+// Waypoints: x parejo (inset de bordes) + y en banda alta (deja el tercio
+// inferior para el HUD). Zig-zag por paridad: pares abajo, impares arriba.
 const WAYPOINTS: [number, number][] = [
-    [110, 360],
-    [255, 235],
-    [385, 330],
-    [545, 195],
-    [675, 300],
-    [835, 170],
-    [1000, 280],
-    [1110, 135],
+    [95, 222],
+    [240, 138],
+    [385, 215],
+    [530, 128],
+    [675, 224],
+    [820, 132],
+    [965, 218],
+    [1105, 150],
 ];
 
 // Catmull-Rom → Bézier: curva suave y orgánica que pasa por todos los puntos.
@@ -87,35 +93,64 @@ const CONTOURS = [
 export default function ServiceJourneyMap() {
     const reduce = useReducedMotion();
     const [active, setActive] = useState<number | null>(null);
+    // Por imagen: marca las que fallaron al cargar para caer al respaldo SVG.
+    const [imgFailed, setImgFailed] = useState<Record<string, boolean>>({});
     const n = JOURNEY_STAGES.length;
 
     const activeAccent =
         active !== null ? getDeptTheme(JOURNEY_STAGES[active].depts[0]).accent : "#0066FF";
-    // Fracción del sendero iluminada (decorativa, por índice de nodo).
     const progress = active !== null ? active / (n - 1) : 0;
-    const activeKey: BackgroundKey | "default" = active !== null ? JOURNEY_STAGES[active].bg : "default";
-    const ActiveBg = active !== null ? BG_MAP[JOURNEY_STAGES[active].bg] : BlueprintLayer;
-
     const stage = active !== null ? JOURNEY_STAGES[active] : null;
 
+    // Clave de la capa de fondo activa (imagen si está lista, si no el campo SVG).
+    const useImage = stage !== null && JOURNEY_IMAGES_READY && !imgFailed[stage.id];
+    const bgKey = stage === null ? "default" : useImage ? `img-${stage.id}` : `svg-${stage.bg}`;
+    const ActiveBg = stage !== null ? BG_MAP[stage.bg] : BlueprintLayer;
+
     return (
-        <div className="w-full max-w-5xl mx-auto mt-6 sm:mt-10 px-4">
+        <div className="w-full max-w-5xl mx-auto mt-4 sm:mt-6">
             {/* ===== Desktop: panel de cristal con el sendero ===== */}
             <div
-                className="relative hidden w-full overflow-hidden rounded-3xl border border-primary/15 bg-card/20 shadow-2xl backdrop-blur-md md:block"
-                style={{ aspectRatio: `${VB_W} / ${VB_H}`, "--stage-accent": activeAccent } as CSSProperties}
+                className="relative mx-auto hidden w-full overflow-hidden rounded-3xl border border-primary/15 bg-card/20 shadow-2xl backdrop-blur-md md:block"
+                style={{
+                    aspectRatio: `${VB_W} / ${VB_H}`,
+                    maxHeight: "min(46vh, 420px)",
+                    "--stage-accent": activeAccent,
+                } as CSSProperties}
             >
-                {/* z0 — Fondo animado del área (florece al tocar) */}
+                {/* z0 — Fondo del área (imagen enfocada o campo animado de respaldo) */}
                 <AnimatePresence mode="sync">
                     <motion.div
-                        key={activeKey}
+                        key={bgKey}
                         className="absolute inset-0 z-0"
                         initial={{ opacity: 0 }}
-                        animate={{ opacity: active !== null ? 0.9 : 0.22 }}
+                        animate={{ opacity: active !== null ? 0.9 : 0.2 }}
                         exit={{ opacity: 0 }}
                         transition={{ duration: 0.6, ease: "easeInOut" }}
                     >
-                        <ActiveBg intensity="strong" density="mid" opacity={1} />
+                        {useImage && stage ? (
+                            <motion.div
+                                className="absolute inset-0 pointer-events-none"
+                                data-motion-audit="decorative-background"
+                                animate={reduce ? undefined : { scale: [1.04, 1.1], x: ["-1%", "1%"] }}
+                                transition={
+                                    reduce
+                                        ? undefined
+                                        : { duration: 14, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }
+                                }
+                            >
+                                <Image
+                                    src={stage.image}
+                                    alt=""
+                                    fill
+                                    sizes="(max-width: 1024px) 100vw, 1024px"
+                                    className="object-cover"
+                                    onError={() => setImgFailed((p) => ({ ...p, [stage.id]: true }))}
+                                />
+                            </motion.div>
+                        ) : (
+                            <ActiveBg intensity="strong" density="mid" opacity={1} />
+                        )}
                     </motion.div>
                 </AnimatePresence>
 
@@ -124,11 +159,11 @@ export default function ServiceJourneyMap() {
                     className="absolute inset-0 z-[1] pointer-events-none"
                     style={{
                         background:
-                            "radial-gradient(ellipse 80% 75% at 50% 50%, transparent 40%, var(--background) 100%)",
+                            "radial-gradient(ellipse 82% 78% at 50% 42%, transparent 38%, var(--background) 100%)",
                     }}
                 />
 
-                {/* z1 — Terreno de mapa (curvas de nivel, estático) */}
+                {/* z2 — Terreno de mapa (curvas de nivel, estático) */}
                 <svg
                     viewBox={`0 0 ${VB_W} ${VB_H}`}
                     preserveAspectRatio="xMidYMid meet"
@@ -140,11 +175,11 @@ export default function ServiceJourneyMap() {
                     ))}
                 </svg>
 
-                {/* z15 — Bloom detrás del nodo activo */}
+                {/* z3 — Bloom detrás del nodo activo */}
                 {stage && (
                     <motion.div
                         key={`bloom-${active}`}
-                        className="absolute z-[3] h-48 w-48 -translate-x-1/2 -translate-y-1/2 rounded-full blur-[60px] pointer-events-none"
+                        className="absolute z-[3] h-40 w-40 -translate-x-1/2 -translate-y-1/2 rounded-full blur-[55px] pointer-events-none"
                         style={{
                             left: `${(WAYPOINTS[active!][0] / VB_W) * 100}%`,
                             top: `${(WAYPOINTS[active!][1] / VB_H) * 100}%`,
@@ -172,10 +207,8 @@ export default function ServiceJourneyMap() {
                         </linearGradient>
                     </defs>
 
-                    {/* Traza base tenue */}
-                    <path d={PATH_D} fill="none" stroke="rgba(72,142,255,0.14)" strokeWidth="5" strokeLinecap="round" />
+                    <path d={PATH_D} fill="none" stroke="rgba(72,142,255,0.16)" strokeWidth="5" strokeLinecap="round" />
 
-                    {/* Trazo de marca que se dibuja al entrar */}
                     <motion.path
                         d={PATH_D}
                         fill="none"
@@ -183,10 +216,10 @@ export default function ServiceJourneyMap() {
                         strokeWidth="2.5"
                         strokeLinecap="round"
                         initial={reduce ? false : { pathLength: 0, opacity: 0 }}
-                        whileInView={reduce ? undefined : { pathLength: 1, opacity: 0.55 }}
+                        whileInView={reduce ? undefined : { pathLength: 1, opacity: 0.6 }}
                         viewport={{ once: true, margin: "-10%" }}
                         transition={{ duration: 1.8, ease: "easeOut" }}
-                        style={reduce ? { opacity: 0.55 } : undefined}
+                        style={reduce ? { opacity: 0.6 } : undefined}
                     />
 
                     {/* Progreso "vas aquí": se ilumina hasta el nodo activo */}
@@ -204,7 +237,6 @@ export default function ServiceJourneyMap() {
                         style={{ filter: "drop-shadow(0 0 6px var(--stage-accent))" }}
                     />
 
-                    {/* Pulso ambiental recorriendo el sendero */}
                     {!reduce && (
                         <motion.circle
                             r="4.5"
@@ -225,7 +257,9 @@ export default function ServiceJourneyMap() {
                     const StageIcon = s.icon;
                     const [wx, wy] = WAYPOINTS[index];
                     const isActive = active === index;
-                    const labelAbove = (wy / VB_H) * 100 > 50;
+                    // Alternancia estricta por paridad: pares (abajo) → label debajo;
+                    // impares (arriba) → label arriba. Nunca comparten banda.
+                    const labelBelow = index % 2 === 0;
 
                     return (
                         <div
@@ -261,13 +295,13 @@ export default function ServiceJourneyMap() {
                                             ? "0 0 24px rgba(72, 142, 255, 0.55)"
                                             : "0 0 0px rgba(0,0,0,0)",
                                     }}
-                                    className={`glass-premium flex size-11 items-center justify-center rounded-full border-2 transition-colors duration-300 ${
+                                    className={`glass-premium flex size-10 items-center justify-center rounded-full border-2 transition-colors duration-300 ${
                                         isActive
                                             ? "border-primary text-primary"
                                             : "border-border text-muted-foreground group-hover:border-primary/50 group-hover:text-foreground"
                                     }`}
                                 >
-                                    <StageIcon className="size-5" />
+                                    <StageIcon className="size-[18px]" />
                                 </motion.span>
                                 <span
                                     className={`absolute -right-1.5 -top-1.5 flex size-5 items-center justify-center rounded-full border bg-background font-mono text-[9px] font-bold transition-colors duration-300 ${
@@ -278,10 +312,10 @@ export default function ServiceJourneyMap() {
                                 </span>
                             </button>
 
-                            {/* Título: hacia el centro del panel para no salir por el borde */}
+                            {/* Solo el título bajo el nodo (el subtítulo vive en el HUD) */}
                             <div
-                                className={`pointer-events-none absolute left-1/2 w-[136px] -translate-x-1/2 select-none text-center ${
-                                    labelAbove ? "bottom-12" : "top-12"
+                                className={`pointer-events-none absolute left-1/2 w-[124px] -translate-x-1/2 select-none text-center ${
+                                    labelBelow ? "top-9" : "bottom-9"
                                 }`}
                             >
                                 <p
@@ -291,78 +325,86 @@ export default function ServiceJourneyMap() {
                                 >
                                     {s.title}
                                 </p>
-                                <p className="mt-0.5 text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">
-                                    {s.subtitle}
-                                </p>
                             </div>
                         </div>
                     );
                 })}
-            </div>
 
-            {/* Tarjeta de detalle (desktop) */}
-            <div className="mt-5 hidden min-h-[132px] rounded-2xl border border-primary/10 bg-card/30 p-5 text-left backdrop-blur-md transition-all duration-300 md:block">
-                {stage ? (
-                    <motion.div
-                        key={active}
-                        initial={reduce ? false : { opacity: 0, y: 6 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="mx-auto grid max-w-4xl grid-cols-[1fr_auto] items-start gap-6"
-                    >
-                        <div>
-                            <div className="flex items-baseline gap-3">
-                                <span className="font-mono text-[10px] font-bold text-primary">
-                                    Paso 0{active! + 1} / 0{n}
-                                </span>
-                                <h4 className="text-sm font-bold uppercase tracking-wider text-foreground">
-                                    {stage.title}
-                                    <span className="text-primary"> — {stage.subtitle}</span>
-                                </h4>
-                            </div>
-                            <p className="mt-2 max-w-2xl text-xs font-light leading-relaxed text-muted-foreground">
-                                {stage.desc}
-                            </p>
-                            <div className="mt-3 flex flex-wrap gap-2">
-                                {stage.deliverables.map((item) => (
-                                    <span
-                                        key={item}
-                                        className="rounded-md border border-primary/20 bg-primary/5 px-2 py-1 font-mono text-[9px] font-semibold uppercase tracking-[0.14em] text-foreground/80"
-                                    >
-                                        {item}
-                                    </span>
-                                ))}
-                            </div>
-                        </div>
-                        <div className="flex flex-col items-end gap-2">
-                            <span className="text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">
-                                Quién interviene
-                            </span>
-                            {stage.depts.map((dept) => {
-                                const theme = getDeptTheme(dept);
-                                const DeptIcon = theme.motifIcon;
-                                return (
-                                    <span
-                                        key={dept}
-                                        className="glass-premium inline-flex items-center gap-1.5 rounded-full bg-card/60 px-2.5 py-1 text-[10px] font-bold text-foreground/90"
-                                    >
-                                        <DeptIcon className="size-3" style={{ color: theme.accent }} />
-                                        {dept}
-                                    </span>
-                                );
-                            })}
-                        </div>
-                    </motion.div>
-                ) : (
-                    <div className="flex h-full min-h-[92px] items-center justify-center text-center text-xs font-light italic text-muted-foreground">
-                        Pasa el cursor por cada paso del recorrido para ver qué hacemos y qué área lo ejecuta.
-                    </div>
-                )}
+                {/* HUD inferior — detalle dentro del panel (no choca con la IslandBar) */}
+                <div className="absolute inset-x-0 bottom-0 z-30 px-3 pb-3">
+                    <AnimatePresence mode="wait">
+                        {stage ? (
+                            <motion.div
+                                key={active}
+                                initial={reduce ? { opacity: 0 } : { opacity: 0, y: 24 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                exit={reduce ? { opacity: 0 } : { opacity: 0, y: 24 }}
+                                transition={{ duration: 0.32, ease: [0.22, 1, 0.36, 1] }}
+                                className="glass-premium rounded-2xl border border-primary/15 bg-card/55 p-3.5"
+                            >
+                                <div className="flex flex-wrap items-start justify-between gap-x-6 gap-y-2">
+                                    <div className="min-w-0 flex-1">
+                                        <div className="flex items-baseline gap-3">
+                                            <span className="font-mono text-[10px] font-bold text-primary">
+                                                Paso 0{active! + 1} / 0{n}
+                                            </span>
+                                            <h4 className="truncate text-xs font-bold uppercase tracking-wider text-foreground">
+                                                {stage.title}
+                                                <span className="text-primary"> — {stage.subtitle}</span>
+                                            </h4>
+                                        </div>
+                                        <p className="mt-1.5 line-clamp-2 max-w-2xl text-[11px] font-light leading-relaxed text-muted-foreground">
+                                            {stage.desc}
+                                        </p>
+                                        <div className="mt-2 flex flex-wrap gap-1.5">
+                                            {stage.deliverables.map((item) => (
+                                                <span
+                                                    key={item}
+                                                    className="rounded-md border border-primary/20 bg-primary/5 px-1.5 py-0.5 font-mono text-[9px] font-semibold uppercase tracking-[0.12em] text-foreground/80"
+                                                >
+                                                    {item}
+                                                </span>
+                                            ))}
+                                        </div>
+                                    </div>
+                                    <div className="flex shrink-0 flex-col items-end gap-1.5">
+                                        <span className="text-[9px] font-semibold uppercase tracking-wider text-muted-foreground">
+                                            Quién interviene
+                                        </span>
+                                        {stage.depts.map((dept) => {
+                                            const theme = getDeptTheme(dept);
+                                            const DeptIcon = theme.motifIcon;
+                                            return (
+                                                <span
+                                                    key={dept}
+                                                    className="inline-flex items-center gap-1.5 rounded-full bg-card/70 px-2 py-0.5 text-[10px] font-bold text-foreground/90"
+                                                >
+                                                    <DeptIcon className="size-3" style={{ color: theme.accent }} />
+                                                    {dept}
+                                                </span>
+                                            );
+                                        })}
+                                    </div>
+                                </div>
+                            </motion.div>
+                        ) : (
+                            <motion.p
+                                key="hint"
+                                initial={{ opacity: 0 }}
+                                animate={{ opacity: 1 }}
+                                exit={{ opacity: 0 }}
+                                className="py-2 text-center text-[11px] font-light italic text-muted-foreground/70"
+                            >
+                                Pasa el cursor por cada paso para ver qué hacemos y qué área lo ejecuta.
+                            </motion.p>
+                        )}
+                    </AnimatePresence>
+                </div>
             </div>
 
             {/* ===== Mobile: timeline vertical ===== */}
-            <div className="relative mt-6 block space-y-4 pl-8 text-left md:hidden">
-                <div className="absolute bottom-4 left-[17px] top-4 w-[2px] bg-primary/20" />
+            <div className="relative mt-3 block space-y-4 pl-9 text-left md:hidden">
+                <div className="absolute bottom-4 left-[21px] top-4 w-[2px] bg-primary/20" />
 
                 {JOURNEY_STAGES.map((s, index) => {
                     const StageIcon = s.icon;
@@ -370,25 +412,25 @@ export default function ServiceJourneyMap() {
                     return (
                         <div
                             key={s.id}
-                            className="glass-premium relative flex flex-col gap-1.5 rounded-xl border border-l-2 border-primary/10 bg-card/30 p-3"
+                            className="glass-premium relative flex flex-col gap-2 rounded-2xl border border-l-2 border-primary/10 bg-card/30 p-4"
                             style={{ borderLeftColor: accent } as CSSProperties}
                         >
-                            <div className="absolute -left-[31px] top-3.5 flex size-8 items-center justify-center rounded-full border border-primary bg-card text-primary shadow-md">
-                                <StageIcon className="size-4" />
+                            <div className="absolute -left-[35px] top-4 flex size-11 items-center justify-center rounded-full border border-primary bg-card text-primary shadow-md">
+                                <StageIcon className="size-5" />
                             </div>
                             <div className="flex items-baseline gap-2">
-                                <span className="font-mono text-[9px] font-bold text-primary">0{index + 1}</span>
-                                <h4 className="text-xs font-bold uppercase tracking-wider text-primary">{s.title}</h4>
+                                <span className="font-mono text-xs font-bold text-primary">0{index + 1}</span>
+                                <h4 className="text-sm font-bold uppercase tracking-wider text-primary">{s.title}</h4>
                             </div>
-                            <p className="text-[9px] font-semibold uppercase tracking-wider text-accent-light">
+                            <p className="text-xs font-semibold uppercase leading-relaxed tracking-wider text-accent-light">
                                 {s.subtitle} · {s.depts.join(" + ")}
                             </p>
-                            <p className="mt-1 text-xs font-light leading-relaxed text-muted-foreground">{s.desc}</p>
-                            <div className="mt-1.5 flex flex-wrap gap-1.5">
+                            <p className="mt-1 text-sm font-light leading-relaxed text-muted-foreground">{s.desc}</p>
+                            <div className="mt-1.5 flex flex-wrap gap-2">
                                 {s.deliverables.map((item) => (
                                     <span
                                         key={item}
-                                        className="rounded-md border border-primary/15 bg-primary/5 px-1.5 py-0.5 font-mono text-[8px] font-semibold uppercase tracking-[0.12em] text-foreground/75"
+                                        className="rounded-lg border border-primary/15 bg-primary/5 px-2 py-1 font-mono text-xs font-semibold uppercase tracking-[0.08em] text-foreground/75"
                                     >
                                         {item}
                                     </span>

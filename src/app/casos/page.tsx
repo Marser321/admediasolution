@@ -87,7 +87,7 @@ export default function CasesPage() {
                   key={filter.id}
                   type="button"
                   onClick={() => setActiveFilter(filter.id)}
-                  className={`inline-flex items-center rounded-full border px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] transition-colors ${
+                  className={`inline-flex min-h-11 items-center rounded-full border px-4 py-2 text-xs font-bold uppercase tracking-[0.14em] transition-colors ${
                     active
                       ? "border-primary bg-primary text-primary-foreground"
                       : "border-primary/25 text-muted-foreground hover:bg-primary/10 hover:text-foreground"
@@ -127,12 +127,12 @@ export default function CasesPage() {
                   className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/10 to-transparent" />
-                <span className="absolute right-2 top-2 inline-flex items-center gap-1 rounded-md border border-white/10 bg-slate-950/75 px-2 py-1 text-[10px] font-mono text-white/85 backdrop-blur-sm">
+                <span className="absolute right-1.5 top-1.5 inline-flex items-center gap-1 rounded-md border border-white/10 bg-slate-950/75 px-1.5 py-1 text-xs font-mono text-white/85 backdrop-blur-sm">
                   <Video className="size-3 text-primary" />
                   {video.duration}
                 </span>
                 {video.featured && (
-                  <span className="absolute left-2 top-2 rounded-md border border-primary/35 bg-primary/20 px-2 py-1 text-[9px] font-bold uppercase tracking-[0.14em] text-white backdrop-blur-sm">
+                  <span className="absolute left-1.5 top-1.5 rounded-md border border-primary/35 bg-primary/20 px-1.5 py-1 text-xs font-bold uppercase tracking-[0.08em] text-white backdrop-blur-sm">
                     Destacado
                   </span>
                 )}
@@ -146,7 +146,7 @@ export default function CasesPage() {
                 <h2 className="text-sm font-bold leading-tight text-foreground">
                   {video.client}
                 </h2>
-                <p className="text-[10px] font-semibold uppercase tracking-[0.14em] text-muted-foreground">
+                <p className="text-xs font-semibold uppercase tracking-[0.1em] text-muted-foreground">
                   {video.category}
                 </p>
               </div>

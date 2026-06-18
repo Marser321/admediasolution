@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { motion, HTMLMotionProps } from "framer-motion";
+import { motion, HTMLMotionProps, useReducedMotion } from "framer-motion";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
@@ -30,28 +30,37 @@ const Shimmer = () => (
     />
 );
 
-const AuroraEffect = () => (
-    <motion.div
-        className="absolute inset-0 z-0 pointer-events-none opacity-50 sm:opacity-40 will-change-transform"
-        initial={{ x: "0%", rotate: 0 }}
-        animate={{ 
-            x: ["-15%", "15%", "-15%"],
-            rotate: [0, 5, -5, 0],
-            scale: [1, 1.1, 0.9, 1]
-        }}
-        transition={{
-            duration: 15,
-            repeat: Infinity,
-            ease: "linear"
-        }}
-        style={{
-            background: "radial-gradient(circle at 50% 50%, var(--primary) 0%, #0066FF 40%, transparent 80%)",
-            filter: "blur(20px)",
-            mixBlendMode: "normal", // Changed from screen for better visibility on all themes
-            transform: "translateZ(0)"
-        }}
-    />
-);
+const AuroraEffect = () => {
+    const shouldReduceMotion = useReducedMotion();
+
+    return (
+        <motion.div
+            className="absolute inset-0 z-0 pointer-events-none will-change-transform"
+            initial={{ x: "0%", rotate: 0 }}
+            animate={shouldReduceMotion ? {
+                x: "0%",
+                rotate: 0,
+                scale: 1,
+            } : {
+                x: ["-15%", "15%", "-15%"],
+                rotate: [0, 5, -5, 0],
+                scale: [1, 1.1, 0.9, 1],
+            }}
+            transition={shouldReduceMotion ? undefined : {
+                duration: 15,
+                repeat: Infinity,
+                ease: "linear",
+            }}
+            style={{
+                background: "radial-gradient(circle at 50% 50%, var(--primary) 0%, #0066FF 40%, transparent 80%)",
+                filter: "blur(20px)",
+                mixBlendMode: "normal", // Changed from screen for better visibility on all themes
+                opacity: "var(--button-aurora-opacity, 0.28)",
+                transform: "translateZ(0)"
+            }}
+        />
+    );
+};
 
 const ButtonGlow = ({ color = "var(--primary)" }) => (
     <motion.div

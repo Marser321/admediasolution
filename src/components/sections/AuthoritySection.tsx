@@ -229,7 +229,7 @@ export default function AuthoritySection() {
                                 type="button"
                                 onClick={() => setBioExpanded((v) => !v)}
                                 aria-expanded={bioExpanded}
-                                className="text-sm font-bold text-primary uppercase tracking-wider cursor-pointer hover:opacity-80 transition-opacity"
+                                className="inline-flex min-h-11 items-center rounded-lg pr-4 text-sm font-bold uppercase tracking-wider text-primary transition-opacity hover:opacity-80"
                             >
                                 {bioExpanded ? "Leer menos" : "Leer más"}
                             </button>
@@ -271,7 +271,7 @@ export default function AuthoritySection() {
 
                         {/* Fila de herramientas — Cascade entry */}
                         <motion.div variants={itemVariants}>
-                            <p className="text-[11px] sm:text-xs uppercase tracking-[0.25em] text-muted-foreground/50 mb-6">
+                            <p className="mb-6 text-xs uppercase tracking-[0.2em] text-muted-foreground/60">
                                 Lo que dominamos
                             </p>
                             <div className="flex flex-wrap gap-2 sm:gap-3 mb-8">
@@ -329,7 +329,7 @@ function StatItem({
             <p className="text-xl sm:text-2xl font-display font-bold tracking-tight text-text-primary">
                 {stat.value}
             </p>
-            <p className="text-[11px] text-accent-blue/80 uppercase tracking-wider mt-1">{stat.label}</p>
+            <p className="mt-1 text-xs uppercase tracking-wider text-accent-blue/80">{stat.label}</p>
         </motion.div>
     );
 }

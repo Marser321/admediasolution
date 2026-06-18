@@ -47,7 +47,7 @@ export default function BTLTestimonialsSection() {
 
           <Link
             href="/casos"
-            className="mx-auto inline-flex items-center gap-2 rounded-full border border-primary/30 px-5 py-3 text-xs font-bold uppercase tracking-[0.16em] text-primary transition-colors hover:bg-primary/10 md:mx-0"
+            className="mx-auto inline-flex min-h-11 items-center gap-2 rounded-full border border-primary/30 px-5 py-3 text-xs font-bold uppercase tracking-[0.16em] text-primary transition-colors hover:bg-primary/10 md:mx-0"
           >
             Ver biblioteca
             <ArrowRight className="size-4" />
@@ -76,7 +76,7 @@ export default function BTLTestimonialsSection() {
                   className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/20 to-transparent" />
-                <span className="absolute right-2 top-2 inline-flex items-center gap-1 rounded-md border border-white/10 bg-slate-950/75 px-2 py-1 text-[10px] font-mono text-white/85 backdrop-blur-sm">
+                <span className="absolute right-2 top-2 inline-flex items-center gap-1 rounded-md border border-white/10 bg-slate-950/75 px-2 py-1 text-xs font-mono text-white/85 backdrop-blur-sm">
                   <Video className="size-3 text-primary" />
                   {video.duration}
                 </span>
@@ -89,7 +89,7 @@ export default function BTLTestimonialsSection() {
                   <h3 className="text-sm font-bold leading-tight text-white">
                     {video.client}
                   </h3>
-                  <p className="mt-1 text-[10px] font-semibold uppercase tracking-[0.14em] text-accent-light">
+                  <p className="mt-1 text-xs font-semibold uppercase tracking-[0.1em] text-accent-light">
                     {video.category}
                   </p>
                 </div>

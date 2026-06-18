@@ -33,7 +33,7 @@ export default function LogoMarquee() {
     return (
         <div className="relative w-full py-10 overflow-hidden">
             <div className="flex flex-col items-center mb-8">
-                <span className="text-[10px] font-bold tracking-[0.3em] uppercase text-primary/70 mb-2">
+                <span className="mb-2 text-xs font-bold uppercase tracking-[0.2em] text-primary/70">
                     Marcas que confían en nosotros
                 </span>
                 <div className="h-px w-12 bg-primary/30" />

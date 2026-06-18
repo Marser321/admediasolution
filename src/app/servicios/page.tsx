@@ -34,7 +34,7 @@ function PlanCard({ plan }: { plan: ServicePlan }) {
         }`}
       >
         {isPopular && (
-          <span className="absolute -top-3.5 left-6 text-[11px] font-bold tracking-wider uppercase bg-primary text-primary-foreground px-3 py-1 rounded-full shadow-md">
+          <span className="absolute -top-3.5 left-6 rounded-full bg-primary px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary-foreground shadow-md">
             {plan.highlightText || "Más Vendido"}
           </span>
         )}
@@ -50,7 +50,7 @@ function PlanCard({ plan }: { plan: ServicePlan }) {
             type="button"
             onClick={() => setOpen((o) => !o)}
             aria-expanded={open}
-            className="mt-6 flex items-center gap-2 text-xs font-semibold text-primary uppercase tracking-wider cursor-pointer hover:opacity-80 transition-opacity"
+            className="mt-5 flex min-h-12 items-center gap-2 rounded-lg pr-3 text-xs font-semibold uppercase tracking-wider text-[var(--interactive-text)] transition-opacity hover:opacity-80"
           >
             {open ? "Ocultar detalle" : "Ver qué incluye"}
             <ChevronDown className={`w-4 h-4 transition-transform duration-300 ${open ? "rotate-180" : ""}`} />
@@ -134,25 +134,24 @@ export default function ServiciosPage() {
 
       <section className="relative pt-24 sm:pt-28 pb-12 sm:pb-16 px-5 sm:px-6 overflow-hidden">
         <ResponsiveVideoBg
+          profile="services"
           mobileMp4Src="/videos/glassmorphic-dashboard-mobile-vertical.mp4"
           mobilePoster="/videos/glassmorphic-dashboard-mobile-vertical-poster.jpg"
           desktopMp4Src="/videos/servicios-background.mp4"
           desktopPoster="/videos/servicios-background-poster.jpg"
           breakpoint={1280}
           className="z-0 h-[620px] sm:h-[720px] lg:h-[780px] bottom-auto"
-          posterClassName="opacity-[0.4] sm:opacity-[0.5]"
-          videoClassName="opacity-[0.4] sm:opacity-[0.5] md:opacity-[0.55]"
           mobilePosterClassName="object-[50%_30%]"
           mobileVideoClassName="object-[50%_30%]"
-        >
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_18%,rgba(2,6,23,0.04),rgba(2,6,23,0.5)_48%,rgba(2,6,23,0.92)_100%)]" />
-          <div className="absolute inset-0 bg-gradient-to-b from-background/70 via-background/32 to-background" />
-        </ResponsiveVideoBg>
+        />
 
         {/* Ambient background glow */}
         <div className="absolute top-1/4 left-1/2 z-[2] -translate-x-1/2 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
 
-        <div className="container mx-auto max-w-6xl text-center relative z-10">
+        <div
+          className="container mx-auto max-w-6xl text-center relative z-10"
+          data-video-contrast-content="services"
+        >
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -167,14 +166,30 @@ export default function ServiciosPage() {
                 Escala Comercial
               </span>
             </h1>
-            <p className="text-muted-foreground text-base md:text-lg max-w-2xl mx-auto mt-4 sm:mt-5 leading-relaxed">
+            <p className="text-foreground/80 text-base md:text-lg max-w-2xl mx-auto mt-4 sm:mt-5 leading-relaxed">
               Dirección de marketing y ventas. Elige el sistema que tu negocio necesita.
             </p>
           </motion.div>
 
-          {/* Interactive Navigation Tabs — carrusel con snap en móvil, wrap en desktop */}
-          <div className="mt-8 sm:mt-10 max-w-4xl mx-auto p-2 rounded-2xl bg-card/65 border border-border backdrop-blur-md">
-            <div className="flex flex-nowrap sm:flex-wrap justify-start sm:justify-center gap-2 sm:gap-3 overflow-x-auto snap-x snap-mandatory no-scrollbar -mx-1 px-1">
+          {/* Selector directo en móvil; tabs visibles desde tablet */}
+          <div className="mx-auto mt-8 max-w-4xl rounded-2xl border border-border bg-card/65 p-2 backdrop-blur-md sm:mt-10">
+            <label htmlFor="mobile-service-selector" className="sr-only">
+              Seleccionar categoría de servicio
+            </label>
+            <select
+              id="mobile-service-selector"
+              value={activeTab}
+              onChange={(event) => setActiveTab(event.target.value)}
+              className="min-h-12 w-full rounded-xl border border-primary/25 bg-background px-4 text-sm font-semibold text-foreground outline-none transition-colors focus:border-primary sm:hidden"
+            >
+              {servicesData.services.map((service) => (
+                <option key={service.id} value={service.id}>
+                  {service.title}
+                </option>
+              ))}
+            </select>
+
+            <div className="hidden flex-wrap justify-center gap-3 sm:flex">
               {servicesData.services.map((service) => {
                 const Icon = tabIcons[service.id] || Globe;
                 const isActive = activeTab === service.id;
@@ -182,7 +197,7 @@ export default function ServiciosPage() {
                   <button
                     key={service.id}
                     onClick={() => setActiveTab(service.id)}
-                    className={`flex shrink-0 snap-start items-center gap-2 px-5 py-3 rounded-xl font-medium text-sm transition-all duration-300 cursor-pointer ${
+                    className={`flex min-h-11 items-center gap-2 rounded-xl px-5 py-3 text-sm font-medium transition-all duration-300 cursor-pointer ${
                       isActive
                         ? "bg-primary text-primary-foreground shadow-lg shadow-primary/20 scale-[1.02]"
                         : "text-foreground/80 hover:bg-muted/70 hover:text-foreground"

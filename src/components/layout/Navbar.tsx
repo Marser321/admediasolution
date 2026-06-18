@@ -67,9 +67,9 @@ export default function Navbar() {
                     }
                 `}
             >
-                <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 flex items-center justify-between w-full">
+                <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
                     {/* Logo — Optimized for Mobile */}
-                    <Link href="/" className="flex items-center group relative z-[70]">
+                    <Link href="/" className="relative z-[70] flex min-h-11 items-center group">
                         <motion.div
                             animate={scrolled
                                 ? { filter: "drop-shadow(0 0 10px rgba(72,142,255,0.3))", scale: 1 }
@@ -85,7 +85,7 @@ export default function Navbar() {
                                 alt="Ad Media Solution"
                                 width={180}
                                 height={50}
-                                className={`logo-dark-bg relative h-auto object-contain transition-all duration-500 ${scrolled ? "w-28 sm:w-36" : "w-32 sm:w-44"}`}
+                                className={`logo-dark-bg relative h-auto object-contain transition-all duration-500 ${scrolled ? "w-24 sm:w-36" : "w-24 sm:w-44"}`}
                                 priority
                             />
                             {/* Logo de texto oscuro para el tema blanco */}
@@ -94,7 +94,7 @@ export default function Navbar() {
                                 alt="Ad Media Solution"
                                 width={180}
                                 height={50}
-                                className={`logo-light-bg relative h-auto object-contain transition-all duration-500 ${scrolled ? "w-28 sm:w-36" : "w-32 sm:w-44"}`}
+                                className={`logo-light-bg relative h-auto object-contain transition-all duration-500 ${scrolled ? "w-24 sm:w-36" : "w-24 sm:w-44"}`}
                                 priority
                             />
                         </motion.div>
@@ -150,14 +150,14 @@ export default function Navbar() {
                     </div>
 
                     {/* Right Side: CTA + Mobile Toggle */}
-                    <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-2 sm:gap-4">
                         <Button
                             variant="primary"
                             size="sm"
                             glow
                             aurora
                             onClick={() => router.push("/planificacion")}
-                            className="px-6 py-2.5 h-11 sm:h-9 text-[11px] sm:text-xs font-bold"
+                            className="h-11 px-3 py-2.5 text-xs font-bold sm:h-9 sm:px-6"
                         >
                             <Calendar className="size-3.5 sm:size-4 text-white" />
                             <span className="hidden sm:inline">Agendar cita</span>

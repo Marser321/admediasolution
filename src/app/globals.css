@@ -103,9 +103,12 @@
   --chart-5: #1e293b;
   /* Opacidad base de los fondos contextuales (src/components/backgrounds/). */
   --ctxbg-opacity: 0.5;
+  --vignette-color: rgba(2, 6, 23, 0.65);
   --button-primary-from: #0066FF;
   --button-primary-mid: #0044CC;
   --button-primary-to: #020617;
+  --button-aurora-opacity: 0.28;
+  --interactive-text: #7DD3FC;
   --nav-link-color: rgba(226, 232, 240, 0.82);
   --nav-link-hover: #ffffff;
   --nav-link-shadow: 0 1px 12px rgba(2, 6, 23, 0.72);
@@ -161,6 +164,96 @@
   --secondary-action-fg: #f8fafc;
   --secondary-action-border: rgba(148, 163, 184, 0.26);
   --secondary-action-shadow: 0 12px 30px rgba(2, 6, 23, 0.18);
+}
+
+/* === Video background profiles ==========================================
+   El perfil controla el tratamiento audiovisual; el tema solo cambia sus
+   variables. Póster y video comparten exactamente filtro, opacidad y mezcla
+   para que no exista un destello cromático al comenzar la reproducción. */
+.video-background {
+  --video-asset-opacity: 0.5;
+  --video-asset-filter: saturate(1.05) contrast(1.04);
+  --video-asset-blend-mode: normal;
+  --video-scrim-opacity: 1;
+  --video-scrim-background: transparent;
+}
+
+.video-background__visual {
+  opacity: var(--video-asset-opacity);
+  mix-blend-mode: var(--video-asset-blend-mode);
+}
+
+.video-background__asset {
+  filter: var(--video-asset-filter);
+  transition: filter 350ms ease;
+}
+
+.video-background__scrim {
+  z-index: 1;
+  opacity: var(--video-scrim-opacity);
+  background: var(--video-scrim-background);
+}
+
+.video-background[data-video-profile="hero"] {
+  --video-asset-opacity: 0.45;
+  --video-scrim-background:
+    radial-gradient(circle at 50% 43%, rgba(2, 6, 23, 0.12) 0%, rgba(2, 6, 23, 0.36) 52%, rgba(2, 6, 23, 0.86) 100%),
+    linear-gradient(to bottom, rgba(2, 6, 23, 0.74) 0%, rgba(2, 6, 23, 0.18) 30%, rgba(2, 6, 23, 0.42) 68%, #020617 100%);
+}
+
+.video-background[data-video-profile="services"] {
+  --video-asset-opacity: 0.4;
+  --video-scrim-background:
+    radial-gradient(circle at 50% 18%, rgba(2, 6, 23, 0.12) 0%, rgba(2, 6, 23, 0.5) 50%, rgba(2, 6, 23, 0.93) 100%),
+    linear-gradient(to bottom, rgba(2, 6, 23, 0.68) 0%, rgba(2, 6, 23, 0.38) 48%, #020617 100%);
+}
+
+.video-background[data-video-profile="community"] {
+  --video-asset-opacity: 0.34;
+  --video-scrim-background:
+    radial-gradient(circle at 50% 26%, rgba(2, 6, 23, 0.16) 0%, rgba(2, 6, 23, 0.52) 54%, rgba(2, 6, 23, 0.9) 100%),
+    linear-gradient(to bottom, rgba(2, 6, 23, 0.7) 0%, rgba(2, 6, 23, 0.4) 42%, #020617 100%);
+}
+
+.video-background[data-video-profile="media-card"] {
+  --video-asset-opacity: 0.85;
+  --video-asset-filter: none;
+  --video-asset-blend-mode: normal;
+  --video-scrim-background: linear-gradient(to top, rgba(2, 6, 23, 0.18), transparent 42%);
+}
+
+[data-video-surface="media-card"] {
+  background: color-mix(in srgb, var(--card) 54%, transparent);
+  border-color: color-mix(in srgb, var(--primary) 20%, transparent);
+}
+
+[data-video-label="media-card"] {
+  background: color-mix(in srgb, var(--background) 88%, transparent);
+  border-color: color-mix(in srgb, var(--primary) 18%, transparent);
+}
+
+@media (min-width: 640px) {
+  .video-background[data-video-profile="hero"] {
+    --video-asset-opacity: 0.56;
+  }
+
+  .video-background[data-video-profile="services"] {
+    --video-asset-opacity: 0.49;
+  }
+
+  .video-background[data-video-profile="community"] {
+    --video-asset-opacity: 0.42;
+  }
+}
+
+@media (min-width: 768px) {
+  .video-background[data-video-profile="hero"] {
+    --video-asset-opacity: 0.62;
+  }
+
+  .video-background[data-video-profile="services"] {
+    --video-asset-opacity: 0.53;
+  }
 }
 
 @layer utilities {
@@ -326,6 +419,12 @@
   /* Smooth scroll global */
   html {
     scroll-behavior: smooth;
+  }
+
+  @media (max-width: 1023px) {
+    html {
+      scroll-padding-bottom: calc(6rem + env(safe-area-inset-bottom));
+    }
   }
 
   h1,
@@ -545,11 +644,13 @@
   --color-bg-surface: #0a0a0a;
   --color-accent-neon: #3b82f6;
   --border: rgba(255, 255, 255, 0.1);
-  --primary: #3b82f6;
+  --primary: #2563EB;
   --card: rgba(0, 0, 0, 0.8);
-  --button-primary-from: #3b82f6;
+  --button-primary-from: #2563EB;
   --button-primary-mid: #1d4ed8;
   --button-primary-to: #050505;
+  --button-aurora-opacity: 0.2;
+  --interactive-text: #93C5FD;
   --nav-link-color: rgba(226, 232, 240, 0.8);
   --nav-link-hover: #ffffff;
   --nav-link-shadow: 0 1px 12px rgba(0, 0, 0, 0.82);
@@ -563,59 +664,60 @@
 
 /* === Experimental Sky Theme Overrides === */
 .theme-sky {
-  --background: #dff7ff;
-  --foreground: #06253d;
-  --bg-deep: #b9ecff;
-  --bg-surface: #d8f6ff;
-  --bg-card: rgba(235, 251, 255, 0.86);
-  --text-primary: #06253d;
-  --text-muted: #31556f;
-  --card: rgba(236, 251, 255, 0.88);
-  --card-foreground: #06253d;
-  --popover: rgba(231, 249, 255, 0.98);
-  --popover-foreground: #06253d;
-  --primary: #0284c7;
+  --background: #f5f8ff; /* Soft light brand-blue background instead of cian */
+  --foreground: #020617; /* Navy blue */
+  --bg-deep: #e1e8ff;
+  --bg-surface: #edf2ff;
+  --bg-card: rgba(255, 255, 255, 0.9);
+  --text-primary: #020617;
+  --text-muted: #4b5563;
+  --card: rgba(255, 255, 255, 0.9);
+  --card-foreground: #020617;
+  --popover: rgba(255, 255, 255, 0.98);
+  --popover-foreground: #020617;
+  --primary: #0066FF; /* Electric brand blue */
   --primary-foreground: #ffffff;
-  --secondary: #b9ecff;
-  --secondary-foreground: #06253d;
-  --muted: #caeffb;
-  --muted-foreground: #31556f;
-  --accent: #7dd3fc;
-  --accent-foreground: #06253d;
-  --border: rgba(2, 132, 199, 0.24);
-  --input: rgba(2, 132, 199, 0.12);
-  --ring: #0284c7;
-  --color-bg-charcoal: #0b3154;
-  --color-bg-deep: #b9ecff;
-  --color-bg-surface: #d8f6ff;
-  --color-accent-blue: #0284c7;
-  --color-accent-light: #0ea5e9;
-  --color-accent-neon: #38bdf8;
-  --button-primary-from: #38bdf8;
-  --button-primary-mid: #0284c7;
-  --button-primary-to: #075985;
-  --nav-link-color: #06253d;
-  --nav-link-hover: #020617;
-  --nav-link-shadow: 0 1px 10px rgba(255, 255, 255, 0.88), 0 0 1px rgba(6, 37, 61, 0.46);
-  --nav-link-active-shadow: 0 1px 10px rgba(255, 255, 255, 0.85), 0 0 14px rgba(2, 132, 199, 0.28);
-  --secondary-action-bg: #06253d;
-  --secondary-action-hover: #0b3154;
+  --secondary: #e1e8ff;
+  --secondary-foreground: #020617;
+  --muted: #edf2ff;
+  --muted-foreground: #4b5563;
+  --accent: #80b3ff;
+  --accent-foreground: #020617;
+  --border: rgba(0, 102, 255, 0.2);
+  --input: rgba(0, 102, 255, 0.1);
+  --ring: #0066FF;
+  --color-bg-charcoal: #1e293b;
+  --color-bg-deep: #e1e8ff;
+  --color-bg-surface: #edf2ff;
+  --color-accent-blue: #0066FF;
+  --color-accent-light: #0055D4;
+  --color-accent-neon: #3b82f6;
+  --button-primary-from: #0057D9;
+  --button-primary-mid: #0044B8;
+  --button-primary-to: #082F70;
+  --button-aurora-opacity: 0.12;
+  --interactive-text: #0055D4;
+  --nav-link-color: #020617;
+  --nav-link-hover: #0066FF;
+  --nav-link-shadow: 0 1px 10px rgba(255, 255, 255, 0.9), 0 0 1px rgba(2, 6, 23, 0.55);
+  --nav-link-active-shadow: 0 1px 10px rgba(255, 255, 255, 0.88), 0 0 14px rgba(0, 102, 255, 0.28);
+  --secondary-action-bg: #0f172a;
+  --secondary-action-hover: #1e293b;
   --secondary-action-fg: #ffffff;
-  --secondary-action-border: rgba(2, 132, 199, 0.36);
-  --secondary-action-shadow: 0 14px 32px rgba(2, 132, 199, 0.18);
-  --color-glass-bg: rgba(234, 250, 255, 0.72);
-  --color-glass-bg-mobile: rgba(238, 252, 255, 0.96);
-  --border-glass: rgba(14, 165, 233, 0.34);
-  --color-shadow: rgba(2, 132, 199, 0.22);
-  --color-aurora-center: #e0f7ff;
-  --color-aurora-mid: #7dd3fc;
-  --color-aurora-edge: #0284c7;
+  --secondary-action-border: rgba(0, 102, 255, 0.2);
+  --secondary-action-shadow: 0 14px 32px rgba(0, 102, 255, 0.15);
+  --color-glass-bg: rgba(255, 255, 255, 0.95);
+  --color-glass-bg-mobile: rgba(255, 255, 255, 1);
+  --border-glass: rgba(0, 102, 255, 0.35);
+  --color-shadow: rgba(0, 102, 255, 0.2);
+  --color-aurora-center: #edf2ff;
+  --color-aurora-mid: #80b3ff;
+  --color-aurora-edge: #0066FF;
   --aurora-blend-mode: multiply;
-  --hero-blend-mode: plus-darker;
-  --vignette-color: rgba(2, 132, 199, 0.22);
-  --icon-opacity: 0.32;
-  --floating-icon-opacity: 0.22;
-  --ctxbg-opacity: 0.42; /* Fondos contextuales algo más tenues en modo celeste */
+  --vignette-color: rgba(0, 102, 255, 0.15);
+  --icon-opacity: 0.4;
+  --floating-icon-opacity: 0.18;
+  --ctxbg-opacity: 0.35;
 }
 
   /* === Pure White Luxury Theme Overrides === */
@@ -644,9 +746,11 @@
   --accent-foreground: #020617;
   --input: rgba(0, 102, 255, 0.12);
   --ring: #0066FF;
-  --button-primary-from: #0066FF;
-  --button-primary-mid: #0ea5e9;
-  --button-primary-to: #1d4ed8;
+  --button-primary-from: #0057D9;
+  --button-primary-mid: #0044B8;
+  --button-primary-to: #082F70;
+  --button-aurora-opacity: 0.1;
+  --interactive-text: #0055D4;
   --nav-link-color: #020617;
   --nav-link-hover: #0066FF;
   --nav-link-shadow: 0 1px 10px rgba(255, 255, 255, 0.9), 0 0 1px rgba(2, 6, 23, 0.55);
@@ -672,7 +776,6 @@
   --color-aurora-mid: #7DD3FC;
   --color-aurora-edge: #0066FF;
   --aurora-blend-mode: multiply; /* Crucial for visibility on white */
-  --hero-blend-mode: plus-darker; /* Vivid colors on white */
   --vignette-color: rgba(0, 102, 255, 0.15);
 
   /* High contrast accent for readable text in white mode */
@@ -720,23 +823,23 @@
   filter: drop-shadow(0 0 15px rgba(0, 102, 255, 0.15));
 }
 .theme-sky .logo-crm-themed {
-  filter: drop-shadow(0 0 18px rgba(2, 132, 199, 0.22));
+  filter: drop-shadow(0 0 18px rgba(0, 102, 255, 0.15));
 }
 
 .theme-sky .texture-grid {
-  opacity: 0.035;
+  opacity: 0.02;
 }
 
 .theme-sky .texture-travertine {
-  opacity: 0.45;
+  opacity: 0.6;
 }
 
 .theme-sky .bg-noise {
-  opacity: 0.055;
+  opacity: 0.1;
 }
 
 .theme-sky .texture-travertine::before {
-  background: radial-gradient(circle at center, transparent 28%, rgba(2, 132, 199, 0.16) 100%);
+  background: radial-gradient(circle at center, transparent 0%, #f5f8ff 100%);
 }
 
 
@@ -750,8 +853,156 @@
   --color-shadow: rgba(0, 0, 0, 0.9);
   --icon-opacity: 0.15; /* Subtle individual icons */
   --floating-icon-opacity: 0.1; /* Pushed to background */
-  --hero-blend-mode: screen;
   --vignette-color: rgba(2, 6, 23, 0.4);
+}
+
+/* Tratamiento audiovisual por tema. Los modos claros comparten la misma
+   transformación azul; white se diferencia por menor intensidad y scrims más
+   limpios, no por introducir tonos cálidos. */
+.theme-classic .video-background:not([data-video-profile="media-card"]) {
+  --video-asset-filter: saturate(0.9) contrast(1.08) brightness(0.88);
+  --video-asset-blend-mode: screen;
+}
+
+.theme-classic .video-background[data-video-profile="hero"] {
+  --video-asset-opacity: 0.4;
+  --video-scrim-background:
+    radial-gradient(circle at 50% 43%, rgba(5, 5, 5, 0.18) 0%, rgba(5, 5, 5, 0.5) 52%, rgba(5, 5, 5, 0.95) 100%),
+    linear-gradient(to bottom, rgba(5, 5, 5, 0.84) 0%, rgba(5, 5, 5, 0.3) 30%, rgba(5, 5, 5, 0.58) 68%, #050505 100%);
+}
+
+.theme-classic .video-background[data-video-profile="services"] {
+  --video-asset-opacity: 0.34;
+  --video-scrim-background:
+    radial-gradient(circle at 50% 18%, rgba(5, 5, 5, 0.2) 0%, rgba(5, 5, 5, 0.62) 50%, rgba(5, 5, 5, 0.98) 100%),
+    linear-gradient(to bottom, rgba(5, 5, 5, 0.8) 0%, rgba(5, 5, 5, 0.48) 48%, #050505 100%);
+}
+
+.theme-classic .video-background[data-video-profile="community"] {
+  --video-asset-opacity: 0.3;
+  --video-scrim-background:
+    radial-gradient(circle at 50% 26%, rgba(5, 5, 5, 0.22) 0%, rgba(5, 5, 5, 0.64) 54%, rgba(5, 5, 5, 0.97) 100%),
+    linear-gradient(to bottom, rgba(5, 5, 5, 0.82) 0%, rgba(5, 5, 5, 0.54) 42%, #050505 100%);
+}
+
+.theme-sky .video-background:not([data-video-profile="media-card"]),
+.theme-white .video-background:not([data-video-profile="media-card"]) {
+  --video-asset-filter: invert(1) hue-rotate(180deg) saturate(0.92) brightness(1.05) contrast(0.92);
+  --video-asset-blend-mode: multiply;
+}
+
+.theme-sky .video-background[data-video-profile="hero"] {
+  --video-asset-opacity: 0.34;
+  --video-scrim-background:
+    radial-gradient(circle at 50% 43%, rgba(245, 248, 255, 0.08) 0%, rgba(245, 248, 255, 0.46) 52%, rgba(245, 248, 255, 0.96) 100%),
+    linear-gradient(to bottom, rgba(245, 248, 255, 0.78) 0%, rgba(245, 248, 255, 0.22) 30%, rgba(245, 248, 255, 0.54) 68%, #f5f8ff 100%);
+}
+
+.theme-sky .video-background[data-video-profile="services"] {
+  --video-asset-opacity: 0.3;
+  --video-scrim-background:
+    radial-gradient(circle at 50% 18%, rgba(245, 248, 255, 0.12) 0%, rgba(245, 248, 255, 0.58) 50%, rgba(245, 248, 255, 0.98) 100%),
+    linear-gradient(to bottom, rgba(245, 248, 255, 0.82) 0%, rgba(245, 248, 255, 0.48) 48%, #f5f8ff 100%);
+}
+
+.theme-sky .video-background[data-video-profile="community"] {
+  --video-asset-opacity: 0.26;
+  --video-scrim-background:
+    radial-gradient(circle at 50% 26%, rgba(245, 248, 255, 0.18) 0%, rgba(245, 248, 255, 0.66) 54%, rgba(245, 248, 255, 0.98) 100%),
+    linear-gradient(to bottom, rgba(245, 248, 255, 0.86) 0%, rgba(245, 248, 255, 0.58) 42%, #f5f8ff 100%);
+}
+
+.theme-white .video-background[data-video-profile="hero"] {
+  --video-asset-opacity: 0.28;
+  --video-scrim-background:
+    radial-gradient(circle at 50% 43%, rgba(255, 255, 255, 0.12) 0%, rgba(255, 255, 255, 0.54) 52%, rgba(255, 255, 255, 0.98) 100%),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.84) 0%, rgba(255, 255, 255, 0.3) 30%, rgba(255, 255, 255, 0.64) 68%, #ffffff 100%);
+}
+
+.theme-white .video-background[data-video-profile="services"] {
+  --video-asset-opacity: 0.25;
+  --video-scrim-background:
+    radial-gradient(circle at 50% 18%, rgba(255, 255, 255, 0.16) 0%, rgba(255, 255, 255, 0.66) 50%, rgba(255, 255, 255, 0.99) 100%),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0.56) 48%, #ffffff 100%);
+}
+
+.theme-white .video-background[data-video-profile="community"] {
+  --video-asset-opacity: 0.22;
+  --video-scrim-background:
+    radial-gradient(circle at 50% 26%, rgba(255, 255, 255, 0.2) 0%, rgba(255, 255, 255, 0.72) 54%, rgba(255, 255, 255, 0.99) 100%),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.64) 42%, #ffffff 100%);
+}
+
+.theme-classic .video-background[data-video-profile="media-card"],
+.theme-sky .video-background[data-video-profile="media-card"],
+.theme-white .video-background[data-video-profile="media-card"] {
+  --video-asset-opacity: 0.85;
+  --video-asset-filter: none;
+  --video-asset-blend-mode: normal;
+}
+
+@media (min-width: 640px) {
+  .theme-classic .video-background[data-video-profile="hero"] {
+    --video-asset-opacity: 0.48;
+  }
+
+  .theme-classic .video-background[data-video-profile="services"] {
+    --video-asset-opacity: 0.4;
+  }
+
+  .theme-classic .video-background[data-video-profile="community"] {
+    --video-asset-opacity: 0.36;
+  }
+
+  .theme-sky .video-background[data-video-profile="hero"] {
+    --video-asset-opacity: 0.4;
+  }
+
+  .theme-sky .video-background[data-video-profile="services"] {
+    --video-asset-opacity: 0.35;
+  }
+
+  .theme-sky .video-background[data-video-profile="community"] {
+    --video-asset-opacity: 0.31;
+  }
+
+  .theme-white .video-background[data-video-profile="hero"] {
+    --video-asset-opacity: 0.34;
+  }
+
+  .theme-white .video-background[data-video-profile="services"] {
+    --video-asset-opacity: 0.3;
+  }
+
+  .theme-white .video-background[data-video-profile="community"] {
+    --video-asset-opacity: 0.27;
+  }
+}
+
+@media (min-width: 768px) {
+  .theme-classic .video-background[data-video-profile="hero"] {
+    --video-asset-opacity: 0.54;
+  }
+
+  .theme-classic .video-background[data-video-profile="services"] {
+    --video-asset-opacity: 0.44;
+  }
+
+  .theme-sky .video-background[data-video-profile="hero"] {
+    --video-asset-opacity: 0.44;
+  }
+
+  .theme-sky .video-background[data-video-profile="services"] {
+    --video-asset-opacity: 0.38;
+  }
+
+  .theme-white .video-background[data-video-profile="hero"] {
+    --video-asset-opacity: 0.38;
+  }
+
+  .theme-white .video-background[data-video-profile="services"] {
+    --video-asset-opacity: 0.33;
+  }
 }
 
 /* Accesibilidad + rendimiento: respeta la preferencia de "menos movimiento".

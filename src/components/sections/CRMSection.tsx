@@ -68,7 +68,7 @@ export default function CRMSection() {
           <KineticItem type="subtitle-top">
             <div className="mx-auto inline-flex w-fit items-center gap-2 rounded-full border border-primary/20 bg-primary/10 px-4 py-1.5 lg:mx-0">
               <Activity className="size-3.5 text-primary" />
-              <span className="font-mono text-[11px] font-bold uppercase tracking-[0.22em] text-primary">
+              <span className="font-mono text-xs font-bold uppercase tracking-[0.18em] text-primary">
                 Sistema comercial
               </span>
             </div>
@@ -128,11 +128,11 @@ export default function CRMSection() {
                   <div className="flex size-6 items-center justify-center rounded-md bg-primary/10 text-primary">
                     {index === 0 ? <Plug className="size-3.5" /> : <Sparkles className="size-3.5" />}
                   </div>
-                  <p className="font-mono text-[10px] font-bold uppercase tracking-[0.16em] text-primary">
+                  <p className="font-mono text-xs font-bold uppercase tracking-[0.12em] text-primary">
                     {step.label}
                   </p>
                 </div>
-                <p className="text-[11px] leading-relaxed text-muted-foreground">
+                <p className="text-xs leading-relaxed text-muted-foreground">
                   {step.description}
                 </p>
               </motion.div>
@@ -154,7 +154,7 @@ function BenefitsList() {
     <div className="grid gap-4 pt-1 text-left sm:grid-cols-3 lg:grid-cols-1">
       {BENEFITS.map((benefit, index) => (
         <div key={benefit.title} className="flex gap-3">
-          <div className="mt-1 flex size-7 shrink-0 items-center justify-center rounded-full border border-primary/25 bg-primary/10 font-mono text-[10px] font-bold text-primary">
+          <div className="mt-1 flex size-8 shrink-0 items-center justify-center rounded-full border border-primary/25 bg-primary/10 font-mono text-xs font-bold text-primary">
             0{index + 1}
           </div>
           <div>

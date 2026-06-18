@@ -248,7 +248,7 @@ export default function AuditQuiz() {
                         <div className="flex justify-start items-center mb-12">
                             <button 
                                 onClick={prevStep}
-                                className={`flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.25em] transition-all ${currentStep === 0 ? "opacity-0 pointer-events-none" : "opacity-40 hover:opacity-100 hover:text-primary"}`}
+                                className={`flex min-h-11 items-center gap-2 rounded-lg pr-4 text-xs font-bold uppercase tracking-[0.2em] transition-all ${currentStep === 0 ? "opacity-0 pointer-events-none" : "opacity-60 hover:opacity-100 hover:text-primary"}`}
                             >
                                 <ChevronLeft className="size-4" /> Atrás
                             </button>

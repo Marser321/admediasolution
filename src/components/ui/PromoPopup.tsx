@@ -75,7 +75,7 @@ export default function PromoPopup() {
               <button
                 onClick={closePopup}
                 aria-label="Cerrar popup"
-                className="absolute top-4 right-4 z-20 flex size-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-sky-100/60 backdrop-blur-md transition-colors hover:border-sky-300/40 hover:text-white cursor-pointer"
+                className="absolute right-3 top-3 z-20 flex size-11 items-center justify-center rounded-full border border-white/10 bg-white/5 text-sky-100/60 backdrop-blur-md transition-colors hover:border-sky-300/40 hover:text-white cursor-pointer sm:right-4 sm:top-4"
               >
                 <X className="w-4 h-4" />
               </button>
@@ -93,7 +93,7 @@ export default function PromoPopup() {
                     />
                     <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(2,6,23,0.02),rgba(2,6,23,0.18)_62%,rgba(2,6,23,0.68)),radial-gradient(circle_at_50%_46%,transparent_0%,transparent_42%,rgba(2,6,23,0.24)_78%)]" />
                     <div className="absolute inset-x-6 top-0 h-px bg-gradient-to-r from-transparent via-white/70 to-transparent" />
-                    <div className="absolute bottom-4 left-1/2 flex max-w-[calc(100%-2rem)] -translate-x-1/2 items-center gap-2 rounded-full border border-sky-200/20 bg-slate-950/55 px-3 py-1.5 text-[10px] font-bold uppercase tracking-[0.18em] text-sky-100 shadow-[0_0_24px_rgba(56,189,248,0.18)] backdrop-blur-md">
+                    <div className="absolute bottom-4 left-1/2 flex max-w-[calc(100%-2rem)] -translate-x-1/2 items-center gap-2 rounded-full border border-sky-200/20 bg-slate-950/55 px-3 py-1.5 text-xs font-bold uppercase tracking-[0.12em] text-sky-100 shadow-[0_0_24px_rgba(56,189,248,0.18)] backdrop-blur-md">
                       <ShieldCheck className="size-3 text-sky-300" />
                       Sistema Comercial
                     </div>
@@ -101,7 +101,7 @@ export default function PromoPopup() {
                 </div>
 
                 {/* Content */}
-                <span className="mt-5 inline-flex items-center gap-2 rounded-full border border-sky-300/25 bg-sky-300/10 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.22em] text-sky-200 shadow-[0_0_22px_rgba(56,189,248,0.16)]">
+                <span className="mt-5 inline-flex items-center gap-2 rounded-full border border-sky-300/25 bg-sky-300/10 px-3 py-1 text-xs font-bold uppercase tracking-[0.18em] text-sky-200 shadow-[0_0_22px_rgba(56,189,248,0.16)]">
                   <Sparkles className="size-3" />
                   Diagnóstico gratis
                 </span>
@@ -112,7 +112,7 @@ export default function PromoPopup() {
                   Revisamos tu CRM, anuncios, WhatsApp y agenda para detectar dónde se pierden oportunidades y cómo activar un sistema de ventas más claro.
                 </p>
 
-                <div className="mt-5 flex w-full flex-wrap items-center justify-center gap-2 rounded-2xl border border-dashed border-sky-300/25 bg-white/[0.055] px-3 py-3 text-[11px] font-bold uppercase tracking-[0.16em] text-sky-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
+                <div className="mt-5 flex w-full flex-wrap items-center justify-center gap-2 rounded-2xl border border-dashed border-sky-300/25 bg-white/[0.055] px-3 py-3 text-xs font-bold uppercase tracking-[0.12em] text-sky-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.08)]">
                   <span>CRM</span>
                   <span className="text-sky-300/70">+</span>
                   <span>Ads</span>
