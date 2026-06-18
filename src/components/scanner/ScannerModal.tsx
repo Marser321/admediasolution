@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, CheckCircle2, Loader2, Server, Globe, Database, Cpu } from "lucide-react";
 import ScannerDashboard from "./ScannerDashboard";
@@ -48,6 +48,11 @@ export default function ScannerModal({
     const [step, setStep] = useState(0);
     const [showDashboard, setShowDashboard] = useState(false);
     const [completedSteps, setCompletedSteps] = useState<number[]>([]);
+    const isOpenRef = useRef(isOpen);
+
+    useEffect(() => {
+        isOpenRef.current = isOpen;
+    }, [isOpen]);
 
     const startScanning = useCallback(async () => {
         // Resetear flag local al iniciar nuevo scan
@@ -57,7 +62,7 @@ export default function ScannerModal({
         await new Promise((resolve) => setTimeout(resolve, 500));
 
         for (let i = 0; i < STEPS.length; i++) {
-            if (!isOpen) return; // Abortar si se cierra
+            if (!isOpenRef.current) return; // Abortar si se cierra
             setStep(i);
             await new Promise((resolve) => setTimeout(resolve, STEPS[i].duration));
             setCompletedSteps((prev) => [...prev, i]);
@@ -68,7 +73,7 @@ export default function ScannerModal({
 
         setShowDashboard(true);
         localStorage.setItem("scannerComplete", "true");
-    }, [isOpen]);
+    }, []);
 
     useEffect(() => {
         if (isOpen) {
