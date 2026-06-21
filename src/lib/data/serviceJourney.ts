@@ -52,7 +52,7 @@ export interface JourneyStage {
  * del efecto animado de respaldo. En `false` no se solicita ninguna imagen
  * (sin 404; el audit rhythm de /equipo sigue limpio).
  */
-export const JOURNEY_IMAGES_READY = false;
+export const JOURNEY_IMAGES_READY = true;
 
 export const JOURNEY_STAGES: JourneyStage[] = [
     {

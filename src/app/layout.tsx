@@ -94,7 +94,8 @@ export default function RootLayout({
         <link rel="icon" href="/icon.png" />
         {/* Los logos y la foto del CEO se priorizan vía next/image (priority),
             que sirve versiones optimizadas. Precargar los PNG crudos aquí
-            duplicaba la descarga (especialmente ceo.png ~2.2MB). */}
+            duplicaba la descarga. La foto del CEO ahora es ceo.webp (~107KB,
+            convertida desde un PNG de ~2.2MB; ver scripts/convert-assets.mjs). */}
       </head>
       <body
         className={`${montserrat.variable} font-sans antialiased bg-background text-foreground selection:bg-primary/30 selection:text-white relative`}

@@ -4,6 +4,81 @@ Este plan de integración detalla la estrategia controlada para implementar el f
 
 ---
 
+## 32. Publicación Completa del Worktree Actual en GitHub y Vercel
+
+<approved_execution_plan>
+  <summary>
+    Consolidar el estado local actual, validarlo de extremo a extremo y publicarlo mediante GitHub hasta dejar una nueva versión verificada en producción de Vercel.
+  </summary>
+
+  <business_goal>
+    <item>Hacer visibles en producción los últimos assets WebP, ajustes de About Us, Equipo, SEO, limpieza de componentes y optimizaciones acumuladas localmente.</item>
+    <item>Alinear el código local, el repositorio remoto y el despliegue productivo para que exista una fuente de verdad recuperable y auditable.</item>
+    <item>Evitar publicar una versión que compile pero tenga rutas rotas, assets faltantes o regresiones visuales en páginas comerciales.</item>
+  </business_goal>
+
+  <read_only_baseline>
+    <item>La rama activa es `main`; el commit local es `1e156c9` y está un commit por delante de la referencia local `origin/main` (`8e90c7a`).</item>
+    <item>El worktree contiene cambios modificados, eliminados y nuevos todavía sin commit; se preservarán como trabajo del usuario y no se descartará ninguno silenciosamente.</item>
+    <item>El proyecto Vercel vinculado es `admediasolution`, con framework Next.js y Node.js 24.x.</item>
+    <item>La producción actual está READY y corresponde al commit remoto `8e90c7a`; todavía no contiene el commit local `1e156c9` ni los cambios sin commit.</item>
+    <item>La carpeta `public` pesa aproximadamente 98 MB y no contiene archivos individuales mayores de 25 MB, por lo que no se observa un bloqueo inmediato por tamaño de archivo.</item>
+  </read_only_baseline>
+
+  <implementation_scope>
+    <phase name="preflight">
+      <item>Actualizar referencias remotas sin sobrescribir el worktree y detener la ejecución si `origin/main` avanzó o aparece una divergencia inesperada.</item>
+      <item>Revisar el diff completo, los archivos nuevos y las eliminaciones para confirmar que el lote corresponde al sitio actual y que no contiene secretos, archivos `.env`, credenciales ni artefactos temporales.</item>
+      <item>Comprobar consistencia entre `package.json` y `package-lock.json`, además de referencias a assets reemplazados de PNG a WebP.</item>
+    </phase>
+
+    <phase name="validation_local">
+      <item>Ejecutar `npm run lint` y `npm run build`; corregir únicamente fallos causados por el lote actual, preservando cambios ajenos.</item>
+      <item>Ejecutar las auditorías Playwright relevantes para video, movimiento y ritmo cuando el entorno local permita levantar la aplicación.</item>
+      <item>Revisar como mínimo `/`, `/about-us`, `/equipo`, `/servicios`, `/casos`, `/danger`, `/comunidad` y `/planificacion` en desktop y mobile.</item>
+    </phase>
+
+    <phase name="github_publish">
+      <item>Crear una rama `codex/deploy-current-site` desde el estado local actual para no publicar directamente desde un `main` con worktree mixto.</item>
+      <item>Añadir de forma explícita el lote aprobado, crear un commit coherente y publicarlo en GitHub.</item>
+      <item>Abrir un pull request con resumen de cambios, impacto y validaciones; no usar force push.</item>
+    </phase>
+
+    <phase name="vercel_preview">
+      <item>Esperar el Preview Deployment automático de Vercel y comprobar que finalice en estado READY.</item>
+      <item>Validar el preview en navegador, revisar consola, red, navegación, assets multimedia y las rutas comerciales principales.</item>
+      <item>Consultar logs de build o runtime si Vercel reporta errores y corregirlos antes de integrar.</item>
+    </phase>
+
+    <phase name="production_release">
+      <item>Integrar el pull request en `main` solamente después de que las validaciones locales y de preview sean satisfactorias.</item>
+      <item>Esperar el despliegue automático de producción y confirmar que el alias `admediasolution.vercel.app` sirve el nuevo commit.</item>
+      <item>Realizar una verificación final de producción en desktop y mobile, incluyendo redirecciones SEO y ausencia de errores de consola.</item>
+    </phase>
+  </implementation_scope>
+
+  <guardrails>
+    <item>No usar `reset --hard`, `checkout --`, force push ni comandos que descarten trabajo existente.</item>
+    <item>No añadir ni exponer tokens, API keys, PITs, archivos `.env` o secretos en código, commits, logs o prompts persistentes.</item>
+    <item>No integrar a producción si lint, build, preview o rutas críticas presentan errores atribuibles al lote actual.</item>
+    <item>No eliminar ni excluir cambios del worktree sin reportarlo y obtener aprobación específica.</item>
+    <item>Mantener fases atómicas: preparar, validar localmente, publicar preview, validar externamente e integrar a producción.</item>
+  </guardrails>
+
+  <validation>
+    <item>GitHub debe contener el commit final y `main` debe quedar alineado con el commit desplegado por Vercel.</item>
+    <item>Vercel debe mostrar un deployment de producción READY asociado al nuevo commit de `main`.</item>
+    <item>Las rutas críticas deben responder correctamente y cargar sus imágenes, WebP, videos, fuentes y componentes interactivos.</item>
+    <item>Se documentarán el commit, el pull request, la URL de preview, la URL de producción y los checks ejecutados.</item>
+  </validation>
+
+  <approval_gate>
+    <item>Después de crear este plan, pausar toda implementación y esperar la aprobación explícita del usuario.</item>
+  </approval_gate>
+</approved_execution_plan>
+
+---
+
 ## 18. Sincronización del Repositorio
 
 <pending_approval_plan>
@@ -807,6 +882,98 @@ Para facilitar que el modelo de 1M de contexto implemente la lógica compleja de
     <item>Convierte las secciones de mayor conversion en explicaciones visuales del sistema comercial, corrigiendo fondos genericos sin aumentar riesgo reputacional por claims no aprobados.</item>
   </business_benefit>
 </pending_vibe_approval>
+
+---
+
+## 31. Correccion de Identidad de Danger en About Us
+
+<approved_execution_plan>
+  <summary>
+    Regenerar unicamente el personaje de las cuatro escenas historicas de `/about-us`, conservando los fondos, la iluminacion, la composicion y la narrativa actuales.
+  </summary>
+
+  <business_goal>
+    <item>Hacer que Danger Fernandez sea inmediatamente reconocible en toda la historia visual de AD Media.</item>
+    <item>Preservar el acabado cinematografico ya aprobado sin publicar las fotografias fuente reales dentro del sitio.</item>
+  </business_goal>
+
+  <implementation_scope>
+    <item>Usar como referencias canonicas las tres fotos reales entregadas el 12 de junio de 2026.</item>
+    <item>Tratar cada WebP actual como objetivo de edicion y no reconstruir los fondos desde cero.</item>
+    <item>Generar dos variantes por epoca y fijar forma de cabeza, frente, mandibula, nariz, sonrisa, dientes, barba, tono de piel, linea capilar y montura transparente.</item>
+    <item>Aplicar envejecimiento sutil: 2016 mas joven, 2019 intermedio, 2022 casi actual y 2026 identico a las referencias.</item>
+    <item>Seleccionar cuatro finales, convertirlos a WebP 1600x1200 y reemplazar los assets manteniendo sus nombres actuales.</item>
+    <item>Actualizar los prompts para identificar estas tres fotos como las referencias correctas.</item>
+  </implementation_scope>
+
+  <validation>
+    <item>Comparar cada variante con las tres referencias reales y rechazar gafas negras, rostro estrecho, barba incorrecta, sonrisa alterada o deriva de identidad.</item>
+    <item>Verificar manos, anatomia, edad y continuidad visual de 2016 a 2026.</item>
+    <item>Revisar `/about-us` en desktop y mobile, incluyendo parallax, recortes y badges.</item>
+    <item>Mantener cada WebP por debajo de 300 KB y ejecutar lint, build y comprobacion de consola y red.</item>
+  </validation>
+
+  <guardrails>
+    <item>No alterar fondos, textos, fechas, estructura ni video de 2027+.</item>
+    <item>No aceptar una variante solamente por calidad estetica si Danger no es reconocible.</item>
+    <item>No sobrescribir los assets actuales hasta seleccionar las variantes finales.</item>
+    <item>No copiar las fotografias fuente reales a carpetas publicas del sitio.</item>
+    <item>Generar una tercera correccion dirigida si ninguna variante de una epoca alcanza fidelidad suficiente.</item>
+  </guardrails>
+
+  <assumptions>
+    <item>Danger usara su montura transparente en las cuatro etapas.</item>
+    <item>Los fondos del recorrido de `/equipo` quedan fuera de alcance.</item>
+    <item>No habra cambios en APIs, componentes, rutas ni nombres de archivo.</item>
+    <item>La edicion usara la herramienta integrada de imagenes.</item>
+  </assumptions>
+</approved_execution_plan>
+
+---
+
+## 30. Generacion e Integracion de Imagenes del Sitio
+
+<approved_execution_plan>
+  <summary>
+    Generar e integrar 12 assets finales: cuatro escenas historicas con Danger Fernandez y ocho fondos cinematograficos para el recorrido del servicio.
+  </summary>
+
+  <business_goal>
+    <item>Convertir la historia de AD Media en una narrativa visual reconocible, usando a Danger como protagonista coherente entre 2016 y 2026.</item>
+    <item>Dar contexto inmediato y acabado premium a las ocho etapas del recorrido del servicio sin competir con los textos ni el HUD.</item>
+  </business_goal>
+
+  <implementation_scope>
+    <item>Usar `public/team/ceo.webp` como referencia canonica de identidad de Danger.</item>
+    <item>Generar dos variantes para cada escena de 2016, 2019, 2022 y 2026; seleccionar una final por epoca.</item>
+    <item>Generar ocho fondos 16:9 de entornos reales para `/equipo`, sin caras identificables, texto legible, logos ni marcas.</item>
+    <item>Optimizar las cuatro escenas historicas a WebP 4:3 y los ocho fondos a WebP 16:9 con los nombres definidos en los prompts existentes.</item>
+    <item>Reemplazar los placeholders de `public/about-us/`, retirar el comentario `PLACEHOLDER` y activar `JOURNEY_IMAGES_READY` cuando los ocho fondos esten listos.</item>
+    <item>No modificar copy, estructura, metricas, testimonios ni claims del sitio.</item>
+  </implementation_scope>
+
+  <validation>
+    <item>Verificar identidad, anatomia, progresion de edad y consistencia visual de Danger entre 2016 y 2026.</item>
+    <item>Comprobar encuadres, parallax, badges, legibilidad y ausencia de recortes criticos en mobile y desktop.</item>
+    <item>Revisar las ocho etapas del mapa, el efecto Ken Burns y el fallback ante error de carga.</item>
+    <item>Exigir pesos objetivo de hasta 300 KB para About Us y 250 KB para Journey.</item>
+    <item>Ejecutar lint, build y validacion visual de `/about-us` y `/equipo`.</item>
+  </validation>
+
+  <guardrails>
+    <item>No sobrescribir assets hasta seleccionar y validar las variantes finales.</item>
+    <item>No generar terceros reconocibles ni texto, logos o interfaces legibles.</item>
+    <item>No modificar ni descartar cambios existentes del worktree.</item>
+    <item>No incluir secretos o credenciales en archivos versionados.</item>
+    <item>Mantener fases separadas: planificar, generar, integrar y validar.</item>
+  </guardrails>
+
+  <assumptions>
+    <item>El video abstracto de 2027+ permanece sin cambios.</item>
+    <item>Las variantes descartadas se mantendran fuera de los assets finales del proyecto.</item>
+    <item>La generacion usara la herramienta integrada de imagenes y no el flujo CLI.</item>
+  </assumptions>
+</approved_execution_plan>
 
 ---
 

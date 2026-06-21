@@ -4,13 +4,13 @@
 *.dmg
 *.zip
 *.opus
-Testimonios/
-VSL/
-V3/
-FONDOS ROADMAP/
-fotos-fuente/
-test-results/
-docs/
-checklists/
-templates/
-.claude/
+/Testimonios/
+/VSL/
+/V3/
+/FONDOS ROADMAP/
+/fotos-fuente/
+/test-results/
+/docs/
+/checklists/
+/templates/
+/.claude/
