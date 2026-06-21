@@ -89,7 +89,7 @@ export default function AboutUsPage() {
       description: "Hace 10 años, Danger Fernández empezó solo: desde su habitación, con una portátil y un teléfono, dándole dirección de marketing y ventas a comercios locales. Esa fue la semilla de AD Media.",
       officeTitle: "El inicio (2016)",
       officeDesc: "Danger, solo, desde casa.",
-      imageUrl: "/about-us/bedroom_start_2016.png",
+      imageUrl: "/about-us/bedroom_start_2016.webp",
       icon: Award,
     },
     {
@@ -98,7 +98,7 @@ export default function AboutUsPage() {
       description: "El incremento en la cartera de clientes y la necesidad de integrar especialistas en diseño gráfico y pauta publicitaria motivan el traslado a un espacio físico. Nos mudamos a una oficina compartida y estructuramos los primeros flujos comerciales.",
       officeTitle: "Primera Oficina (2019)",
       officeDesc: "Primera sede. Especialistas en diseño y pauta.",
-      imageUrl: "/about-us/first_office_2019.png",
+      imageUrl: "/about-us/first_office_2019.webp",
       icon: Landmark,
     },
     {
@@ -107,7 +107,7 @@ export default function AboutUsPage() {
       description: "Superamos la marca de 50 clientes recurrentes y consolidamos el equipo de producción. Nos trasladamos a una oficina independiente más amplia, equipada para edición de video y desarrollo front-end de landing pages de alta conversión.",
       officeTitle: "Segunda Oficina (2022)",
       officeDesc: "Sede más amplia. Departamento de edición y desarrollo web.",
-      imageUrl: "/about-us/scale_studio_2022.png",
+      imageUrl: "/about-us/scale_studio_2022.webp",
       icon: Target,
     },
     {
@@ -116,7 +116,7 @@ export default function AboutUsPage() {
       description: "Establecidos en nuestras oficinas modernas actuales de alto rendimiento. Hoy, nuestro equipo multidisciplinar da soporte de dirección de marketing y ventas a empresas en todo el mercado hispano mediante CRM a medida, Meta/Google Ads y producción cinematográfica.",
       officeTitle: "Oficinas Actuales (2026)",
       officeDesc: "Oficinas con sala de grabación y desarrollo.",
-      imageUrl: "/about-us/modern_headquarters_2026.png",
+      imageUrl: "/about-us/modern_headquarters_2026.webp",
       icon: ShieldCheck,
     },
     {
@@ -125,7 +125,7 @@ export default function AboutUsPage() {
       description: "Lo mejor está por venir. Sumamos nuevos profesionales y tecnologías de vanguardia para multiplicar cada año lo logrado en la última década.",
       officeTitle: "Futuro & Expansión",
       officeDesc: "Nuevas integraciones, IA y desarrollo de valor.",
-      imageUrl: "/about-us/future_expansion_2027.png",
+      imageUrl: "/about-us/future_expansion_2027.webp",
       videoUrl: "/videos/about-future-integration-2027.mp4",
       posterUrl: "/videos/about-future-integration-2027-poster.jpg",
       icon: Sparkles,

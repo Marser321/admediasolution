@@ -151,7 +151,7 @@ export default function AuthoritySection() {
                         <div className="aspect-[4/5] rounded-3xl overflow-hidden relative bg-card border border-primary/10 shadow-2xl shadow-primary/5 group">
                             {/* Foto CEO */}
                             <Image
-                                src="/team/ceo.png"
+                                src="/team/ceo.webp"
                                 alt="Danger Fernández - CEO"
                                 fill
                                 sizes="(max-width: 1024px) 100vw, 50vw"
