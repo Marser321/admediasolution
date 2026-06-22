@@ -6,13 +6,14 @@ import FooterContact from "@/components/sections/FooterContact";
 import IslandBar from "@/components/layout/IslandBar";
 import Image from "next/image";
 import { ArrowRight, Camera, ChevronDown, Code, Cpu, ExternalLink, Film, LucideIcon, Megaphone, Palette, UserCheck } from "lucide-react";
-import { AnimatePresence, motion, useScroll, useTransform, useReducedMotion, MotionValue } from "framer-motion";
+import { AnimatePresence, motion, useScroll, useTransform, MotionValue } from "framer-motion";
 import { useIsDesktop } from "@/lib/useMediaQuery";
-import PresenceField from "@/components/backgrounds/PresenceField";
+import { useHydratedReducedMotion } from "@/lib/useHydratedReducedMotion";
 import CraftChips from "@/components/ui/CraftFrame";
 import AnimatedCounter from "@/components/ui/AnimatedCounter";
 import ServiceJourneyMap from "@/components/sections/ServiceJourneyMap";
 import { getDeptTheme } from "@/lib/data/teamIdentity";
+import { JOURNEY_STAGES } from "@/lib/data/serviceJourney";
 
 interface ProjectLink {
   name: string;
@@ -301,6 +302,11 @@ function DesktopCarousel({
   x,
   scrollYProgress,
 }: DesktopCarouselProps) {
+  const reduce = useHydratedReducedMotion();
+  const [journeyIndex, setJourneyIndex] = useState(0);
+  const [failedJourneyBackgrounds, setFailedJourneyBackgrounds] = useState<Record<string, boolean>>({});
+  const journeyStage = JOURNEY_STAGES[journeyIndex] ?? JOURNEY_STAGES[0];
+
   return (
     /* Horizontal Carousel Section (Vertical Scroll Trigger) */
     <div
@@ -315,12 +321,53 @@ function DesktopCarousel({
 
           {/* Slide 0: Massive Intro Slide (Merged with Header for seamless layout transition) */}
           <div className="w-screen h-screen flex-shrink-0 flex flex-col items-center justify-center px-6 pt-20 pb-24 text-center relative select-none overflow-hidden">
-            {/* Fondo: presencia del equipo (avatares conectados) */}
-            <div className="absolute inset-0">
-              <PresenceField intensity="soft" density="mid" />
-            </div>
-            <div className="absolute inset-0 bg-gradient-to-b from-primary/5 to-accent-light/5 pointer-events-none" />
-            <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[140px] pointer-events-none" />
+            <AnimatePresence mode="sync" initial={false}>
+              {!failedJourneyBackgrounds[journeyStage.id] && (
+                <motion.div
+                  key={journeyStage.id}
+                  className="absolute inset-0"
+                  initial={{ opacity: 0 }}
+                  animate={
+                    reduce
+                      ? { opacity: 1 }
+                      : { opacity: 1, scale: [1.02, 1.055], x: ["0%", journeyIndex % 2 === 0 ? "-0.6%" : "0.6%"] }
+                  }
+                  exit={{ opacity: 0 }}
+                  transition={
+                    reduce
+                      ? { duration: 0.2 }
+                      : {
+                          opacity: { duration: 0.55, ease: "easeInOut" },
+                          scale: { duration: 14, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" },
+                          x: { duration: 14, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" },
+                        }
+                  }
+                  data-motion-audit="decorative-background"
+                >
+                  <Image
+                    src={journeyStage.backgroundImage}
+                    alt=""
+                    fill
+                    priority
+                    sizes="100vw"
+                    className="object-cover"
+                    style={{ objectPosition: journeyStage.backgroundPosition }}
+                    onError={() =>
+                      setFailedJourneyBackgrounds((current) => ({
+                        ...current,
+                        [journeyStage.id]: true,
+                      }))
+                    }
+                  />
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Scrims: centro para lectura, extremos visibles y cabecera adaptada al tema. */}
+            <div className="absolute inset-0 bg-[radial-gradient(ellipse_48%_76%_at_50%_51%,rgba(2,6,23,0.88)_0%,rgba(2,6,23,0.62)_52%,rgba(2,6,23,0.14)_100%)]" />
+            <div className="absolute inset-x-0 top-0 h-36 bg-gradient-to-b from-background via-background/70 to-transparent" />
+            <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-background via-background/65 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-b from-primary/5 via-transparent to-accent-light/5 pointer-events-none" />
 
             <motion.div
               initial={{ opacity: 0, y: 30 }}
@@ -331,18 +378,21 @@ function DesktopCarousel({
               <span className="text-primary text-[10px] md:text-xs font-bold tracking-wider uppercase px-3.5 py-1.5 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md">
                 Especialistas de la Media
               </span>
-              <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black mt-3 tracking-tight leading-tight md:leading-none text-foreground">
+              <h1 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-black mt-3 tracking-tight leading-tight md:leading-none text-white">
                 Los Líderes Detrás <br />
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-primary to-accent-light">
                   de la Operación
                 </span>
               </h1>
-              <p className="text-muted-foreground text-xs md:text-sm max-w-2xl mx-auto mt-2.5 leading-relaxed font-light">
+              <p className="text-slate-300 text-xs md:text-sm max-w-2xl mx-auto mt-2.5 leading-relaxed font-light">
                 Recorre el mapa del servicio paso a paso: qué hacemos, en qué orden y qué área lo ejecuta. Desliza para conocer a cada profesional.
               </p>
 
               {/* Mapa interactivo del recorrido del servicio */}
-              <ServiceJourneyMap />
+              <ServiceJourneyMap
+                activeIndex={journeyIndex}
+                onActiveIndexChange={setJourneyIndex}
+              />
 
               <div className="mt-3 flex justify-center items-center gap-2 text-primary font-bold animate-pulse text-[11px] md:text-xs">
                 <span>Comenzar recorrido</span>
@@ -382,7 +432,7 @@ function TeamMemberSlide({
 }: TeamMemberSlideProps) {
   const Icon = member.icon;
   const theme = getDeptTheme(member.dept);
-  const reduce = useReducedMotion();
+  const reduce = useHydratedReducedMotion();
   // Parallax hook called properly inside a React functional component
   const y = useTransform(scrollYProgress, [0, 1], [-40, 40]);
 
@@ -559,15 +609,14 @@ function TeamMemberSlide({
 // Sin scroll-jacking, sin h-screen, sin overflow-hidden → nada se recorta.
 // ============================================================
 function MobileTeamList() {
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useHydratedReducedMotion();
   const [journeyOpen, setJourneyOpen] = useState(false);
+  const [journeyIndex, setJourneyIndex] = useState(0);
 
   return (
     <div className="md:hidden px-5 pt-24 pb-16 bg-background">
       {/* Hero compacto */}
       <header className="text-center mb-8 relative overflow-hidden">
-        {/* Fondo: presencia del equipo (avatares conectados) */}
-        <PresenceField intensity="soft" density="low" />
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[320px] h-[320px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
         <div className="relative z-10 flex flex-col items-center">
           <span className="text-primary text-xs font-bold tracking-wider uppercase px-4 py-2 rounded-full bg-primary/10 border border-primary/20 backdrop-blur-md">
@@ -609,7 +658,10 @@ function MobileTeamList() {
               exit={{ height: 0, opacity: 0 }}
               className="overflow-hidden"
             >
-              <ServiceJourneyMap />
+              <ServiceJourneyMap
+                activeIndex={journeyIndex}
+                onActiveIndexChange={setJourneyIndex}
+              />
             </motion.div>
           )}
         </AnimatePresence>

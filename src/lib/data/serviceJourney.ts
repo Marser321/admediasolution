@@ -10,23 +10,6 @@ import {
     type LucideIcon,
 } from "lucide-react";
 
-// ============================================================
-// Recorrido del servicio — las etapas que vive un cliente desde
-// la primera llamada hasta la optimización continua.
-// PLACEHOLDER en burdo: textos y entregables pendientes de
-// afinar con dirección; la estructura es la real.
-// ============================================================
-
-/** Fondo de marca que florece detrás del mapa al tocar la etapa. */
-export type BackgroundKey =
-    | "blueprint"
-    | "flow"
-    | "presence"
-    | "aurora"
-    | "constellation"
-    | "signal"
-    | "metric";
-
 export interface JourneyStage {
     id: string;
     /** Nombre corto de la etapa (voz directa, sin jerga). */
@@ -40,19 +23,11 @@ export interface JourneyStage {
     icon: LucideIcon;
     /** Qué recibe o queda listo para el cliente. */
     deliverables: string[];
-    /** Fondo animado de marca que se revela al tocar la etapa (respaldo). */
-    bg: BackgroundKey;
-    /** Imagen enfocada por paso (generada por fuera; ver docs/journey-background-prompts.md). */
-    image: string;
+    /** Fondo cinematográfico full-width de la etapa. */
+    backgroundImage: string;
+    /** Punto de anclaje para conservar el sujeto al recortar en tablet y móvil. */
+    backgroundPosition: "left center" | "right center";
 }
-
-/**
- * Bandera maestra: cuando las 8 imágenes estén en public/journey/, poner en
- * `true` para que el fondo del mapa use las imágenes (con Ken-Burns) en vez
- * del efecto animado de respaldo. En `false` no se solicita ninguna imagen
- * (sin 404; el audit rhythm de /equipo sigue limpio).
- */
-export const JOURNEY_IMAGES_READY = true;
 
 export const JOURNEY_STAGES: JourneyStage[] = [
     {
@@ -63,8 +38,8 @@ export const JOURNEY_STAGES: JourneyStage[] = [
         depts: ["Dirección"],
         icon: PhoneCall,
         deliverables: ["Lectura del negocio", "Metas claras", "Plan inicial"],
-        bg: "blueprint",
-        image: "/journey/primera-llamada.webp",
+        backgroundImage: "/journey/exterior/primera-llamada.webp",
+        backgroundPosition: "right center",
     },
     {
         id: "configuracion-crm",
@@ -74,8 +49,8 @@ export const JOURNEY_STAGES: JourneyStage[] = [
         depts: ["CRM & Automatización", "CRM & Sistemas"],
         icon: Workflow,
         deliverables: ["CRM operativo", "WhatsApp conectado", "A2P aprobado"],
-        bg: "flow",
-        image: "/journey/configuracion-crm.webp",
+        backgroundImage: "/journey/exterior/configuracion-crm.webp",
+        backgroundPosition: "left center",
     },
     {
         id: "segunda-llamada",
@@ -85,8 +60,8 @@ export const JOURNEY_STAGES: JourneyStage[] = [
         depts: ["Dirección", "Comercial"],
         icon: Presentation,
         deliverables: ["Oferta definida", "Presupuesto", "Calendario"],
-        bg: "presence",
-        image: "/journey/segunda-llamada.webp",
+        backgroundImage: "/journey/exterior/segunda-llamada.webp",
+        backgroundPosition: "right center",
     },
     {
         id: "pila-de-arte",
@@ -96,8 +71,8 @@ export const JOURNEY_STAGES: JourneyStage[] = [
         depts: ["Diseño & IA", "Producción"],
         icon: Palette,
         deliverables: ["Piezas gráficas", "Videos editados", "Creativos de campaña"],
-        bg: "aurora",
-        image: "/journey/pila-de-arte.webp",
+        backgroundImage: "/journey/exterior/pila-de-arte.webp",
+        backgroundPosition: "left center",
     },
     {
         id: "configuraciones-tecnicas",
@@ -107,8 +82,8 @@ export const JOURNEY_STAGES: JourneyStage[] = [
         depts: ["CRM & Sistemas"],
         icon: Cog,
         deliverables: ["Integraciones activas", "Tracking instalado", "Monitoreo"],
-        bg: "constellation",
-        image: "/journey/configuraciones-tecnicas.webp",
+        backgroundImage: "/journey/exterior/configuraciones-tecnicas.webp",
+        backgroundPosition: "right center",
     },
     {
         id: "presupuesto-pauta",
@@ -118,8 +93,8 @@ export const JOURNEY_STAGES: JourneyStage[] = [
         depts: ["Marketing"],
         icon: Megaphone,
         deliverables: ["Campañas activas", "Segmentación", "Reportes de pauta"],
-        bg: "signal",
-        image: "/journey/presupuesto-pauta.webp",
+        backgroundImage: "/journey/exterior/presupuesto-pauta.webp",
+        backgroundPosition: "left center",
     },
     {
         id: "lanzamiento-agenda",
@@ -129,8 +104,8 @@ export const JOURNEY_STAGES: JourneyStage[] = [
         depts: ["Comercial"],
         icon: CalendarCheck,
         deliverables: ["Agenda con citas", "Seguimiento activo", "Atención al prospecto"],
-        bg: "metric",
-        image: "/journey/lanzamiento-agenda.webp",
+        backgroundImage: "/journey/exterior/lanzamiento-agenda.webp",
+        backgroundPosition: "right center",
     },
     {
         id: "optimizacion",
@@ -140,7 +115,7 @@ export const JOURNEY_STAGES: JourneyStage[] = [
         depts: ["Dirección", "Marketing", "CRM & Automatización"],
         icon: TrendingUp,
         deliverables: ["Métricas mensuales", "Ajustes de campaña", "Soporte continuo"],
-        bg: "presence",
-        image: "/journey/optimizacion.webp",
+        backgroundImage: "/journey/exterior/optimizacion.webp",
+        backgroundPosition: "left center",
     },
 ];

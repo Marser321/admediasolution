@@ -4,6 +4,192 @@ Este plan de integración detalla la estrategia controlada para implementar el f
 
 ---
 
+## 34. Fondos Cinematográficos Full-Width para el Recorrido de `/equipo`
+
+<approved_execution_plan>
+  <summary>
+    Sustituir la dirección visual de nodos cuadrados y burbujas abstractas por ocho fondos cinematográficos que transforman toda la introducción de `/equipo` según el paso activo, con un HUD central y un rail numerado accesible.
+  </summary>
+
+  <supersedes>
+    <item>Este plan corrige y sustituye la dirección visual definida en el plan 33 para los nodos cuadrados.</item>
+    <item>Los assets de `public/journey/nodes/` y su documentación se consideran trabajo descartado de esta iteración y se retirarán únicamente después de integrar y validar los nuevos fondos.</item>
+  </supersedes>
+
+  <business_goal>
+    <item>Hacer que cada etapa del servicio cambie la atmósfera completa de la sección y sea comprensible antes de leer el contenido.</item>
+    <item>Eliminar las burbujas abstractas de `PresenceField` y las miniaturas flotantes, que hoy ocupan espacio sin comunicar una función reconocible.</item>
+    <item>Conservar una navegación clara y premium mediante un HUD legible y un rail compacto 01–08.</item>
+  </business_goal>
+
+  <read_only_baseline>
+    <item>La introducción desktop de `/equipo` usa `PresenceField` como fondo exterior, ocho miniaturas alrededor del cristal y una imagen panorámica adicional dentro del panel central.</item>
+    <item>Los ocho fondos actuales son WebP 1600×900 de 32–48 KB, pero fueron compuestos para un panel panorámico interior y no para cubrir la sección completa detrás de título, HUD y navegación.</item>
+    <item>El worktree contiene cambios previos no confirmados en la página, el componente, los datos, la documentación, el plan y los assets cuadrados; se preservarán hasta que la nueva implementación permita retirar únicamente la rama visual reemplazada.</item>
+    <item>Los textos, entregables, departamentos y orden de las ocho etapas permanecerán sin cambios.</item>
+  </read_only_baseline>
+
+  <implementation_scope>
+    <phase name="prompt_and_asset_generation">
+      <item>Crear prompts canónicos para ocho fondos exteriores: diagnóstico, CRM, plan de acción, pila de arte, configuración técnica, pauta, lanzamiento y optimización.</item>
+      <item>Generar cada fondo mediante una llamada independiente a la herramienta integrada de imagegen, sin API keys ni fallback CLI.</item>
+      <item>Componer en 16:9, mínimo 1600×900, con ancla narrativa alternada en los extremos y un corredor central oscuro reservado para título, HUD y rail.</item>
+      <item>Mantener fotografía cinematográfica realista, base near-black, grade azul de marca, profundidad ambiental y ausencia de texto, logos, marcas de terceros, manos o rostros identificables.</item>
+      <item>Guardar los finales WebP en `public/journey/exterior/`, con nombres estables por etapa y objetivo menor a 250 KB por archivo.</item>
+    </phase>
+
+    <phase name="desktop_and_tablet_experience">
+      <item>Inicializar el recorrido en el paso 01 y eliminar el estado vacío; no habrá autoplay.</item>
+      <item>Renderizar el fondo activo como capa full-bleed de toda la diapositiva introductoria, con crossfade y movimiento ambiental suave cuando reduced motion no esté activo.</item>
+      <item>Aplicar scrims y gradientes centralizados para proteger contraste del título, HUD, navbar e IslandBar en luxury, classic, sky y white.</item>
+      <item>Eliminar `PresenceField`, las burbujas, el anillo de miniaturas, números flotantes, collage interior, curvas de terreno y la imagen duplicada dentro del cristal.</item>
+      <item>Convertir el cristal central en un HUD compacto con paso, título, subtítulo, descripción, entregables y áreas responsables.</item>
+      <item>Añadir debajo un rail 01–08; hover, foco y clic seleccionan una etapa, mientras teclado y `aria-current` mantienen navegación accesible.</item>
+    </phase>
+
+    <phase name="mobile_experience">
+      <item>Mantener el bloque desplegable “Ver recorrido completo”.</item>
+      <item>Presentar las ocho etapas como tarjetas verticales, cada una con su fondo correspondiente, `object-cover`, scrim oscuro, texto y entregables legibles.</item>
+      <item>No usar fondo sticky, rail horizontal ni miniaturas flotantes en móvil.</item>
+    </phase>
+
+    <phase name="data_and_cleanup">
+      <item>Convertir `ServiceJourneyMap` en un componente controlado mediante `activeIndex` y `onActiveIndexChange`, con el estado alojado en la diapositiva introductoria.</item>
+      <item>Sustituir `JourneyStage.image` por `backgroundImage`.</item>
+      <item>Eliminar `BackgroundKey`, `bg`, `nodeImage`, `nodeKind`, `JOURNEY_IMAGES_READY`, `JOURNEY_NODES_READY` y los imports de fondos SVG que queden sin consumidores.</item>
+      <item>Retirar `public/journey/nodes/`, los fondos panorámicos anteriores sin consumidores y `docs/journey-node-prompts.md` después de comprobar que no existen referencias activas.</item>
+      <item>Actualizar `docs/image-generation-packet.md` y reemplazar la documentación anterior por prompts de fondos exteriores.</item>
+    </phase>
+
+    <phase name="validation">
+      <item>Inspeccionar los ocho fondos individualmente y aplicados en la interfaz a 1440×900 y 768×1024; revisar tarjetas a 390 px.</item>
+      <item>Comprobar paso 01 inicial, ocho cambios del rail, hover, foco, clic, teclado, carga fallida y reduced motion.</item>
+      <item>Validar contraste y encuadre en luxury, classic, sky y white, sin texto recortado ni overflow horizontal.</item>
+      <item>Confirmar ausencia de `PresenceField`, burbujas, miniaturas flotantes y solicitudes a `/journey/nodes/`.</item>
+      <item>Ejecutar `git diff --check`, `npm run lint`, `npm run build` y la auditoría de ritmo focalizada en `/equipo`.</item>
+    </phase>
+  </implementation_scope>
+
+  <public_interfaces>
+    <item>`ServiceJourneyMap.activeIndex: number`.</item>
+    <item>`ServiceJourneyMap.onActiveIndexChange: (index: number) => void`.</item>
+    <item>`JourneyStage.backgroundImage: string` reemplaza las propiedades visuales anteriores.</item>
+  </public_interfaces>
+
+  <security>
+    <item>No escribir tokens, API keys, PITs, secretos, archivos `.env` ni credenciales en prompts persistentes, código o archivos versionados.</item>
+    <item>La generación usará la herramienta integrada y no requerirá exponer `OPENAI_API_KEY`.</item>
+  </security>
+
+  <guardrails>
+    <item>No alterar las diapositivas individuales del equipo, sus retratos, copy, roles, claims ni enlaces.</item>
+    <item>No retirar assets anteriores hasta confirmar que los ocho fondos nuevos están presentes, integrados y sin consumidores rotos.</item>
+    <item>No reutilizar las miniaturas cuadradas ampliándolas ni recortar los fondos interiores como sustituto de la nueva composición full-width.</item>
+    <item>Mantener fases atómicas: generar, integrar, limpiar y validar.</item>
+  </guardrails>
+
+  <approval_record>
+    <item>Vibe full-width aprobado explícitamente por el usuario el 21 de junio de 2026.</item>
+  </approval_record>
+
+  <execution_result>
+    <item>Se generaron ocho fondos independientes mediante la herramienta integrada de imagegen y se optimizaron como WebP 1600×900 en `public/journey/exterior/`.</item>
+    <item>Los archivos finales pesan entre 28 KB y 50 KB, muy por debajo del objetivo de 250 KB.</item>
+    <item>La introducción desktop y tablet usa un fondo full-bleed controlado por el paso activo, HUD central compacto y rail accesible `01–08`, sin autoplay.</item>
+    <item>El rail soporta hover, foco, clic, flechas, Home y End; aplica patrón de tabs con foco roving, `aria-selected`, `aria-current`, `aria-controls` y panel asociado.</item>
+    <item>Móvil conserva el recorrido desplegable y presenta ocho tarjetas con su fondo, scrim, contenido y entregables.</item>
+    <item>Se retiraron `PresenceField` de la introducción, burbujas, miniaturas, collage interior, propiedades y banderas obsoletas, `public/journey/nodes/`, fondos anteriores y su documentación descartada.</item>
+    <item>Validación completada: fallback por carga fallida, reduced motion, teclado, ocho imágenes cargadas, ausencia de `/journey/nodes/`, diff check, lint, build y auditoría de ritmo/temas en 390, 768 y 1440 px; 12/12 casos pasaron.</item>
+  </execution_result>
+</approved_execution_plan>
+
+---
+
+## 33. Generación e Integración de Ocho Nodos Visuales para `/equipo`
+
+<approved_execution_plan>
+  <summary>
+    Crear, optimizar e integrar ocho imágenes cuadradas para los controles visuales del mapa de servicio de `/equipo`, manteniendo la familia cinematográfica azul existente y asegurando que cada etapa siga siendo reconocible a 96 px con desenfoque.
+  </summary>
+
+  <business_goal>
+    <item>Convertir el espacio alrededor del cristal central en una navegación visual expresiva, sin volver a las burbujas y líneas rígidas anteriores.</item>
+    <item>Comunicar las ocho etapas del servicio de forma inmediata mediante siluetas diferenciadas, reforzando la percepción premium y tecnológica de AD Media.</item>
+    <item>Conservar un fallback seguro a iconos mientras los assets no estén completos o si una imagen individual falla al cargar.</item>
+  </business_goal>
+
+  <read_only_baseline>
+    <item>Los ocho fondos panorámicos de `public/journey/` ya existen y están activos mediante `JOURNEY_IMAGES_READY = true`.</item>
+    <item>El worktree contiene cambios previos del usuario en `docs/image-generation-packet.md`, `src/components/sections/ServiceJourneyMap.tsx`, `src/lib/data/serviceJourney.ts` y el archivo nuevo `docs/journey-node-prompts.md`; se preservarán sin revertirlos.</item>
+    <item>El componente ya contempla `JourneyStage.nodeImage`, `JourneyStage.nodeKind`, fallback individual por error y la bandera `JOURNEY_NODES_READY = false`.</item>
+    <item>Los nodos se renderizan aproximadamente a 80–96 px, con opacidad reducida y blur de 2 px en reposo; la legibilidad debe evaluarse bajo esas condiciones reales.</item>
+  </read_only_baseline>
+
+  <implementation_scope>
+    <phase name="prompt_refinement">
+      <item>Refinar `docs/journey-node-prompts.md` con scaffolding de producción, dirección visual compartida y restricciones explícitas para uso en interfaz.</item>
+      <item>Diferenciar las siluetas: headset y laptop diagonal; cuatro columnas verticales; mesa, silla y pantalla; cámara circular con claqueta diagonal; red radial; barras con curva; calendario con halos; curva ascendente sobre anillo.</item>
+      <item>Mantener tres nodos fotográficos y cinco motivos analíticos, sin texto, números, logos, rostros ni marcas de agua.</item>
+    </phase>
+
+    <phase name="image_generation">
+      <item>Usar la herramienta integrada de generación de imágenes mediante ocho llamadas independientes, una por asset, sin API keys ni fallback CLI.</item>
+      <item>Usar cada fondo panorámico correspondiente de `public/journey/` como referencia de estilo, iluminación y lenguaje visual, no como objetivo de edición literal.</item>
+      <item>Generar en formato cuadrado con fondo near-black `#040711`, foco central y bordes visualmente fundidos para convivir con la máscara radial del componente.</item>
+      <item>Inspeccionar cada resultado y regenerar únicamente las piezas que fallen en identidad visual, limpieza, composición o reconocimiento.</item>
+    </phase>
+
+    <phase name="asset_integration">
+      <item>Guardar los ocho finales como WebP de al menos 800×800 en `public/journey/nodes/`, usando los nombres exactos definidos por `JourneyStage.nodeImage`.</item>
+      <item>Optimizar cada archivo a menos de 120 KB sin introducir artefactos que destruyan la silueta o el glow.</item>
+      <item>Activar `JOURNEY_NODES_READY = true` solamente después de confirmar que los ocho assets finales existen y pasan la revisión visual.</item>
+      <item>Actualizar la documentación y checklist del packet para reflejar el estado real del lote.</item>
+    </phase>
+
+    <phase name="validation">
+      <item>Verificar formato, dimensiones, peso, nombres exactos y ausencia de referencias rotas.</item>
+      <item>Crear una prueba de contacto visual a 96 px con blur de 2 px y confirmar que las ocho siluetas sean distinguibles entre sí.</item>
+      <item>Revisar `/equipo` en tablet y escritorio: reposo, hover, foco, clic, etiquetas, cambio de etapa, fallback y ausencia de solapamientos.</item>
+      <item>Confirmar mobile, reduced motion y los temas luxury, classic, sky y white.</item>
+      <item>Ejecutar `git diff --check`, `npm run lint`, `npm run build` y la auditoría de ritmo aplicable.</item>
+    </phase>
+  </implementation_scope>
+
+  <public_interfaces>
+    <item>No se añadirán APIs públicas ni nuevas formas de datos.</item>
+    <item>Se mantendrán `JourneyStage.nodeImage` y `JourneyStage.nodeKind`.</item>
+    <item>La activación funcional será cambiar `JOURNEY_NODES_READY` de `false` a `true` después de validar el lote completo.</item>
+  </public_interfaces>
+
+  <security>
+    <item>No escribir tokens, API keys, PITs, secretos, archivos `.env` ni credenciales en prompts persistentes, código o archivos versionados.</item>
+    <item>La generación usará la herramienta integrada y no requerirá exponer `OPENAI_API_KEY`.</item>
+  </security>
+
+  <guardrails>
+    <item>No sobrescribir ni revertir cambios preexistentes del worktree que no pertenezcan a esta tarea.</item>
+    <item>No activar el lote parcialmente: si falta o falla un asset, mantener `JOURNEY_NODES_READY = false` hasta completar la familia.</item>
+    <item>No sustituir estas imágenes raster por SVG, HTML o placeholders generados por código.</item>
+    <item>No introducir texto legible, números, logos, marcas de terceros, rostros identificables ni colores cálidos dominantes.</item>
+    <item>Mantener fases atómicas: refinar prompts, generar, integrar y validar.</item>
+  </guardrails>
+
+  <approval_record>
+    <item>Vibe aprobado explícitamente por el usuario el 21 de junio de 2026.</item>
+  </approval_record>
+
+  <execution_result>
+    <item>Se generaron ocho imágenes independientes mediante la herramienta integrada de imagegen y se guardaron como WebP 800×800 en `public/journey/nodes/`.</item>
+    <item>Los archivos finales pesan entre 12 KB y 22 KB, por debajo del límite de 120 KB.</item>
+    <item>`JOURNEY_NODES_READY` quedó activo y cada nodo conserva su fallback individual a icono.</item>
+    <item>Se corrigió el clic de escritorio para fijar la etapa seleccionada, la carga directa de los ocho WebP y la semántica de las etiquetas flotantes.</item>
+    <item>Se aplicó reduced motion con hidratación segura en `/equipo` para evitar diferencias entre servidor y cliente.</item>
+    <item>Validación completada: diff check, lint, build, ocho assets cargados, selección entre etapas, reduced motion y auditoría `/equipo` en 390, 768 y 1440 px para los cuatro temas; 12/12 casos pasaron.</item>
+  </execution_result>
+</approved_execution_plan>
+
+---
+
 ## 32. Publicación Completa del Worktree Actual en GitHub y Vercel
 
 <approved_execution_plan>
